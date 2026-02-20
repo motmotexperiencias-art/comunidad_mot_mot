@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mot Mot - Caminatas y Experiencias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --blanco: #ffffff; --gris-claro: #f4f4f4; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: var(--gris-claro); color: var(--negro); }
+        nav { position: absolute; top: 25px; width: 100%; padding: 0 30px; box-sizing: border-box; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; }
+        .nav-login { color: white; text-decoration: none; font-weight: 700; font-size: 0.9em; letter-spacing: 1px; text-transform: uppercase; padding: 10px 25px; border: 2px solid rgba(255,255,255,0.4); border-radius: 30px; background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); transition: all 0.3s ease; }
+        .nav-login:hover { background: white; color: var(--naranja); border-color: white; }
+        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: flex-start; color: white; overflow: hidden; }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://images.unsplash.com/photo-1525186402429-b4ff38bedec6?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center right; z-index: -2; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%); z-index: -1; }
+        .hero-content { max-width: 650px; padding: 40px; text-align: left; margin-left: 5%; }
+        h1 { font-size: 3.8em; font-weight: 900; line-height: 1.1; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); text-transform: uppercase; }
+        .highlight { color: var(--naranja); }
+        p.description { font-size: 1.3em; line-height: 1.5; margin-bottom: 30px; font-weight: 400; color: #eee; }
+        .mot-signature { font-size: 0.9em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--turquesa); border-left: 3px solid var(--naranja); padding-left: 15px; margin-top: 10px; }
+        .cards-section { position: relative; margin-top: -80px; padding: 0 20px 60px 20px; z-index: 10; }
+        .cards-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; max-width: 1200px; margin: 0 auto; }
+        .rol-card { background: white; padding: 30px 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s; cursor: pointer; border-bottom: 4px solid transparent; }
+        .rol-card:hover { transform: translateY(-8px); border-bottom: 4px solid var(--naranja); }
+        .card-icon { font-size: 2.5em; display: block; margin-bottom: 15px; }
+        .card-title { font-size: 1.3em; font-weight: 800; margin: 0 0 10px 0; text-transform: uppercase; }
+        .card-text { font-size: 0.95em; color: #555; line-height: 1.5; margin-bottom: 20px; }
+        .card-action { font-weight: 800; color: var(--naranja); text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; display: flex; align-items: center; }
+        @media (max-width: 768px) { .hero-bg { background-position: 70% 20%; } .hero { align-items: flex-end; } .hero-content { width: 100%; margin: 0; padding: 20px 20px 90px 20px; } h1 { font-size: 2.2em; } .cards-section { margin-top: -60px; } .cards-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav><a href="login.html" class="nav-login">Ingresar</a></nav>
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>CAMINATAS<br>Y EXPERIENCIAS<br><span class="highlight">REALES.</span></h1>
+            <p class="description">Conectamos a <strong>anfitriones locales y viajeros</strong>.<br>Descubre destinos auténticos con nuestra comunidad.</p>
+            <div class="mot-signature">Muévete • Observa • Transfórmate</div>
+        </div>
+    </header>
+    <section class="cards-section">
+        <div class="cards-container">
+            <div class="rol-card" onclick="seleccionarPerfil('viajero')">
+                <span class="card-icon">🎒</span>
+                <h3 class="card-title">Soy Viajero</h3>
+                <p class="card-text">Busco descubrir destinos auténticos y conectar con locales.</p>
+                <div class="card-action">Entrar ➜</div>
+            </div>
+            <div class="rol-card" onclick="seleccionarPerfil('anfitrion')">
+                <span class="card-icon">🏠</span>
+                <h3 class="card-title">Soy Anfitrión</h3>
+                <p class="card-text">Vivo aquí. Quiero parchar y compartir mi ciudad (Gratis).</p>
+                <div class="card-action">Crear Perfil ➜</div>
+            </div>
+            <div class="rol-card" onclick="seleccionarPerfil('guia')">
+                <span class="card-icon">🧭</span>
+                <h3 class="card-title">Soy Guía Pro</h3>
+                <p class="card-text">Ofrezco tours profesionales y expediciones de pago.</p>
+                <div class="card-action">Ofertar ➜</div>
+            </div>
+        </div>
+    </section>
+    <script>function seleccionarPerfil(t){localStorage.setItem('motmot_rol',t);window.location.href='registro.html';}</script>
+</body>
+</html>

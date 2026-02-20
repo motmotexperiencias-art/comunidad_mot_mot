@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Configurar mi Identidad - Mot Mot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --gris-fondo: #f4f6f8; --dorado: #D4AF37; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--gris-fondo); margin: 0; padding: 0; color: var(--negro); }
+        .nav-perfil { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .nav-logo { height: 35px; cursor: pointer; }
+        .container { max-width: 900px; margin: 40px auto; padding: 20px; }
+        .card-perfil { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .perfil-header { text-align: center; margin-bottom: 40px; }
+        .foto-preview { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 5px solid var(--turquesa); background: #eee; margin-bottom: 15px; }
+        h3 { text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px; margin-top: 40px; border-bottom: 2px solid #eee; padding-bottom: 10px; color: var(--naranja); font-weight: 800; }
+        .form-group { margin-bottom: 25px; position: relative; }
+        label { display: block; font-weight: 700; margin-bottom: 10px; font-size: 0.9em; }
+        input, textarea, select { width: 100%; padding: 14px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; }
+        .input-icon-wrapper { position: relative; }
+        .input-icon-wrapper input { padding-left: 45px; }
+        .input-icon { position: absolute; left: 15px; top: 14px; font-size: 1.2em; }
+        #lista-sugerencias { position: absolute; width: 100%; background: white; border: 1px solid #ddd; border-radius: 0 0 12px 12px; z-index: 10000; display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; }
+        .sugerencia-item { padding: 15px; cursor: pointer; border-bottom: 1px solid #f9f9f9; display: flex; align-items: center; gap: 10px; }
+        .sugerencia-item:hover { background: #f0faff; font-weight: 700; color: var(--turquesa); }
+        
+        /* Grid de Tags (Intereses e Idiomas) */
+        .interests-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .interest-tag { padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; cursor: pointer; font-size: 0.85em; font-weight: 500; transition: 0.2s; background: #fff; }
+        .interest-tag:hover { border-color: var(--turquesa); color: var(--turquesa); }
+        .interest-tag.selected { background: var(--turquesa); border-color: var(--turquesa); color: white; transform: scale(1.05); font-weight: 700; box-shadow: 0 4px 10px rgba(128, 196, 200, 0.4); }
+        
+        /* Estilos Experiencias */
+        .passport-box { background: #fffbf0; border: 2px dashed var(--dorado); padding: 25px; border-radius: 15px; margin-bottom: 25px; transition: 0.3s; }
+        .passport-card { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; border-left: 5px solid var(--naranja); }
+        .mini-galeria { display: flex; gap: 5px; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; }
+        .mini-foto { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+
+        .btn-guardar { width: 100%; padding: 20px; background: var(--naranja); color: white; border: none; border-radius: 50px; font-weight: 900; font-size: 1.1em; cursor: pointer; transition: 0.3s; margin-top: 40px; text-transform: uppercase; letter-spacing: 2px; }
+        .btn-guardar:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(230, 81, 39, 0.3); }
+        .btn-disabled { background: #ccc; cursor: not-allowed; opacity: 0.7; }
+        .btn-cambiar-foto { background: var(--turquesa); border:none; padding: 5px 15px; border-radius: 15px; color: white; font-size: 0.8em; cursor: pointer; margin-top: -10px; margin-bottom: 20px; font-weight: bold;}
+
+        /* INYECCIÓN: CAMPANITA */
+        .icono-campana { font-size: 1.5em; cursor: pointer; position: relative; text-decoration: none; margin-right: 15px;}
+        .punto-rojo { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.5em; font-weight: bold; display: none; border: 2px solid white;}
+    </style>
+</head>
+<body>
+    <nav class="nav-perfil">
+        <img src="https://www.motmotexperiencias.com/wp-content/uploads/2023/08/cropped-Logo-foto-de-perfil-instagram.png" class="nav-logo" onclick="window.location.href='dashboard.html'">
+        <div style="display:flex; align-items:center;">
+            <a href="#seccion-comunidad" class="icono-campana">
+                🔔<span id="notificacion-roja" class="punto-rojo">0</span>
+            </a>
+            <a href="dashboard.html" style="text-decoration:none; color:var(--naranja); font-weight:800;">← VOLVER</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card-perfil">
+            <div class="perfil-header">
+                <img id="img-perfil" class="foto-preview" src="https://ui-avatars.com/api/?name=Viajero&background=80C4C8&color=fff" referrerpolicy="no-referrer">
+                <br>
+                <input type="file" id="input-foto-perfil" accept="image/*" style="display:none;">
+                <button type="button" class="btn-cambiar-foto" onclick="document.getElementById('input-foto-perfil').click()">📸 Cambiar Foto</button>
+                <br>
+                <h2 id="txt-nombre" style="margin:10px 0 0 0; font-weight: 900;">...</h2>
+            </div>
+            <form id="form-perfil">
+                
+                <h3 id="seccion-comunidad" style="color:var(--turquesa); border-bottom-color:var(--turquesa);">🤝 Mi Comunidad</h3>
+                <div id="caja-solicitudes" style="display:none; background:#fff3e0; padding:15px; border-radius:12px; border-left:5px solid var(--naranja); margin-bottom:20px;">
+                    <h4 style="margin-top:0; color:var(--naranja);">🔔 Solicitudes de Seguimiento</h4>
+                    <p style="font-size:0.8em; color:#666; margin-top:-10px;">Estos aventureros quieren ver tu bitácora.</p>
+                    <div id="lista-solicitudes"></div>
+                </div>
+                <div style="display:flex; gap:10px; margin-bottom:30px;">
+                    <div style="flex:1; background:#fff; padding:15px; border-radius:12px; border: 1px solid #eee; text-align:center;">
+                        <b id="count-seguidores" style="font-size:1.8em; color:var(--negro);">0</b><br><small style="color:#888; font-weight:bold; text-transform:uppercase;">Seguidores</small>
+                    </div>
+                    <div style="flex:1; background:#fff; padding:15px; border-radius:12px; border: 1px solid #eee; text-align:center;">
+                        <b id="count-siguiendo" style="font-size:1.8em; color:var(--negro);">0</b><br><small style="color:#888; font-weight:bold; text-transform:uppercase;">Siguiendo</small>
+                    </div>
+                </div>
+
+                <h3>📍 Tu Base de Operaciones</h3>
+                <div class="form-group">
+                    <label>¿En qué ciudad o pueblo estás?</label>
+                    <p style="font-size:0.8em; color:#666; margin-top:-5px;">*Escribe y selecciona de la lista para que quede limpio.</p>
+                    <div class="input-icon-wrapper">
+                        <span class="input-icon">🔍</span>
+                        <input type="text" id="ubicacion-input" placeholder="Ej: Barichara..." autocomplete="off" required>
+                    </div>
+                    <div id="lista-sugerencias"></div>
+                    <input type="hidden" id="ubicacion-final">
+                </div>
+
+                <div class="form-group">
+                    <label>¿Cuál es tu Rol Principal?</label>
+                    <select id="rol-usuario" style="border: 2px solid var(--turquesa);">
+                        <option value="viajero">🎒 Viajero (Busco aventuras)</option>
+                        <option value="anfitrion">🏠 Anfitrión (Conozco mi ciudad)</option>
+                        <option value="guia">🚩 Guía (Profesional certificado)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>📢 Tu Lema / Búsqueda (Corto)</label>
+                    <input type="text" id="titular-corto" maxlength="60" placeholder="Ej: Busco nakamas para la montaña...">
+                </div>
+
+                <h3>🗣️ Idiomas</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label>Idiomas que Hablas</label>
+                        <div id="grid-idiomas-habla" class="interests-grid"></div>
+                    </div>
+                    <div>
+                        <label>Idiomas que quieres Aprender</label>
+                        <div id="grid-idiomas-aprende" class="interests-grid"></div>
+                    </div>
+                </div>
+
+                <h3>🥾 Perfil de Caminante</h3>
+                <div class="form-group">
+                    <label>¿Cuál es tu nivel actual?</label>
+                    <select id="nivel-caminante">
+                        <option value="0">🛋️ No camino (Cero actividad)</option>
+                        <option value="1">🚶 Principiante (Rutas cortas)</option>
+                        <option value="2">🏃 Intermedio (Con desnivel)</option>
+                        <option value="3">🧗 Avanzado (Largas distancias)</option>
+                        <option value="4">🏔️ Técnico/Experto</option>
+                    </select>
+                </div>
+                
+                <label>Intereses de Caminata / Outdoor</label>
+                <div class="interests-grid" id="grid-outdoor"></div>
+                <br>
+                <label>Intereses Generales / Estilo de Vida</label>
+                <div class="interests-grid" id="grid-general"></div>
+
+                <h3>📸 Bitácora de Experiencias (Estilo Wikiloc)</h3>
+                <p style="font-size:0.9em; color:#666;">Crea álbumes por experiencia. Sube hasta 5 fotos por lugar.</p>
+                <div class="passport-box">
+                    <h4 style="margin-top:0; color:var(--naranja);">➕ Nueva Experiencia</h4>
+                    <div class="form-group">
+                        <label>Título de la Experiencia</label>
+                        <input type="text" id="exp-titulo" placeholder="Ej: Atardecer en el Salto del Mico">
+                    </div>
+                    <div class="form-group">
+                        <label>Lugar / Destino</label>
+                        <input type="text" id="exp-lugar" placeholder="Ej: Barichara, Santander">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción del Momento</label>
+                        <textarea id="exp-desc" placeholder="¿Qué viste de especial en este viaje?" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>📸 Habilitar Cámara (o subir evidencia)</label>
+                        <input type="file" id="exp-fotos" accept="image/*" capture="environment" multiple>
+                    </div>
+                    <button type="button" id="btn-agregar-experiencia" style="background: #333; color: white; border: none; padding: 12px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; width: 100%;">
+                        Guardar Experiencia en Bitácora
+                    </button>
+                </div>
+                <div id="lista-experiencias" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;"></div>
+
+                <h3>✍️ Sobre mí (Bio Detallada)</h3>
+                <div class="form-group">
+                    <textarea id="bio" placeholder="Tu historia completa..."></textarea>
+                </div>
+
+                <h3>🔗 Conexión Social</h3>
+                <div class="form-group">
+                    <label>Tu Instagram (Sin @)</label>
+                    <input type="text" id="social-ig" placeholder="usuario_instagram">
+                </div>
+
+                <button type="submit" class="btn-guardar" id="btn-submit">ACTUALIZAR IDENTIDAD</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // INYECCIÓN: Agregué query, where, getDocs y onSnapshot a tu importación
+        import { auth, db, doc, getDoc, setDoc, onAuthStateChanged, collection, query, where, getDocs, onSnapshot } from './firebase-config.js';
+
+        const CLOUD_NAME = "djqkbywpu";
+        const UPLOAD_PRESET = "motmot_fotos";
+
+        async function subirImagenCloudinary(archivo) {
+            const formData = new FormData();
+            formData.append("file", archivo);
+            formData.append("upload_preset", UPLOAD_PRESET);
+            try {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: "POST", body: formData });
+                const data = await res.json();
+                return data.secure_url;
+            } catch (error) { console.error("Error subiendo:", error); throw error; }
+        }
+
+        const outdoorList = [
+            "🚶 Walking", "🥾 Hiking", "🏔️ Trekking", "🐕 Caminar con perros", "🎲 Deambular", 
+            "🪨 Caminata Geológica", "📚 Caminata de Aprendizaje", "🧘 Caminata con Sentido", 
+            "🌅 Caminata al Amanecer", "🌇 Caminata al Atardecer", "✨ Golden Hour Walk", 
+            "📸 Caminata Fotográfica", "🗑️ Plogging (Recolección)", "🪂 Caminata y Parapente", 
+            "🚣 Caminata y Rafting", "🧗 Caminata y Escalada", "🌙 Caminata Nocturna", 
+            "🍺 Caminata y Cerveza", "🍲 Gastro-Caminata", "🌊 Hiking y Cascada", 
+            "🍃 Caminata Suave", "🥦 Caminata 420", "🍄 Caminata Micológica", "🤫 Caminata Silenciosa"
+        ];
+
+        const generalList = [
+            "🗣️ Aprender Idiomas", "🎓 Enseñar Idiomas", "🤝 Voluntariado", "🎨 Pintar/Arte", 
+            "💃 Danza", "🎵 Música", "🎭 Teatro", "💼 Negocios/Invertir", "👋 Conocer Gente", 
+            "🍻 Parchar/Cerveza", "💘 Conocer el Amor", "🎒 Viajar Sola/o", "🚀 Aventuras Nuevas", 
+            "🛋️ No hacer nada", "🧘 Yoga", "🙏 Espiritualidad/Religión", "🧘‍♂️ Meditación", 
+            "🐶 Perros/Animales", "🏡 Cuidar Granja/Casa", "🎣 Pesca", "🏳️‍🌈 LGBTQ+", 
+            "🦜 Avistamiento de Aves", "🛸 Ovnis/Misterios", "👻 Paranormal", "🤝 Conectar"
+        ];
+
+        const idiomasList = ["🇪🇸 Español", "🇺🇸 Inglés", "🇫🇷 Francés", "🇩🇪 Alemán", "🇮🇹 Italiano", "🇧🇷 Portugués", "🇯🇵 Japonés", "🇨🇳 Chino", "🇷🇺 Ruso", "🇸🇦 Árabe", "🤟 Señas"];
+
+        let selectedOutdoor = [], selectedGeneral = [], experiencias = [], userId = "";
+        let selectedIdiomasHabla = [], selectedIdiomasAprende = [];
+
+        function crearTags(lista, contenedorId, arraySeleccion) {
+            const container = document.getElementById(contenedorId);
+            container.innerHTML = ""; 
+            lista.forEach(item => {
+                const tag = document.createElement('div');
+                tag.className = 'interest-tag'; tag.innerText = item;
+                tag.onclick = () => {
+                    tag.classList.toggle('selected');
+                    const val = tag.innerText;
+                    if(arraySeleccion.includes(val)) arraySeleccion.splice(arraySeleccion.indexOf(val), 1);
+                    else arraySeleccion.push(val);
+                };
+                container.appendChild(tag);
+            });
+        }
+        
+        crearTags(outdoorList, 'grid-outdoor', selectedOutdoor);
+        crearTags(generalList, 'grid-general', selectedGeneral);
+        crearTags(idiomasList, 'grid-idiomas-habla', selectedIdiomasHabla);
+        crearTags(idiomasList, 'grid-idiomas-aprende', selectedIdiomasAprende);
+
+        const inputUbi = document.getElementById('ubicacion-input');
+        const sugerencias = document.getElementById('lista-sugerencias');
+        const hiddenUbi = document.getElementById('ubicacion-final');
+
+        inputUbi.addEventListener('input', async (e) => {
+            const texto = e.target.value;
+            if (texto.length < 3) { sugerencias.style.display = 'none'; return; }
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${texto}&addressdetails=1&limit=5`);
+                const datos = await res.json();
+                sugerencias.innerHTML = "";
+                if (datos.length > 0) {
+                    sugerencias.style.display = 'block';
+                    datos.forEach(l => {
+                        const d = document.createElement('div');
+                        d.className = "sugerencia-item";
+                        const ciudad = l.address.town || l.address.city || l.address.village || "Lugar";
+                        const pais = l.address.country || "";
+                        const nombreLimpio = `${ciudad}, ${pais}`;
+                        d.innerHTML = `<span>📍</span> <b>${ciudad}</b> <span style="font-size:0.8em; color:#777;">(${pais})</span>`;
+                        d.onmousedown = () => { inputUbi.value = nombreLimpio; hiddenUbi.value = nombreLimpio; sugerencias.style.display = 'none'; };
+                        sugerencias.appendChild(d);
+                    });
+                }
+            } catch (err) { console.log(err); }
+        });
+        inputUbi.onblur = () => setTimeout(() => sugerencias.style.display = 'none', 200);
+
+        document.getElementById('btn-agregar-experiencia').onclick = async () => {
+            const titulo = document.getElementById('exp-titulo').value;
+            const lugar = document.getElementById('exp-lugar').value;
+            const desc = document.getElementById('exp-desc').value;
+            const files = document.getElementById('exp-fotos').files;
+
+            if(!titulo || !lugar || files.length === 0) return alert("Completa título, lugar y al menos 1 foto.");
+            if(files.length > 5) return alert("Máximo 5 fotos por experiencia.");
+
+            const btn = document.getElementById('btn-agregar-experiencia');
+            btn.innerText = "Subiendo fotos..."; btn.classList.add('btn-disabled');
+
+            try {
+                let urlsFotos = [];
+                for(let i=0; i<files.length; i++) {
+                    const url = await subirImagenCloudinary(files[i]);
+                    urlsFotos.push(url);
+                }
+                experiencias.push({ id: Date.now(), titulo, lugar, descripcion: desc, fotos: urlsFotos });
+                renderExperiencias();
+                document.getElementById('exp-titulo').value = ""; document.getElementById('exp-lugar').value = ""; document.getElementById('exp-desc').value = ""; document.getElementById('exp-fotos').value = "";
+            } catch(e) { alert("Error al subir."); } finally { btn.innerText = "Guardar Experiencia en Bitácora"; btn.classList.remove('btn-disabled'); }
+        };
+
+        function renderExperiencias() {
+            const container = document.getElementById('lista-experiencias'); container.innerHTML = "";
+            experiencias.forEach(exp => {
+                let htmlFotos = ""; exp.fotos.forEach(f => { htmlFotos += `<img src="${f}" class="mini-foto">`; });
+                container.innerHTML += `<div class="passport-card"><b>${exp.titulo}</b> <br> <small>📍 ${exp.lugar}</small><div class="mini-galeria">${htmlFotos}</div><button type="button" onclick="window.delExp(${exp.id})" style="border:none; background:none; color:red; cursor:pointer; font-size:0.8em;">Eliminar</button></div>`;
+            });
+        }
+        window.delExp = (id) => { experiencias = experiencias.filter(e => e.id !== id); renderExperiencias(); };
+
+        const inputFotoPerfil = document.getElementById('input-foto-perfil');
+        const imgPerfil = document.getElementById('img-perfil');
+        inputFotoPerfil.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if(file) {
+                document.getElementById('img-perfil').style.opacity = "0.5";
+                const url = await subirImagenCloudinary(file);
+                document.getElementById('img-perfil').src = url;
+                document.getElementById('img-perfil').style.opacity = "1";
+            }
+        });
+
+        onAuthStateChanged(auth, async (u) => {
+            if (u) {
+                userId = u.uid; document.getElementById('txt-nombre').innerText = u.displayName;
+                const currentSrc = document.getElementById('img-perfil').src;
+                if(currentSrc.includes("via.placeholder")) document.getElementById('img-perfil').src = u.photoURL || "https://ui-avatars.com/api/?name=Viajero&background=80C4C8&color=fff";
+                
+                const snap = await getDoc(doc(db, "usuarios", userId));
+                if (snap.exists()) {
+                    const d = snap.data();
+                    if (d.foto) document.getElementById('img-perfil').src = d.foto;
+                    document.getElementById('rol-usuario').value = d.rol || "viajero";
+                    document.getElementById('ubicacion-input').value = d.ubicacion || "";
+                    document.getElementById('ubicacion-final').value = d.ubicacion || "";
+                    document.getElementById('titular-corto').value = d.titularCorto || "";
+                    document.getElementById('bio').value = d.bio || "";
+                    document.getElementById('social-ig').value = d.instagram || "";
+                    
+                    if(d.interesesOutdoor) selectedOutdoor = d.interesesOutdoor;
+                    if(d.interesesGeneral) selectedGeneral = d.interesesGeneral;
+                    if(d.idiomasHabla) selectedIdiomasHabla = d.idiomasHabla; 
+                    if(d.idiomasAprende) selectedIdiomasAprende = d.idiomasAprende; 
+                    
+                    if(d.experiencias) { experiencias = d.experiencias; renderExperiencias(); }
+                    
+                    setTimeout(() => { 
+                        document.querySelectorAll('.interest-tag').forEach(tag => { 
+                            if(selectedOutdoor.includes(tag.innerText) || 
+                               selectedGeneral.includes(tag.innerText) ||
+                               selectedIdiomasHabla.includes(tag.innerText) ||
+                               selectedIdiomasAprende.includes(tag.innerText)) {
+                                tag.classList.add('selected'); 
+                            }
+                        }); 
+                    }, 200);
+                }
+
+                // INYECCIÓN: ACTIVAR COMUNIDAD EN TIEMPO REAL
+                activarTiempoRealComunidad(userId);
+
+            } else window.location.href = 'login.html';
+        });
+
+        // --- INYECCIÓN: LÓGICA DE RED SOCIAL EN TIEMPO REAL ---
+        function activarTiempoRealComunidad(uid) {
+            
+            // 1. Escuchador de Solicitudes Pendientes (Bandeja y Campanita)
+            const qSol = query(collection(db, "conexiones"), where("idSeguido", "==", uid), where("estado", "==", "pendiente"));
+            onSnapshot(qSol, (snapshot) => {
+                const cajaSol = document.getElementById('caja-solicitudes');
+                const listaSol = document.getElementById('lista-solicitudes');
+                const notifBadge = document.getElementById('notificacion-roja');
+                listaSol.innerHTML = "";
+                
+                if (!snapshot.empty) {
+                    cajaSol.style.display = 'block';
+                    notifBadge.innerText = snapshot.size;
+                    notifBadge.style.display = 'block';
+
+                    snapshot.forEach(d => {
+                        const c = d.data();
+                        listaSol.innerHTML += `
+                            <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px; border-radius:8px; margin-bottom:8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <img src="${c.fotoSeguidor || 'https://ui-avatars.com/api/?name='+c.nombreSeguidor}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+                                    <b style="font-size:0.9em; color:var(--negro);">${c.nombreSeguidor}</b>
+                                </div>
+                                <div style="display:flex; gap:5px;">
+                                    <button type="button" onclick="responderSolicitud('${d.id}', 'aceptado')" style="background:var(--turquesa); border:none; padding:8px 12px; color:white; border-radius:8px; cursor:pointer; font-weight:bold;">Aceptar</button>
+                                    <button type="button" onclick="responderSolicitud('${d.id}', 'rechazado')" style="background:#ffebee; border:none; padding:8px 12px; color:#c62828; border-radius:8px; cursor:pointer; font-weight:bold;">X</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    cajaSol.style.display = 'none';
+                    notifBadge.style.display = 'none';
+                }
+            });
+
+            // 2. Escuchador Contar Seguidores
+            const qSeg = query(collection(db, "conexiones"), where("idSeguido", "==", uid), where("estado", "==", "aceptado"));
+            onSnapshot(qSeg, (snapshot) => {
+                document.getElementById('count-seguidores').innerText = snapshot.size;
+            });
+
+            // 3. Escuchador Contar Siguiendo
+            const qSig = query(collection(db, "conexiones"), where("idSeguidor", "==", uid), where("estado", "==", "aceptado"));
+            onSnapshot(qSig, (snapshot) => {
+                document.getElementById('count-siguiendo').innerText = snapshot.size;
+            });
+        }
+
+        // Responder Solicitud 
+        window.responderSolicitud = async (idDocumento, nuevoEstado) => {
+            try {
+                await setDoc(doc(db, "conexiones", idDocumento), { estado: nuevoEstado }, { merge: true });
+            } catch(e) { console.error(e); alert("Error al procesar solicitud."); }
+        };
+
+        document.getElementById('form-perfil').onsubmit = async (e) => {
+            e.preventDefault();
+            const ubiValida = document.getElementById('ubicacion-final').value || document.getElementById('ubicacion-input').value; 
+            if(!ubiValida || ubiValida.trim() === "") { alert("⚠️ Escribe tu ciudad."); return; }
+            const btn = document.getElementById('btn-submit'); btn.innerText = "Guardando..."; btn.classList.add('btn-disabled');
+            try {
+                await setDoc(doc(db, "usuarios", userId), {
+                    nombre: document.getElementById('txt-nombre').innerText,
+                    foto: document.getElementById('img-perfil').src,
+                    ubicacion: ubiValida,
+                    rol: document.getElementById('rol-usuario').value,
+                    titularCorto: document.getElementById('titular-corto').value,
+                    bio: document.getElementById('bio').value,
+                    instagram: document.getElementById('social-ig').value,
+                    interesesOutdoor: selectedOutdoor, 
+                    interesesGeneral: selectedGeneral,
+                    idiomasHabla: selectedIdiomasHabla,
+                    idiomasAprende: selectedIdiomasAprende,
+                    experiencias: experiencias, 
+                    onboardingCompleto: true
+                }, { merge: true });
+                window.location.href = `perfil-publico.html?uid=${userId}`;
+            } catch (error) { console.error(error); alert("Error guardando."); } 
+            finally { btn.innerText = "ACTUALIZAR IDENTIDAD"; btn.classList.remove('btn-disabled'); }
+        };
+    </script>
+</body>
+</html>

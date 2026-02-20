@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mot Mot - Iniciar Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* TUS ESTILOS */
+        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --blanco: #ffffff; --gris-claro: #f4f4f4; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: var(--gris-claro); color: var(--negro); height: 100vh; display: flex; }
+        .split-image { width: 50%; background-image: url('https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 40px; color: white; order: 2; }
+        .split-image::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); }
+        .image-text { position: relative; z-index: 2; }
+        .split-form { width: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; background: white; position: relative; order: 1; }
+        .form-container { width: 100%; max-width: 380px; }
+        .btn-back { position: absolute; top: 30px; left: 30px; text-decoration: none; color: #888; font-weight: 600; font-size: 0.9em; transition: color 0.3s; }
+        .btn-back:hover { color: var(--naranja); }
+        h2 { font-size: 2.2em; font-weight: 800; margin-bottom: 10px; color: var(--naranja); }
+        p.subtitle { color: #666; margin-bottom: 30px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9em; }
+        input { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 10px; font-family: 'Montserrat', sans-serif; font-size: 1em; box-sizing: border-box; transition: border-color 0.3s; }
+        input:focus { outline: none; border-color: var(--turquesa); background-color: #faffff; }
+        .btn-submit { width: 100%; padding: 15px; background-color: var(--naranja); color: white; border: none; border-radius: 50px; font-weight: 800; font-size: 1.1em; cursor: pointer; transition: transform 0.2s; margin-top: 10px; }
+        .btn-submit:hover { transform: translateY(-3px); background-color: #d3451e; }
+        .social-login { margin-top: 20px; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+        .btn-google { display: flex; align-items: center; justify-content: center; width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 50px; background: white; color: #555; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+        .btn-google:hover { background-color: #f9f9f9; }
+        @media (max-width: 768px) { body { flex-direction: column; } .split-image { display: none; } .split-form { width: 100%; height: 100%; padding: 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="split-image">
+        <div class="image-text">
+            <h3 style="font-size: 2em; margin: 0;">Bienvenido de nuevo.</h3>
+            <p>La montaña te espera.</p>
+        </div>
+    </div>
+
+    <div class="split-form">
+        <a href="index.html" class="btn-back">← Volver al inicio</a>
+
+        <div class="form-container">
+            <h2>Hola viajero</h2>
+            <p class="subtitle">Ingresa tus datos para continuar.</p>
+
+            <form onsubmit="iniciarSesion(event)">
+                <div class="input-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="email-login" placeholder="hola@ejemplo.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password-login" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit">ENTRAR</button>
+            </form>
+
+            <div class="social-login">
+                <p style="font-size: 0.9em; color: #888; margin-bottom: 15px;">O ingresa con</p>
+                <a href="#" class="btn-google" onclick="loginGoogle()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px;">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                    </svg>
+                    Continuar con Google
+                </a>
+            </div>
+
+            <p style="margin-top: 20px; font-size: 0.9em; text-align: center;">
+                ¿No tienes cuenta? <a href="registro.html" style="color: var(--naranja); font-weight: 700; text-decoration: none;">Regístrate gratis</a>
+            </p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, signInWithEmailAndPassword, provider, signInWithPopup } from './firebase-config.js';
+
+        // LOGIN NORMAL
+        window.iniciarSesion = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email-login').value;
+            const password = document.getElementById('password-login').value;
+            const boton = document.querySelector('.btn-submit');
+
+            try {
+                boton.innerText = "Entrando...";
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                console.error(error);
+                alert("Error: Usuario o contraseña incorrectos.");
+                boton.innerText = "ENTRAR";
+            }
+        }
+
+        // LOGIN GOOGLE
+        window.loginGoogle = async function() {
+            try {
+                await signInWithPopup(auth, provider);
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                console.error(error);
+                alert("No se pudo iniciar con Google.");
+            }
+        }
+    </script>
+</body>
+</html>

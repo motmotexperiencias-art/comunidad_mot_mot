@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Postular Experiencia Pro - Mot Mot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --gris-fondo: #f4f6f8; --dorado: #D4AF37; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--gris-fondo); margin: 0; padding: 0; color: var(--negro); }
+        .nav-perfil { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .nav-logo { height: 35px; cursor: pointer; }
+        .container { max-width: 850px; margin: 40px auto; padding: 20px; }
+        
+        .card-form { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 8px solid var(--dorado); overflow: hidden; }
+        
+        h1 { margin-top: 0; font-weight: 900; color: var(--negro); text-transform: uppercase; font-size: 1.8em; }
+        h3 { text-transform: uppercase; font-size: 1em; letter-spacing: 1px; margin-top: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; color: var(--naranja); font-weight: 800; }
+        
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9em; color: #333; }
+        input[type="text"], input[type="time"], input[type="number"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
+        input[type="file"] { width: 100%; padding: 10px; border: 2px dashed #ccc; border-radius: 12px; font-family: 'Montserrat', sans-serif; background: #fafafa; transition: 0.3s; }
+        input:focus, textarea:focus, select:focus { border-color: var(--dorado); outline: none; }
+        
+        .checkbox-group, .radio-group { display: flex; gap: 15px; align-items: flex-start; background: #fffbf0; padding: 15px; border-radius: 12px; border: 1px solid #fde7a9; margin-top: 10px; }
+        .checkbox-group input, .radio-group input { margin-top: 4px; transform: scale(1.2); cursor: pointer; }
+        .checkbox-group label, .radio-group label { font-weight: 500; font-size: 0.85em; color: #555; margin: 0; cursor: pointer; line-height: 1.5; }
+
+        .info-box { background: #e0f7fa; padding: 15px; border-radius: 12px; font-size: 0.85em; color: #006064; margin-bottom: 20px; display: flex; gap: 10px; align-items: center; border-left: 5px solid #006064; line-height: 1.5;}
+
+        /* WIZARD (6 PASOS) */
+        .step { display: none; animation: fadeIn 0.4s ease; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .stepper { display: flex; justify-content: space-between; margin-bottom: 30px; font-weight: bold; font-size: 0.65em; color: #ccc; text-transform: uppercase; gap: 5px; }
+        .step-indicator { flex: 1; text-align: center; padding-bottom: 10px; border-bottom: 4px solid #eee; transition: 0.3s; }
+        .step-indicator.active { color: var(--naranja); border-bottom-color: var(--naranja); }
+        .step-indicator.completed { color: var(--turquesa); border-bottom-color: var(--turquesa); }
+
+        .btn-nav { padding: 15px 30px; border: none; border-radius: 30px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 0.9em; text-transform: uppercase;}
+        .btn-next { background: var(--negro); color: white; float: right; }
+        .btn-prev { background: #eee; color: #555; float: left; }
+        .btn-enviar { width: 100%; padding: 20px; background: var(--naranja); color: white; border: none; border-radius: 50px; font-weight: 900; font-size: 1.1em; cursor: pointer; transition: 0.3s; margin-top: 20px; text-transform: uppercase; }
+        .btn-nav:hover, .btn-enviar:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn-disabled { background: #ccc !important; cursor: not-allowed !important; transform: none !important; box-shadow: none !important; }
+        
+        .text-legal { font-size: 0.8em; color: #666; line-height: 1.6; background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 15px;}
+        .caja-finanzas { background: #fdfdfd; padding: 20px; border-radius: 12px; border: 2px dashed var(--turquesa); margin-top: 15px; display: none; animation: fadeIn 0.4s ease;}
+        
+        /* LISTAS DINÁMICAS Y TAGS */
+        .dynamic-list-container { background: #fafafa; padding: 15px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
+        .dynamic-item { background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; }
+        .btn-add { background: var(--turquesa); color: white; border: none; padding: 12px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; font-size: 0.8em;}
+        .btn-add-mini { background: var(--negro); color: white; border: none; border-radius: 8px; padding: 0 15px; cursor: pointer; font-weight: bold; }
+        .btn-delete { background: #ffebee; color: #c62828; border: none; border-radius: 5px; cursor: pointer; padding: 5px 10px; font-weight: bold; }
+
+        .tags-rapidos { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+        .tag-rapido { background: #e0f2f1; color: #2e7d32; padding: 5px 10px; border-radius: 15px; font-size: 0.75em; cursor: pointer; font-weight: bold; border: 1px solid #a5d6a7; transition:0.2s;}
+        .tag-rapido:hover { background: #c8e6c9; }
+        .tag-rapido.peligro { background: #ffebee; color: #c62828; border-color: #ffcdd2; }
+        .tag-rapido.peligro:hover { background: #ffcdd2; }
+
+        /* VISTA PREVIA DOCUMENTO LEGAL */
+        .doc-legal-preview { background: #fffcf5; padding: 25px; border: 1px solid #e0e0e0; border-left: 5px solid var(--naranja); border-radius: 12px; margin-top: 20px; font-size: 0.85em; line-height: 1.6; color: #444; }
+        .doc-legal-preview h4 { text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
+        .doc-legal-preview b { color: var(--naranja); }
+        
+        /* Acordeón de Ayuda */
+        details { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #bbdefb; font-size: 0.85em; cursor: pointer; transition: 0.3s; }
+        summary { font-weight: bold; color: #1565c0; outline: none; }
+        details[open] summary { margin-bottom: 10px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
+
+        /* ESTILOS PARA OCULTAR CAJAS POR DEFECTO Y EVITAR PARPADEO */
+        #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales { display: none; }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-perfil">
+        <img src="https://www.motmotexperiencias.com/wp-content/uploads/2023/08/cropped-Logo-foto-de-perfil-instagram.png" class="nav-logo" onclick="window.location.href='dashboard.html'">
+        <a href="perfil.html" style="text-decoration:none; color:var(--naranja); font-weight:800;">← VOLVER AL PERFIL</a>
+    </nav>
+
+    <div class="container">
+        <div class="card-form">
+            <h1 id="titulo-principal">Cargando...</h1>
+            
+            <div class="info-box" id="caja-bienvenida" style="background: #e8f5e9; color: #2e7d32; border-color: #2e7d32;">
+            </div>
+
+            <div class="stepper" id="stepper-ui">
+                <div class="step-indicator active" id="ind-1">1. Legal</div>
+                <div class="step-indicator" id="ind-2">2. Detalles</div>
+                <div class="step-indicator" id="ind-3">3. Operación</div>
+                <div class="step-indicator" id="ind-4">4. Contenido</div>
+                <div class="step-indicator" id="ind-5">5. Riesgos</div>
+                <div class="step-indicator" id="ind-6">6. Acuerdos</div>
+            </div>
+
+            <form id="form-guia">
+                
+                <div class="step active" id="step-1">
+                    <h3>Identidad del Creador</h3>
+
+                    <div class="form-group" id="caja-tipo-perfil">
+                        <label>Tu Perfil Registrado:</label>
+                        <select id="tipo-guia" required onchange="adaptarFormulario(this.value)">
+                        </select>
+                    </div>
+
+                    <div id="aviso-anfitrion" class="info-box" style="background: #fff3e0; color: #d84315; border-color: #ff9800; animation: fadeIn 0.4s ease;">
+                        <span style="font-size: 1.5em;">🛡️</span>
+                        <span><b>Escudo Legal:</b> Como Anfitrión Local no necesitas RNT, pero por ley <b>solo puedes vender talleres, cultura, o gastronomía</b>.</span>
+                    </div>
+
+                    <div class="form-group" id="caja-rnt">
+                        <label>Número de RNT (Registro Nacional de Turismo) *</label>
+                        <input type="number" id="num-rnt" placeholder="Ej: 123456">
+                    </div>
+
+                    <div class="form-group" id="contenedor-docs-legales" style="background: #fdfdfd; padding: 20px; border: 1px dashed var(--turquesa); border-radius: 12px; margin-top:20px;">
+                        <label style="color:var(--turquesa); font-size:1.1em;">📄 Carga de Documentos Legales</label>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;">Sube los soportes en formato Imagen o PDF. Son indispensables para tu aprobación.</p>
+                        
+                        <div id="caja-doc-id">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">1. Documento de Identidad (Cédula/Pasaporte) *</label>
+                            <input type="file" id="doc-id" accept="image/*,application/pdf">
+                        </div>
+
+                        <div id="caja-doc-rut">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">2. RUT (Registro Único Tributario) *</label>
+                            <input type="file" id="doc-rut" accept="image/*,application/pdf">
+                        </div>
+
+                        <div id="caja-doc-rnt" style="display: none;">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT / Tarjeta Profesional *</label>
+                            <input type="file" id="doc-rnt-file" accept="image/*,application/pdf">
+                        </div>
+
+                        <div id="caja-doc-camara" style="display: none;">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Cámara de Comercio (Si eres agencia)</label>
+                            <input type="file" id="doc-camara" accept="image/*,application/pdf">
+                        </div>
+
+                        <div id="caja-doc-otros">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">5. Otros documentos que certifiquen tu actividad (Opcional)</label>
+                            <input type="file" id="doc-otros" accept="image/*,application/pdf">
+                        </div>
+
+                        <div id="caja-doc-alimentos" style="background: #fffcf5; padding: 10px; border-radius: 8px; border-left: 4px solid var(--naranja); margin-top: 15px;">
+                            <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">🍽️ Certificado de Manipulación de Alimentos *</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Requerido por ley ya que ofrecerás experiencia de gastronomía.</p>
+                            <input type="file" id="doc-alimentos" accept="image/*,application/pdf">
+                        </div>
+                    </div>
+
+                    <div style="overflow: auto; margin-top: 30px;">
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(1, 2)" id="btn-paso1-next">Siguiente ➔</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-2">
+                    <h3 id="titulo-paso2">Detalles Generales del Producto</h3>
+                    
+                    <div class="form-group" style="background: #fff3e0; padding: 15px; border-radius: 12px; border-left: 5px solid var(--naranja);" id="caja-tipo-oferta">
+                        <label>Tipo de Oferta </label>
+                        <select id="tipo-oferta">
+                            <option value="servicio">🔵 SERVICIO: Actividad de 1 solo día</option>
+                            <option value="paquete">📦 PAQUETE: Varios días o servicios acoplados</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="lbl-nombre">Nombre Atractivo</label>
+                        <input type="text" id="tour-titulo" placeholder="Ej: Cueva de la Vaca - Aventura Subterránea" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Categoría Principal</label>
+                        <select id="tour-categoria" required onchange="verificarGastronomia(this.value)">
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="caja-ubicacion">
+                        <label id="lbl-ubicacion">Ubicación / Punto de Encuentro</label>
+                        <input type="text" id="tour-ubicacion" placeholder="Ej: Parque Principal de Barichara">
+                    </div>
+
+                    <div class="form-group">
+                        <label id="lbl-desc">Descripción General (Vendedora)</label>
+                        <textarea id="tour-desc" rows="5" placeholder="Texto detallado sobre lo que van a vivir..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="lbl-img">Imagen Principal (Avatar del Servicio o Ruta)</label>
+                        <input type="file" id="foto-principal" accept="image/*" required>
+                    </div>
+
+                    <div style="overflow: auto; margin-top: 30px;">
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(2, 1)">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso2()">Siguiente ➔</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-3">
+                    <h3>Duración, Tiempos y Recursos</h3>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: end;">
+                        <div class="form-group" style="margin:0;">
+                            <label>Duración (Selección)</label>
+                            <input type="number" id="tour-duracion-valor" placeholder="Ej: 2.5" step="0.5" min="0.5">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <select id="tour-duracion-unidad">
+                                <option value="Horas">Horas</option>
+                                <option value="Días">Días</option>
+                                <option value="Semanas">Semanas</option>
+                                <option value="Meses">Meses</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top:20px;">
+                        <div class="form-group">
+                            <label>Capacidad Mínima</label>
+                            <input type="number" id="capacidad-min" placeholder="Ej: 1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Capacidad Máxima</label>
+                            <input type="number" id="capacidad-max" placeholder="Ej: 30" min="1">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label>Tiempo Mínimo para Reservar</label>
+                            <select id="margen-reserva">
+                                <option value="Inmediato">Sin restricción</option>
+                                <option value="12h">Mínimo 12h antes</option>
+                                <option value="24h">Mínimo 24h antes</option>
+                                <option value="48h">Mínimo 48h antes</option>
+                                <option value="1_semana">Mínimo 1 semana antes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tiempo Mínimo para Cancelar</label>
+                            <select id="margen-cancelacion">
+                                <option value="Flexible_24h">Hasta 24h antes (Flexible)</option>
+                                <option value="Moderada_48h">Hasta 48h antes (Moderada)</option>
+                                <option value="Estricta_1sem">Hasta 1 semana antes (Estricta)</option>
+                                <option value="No_Reembolsable">No Reembolsable</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="dynamic-list-container" style="margin-top:20px;">
+                        <label style="color:var(--turquesa);">🛠️ Agregar Recursos (Opcional - Evita Overbooking)</label>
+                        
+                        <details>
+                            <summary>❓ ¿Cómo funciona la casilla "Reserva de grupo completo"?</summary>
+                            <div style="color: #444; margin-top:10px;">
+                                <b>NO LA MARQUES (Uso individual):</b> Déjala en blanco si el recurso se gasta por cada persona que asiste.<br>
+                                <i>Ejemplo:</i> Si ofreces 10 Bastones de Trekking y un turista reserva para 4 personas, el sistema descontará 4 bastones.<br><br>
+                                <b>SÍ MÁRCALA (Uso compartido):</b> Selecciona la casilla si el recurso atiende a todo el grupo al mismo tiempo.<br>
+                                <i>Ejemplo:</i> Si el recurso es un <b>Guía</b> o <b>1 Camioneta</b>. Si reservan 5 personas juntas, el sistema descontará solo 1 Guía para atender a ese grupo completo.
+                            </div>
+                        </details>
+
+                        <div id="lista-recursos-ui"></div>
+                        <div style="background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:10px;">
+                            <input type="text" id="res-nombre" placeholder="Nombre (Ej: Guías disponibles, Carpas)" style="margin-bottom:10px; width:100%; box-sizing:border-box; padding:8px;">
+                            <div style="display:flex; gap:10px; align-items: center;">
+                                <input type="number" id="res-cant" placeholder="Cant. total" style="width:40%; padding:8px;" min="1">
+                                <label style="font-size:0.8em; width:60%;"><input type="checkbox" id="res-grupo"> Usar para reserva de grupo completo</label>
+                            </div>
+                            <button type="button" onclick="agregarRecurso()" class="btn-add" style="margin-top:10px;">Añadir Recurso</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow: auto; margin-top: 30px;">
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(3, 2)">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(3, 4)">Siguiente ➔</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-4">
+                    <h3 id="titulo-paso4">Construye la Experiencia</h3>
+
+                    <div class="dynamic-list-container" id="caja-incluye">
+                        <label>✅ ¿Qué INCLUYE?</label>
+                        <div class="tags-rapidos" id="tags-incluye">
+                            <span class="tag-rapido" onclick="addTagToList('Transporte', 'incluye')">+ Transporte</span>
+                            <span class="tag-rapido" onclick="addTagToList('Almuerzo', 'incluye')">+ Almuerzo</span>
+                            <span class="tag-rapido" onclick="addTagToList('Seguro Médico', 'incluye')">+ Seguro Médico</span>
+                            <span class="tag-rapido" onclick="addTagToList('Guianza Local', 'incluye')">+ Guianza Local</span>
+                        </div>
+                        <div id="lista-incluye-ui"></div>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <input type="text" id="input-incluye" placeholder="O escribe otro y presiona ➕">
+                            <button type="button" onclick="agregarSimple('incluye', 'input-incluye')" class="btn-add-mini">➕</button>
+                        </div>
+                    </div>
+
+                    <div class="dynamic-list-container" id="caja-no-incluye">
+                        <label>❌ ¿Qué NO incluye?</label>
+                        <div class="tags-rapidos" id="tags-noincluye">
+                            <span class="tag-rapido" onclick="addTagToList('Vuelos', 'noIncluye')">+ Vuelos</span>
+                            <span class="tag-rapido" onclick="addTagToList('Propinas', 'noIncluye')">+ Propinas</span>
+                            <span class="tag-rapido" onclick="addTagToList('Alimentación no mencionada', 'noIncluye')">+ Alimentación no mencionada</span>
+                        </div>
+                        <div id="lista-noIncluye-ui"></div>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <input type="text" id="input-noIncluye" placeholder="O escribe otro y presiona ➕">
+                            <button type="button" onclick="agregarSimple('noIncluye', 'input-noIncluye')" class="btn-add-mini">➕</button>
+                        </div>
+                    </div>
+
+                    <div class="dynamic-list-container" id="caja-que-llevar">
+                        <label>🎒 ¿Qué llevar / Recomendaciones?</label>
+                        <div class="tags-rapidos">
+                            <span class="tag-rapido" onclick="addTagToList('Hidratación 1.5L', 'queLlevar')">+ Hidratación 1.5L</span>
+                            <span class="tag-rapido" onclick="addTagToList('Zapatos de Agarre', 'queLlevar')">+ Zapatos de Agarre</span>
+                            <span class="tag-rapido" onclick="addTagToList('Protector Solar', 'queLlevar')">+ Protector Solar</span>
+                        </div>
+                        <div id="lista-queLlevar-ui"></div>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <input type="text" id="input-queLlevar" placeholder="O escribe otro y presiona ➕">
+                            <button type="button" onclick="agregarSimple('queLlevar', 'input-queLlevar')" class="btn-add-mini">➕</button>
+                        </div>
+                    </div>
+
+                    <div class="dynamic-list-container">
+                        <label style="color:var(--naranja);" id="lbl-itinerario">📍 Construye el Itinerario Exacto</label>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;" id="desc-itinerario"></p>
+                        <div id="lista-itinerario-ui"></div>
+                        <div style="background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:10px;">
+                            <div style="display:flex; gap:10px;">
+                                <input type="time" id="iti-hora" style="width:30%; padding:8px;">
+                                <input type="text" id="iti-actividad" placeholder="Actividad (Ej: Salida hacia el aeropuerto)" style="width:70%; padding:8px;">
+                            </div>
+                            <div style="display:flex; gap:10px; margin-top:10px;" id="caja-iti-tips">
+                                <input type="number" id="iti-costo" placeholder="Costo ej: 60000" style="width:30%; padding:8px;">
+                                <input type="text" id="iti-tip" placeholder="Tips o Links (Ej: Comprar en aerolinea.com)" style="width:70%; padding:8px;">
+                            </div>
+                            <button type="button" onclick="agregarItinerarioEstructurado()" class="btn-add" style="margin-top:10px;">Añadir Parada</button>
+                        </div>
+                    </div>
+
+                    <div class="dynamic-list-container" id="caja-extras-completos">
+                        <label style="color:var(--turquesa);">➕ Servicios Opcionales (Extras)</label>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;">Ofrece mejoras a tu tour. El cliente decidirá si las paga al momento de reservar.</p>
+                        <div id="lista-extras-ui"></div>
+                        <div style="background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:10px;">
+                            <input type="text" id="extra-nombre" placeholder="Nombre (Ej: Alquiler Bastones)" style="margin-bottom:10px; width:100%; box-sizing:border-box; padding:8px;">
+                            <div style="display:flex; gap:10px;">
+                                <input type="number" id="extra-precio" placeholder="Precio COP" style="width:50%; padding:8px;">
+                                <select id="extra-tipo" style="width:50%; padding:8px;">
+                                    <option value="por_persona">Por Persona</option>
+                                    <option value="por_grupo">Por Grupo</option>
+                                </select>
+                            </div>
+                            <button type="button" onclick="agregarExtra()" class="btn-add" style="margin-top:10px;">Añadir Extra</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="background: #fff; padding: 15px; border: 1px dashed #ccc; border-radius: 12px; margin-top:20px;">
+                        <label>Fotografías Adicionales (Galería sin límite)</label>
+                        <input type="file" id="fotos-galeria" accept="image/*" multiple>
+                    </div>
+
+                    <div style="overflow: auto; margin-top: 30px;">
+                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso4()">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso4()">Siguiente ➔</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-5">
+                    <h3>Riesgos y Condiciones</h3>
+                    
+                    <div class="form-group" id="caja-exigencia-fisica">
+                        <label id="lbl-exigencia">Nivel de Exigencia Física</label>
+                        <select id="tour-nivel-fisico">
+                        </select>
+                    </div>
+
+                    <div class="dynamic-list-container">
+                        <label style="color:#c62828;">⚠️ Restricciones / No apto para:</label>
+                        <div class="tags-rapidos">
+                            <span class="tag-rapido peligro" onclick="addTagToList('Embarazadas', 'restricciones')">🚫 Embarazadas</span>
+                            <span class="tag-rapido peligro" onclick="addTagToList('Problemas Cardíacos', 'restricciones')">🚫 Prob. Cardíacos</span>
+                            <span class="tag-rapido peligro" onclick="addTagToList('Alergia al polen/polvo', 'restricciones')">🚫 Alergias severas</span>
+                        </div>
+                        <div id="lista-restricciones-ui"></div>
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <input type="text" id="input-restricciones" placeholder="Otra restricción (Ej: Límite de peso 100kg)">
+                            <button type="button" onclick="agregarSimple('restricciones', 'input-restricciones')" class="btn-add-mini" style="background:#c62828;">➕</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Condiciones Especiales de la Actividad</label>
+                        <textarea id="tour-condiciones-ruta" rows="3" placeholder="Ej: Alta exposición a mosquitos, cruces de río, uso de herramientas afiladas..."></textarea>
+                    </div>
+
+                    <div class="doc-legal-preview" id="preview-legal">
+                        <h4>Formato Único de Consentimiento Informado<br><span style="font-size: 0.6em; color:#888;">(Vista Previa del Cliente)</span></h4>
+                        <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa únicamente como una plataforma tecnológica que conecta aventureros con proveedores locales.</p>
+                        <p style="font-size: 0.9em;">El servicio es prestado bajo la responsabilidad legal y operativa exclusiva de: <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>.</p>
+                        <hr style="border: 0; border-bottom: 1px dashed #ccc; margin: 15px 0;">
+                        <p><b>PARTE A: DECLARACIÓN DE RIESGOS:</b> El participante acepta que la actividad conlleva RIESGOS INHERENTES descritos en este perfil y asume la responsabilidad de su participación.</p>
+                        <p><b>PARTE B: DECLARACIÓN DE SALUD:</b> El participante declara NO padecer las restricciones mencionadas y confirma poseer la condición física apta para el nivel seleccionado.</p>
+                        <p><b>PARTE C: EXENCIÓN DE RESPONSABILIDAD:</b> El participante exime de responsabilidad a Mot Mot Experiencias y se somete a las instrucciones operativas y de seguridad establecidas por el Líder responsable.</p>
+                    </div>
+
+                    <div class="checkbox-group" style="background: #e8f5e9; border-color: #c8e6c9; margin-top: 20px;">
+                        <input type="checkbox" id="check-consentimiento">
+                        <label for="check-consentimiento" style="color: #2e7d32;" id="label-consentimiento">
+                            <b>Acepto mi responsabilidad operativa:</b> Entiendo que Mot Mot es un intermediario de conexión. Me comprometo a exigir la firma de este Formato de Consentimiento (físico o digital) a cada persona antes de arrancar y asumo la responsabilidad sobre la seguridad en campo.
+                        </label>
+                    </div>
+
+                    <div style="overflow: auto; margin-top: 30px;">
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(5, 4)">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(5, 6)">Siguiente ➔</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-6">
+                    <h3 id="titulo-paso6">Acuerdos de Operación y Finanzas</h3>
+                    
+                    <div class="text-legal" id="texto-legal-pago">
+                        <b>1. Condiciones de Liquidación</b><br>
+                        El pago siempre se realiza después de prestar el servicio. Todos los pagos de las reservas se realizan exclusivamente a través de la plataforma. Una vez procesados, se validan y se envían al proveedor. Este proceso de liquidación puede demorar entre 24 horas a 15 días o más en algunos casos, dependiendo de regulaciones, tiempos de validación bancaria y administrativa. Al registrar su servicio, el proveedor confirma que entiende y acepta estos tiempos de pago.
+                    </div>
+
+                    <div class="form-group" style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc;" id="caja-seguros">
+                        <label>🛡️ 2. Pólizas y Seguros de Asistencia (Obligatorio)</label>
+                        <div class="radio-group" style="flex-direction: column; gap: 5px;">
+                            <label><input type="radio" name="seguro" value="propio" onchange="calcularFinanzas()"> Cuento con seguro propio (Asumo responsabilidad total).</label>
+                            <label><input type="radio" name="seguro" value="plataforma" onchange="calcularFinanzas()"> Activar el seguro Mot Mot (Agrega automáticamente $5.000 COP al precio final por persona).</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top:20px;">
+                        <label id="lbl-precio">Precio de Venta Base (COP)</label>
+                        <input type="number" id="tour-precio" placeholder="Ej: 100000" min="0" required>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px;" id="caja-reglas-cobro">
+                        <label>Reglas de Cobro</label>
+                        <select id="reglas-cobro">
+                            <option value="por_persona">El precio se multiplica por persona</option>
+                            <option value="fijo_grupo">Precio fijo por todo el grupo</option>
+                        </select>
+                    </div>
+
+                    <div id="caja-finanzas" class="caja-finanzas">
+                        <p style="margin: 0 0 10px; color: var(--turquesa); font-size: 1em; font-weight: 900;">💰 TRANSPARENCIA FINANCIERA</p>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 5px; margin-bottom: 5px;">
+                            <span style="color: #888; font-size: 0.85em;">Tu precio base:</span> <span id="lbl-base" style="color: #666;">0 COP</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 5px; margin-bottom: 5px;" id="linea-comision">
+                            <span style="color: var(--naranja); font-size: 0.85em;">Comisión Mot Mot (20%):</span> <b id="lbl-comision" style="color: var(--naranja);">- 0 COP</b>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;" id="linea-seguro">
+                            <span style="color: #1565c0; font-size: 0.85em;">Seguro de Asistencia:</span> <b id="lbl-seguro" style="color: #1565c0;">+ 0 COP</b>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: var(--negro); font-size: 0.9em; font-weight: 800;" id="lbl-total-cliente">PRECIO FINAL AL CLIENTE:</span> <b id="lbl-venta-final" style="color: var(--negro); font-size: 1.1em;">0 COP</b>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;" id="linea-neto">
+                            <span style="color: #2e7d32; font-size: 1em; font-weight: 800;">TÚ RECIBES (Neto):</span> <b id="lbl-neto" style="color: #2e7d32; font-size: 1.2em;">0 COP</b>
+                        </div>
+                        <div style="background: #fff3e0; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 0.8em; color: #d84315; border-left: 4px solid var(--naranja);" id="regla-80">
+                            <b>💡 Regla del 0.8:</b> Divide tu costo de operación entre 0.8 para saber qué precio base poner. (Ej: Si necesitas $80.000 netos, 80.000 / 0.8 = 100.000).
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group" style="background: #fff3e0; border-color: #ffcc80; margin-top:20px;">
+                        <input type="checkbox" id="firma-digital" required>
+                        <label for="firma-digital" style="color: #e65100;">
+                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad las Condiciones de Mot Mot. Declaro que la información es veraz y asumo la responsabilidad civil y legal.
+                        </label>
+                    </div>
+
+                    <div style="overflow: auto; margin-top: 30px;">
+                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()">⬅ Atrás</button>
+                        <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR A CURADURÍA</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, db, doc, getDoc, collection, addDoc, onAuthStateChanged, serverTimestamp } from './firebase-config.js';
+
+        let userId = ""; let userName = ""; let userEmail = ""; let userRolGlobal = "";
+        let precioNetoGuardar = 0; 
+        let precioFinalClienteGuardar = 0;
+        
+        // ESTRUCTURAS DE DATOS DINÁMICAS
+        let dbLists = {
+            incluye: [],
+            noIncluye: [],
+            queLlevar: [],
+            itinerario: [],
+            extras: [], 
+            recursos: [],
+            restricciones: [] 
+        };
+
+        // --- 1. EL CEREBRO CAMALEÓNICO (MUTA EL FORMULARIO SEGÚN QUIÉN ENTRE) ---
+        window.adaptarFormulario = (rol) => {
+            const selectTipo = document.getElementById('tipo-guia');
+            const titulo = document.getElementById('titulo-principal');
+            const cajaBienvenida = document.getElementById('caja-bienvenida');
+            const selectCategoria = document.getElementById('tour-categoria');
+            
+            // Si es un ANFITRIÓN LOCAL
+            if (rol === 'anfitrion') {
+                titulo.innerText = "Crear Experiencia Local 🧑‍🌾";
+                cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">🏡</span><span><b>El Corazón de Mot Mot:</b> Comparte tu cultura, oficios y gastronomía con viajeros que buscan experiencias auténticas.</span>`;
+                
+                // Forzamos el select para que solo exista Anfitrión
+                selectTipo.innerHTML = `<option value="anfitrion_local">Anfitrión Local / Experto (Talleres, Cultura, Gastronomía)</option>`;
+                selectTipo.value = 'anfitrion_local';
+                
+                // Categorías de Anfitrión (NO VE NADA DE ALTA MONTAÑA)
+                selectCategoria.innerHTML = `
+                    <option value="">Selecciona...</option>
+                    <option value="Taller Artesanal">Taller Artesanal / Oficios</option>
+                    <option value="Clase de Cocina">Clase de Cocina / Gastronomía</option>
+                    <option value="Saberes del Campo">Saberes del Campo / Agricultura</option>
+                    <option value="Experiencia Cultural">Experiencia Cultural Local</option>
+                `;
+            } 
+            // Si es un GUÍA PROFESIONAL
+            else if (rol === 'guia') {
+                titulo.innerText = "Crear Experiencia de Montaña 🏕️";
+                cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">🥾</span><span><b>El Corazón de Mot Mot:</b> Somos una plataforma que conecta personas a través del caminar. Promovemos fuertemente el trekking, hiking y las caminatas.</span>`;
+                
+                // Forzamos el select a solo opciones de montaña
+                selectTipo.innerHTML = `
+                    <option value="guia_turismo">Guía de Turismo Profesional (Carnet MinCIT)</option>
+                    <option value="cultura_fisica">Profesional en Cultura Física y Deporte / Trekking</option>
+                    <option value="agencia_operadora">Agencia Operadora / Op. de Turismo de Aventura</option>
+                `;
+                selectTipo.value = 'guia_turismo';
+
+                // Categorías de Guía (NO VE NADA DE TALLERES)
+                selectCategoria.innerHTML = `
+                    <option value="">Selecciona...</option>
+                    <option value="Caminata / Trekking">Caminata / Trekking / Hiking</option>
+                    <option value="Aventura">Aventura Extrema (Rafting, Espeleología)</option>
+                    <option value="Naturaleza">Naturaleza y Contemplación</option>
+                `;
+            } 
+            // Si es un VIAJERO (Creando Itinerario)
+            else {
+                titulo.innerText = "Crear Mi Itinerario de Viaje 🎒";
+                cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">📍</span><span><b>Comparte tu ruta:</b> Diseña tu itinerario, agrega tus tips y monetízalo para que otros viajeros lo copien.</span>`;
+                
+                // Forzamos el select a Viajero
+                selectTipo.innerHTML = `<option value="viajero_creador">Viajero Creador (Compartir Itinerarios)</option>`;
+                selectTipo.value = 'viajero_creador';
+
+                // Categoría de Viajero
+                selectCategoria.innerHTML = `<option value="Itinerario Digital" selected>Itinerario Digital (Ruta Autoguiada / Tips)</option>`;
+                
+                // --- MUTACIÓN DEL HTML PARA EL VIAJERO ---
+                // Modificamos el Paso 2 (Detalles)
+                document.getElementById('caja-tipo-oferta').style.display = 'none';
+                document.getElementById('lbl-nombre').innerText = "Ponle un título a tu Viaje";
+                document.getElementById('tour-titulo').placeholder = "Ej: Fin de semana perfecto en Barichara";
+                document.getElementById('lbl-ubicacion').innerText = "¿A qué ciudad/pueblo fuiste?";
+                document.getElementById('lbl-desc').innerText = "Cuenta un resumen de tu experiencia (El gancho)";
+                document.getElementById('lbl-img').innerText = "Sube la mejor foto de tu viaje (Portada)";
+
+                // Modificamos el Paso 4 (Contenido)
+                document.getElementById('titulo-paso4').innerText = "Arma tu Itinerario de Viaje";
+                document.getElementById('caja-incluye').style.display = 'none';
+                document.getElementById('caja-no-incluye').style.display = 'none';
+                document.getElementById('caja-extras-completos').style.display = 'none';
+                
+                document.getElementById('lbl-itinerario').innerText = "📍 Agrega los lugares, horas, costos y tus TIPS secretos.";
+                document.getElementById('desc-itinerario').innerText = "Ej: Día 1 - 8:00 AM - Salida al aeropuerto | Costo: 60000 | Tip: Tomen el bus D12 que es más rápido.";
+
+                // Modificamos el Paso 6 (Finanzas)
+                document.getElementById('titulo-paso6').innerText = "Monetiza tu Itinerario";
+                document.getElementById('texto-legal-pago').innerHTML = `<b>Condiciones de Pago:</b> Si decides ponerle precio a tu itinerario, cada vez que un usuario lo desbloquee ganarás el 50% del valor. El pago se reflejará en tu billetera virtual de Mot Mot.`;
+                document.getElementById('caja-seguros').style.display = 'none';
+                document.querySelector('input[name="seguro"][value="propio"]').checked = true; // Auto-selecciona
+                document.getElementById('caja-reglas-cobro').style.display = 'none';
+                document.getElementById('reglas-cobro').value = 'fijo_grupo';
+                
+                document.getElementById('lbl-precio').innerText = "¿Por cuánto quieres vender tu Itinerario? (Pon 0 si es gratis)";
+                document.getElementById('linea-comision').innerHTML = `<span style="color: var(--naranja); font-size: 0.85em;">Comisión Plataforma (50%):</span> <b id="lbl-comision" style="color: var(--naranja);">- 0 COP</b>`;
+                document.getElementById('linea-seguro').style.display = 'none';
+                document.getElementById('lbl-total-cliente').innerText = "PRECIO AL PÚBLICO:";
+                document.getElementById('regla-80').innerHTML = `<b>💡 Tip de Creador:</b> Los itinerarios entre $5.000 y $15.000 COP son los que más se venden.`;
+                
+                // Desactivamos pasos innecesarios del Stepper UI
+                document.getElementById('ind-3').style.display = 'none';
+                document.getElementById('ind-5').style.display = 'none';
+            }
+
+            // Ejecutamos la lógica de documentos basándonos en el rol ya detectado
+            window.verificarDocumentosLegales(rol);
+        };
+
+        // --- LÓGICA DE DOCUMENTOS SEGÚN EL ROL ---
+        window.verificarDocumentosLegales = (rol) => {
+            const contenedorDocs = document.getElementById('contenedor-docs-legales');
+            const docId = document.getElementById('doc-id');
+            const docRut = document.getElementById('doc-rut');
+
+            if (rol === 'viajero') {
+                contenedorDocs.style.display = 'none';
+                docId.removeAttribute('required');
+                docRut.removeAttribute('required');
+                document.getElementById('check-consentimiento').removeAttribute('required');
+            } else if (rol === 'anfitrion') {
+                contenedorDocs.style.display = 'block';
+                docId.setAttribute('required', 'true');
+                docRut.setAttribute('required', 'true');
+                document.getElementById('check-consentimiento').setAttribute('required', 'true');
+            } else { // Guía
+                contenedorDocs.style.display = 'block';
+                docId.setAttribute('required', 'true');
+                docRut.setAttribute('required', 'true');
+                document.getElementById('check-consentimiento').setAttribute('required', 'true');
+            }
+            window.verificarGastronomia();
+        }
+
+        // --- 2. LÓGICA DE GASTRONOMÍA (Detecta si enseñas a cocinar) ---
+        window.verificarGastronomia = () => {
+            const categoria = document.getElementById('tour-categoria').value;
+            const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
+            const inputAlimentos = document.getElementById('doc-alimentos');
+            
+            // Solo si es anfitrión y eligió cocina
+            if (userRolGlobal === 'anfitrion' && (categoria === 'Clase de Cocina' || categoria.includes('Gastronomía'))) {
+                cajaDocAlimentos.style.display = 'block';
+                inputAlimentos.setAttribute('required', 'true');
+                alert("¡Qué rico! 🥘 Como darás una experiencia de gastronomía, por favor asegúrate de subir tu Certificado de Manipulación de Alimentos en el Paso 1.");
+            } else {
+                cajaDocAlimentos.style.display = 'none';
+                if(inputAlimentos) {
+                    inputAlimentos.removeAttribute('required');
+                    inputAlimentos.value = '';
+                }
+            }
+        };
+
+        // --- FUNCIONES DINÁMICAS GLOBALES ---
+        window.agregarSimple = (listaNom, inputId) => {
+            const val = document.getElementById(inputId).value;
+            if(!val.trim()) return;
+            dbLists[listaNom].push(val);
+            document.getElementById(inputId).value = "";
+            renderListaSimple(listaNom);
+        };
+        window.addTagToList = (texto, listaNom) => {
+            if(!dbLists[listaNom].includes(texto)){
+                dbLists[listaNom].push(texto);
+                renderListaSimple(listaNom);
+            }
+        };
+        window.borrarSimple = (listaNom, index) => {
+            dbLists[listaNom].splice(index, 1);
+            renderListaSimple(listaNom);
+        };
+        function renderListaSimple(listaNom) {
+            const c = document.getElementById(`lista-${listaNom}-ui`); c.innerHTML = "";
+            dbLists[listaNom].forEach((item, i) => {
+                c.innerHTML += `<div class="dynamic-item"><span>✔️ ${item}</span> <button type="button" class="btn-delete" onclick="borrarSimple('${listaNom}', ${i})">X</button></div>`;
+            });
+        }
+
+        // --- ITINERARIO ESTRUCTURADO (HORA + ACTIVIDAD + COSTO + TIP) ---
+        window.agregarItinerarioEstructurado = () => {
+            const hora = document.getElementById('iti-hora').value;
+            const act = document.getElementById('iti-actividad').value;
+            const costo = document.getElementById('iti-costo') ? document.getElementById('iti-costo').value : "";
+            const tip = document.getElementById('iti-tip') ? document.getElementById('iti-tip').value : "";
+            
+            if(!hora || !act) { alert("Completa la hora y la actividad."); return; }
+            
+            let horaSplit = hora.split(':');
+            let h = parseInt(horaSplit[0]);
+            let m = horaSplit[1];
+            let ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12; h = h ? h : 12; 
+            let horaFormat = `${h}:${m} ${ampm}`;
+
+            let txtCosto = costo ? ` | 💸 $${costo}` : "";
+            let txtTip = tip ? ` | 💡 ${tip}` : "";
+            
+            const lineaCompleta = `${horaFormat} - ${act}${txtCosto}${txtTip}`;
+            dbLists.itinerario.push(lineaCompleta);
+            
+            document.getElementById('iti-hora').value = ""; 
+            document.getElementById('iti-actividad').value = "";
+            if(document.getElementById('iti-costo')) document.getElementById('iti-costo').value = "";
+            if(document.getElementById('iti-tip')) document.getElementById('iti-tip').value = "";
+            
+            renderItinerarioEstructurado();
+        };
+        window.borrarItinerarioEst = (i) => { dbLists.itinerario.splice(i, 1); renderItinerarioEstructurado(); };
+        function renderItinerarioEstructurado() {
+            const c = document.getElementById('lista-itinerario-ui'); c.innerHTML = "";
+            dbLists.itinerario.forEach((iti, i) => {
+                c.innerHTML += `<div class="dynamic-item"><span>🕒 ${iti}</span> <button type="button" class="btn-delete" onclick="borrarItinerarioEst(${i})">X</button></div>`;
+            });
+        }
+
+        // --- EXTRAS DINÁMICOS ---
+        window.agregarExtra = () => {
+            const nom = document.getElementById('extra-nombre').value;
+            const prec = document.getElementById('extra-precio').value;
+            const tipo = document.getElementById('extra-tipo').value;
+            if(!nom || !prec) { alert("Completa nombre y precio."); return; }
+            dbLists.extras.push({ nombre: nom, precio: prec, tipoCobro: tipo });
+            document.getElementById('extra-nombre').value = ""; document.getElementById('extra-precio').value = "";
+            renderExtras();
+        };
+        window.borrarExtra = (i) => { dbLists.extras.splice(i, 1); renderExtras(); };
+        function renderExtras() {
+            const c = document.getElementById('lista-extras-ui'); c.innerHTML = "";
+            dbLists.extras.forEach((ext, i) => {
+                const tipoTxt = ext.tipoCobro === 'por_persona' ? 'p/p' : 'por grupo';
+                c.innerHTML += `<div class="dynamic-item"><span>✨ <b>${ext.nombre}</b> - $${ext.precio} (${tipoTxt})</span> <button type="button" class="btn-delete" onclick="borrarExtra(${i})">X</button></div>`;
+            });
+        }
+
+        // --- RECURSOS DINÁMICOS ---
+        window.agregarRecurso = () => {
+            const nom = document.getElementById('res-nombre').value;
+            const cant = document.getElementById('res-cant').value;
+            const grupo = document.getElementById('res-grupo').checked;
+            if(!nom || !cant) { alert("Completa nombre y cantidad."); return; }
+            dbLists.recursos.push({ nombre: nom, cantidad: cant, usoGrupo: grupo });
+            document.getElementById('res-nombre').value = ""; document.getElementById('res-cant').value = ""; document.getElementById('res-grupo').checked = false;
+            renderRecursos();
+        };
+        window.borrarRecurso = (i) => { dbLists.recursos.splice(i, 1); renderRecursos(); };
+        function renderRecursos() {
+            const c = document.getElementById('lista-recursos-ui'); c.innerHTML = "";
+            dbLists.recursos.forEach((r, i) => {
+                const txtGrp = r.usoGrupo ? '(Compartido)' : '(Individual)';
+                c.innerHTML += `<div class="dynamic-item"><span>🛠️ <b>${r.nombre}</b> (Cant: ${r.cantidad}) ${txtGrp}</span> <button type="button" class="btn-delete" onclick="borrarRecurso(${i})">X</button></div>`;
+            });
+        }
+
+        // CLOUDINARY
+        const CLOUD_NAME = "djqkbywpu";
+        const UPLOAD_PRESET = "motmot_fotos";
+        async function uploadCloudinary(file) {
+            if(!file) return "";
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", UPLOAD_PRESET);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: "POST", body: formData });
+            const data = await res.json();
+            return data.secure_url;
+        }
+
+        // CALCULADORA FINANCIERA DINÁMICA
+        window.calcularFinanzas = () => {
+            const precioBase = parseFloat(document.getElementById('tour-precio').value) || 0;
+            const seguroSel = document.querySelector('input[name="seguro"]:checked');
+            const cajaFinanzas = document.getElementById('caja-finanzas');
+
+            if (precioBase > 0) {
+                cajaFinanzas.style.display = 'block';
+                const formatCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+                
+                // Si es Viajero (Itinerario) la comisión es 50% y no hay seguro.
+                if (userRolGlobal === 'viajero') {
+                    const comision = precioBase * 0.50;
+                    precioNetoGuardar = precioBase * 0.50; 
+                    precioFinalClienteGuardar = precioBase;
+
+                    document.getElementById('lbl-base').innerText = formatCOP.format(precioBase);
+                    document.getElementById('lbl-comision').innerText = "- " + formatCOP.format(comision);
+                    document.getElementById('lbl-venta-final').innerText = formatCOP.format(precioFinalClienteGuardar);
+                    document.getElementById('lbl-neto').innerText = formatCOP.format(precioNetoGuardar);
+                } 
+                // Si es Guía o Anfitrión (Operan en campo)
+                else {
+                    const comision = precioBase * 0.20;
+                    precioNetoGuardar = precioBase * 0.80; 
+                    
+                    let costoSeguro = 0;
+                    if(seguroSel && seguroSel.value === 'plataforma') { costoSeguro = 5000; }
+
+                    precioFinalClienteGuardar = precioBase + costoSeguro;
+                    
+                    document.getElementById('lbl-base').innerText = formatCOP.format(precioBase);
+                    document.getElementById('lbl-comision').innerText = "- " + formatCOP.format(comision);
+                    document.getElementById('lbl-seguro').innerText = "+ " + formatCOP.format(costoSeguro);
+                    document.getElementById('lbl-venta-final').innerText = formatCOP.format(precioFinalClienteGuardar);
+                    document.getElementById('lbl-neto').innerText = formatCOP.format(precioNetoGuardar);
+                }
+            } else { 
+                cajaFinanzas.style.display = 'none'; 
+                precioNetoGuardar = 0; 
+                precioFinalClienteGuardar = 0;
+            }
+        };
+        document.getElementById('tour-precio').addEventListener('input', calcularFinanzas);
+
+        // WIZARD A 6 PASOS (CON SALTOS PARA VIAJERO)
+        window.nextStep = (current, next) => {
+            if(next > current) {
+                const stepDiv = document.getElementById(`step-${current}`);
+                // Solo validar los inputs que son visibles y requeridos
+                const inputs = Array.from(stepDiv.querySelectorAll('[required]')).filter(el => {
+                    return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+                });
+                
+                let valid = true;
+                inputs.forEach(input => { 
+                    if(input.type === 'radio' || input.type === 'checkbox') {
+                        if(input.name && !document.querySelector(`input[name="${input.name}"]:checked`)) valid = false;
+                        else if(!input.name && !input.checked) valid = false;
+                    } else if(!input.value) valid = false; 
+                });
+                if(!valid) { alert("Completa los campos obligatorios marcados de este paso."); return; }
+            }
+            document.getElementById(`step-${current}`).classList.remove('active');
+            document.getElementById(`step-${next}`).classList.add('active');
+            
+            // Lógica visual del stepper
+            if(document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.remove('active');
+            if(next > current && document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.add('completed');
+            else if (document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.remove('completed');
+            if(document.getElementById(`ind-${next}`)) document.getElementById(`ind-${next}`).classList.add('active');
+            
+            window.scrollTo(0, 0);
+        };
+
+        // LÓGICA DE SALTO DE PASOS PARA VIAJERO
+        window.avanzarDesdePaso2 = () => {
+            if (userRolGlobal === 'viajero') nextStep(2, 4); // Salta Operación
+            else nextStep(2, 3);
+        };
+        window.retrocederDesdePaso4 = () => {
+            if (userRolGlobal === 'viajero') nextStep(4, 2); // Salta Operación
+            else nextStep(4, 3);
+        };
+        window.avanzarDesdePaso4 = () => {
+            if (userRolGlobal === 'viajero') nextStep(4, 6); // Salta Riesgos
+            else nextStep(4, 5);
+        };
+        window.retrocederDesdePaso6 = () => {
+            if (userRolGlobal === 'viajero') nextStep(6, 4); // Salta Riesgos
+            else nextStep(6, 5);
+        };
+
+        // AUTH CON INICIO CAMALEÓNICO INMEDIATO
+        onAuthStateChanged(auth, async (u) => {
+            if (u) {
+                userId = u.uid; userEmail = u.email;
+                const snap = await getDoc(doc(db, "usuarios", userId));
+                if(snap.exists()) {
+                    const data = snap.data();
+                    userName = data.nombre || "Usuario";
+                    userRolGlobal = data.rol || "viajero"; // Guardamos el rol globalmente
+                    
+                    // EJECUTAMOS LA MAGIA CAMALEÓNICA ANTES DE QUE EL USUARIO TOQUE NADA
+                    window.adaptarFormulario(userRolGlobal); 
+                }
+            } else window.location.replace('index.html');
+        });
+
+        // ENVÍO DE FORMULARIO MAESTRO
+        document.getElementById('form-guia').onsubmit = async (e) => {
+            e.preventDefault();
+            
+            if(userRolGlobal !== 'viajero') {
+                if(!document.getElementById('check-consentimiento').checked || !document.getElementById('firma-digital').checked) {
+                    alert("Debes aceptar los acuerdos legales al final."); return;
+                }
+            } else {
+                if(!document.getElementById('firma-digital').checked) {
+                    alert("Debes aceptar los acuerdos al final."); return;
+                }
+            }
+
+            const btn = document.getElementById('btn-submit');
+            btn.innerText = "CARGANDO ARCHIVOS Y ENVIANDO... ⏳";
+            btn.classList.add('btn-disabled');
+
+            try {
+                let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "";
+
+                // Si no es viajero, sube documentos
+                if (userRolGlobal === 'guia' || userRolGlobal === 'anfitrion') {
+                    btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
+                    
+                    const inputId = document.getElementById('doc-id');
+                    if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
+
+                    const inputRut = document.getElementById('doc-rut');
+                    if(inputRut && inputRut.files.length > 0) urlDocRut = await uploadCloudinary(inputRut.files[0]);
+                    
+                    const inputRntFile = document.getElementById('doc-rnt-file');
+                    if(inputRntFile && inputRntFile.files.length > 0) urlDocRnt = await uploadCloudinary(inputRntFile.files[0]);
+                    
+                    const inputCamara = document.getElementById('doc-camara');
+                    if(inputCamara && inputCamara.files.length > 0) urlDocCamara = await uploadCloudinary(inputCamara.files[0]);
+
+                    const inputOtros = document.getElementById('doc-otros');
+                    if(inputOtros && inputOtros.files.length > 0) urlDocOtros = await uploadCloudinary(inputOtros.files[0]);
+
+                    const inputAlimentos = document.getElementById('doc-alimentos');
+                    if(inputAlimentos && inputAlimentos.files.length > 0) urlDocAlimentos = await uploadCloudinary(inputAlimentos.files[0]);
+                }
+
+                btn.innerText = "SUBIENDO IMÁGENES...";
+                const filePrincipal = document.getElementById('foto-principal').files[0];
+                let urlPrincipal = await uploadCloudinary(filePrincipal);
+
+                const filesGaleria = document.getElementById('fotos-galeria').files;
+                let urlsGaleria = [];
+                for(let i=0; i<filesGaleria.length; i++) {
+                    btn.innerText = `SUBIENDO GALERÍA: ${i+1} de ${filesGaleria.length}...`;
+                    urlsGaleria.push(await uploadCloudinary(filesGaleria[i]));
+                }
+
+                btn.innerText = "GUARDANDO EN BÓVEDA MOT MOT...";
+
+                let rntVal = "";
+                if(document.getElementById('num-rnt')) rntVal = document.getElementById('num-rnt').value;
+
+                let seguroMod = "ninguno"; // Por defecto para viajeros
+                if(document.querySelector('input[name="seguro"]:checked')) {
+                    seguroMod = document.querySelector('input[name="seguro"]:checked').value;
+                }
+
+                let tipoProducto = (userRolGlobal === 'viajero') ? "itinerario_viajero" : "experiencia_pro";
+
+                await addDoc(collection(db, "solicitudes_amelia"), {
+                    guiaId: userId,
+                    guiaNombre: userName,
+                    guiaEmail: userEmail,
+                    rolCreador: userRolGlobal, 
+                    tipoProducto: tipoProducto,
+                    
+                    // Paso 1: Legal
+                    tipoProfesional: document.getElementById('tipo-guia').value,
+                    rnt: rntVal,
+                    documentosLegales: {
+                        documentoIdentidad: urlDocId,
+                        rut: urlDocRut,
+                        soporteRnt: urlDocRnt,
+                        camaraComercio: urlDocCamara,
+                        otrosDocumentos: urlDocOtros,
+                        manipulacionAlimentos: urlDocAlimentos
+                    },
+                    
+                    // Paso 2: Detalles
+                    tipoOfertaAmelia: document.getElementById('tipo-oferta') ? document.getElementById('tipo-oferta').value : "servicio",
+                    tituloServicio: document.getElementById('tour-titulo').value,
+                    categoria: document.getElementById('tour-categoria').value,
+                    ubicacion: document.getElementById('tour-ubicacion').value,
+                    descripcion: document.getElementById('tour-desc').value,
+                    imagenPrincipal: urlPrincipal,
+                    
+                    // Paso 3: Operación
+                    duracionValor: document.getElementById('tour-duracion-valor') ? document.getElementById('tour-duracion-valor').value : "0",
+                    duracionUnidad: document.getElementById('tour-duracion-unidad') ? document.getElementById('tour-duracion-unidad').value : "Horas",
+                    capacidadMinima: document.getElementById('capacidad-min') ? document.getElementById('capacidad-min').value : "1",
+                    capacidadMaxima: document.getElementById('capacidad-max') ? document.getElementById('capacidad-max').value : "10",
+                    margenTiempoReserva: document.getElementById('margen-reserva') ? document.getElementById('margen-reserva').value : "Inmediato",
+                    margenCancelacion: document.getElementById('margen-cancelacion') ? document.getElementById('margen-cancelacion').value : "Flexible_24h",
+                    recursos: dbLists.recursos,
+                    
+                    // Paso 4: Contenido
+                    incluye: dbLists.incluye,
+                    noIncluye: dbLists.noIncluye,
+                    queLlevar: dbLists.queLlevar,
+                    itinerario: dbLists.itinerario,
+                    serviciosExtras: dbLists.extras,
+                    galeriaVisual: urlsGaleria,
+
+                    // Paso 5: Riesgos Médicos
+                    nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? document.getElementById('tour-nivel-fisico').value : "0",
+                    restriccionesMedicas: dbLists.restricciones,
+                    condicionesRuta: document.getElementById('tour-condiciones-ruta') ? document.getElementById('tour-condiciones-ruta').value : "N/A",
+                    aceptaProtocoloSeguridad: document.getElementById('check-consentimiento') ? document.getElementById('check-consentimiento').checked : true,
+                    
+                    // Paso 6: Finanzas y Legal
+                    precioVentaBase: document.getElementById('tour-precio').value,
+                    precioFinalCliente: precioFinalClienteGuardar, 
+                    precioNetoProveedor: precioNetoGuardar, 
+                    reglasCobro: document.getElementById('reglas-cobro') ? document.getElementById('reglas-cobro').value : "fijo_grupo",
+                    modalidadSeguro: seguroMod,
+                    firmaAcuerdosLegales: document.getElementById('firma-digital').checked,
+                    
+                    estado: "pendiente_aprobacion", 
+                    fechaSolicitud: serverTimestamp()
+                });
+
+                alert("¡ÉXITO TOTAL! 🚀 Tu información está en nuestra bóveda. El equipo revisará el perfil y lo conectará a la plataforma.");
+                window.location.href = 'dashboard.html';
+
+            } catch (error) {
+                console.error(error);
+                alert("Error de conexión al subir archivos. Verifica el tamaño de tus fotos/PDFs y tu internet.");
+            } finally {
+                btn.innerText = "✅ ENVIAR A CURADURÍA";
+                btn.classList.remove('btn-disabled');
+            }
+        };
+    </script>
+</body>
+</html>
