@@ -210,12 +210,6 @@
                     <textarea id="bio" placeholder="Tu historia completa..."></textarea>
                 </div>
 
-                <h3>🔗 Conexión Social</h3>
-                <div class="form-group">
-                    <label>Tu Instagram (Sin @)</label>
-                    <input type="text" id="social-ig" placeholder="usuario_instagram">
-                </div>
-
                 <button type="submit" class="btn-guardar" id="btn-submit">ACTUALIZAR IDENTIDAD</button>
             </form>
         </div>
@@ -372,7 +366,6 @@
                     document.getElementById('ubicacion-final').value = d.ubicacion || "";
                     document.getElementById('titular-corto').value = d.titularCorto || "";
                     document.getElementById('bio').value = d.bio || "";
-                    document.getElementById('social-ig').value = d.instagram || "";
                     
                     if(d.interesesOutdoor) selectedOutdoor = d.interesesOutdoor;
                     if(d.interesesGeneral) selectedGeneral = d.interesesGeneral;
@@ -469,7 +462,6 @@
                     rol: document.getElementById('rol-usuario').value,
                     titularCorto: document.getElementById('titular-corto').value,
                     bio: document.getElementById('bio').value,
-                    instagram: document.getElementById('social-ig').value,
                     interesesOutdoor: selectedOutdoor, 
                     interesesGeneral: selectedGeneral,
                     idiomasHabla: selectedIdiomasHabla,
