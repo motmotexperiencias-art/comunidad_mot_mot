@@ -153,7 +153,11 @@
                 if(snap.exists()){
                     const d = snap.data();
                     
-                    document.getElementById('nav-nombre').innerText = (d.nombre || "Explorador").split(' ')[0];
+                    // Traducción del nombre/rol superior
+                    const langC = localStorage.getItem('motmot_lang') || 'es';
+                    const navFallback = window.diccionarioGlobal ? window.diccionarioGlobal[langC].explorador_nav : "Explorador";
+                    document.getElementById('nav-nombre').innerText = (d.nombre || navFallback).split(' ')[0];
+                    
                     if(d.foto) document.getElementById('avatar-container').innerHTML = `<img src="${d.foto}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`;
                     else document.getElementById('avatar-container').innerText = d.nombre ? d.nombre.charAt(0).toUpperCase() : "M";
                     
@@ -196,7 +200,10 @@
 
         async function search(termino) {
             const container = document.getElementById('contenedor-comunidad');
-            container.innerHTML = "<p style='color:#ccc; grid-column:1/-1; text-align:center;'>Buscando...</p>";
+            const lang = localStorage.getItem('motmot_lang') || 'es';
+            const vacioText = window.diccionarioGlobal ? window.diccionarioGlobal[lang].vacio : "Buscando...";
+            container.innerHTML = `<p style='color:#ccc; grid-column:1/-1; text-align:center;'>${vacioText}</p>`;
+            
             try {
                 const q = query(collection(db, "usuarios"));
                 const snap = await getDocs(q);
@@ -212,6 +219,10 @@
         window.renderResults = () => {
             const container = document.getElementById('contenedor-comunidad'); container.innerHTML = "";
             const interes = document.getElementById('filtro-interes').value;
+            
+            const lang = localStorage.getItem('motmot_lang') || 'es';
+            const dict = window.diccionarioGlobal ? window.diccionarioGlobal[lang] : null;
+
             const filtered = cacheUsers.filter(u => {
                 const matchRol = currentRol === 'todos' || u.rol === currentRol;
                 let matchInt = true;
@@ -222,11 +233,27 @@
                 return matchRol && matchInt;
             });
 
-            if(filtered.length === 0) { container.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#999;'>No hay resultados para este filtro.</p>"; return; }
+            if(filtered.length === 0) { 
+                const emptyMsg = dict ? dict.vacio : "No hay resultados.";
+                container.innerHTML = `<p style='grid-column:1/-1; text-align:center; color:#999;'>${emptyMsg}</p>`; 
+                return; 
+            }
 
             filtered.forEach(p => {
                 const foto = p.foto && !p.foto.includes("ui-avatars") ? p.foto : `https://ui-avatars.com/api/?name=${p.nombre}&background=80C4C8&color=fff`;
-                const rolLimpio = p.rol || 'viajero';
+                
+                // MAGIA DE TRADUCCIÓN PARA LAS TARJETAS (FOTOS 1 Y 2)
+                let rawRol = p.rol || 'viajero';
+                let rolLimpio = rawRol;
+                if (dict) {
+                    if (rawRol === 'guia') rolLimpio = dict.rol_guia;
+                    if (rawRol === 'anfitrion') rolLimpio = dict.rol_anfitrion;
+                    if (rawRol === 'viajero') rolLimpio = dict.rol_viajero;
+                }
+
+                const fallbackUser = dict ? dict.default_user : "Usuario";
+                const fallbackEtiquetas = dict ? dict.sin_etiquetas : "Sin etiquetas";
+
                 const interesesMuestra = [...(p.interesesOutdoor || []), ...(p.interesesGeneral || [])].slice(0, 2).join(' • ');
                 
                 const esAmigo = misSiguiendo.includes(p.uid);
@@ -236,9 +263,9 @@
                     <a href="perfil-publico.html?uid=${p.uid}" class="usuario-card">
                         ${badgeAmigo}
                         <img src="${foto}" style="width:70px; height:70px; border-radius:50%; object-fit:cover; margin-bottom:10px; border:2px solid #eee;">
-                        <b style="font-size:1em;">${(p.nombre || "Usuario").split(' ')[0]}</b>
-                        <div class="badge-mini ${rolLimpio}">${rolLimpio}</div>
-                        <div class="intereses-mini">${interesesMuestra || 'Sin etiquetas'}</div>
+                        <b style="font-size:1em;">${(p.nombre || fallbackUser).split(' ')[0]}</b>
+                        <div class="badge-mini ${rawRol}">${rolLimpio}</div>
+                        <div class="intereses-mini">${interesesMuestra || fallbackEtiquetas}</div>
                     </a>`;
             });
         }
