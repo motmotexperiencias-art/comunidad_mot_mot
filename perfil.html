@@ -50,27 +50,22 @@
            📱 PARCHE MÓVIL (RESPONSIVE DESIGN MEJORADO)
            ========================================= */
         @media (max-width: 768px) {
-            /* 1. Márgenes más pequeños para aprovechar la pantalla */
             .container { margin: 10px auto; padding: 10px; }
             .card-form, .card-perfil { padding: 20px 15px; border-radius: 15px; }
             
-            /* 2. Textos más grandes y legibles */
             h1 { font-size: 1.4em !important; text-align: center; }
             h3 { font-size: 1em; text-align: center; }
             label { font-size: 0.95em; }
-            input, select, textarea { font-size: 16px !important; } /* 16px evita que el iPhone haga zoom automático al escribir */
+            input, select, textarea { font-size: 16px !important; }
 
-            /* 3. Navegación superior ajustada */
             .nav-perfil { padding: 10px 15px; flex-direction: column; gap: 10px; text-align: center; }
             .nav-logo { height: 30px; }
 
-            /* 4. Romper las grillas a una sola columna (Paso 3 y otros) */
             div[style*="grid-template-columns"] { 
                 grid-template-columns: 1fr !important; 
                 gap: 15px !important; 
             }
 
-            /* 5. Botones gigantes y fáciles de tocar */
             .btn-nav, .btn-enviar, .btn-add, .btn-guardar { 
                 width: 100%; 
                 padding: 15px; 
@@ -80,7 +75,6 @@
                 margin-top: 10px; 
             }
             
-            /* 6. El Stepper (Los 6 pasos de arriba) ajustado para que no se amontone */
             .stepper { flex-wrap: wrap; gap: 5px; font-size: 0.6em; }
             .step-indicator { padding: 5px; border-bottom-width: 2px; }
         }
@@ -93,7 +87,7 @@
             <a href="#seccion-comunidad" class="icono-campana">
                 🔔<span id="notificacion-roja" class="punto-rojo">0</span>
             </a>
-            <a href="dashboard.html" style="text-decoration:none; color:var(--naranja); font-weight:800;">← VOLVER</a>
+            <a href="dashboard.html" data-i18n="btn_volver" style="text-decoration:none; color:var(--naranja); font-weight:800;">← VOLVER</a>
         </div>
     </nav>
     <div class="container">
@@ -116,10 +110,10 @@
                 </div>
                 <div style="display:flex; gap:10px; margin-bottom:30px;">
                     <div style="flex:1; background:#fff; padding:15px; border-radius:12px; border: 1px solid #eee; text-align:center;">
-                        <b id="count-seguidores" style="font-size:1.8em; color:var(--negro);">0</b><br><small style="color:#888; font-weight:bold; text-transform:uppercase;">Seguidores</small>
+                        <b id="count-seguidores" style="font-size:1.8em; color:var(--negro);">0</b><br><small data-i18n="seguidores" style="color:#888; font-weight:bold; text-transform:uppercase;">Seguidores</small>
                     </div>
                     <div style="flex:1; background:#fff; padding:15px; border-radius:12px; border: 1px solid #eee; text-align:center;">
-                        <b id="count-siguiendo" style="font-size:1.8em; color:var(--negro);">0</b><br><small style="color:#888; font-weight:bold; text-transform:uppercase;">Siguiendo</small>
+                        <b id="count-siguiendo" style="font-size:1.8em; color:var(--negro);">0</b><br><small data-i18n="siguiendo" style="color:#888; font-weight:bold; text-transform:uppercase;">Siguiendo</small>
                     </div>
                 </div>
 

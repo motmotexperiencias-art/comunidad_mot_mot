@@ -6,7 +6,7 @@
     <title>Mot Mot - Iniciar Sesión</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* TUS ESTILOS */
+        /* TUS ESTILOS INTACTOS */
         :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --blanco: #ffffff; --gris-claro: #f4f4f4; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: var(--gris-claro); color: var(--negro); height: 100vh; display: flex; }
         .split-image { width: 50%; background-image: url('https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; padding: 40px; color: white; order: 2; }
@@ -34,32 +34,32 @@
 
     <div class="split-image">
         <div class="image-text">
-            <h3 style="font-size: 2em; margin: 0;">Bienvenido de nuevo.</h3>
-            <p>La montaña te espera.</p>
+            <h3 data-i18n="log_img_tit" style="font-size: 2em; margin: 0;">Bienvenido de nuevo.</h3>
+            <p data-i18n="log_img_sub">La montaña te espera.</p>
         </div>
     </div>
 
     <div class="split-form">
-        <a href="index.html" class="btn-back">← Volver al inicio</a>
+        <a href="index.html" data-i18n="log_volver" class="btn-back">← Volver al inicio</a>
 
         <div class="form-container">
-            <h2>Hola viajero</h2>
-            <p class="subtitle">Ingresa tus datos para continuar.</p>
+            <h2 data-i18n="log_tit">Hola viajero</h2>
+            <p data-i18n="log_sub" class="subtitle">Ingresa tus datos para continuar.</p>
 
             <form onsubmit="iniciarSesion(event)">
                 <div class="input-group">
-                    <label>Correo Electrónico</label>
+                    <label data-i18n="log_email">Correo Electrónico</label>
                     <input type="email" id="email-login" placeholder="hola@ejemplo.com" required>
                 </div>
                 <div class="input-group">
-                    <label>Contraseña</label>
+                    <label data-i18n="log_pass">Contraseña</label>
                     <input type="password" id="password-login" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn-submit">ENTRAR</button>
+                <button type="submit" data-i18n="log_btn" class="btn-submit">ENTRAR</button>
             </form>
 
             <div class="social-login">
-                <p style="font-size: 0.9em; color: #888; margin-bottom: 15px;">O ingresa con</p>
+                <p data-i18n="log_o" style="font-size: 0.9em; color: #888; margin-bottom: 15px;">O ingresa con</p>
                 <a href="#" class="btn-google" onclick="loginGoogle()">
                     <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px;">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -67,15 +67,17 @@
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                     </svg>
-                    Continuar con Google
+                    <span data-i18n="log_google">Continuar con Google</span>
                 </a>
             </div>
 
             <p style="margin-top: 20px; font-size: 0.9em; text-align: center;">
-                ¿No tienes cuenta? <a href="registro.html" style="color: var(--naranja); font-weight: 700; text-decoration: none;">Regístrate gratis</a>
+                <span data-i18n="log_no_cuenta">¿No tienes cuenta?</span> <a href="registro.html" data-i18n="log_registro" style="color: var(--naranja); font-weight: 700; text-decoration: none;">Regístrate gratis</a>
             </p>
         </div>
     </div>
+
+    <script type="module" src="firebase-config.js"></script>
 
     <script type="module">
         import { auth, signInWithEmailAndPassword, provider, signInWithPopup } from './firebase-config.js';
@@ -88,7 +90,7 @@
             const boton = document.querySelector('.btn-submit');
 
             try {
-                boton.innerText = "Entrando...";
+                boton.innerText = "...";
                 await signInWithEmailAndPassword(auth, email, password);
                 window.location.href = 'dashboard.html';
             } catch (error) {

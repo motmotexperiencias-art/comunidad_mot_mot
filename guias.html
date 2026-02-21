@@ -79,27 +79,22 @@
            📱 PARCHE MÓVIL (RESPONSIVE DESIGN MEJORADO)
            ========================================= */
         @media (max-width: 768px) {
-            /* 1. Márgenes más pequeños para aprovechar la pantalla */
             .container { margin: 10px auto; padding: 10px; }
             .card-form { padding: 20px 15px; border-radius: 15px; }
             
-            /* 2. Textos más grandes y legibles */
             h1 { font-size: 1.4em !important; text-align: center; }
             h3 { font-size: 1em; text-align: center; }
             label { font-size: 0.95em; }
-            input, select, textarea { font-size: 16px !important; } /* 16px evita que el iPhone haga zoom automático al escribir */
+            input, select, textarea { font-size: 16px !important; }
 
-            /* 3. Navegación superior ajustada */
             .nav-perfil { padding: 10px 15px; flex-direction: column; gap: 10px; text-align: center; }
             .nav-logo { height: 30px; }
 
-            /* 4. Romper las grillas a una sola columna (Paso 3 y otros) */
             div[style*="grid-template-columns"] { 
                 grid-template-columns: 1fr !important; 
                 gap: 15px !important; 
             }
 
-            /* 5. Botones gigantes y fáciles de tocar */
             .btn-nav, .btn-enviar, .btn-add { 
                 width: 100%; 
                 padding: 15px; 
@@ -109,7 +104,6 @@
                 margin-top: 10px; 
             }
             
-            /* 6. El Stepper (Los 6 pasos de arriba) ajustado para que no se amontone */
             .stepper { flex-wrap: wrap; gap: 5px; font-size: 0.6em; }
             .step-indicator { padding: 5px; border-bottom-width: 2px; }
         }
@@ -141,7 +135,7 @@
             <form id="form-guia">
                 
                 <div class="step active" id="step-1">
-                    <h3>Identidad del Creador</h3>
+                    <h3 data-i18n="identidad_titulo">Identidad del Creador</h3>
 
                     <div class="form-group" id="caja-tipo-perfil">
                         <label>Tu Perfil Registrado:</label>
@@ -196,7 +190,7 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(1, 2)" id="btn-paso1-next">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(1, 2)" id="btn-paso1-next" data-i18n="siguiente">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -238,8 +232,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(2, 1)">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso2()">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(2, 1)" data-i18n="atras">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso2()" data-i18n="siguiente">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -319,8 +313,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(3, 2)">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(3, 4)">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(3, 2)" data-i18n="atras">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(3, 4)" data-i18n="siguiente">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -410,8 +404,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso4()">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso4()">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso4()" data-i18n="atras">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso4()" data-i18n="siguiente">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -448,7 +442,7 @@
                         <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa únicamente como una plataforma tecnológica que conecta aventureros con proveedores locales.</p>
                         <p style="font-size: 0.9em;">El servicio es prestado bajo la responsabilidad legal y operativa exclusiva de: <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>.</p>
                         <hr style="border: 0; border-bottom: 1px dashed #ccc; margin: 15px 0;">
-                        <p><b>PARTE A: DECLARACIÓN DE RIESGOS:</b> El participante acepta que la actividad conlleva RIESGOS INHERENTES descritos en este perfil y asume la responsabilidad de su participación.</p>
+                        <p><b>PARTE A: DECLARACIÓN DE RIESGOS:</b> El participante acepta que la actividad conlleva RIESGOS INHERENTES descritos en este perfil y asume la responsabilidad de su participation.</p>
                         <p><b>PARTE B: DECLARACIÓN DE SALUD:</b> El participante declara NO padecer las restricciones mencionadas y confirma poseer la condición física apta para el nivel seleccionado.</p>
                         <p><b>PARTE C: EXENCIÓN DE RESPONSABILIDAD:</b> El participante exime de responsabilidad a Mot Mot Experiencias y se somete a las instrucciones operativas y de seguridad establecidas por el Líder responsable.</p>
                     </div>
@@ -461,8 +455,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(5, 4)">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(5, 6)">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(5, 4)" data-i18n="atras">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(5, 6)" data-i18n="siguiente">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -525,8 +519,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()">⬅ Atrás</button>
-                        <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR A CURADURÍA</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()" data-i18n="atras">⬅ Atrás</button>
+                        <button type="submit" class="btn-enviar" id="btn-submit" data-i18n="enviar">✅ ENVIAR A CURADURÍA</button>
                     </div>
                 </div>
             </form>
@@ -1061,4 +1055,3 @@
     <script type="module" src="firebase-config.js"></script>
 </body>
 </html>
-

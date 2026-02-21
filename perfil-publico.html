@@ -69,27 +69,22 @@
            📱 PARCHE MÓVIL (RESPONSIVE DESIGN MEJORADO)
            ========================================= */
         @media (max-width: 768px) {
-            /* 1. Márgenes más pequeños para aprovechar la pantalla */
             .container { margin: 10px auto; padding: 10px; }
             .card-form { padding: 20px 15px; border-radius: 15px; }
             
-            /* 2. Textos más grandes y legibles */
             h1 { font-size: 1.4em !important; text-align: center; }
             h3 { font-size: 1em; text-align: center; }
             label { font-size: 0.95em; }
-            input, select, textarea { font-size: 16px !important; } /* 16px evita que el iPhone haga zoom automático al escribir */
+            input, select, textarea { font-size: 16px !important; }
 
-            /* 3. Navegación superior ajustada */
             .nav-perfil { padding: 10px 15px; flex-direction: column; gap: 10px; text-align: center; }
             .nav-logo { height: 30px; }
 
-            /* 4. Romper las grillas a una sola columna (Paso 3 y otros) */
             div[style*="grid-template-columns"] { 
                 grid-template-columns: 1fr !important; 
                 gap: 15px !important; 
             }
 
-            /* 5. Botones gigantes y fáciles de tocar */
             .btn-nav, .btn-enviar, .btn-add { 
                 width: 100%; 
                 padding: 15px; 
@@ -99,7 +94,6 @@
                 margin-top: 10px; 
             }
             
-            /* 6. El Stepper (Los 6 pasos de arriba) ajustado para que no se amontone */
             .stepper { flex-wrap: wrap; gap: 5px; font-size: 0.6em; }
             .step-indicator { padding: 5px; border-bottom-width: 2px; }
         }
@@ -112,16 +106,16 @@
             <a href="perfil.html#seccion-comunidad" class="icono-campana">
                 🔔<span id="notificacion-roja" class="punto-rojo">0</span>
             </a>
-            <a href="dashboard.html" style="text-decoration:none; color:var(--naranja); font-weight:800;">← IR AL DASHBOARD</a>
+            <a href="dashboard.html" data-i18n="btn_volver" style="text-decoration:none; color:var(--naranja); font-weight:800;">← IR AL DASHBOARD</a>
         </div>
     </nav>
     <div class="container">
         <div class="card-perfil">
             <div id="loading">✨ Preparando bitácora...</div>
             
-            <a href="perfil.html" id="btn-edit" class="btn-action" style="display:none;">✏️ Editar Perfil</a>
+            <a href="perfil.html" id="btn-edit" data-i18n="btn_editar" class="btn-action" style="display:none;">✏️ Editar Perfil</a>
             
-            <button id="btn-seguir" class="btn-action" style="display:none;">➕ Seguir</button>
+            <button id="btn-seguir" data-i18n="seguir" class="btn-action" style="display:none;">➕ Seguir</button>
 
             <div id="perfil-content" style="display: none;">
                 <img id="p-foto" class="foto-perfil" src="">
@@ -133,11 +127,11 @@
                 <div class="stats-red-social">
                     <div class="stat-item">
                         <span class="stat-num" id="stat-seguidores">0</span>
-                        <span class="stat-label">Seguidores</span>
+                        <span class="stat-label" data-i18n="seguidores">Seguidores</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-num" id="stat-siguiendo">0</span>
-                        <span class="stat-label">Siguiendo</span>
+                        <span class="stat-label" data-i18n="siguiendo">Siguiendo</span>
                     </div>
                 </div>
 
@@ -145,8 +139,8 @@
                 <p id="p-bio" class="bio">...</p>
 
                 <div style="background:#f4f6f8; padding:15px; border-radius:15px; text-align:left; margin-top:20px;">
-                    <p style="margin:0; font-size:0.85em;">🗣️ <b>Habla:</b> <span id="p-idiomas-habla">...</span></p>
-                    <p style="margin:5px 0 0; font-size:0.85em;">📚 <b>Aprende:</b> <span id="p-idiomas-aprende">...</span></p>
+                    <p style="margin:0; font-size:0.85em;">🗣️ <b data-i18n="habla">Habla:</b> <span id="p-idiomas-habla">...</span></p>
+                    <p style="margin:5px 0 0; font-size:0.85em;">📚 <b data-i18n="aprende">Aprende:</b> <span id="p-idiomas-aprende">...</span></p>
                 </div>
 
                 <div id="p-tags" class="tags-container"></div>
@@ -159,7 +153,7 @@
                         <h3>💬 Reseñas de la Comunidad</h3>
                         <div id="form-comentario" style="display:none; background:#fdfdfd; padding:15px; border-radius:15px; border:1px dashed #ccc;">
                             <textarea id="txt-comentario" class="comment-input" rows="3" placeholder="Deja una reseña..."></textarea>
-                            <button id="btn-send-comment" class="btn-comentar">Publicar Reseña</button>
+                            <button id="btn-send-comment" data-i18n="publicar_resena" class="btn-comentar">Publicar Reseña</button>
                         </div>
                         <p id="aviso-login" style="display:none; font-size:0.8em; color:#888; text-align:center;">Debes iniciar sesión para comentar.</p>
                         <div id="lista-comentarios" class="lista-comentarios"></div>
@@ -168,7 +162,7 @@
 
                 <div id="bloqueo-candado" class="bloqueo-privacidad" style="display: none;">
                     <div class="candado-icon">🔒</div>
-                    <h3 style="margin:0; text-align: center; border:none; color: var(--negro);">Perfil Privado</h3>
+                    <h3 data-i18n="perfil_privado" style="margin:0; text-align: center; border:none; color: var(--negro);">Perfil Privado</h3>
                     <p style="color:#666; font-size:0.9em;">Sigue a este usuario y espera que te acepte para ver su bitácora de viajes y rutas.</p>
                 </div>
 
