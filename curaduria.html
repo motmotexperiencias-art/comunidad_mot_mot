@@ -197,9 +197,9 @@
             card.innerHTML = `
                 <img src="${data.imagenPrincipal || 'https://via.placeholder.com/400x200'}" class="img-tour">
                 <div class="card-header">
-                    <span class="badge" style="background:#eee;">${data.rolCreador}</span>
-                    <h3 style="margin:10px 0 5px 0;">${data.tituloServicio}</h3>
-                    <small>Por: <b>${data.guiaNombre}</b></small>
+                    <span class="badge" style="background:#eee;">${data.rolCreador || 'GUÍA'}</span>
+                    <h3 style="margin:10px 0 5px 0;">${data.tituloServicio || 'Sin Título'}</h3>
+                    <small>Por: <b>${data.guiaNombre || 'Usuario'}</b></small>
                 </div>
                 <div class="card-body">
                     <p style="margin:5px 0;"><b>Categoría:</b> ${data.categoria || 'N/A'}</p>
@@ -250,17 +250,20 @@
                 return html;
             };
 
-            // 4. Procesar Galería Fotográfica
+            // 4. CORRECCIÓN VITAL: Extraer la galería desde 'galeriaVisual'
             let htmlGaleria = "<i>No se adjuntaron fotos adicionales.</i>";
-            if (data.fotosExtra && data.fotosExtra.length > 0) {
+            // Revisamos si existe galeriaVisual (como vi en tu base de datos) o fotosExtra por si acaso
+            const galeriaFinal = data.galeriaVisual || data.fotosExtra; 
+            
+            if (galeriaFinal && galeriaFinal.length > 0) {
                 htmlGaleria = "<div class='galeria-grid'>";
-                data.fotosExtra.forEach(imgUrl => {
+                galeriaFinal.forEach(imgUrl => {
                     htmlGaleria += `<a href="${imgUrl}" target="_blank"><img src="${imgUrl}" class="galeria-item" title="Clic para ampliar" alt="Foto de galería"></a>`;
                 });
                 htmlGaleria += "</div>";
             }
 
-            // 5. Formatear la descripción (y agregar word-break para textos sin espacios)
+            // 5. Formatear la descripción
             let descripcionFormateada = 'Sin descripción';
             if (data.descripcionLarga) {
                 descripcionFormateada = data.descripcionLarga.replace(/\n/g, '<br>');
@@ -268,10 +271,10 @@
                 descripcionFormateada = data.descripcion.replace(/\n/g, '<br>');
             }
 
-            // Construir el HTML del Expediente
+            // Construir el HTML del Expediente (Incluyendo los nuevos campos de finanzas)
             modalBody.innerHTML = `
-                <h2>Expediente: ${data.tituloServicio}</h2>
-                <p><b>Creador:</b> ${data.guiaNombre} (${data.guiaEmail}) - Rol: ${data.rolCreador.toUpperCase()}</p>
+                <h2>Expediente: ${data.tituloServicio || 'Sin Título'}</h2>
+                <p><b>Creador:</b> ${data.guiaNombre} (${data.guiaEmail}) - Rol: ${(data.rolCreador || 'GUIA').toUpperCase()}</p>
                 
                 <div class="info-seccion">
                     <h4>💰 Información Financiera</h4>
@@ -280,6 +283,11 @@
                         <div><b>Regla de Cobro:</b> ${data.reglasCobro === 'por_persona' ? 'Por Persona' : 'Fijo por Grupo'}</div>
                         <div><b>Precio Final Público:</b> <span style="color:var(--naranja); font-weight:bold;">$${data.precioFinalCliente || 0}</span></div>
                         <div><b>Neto para el Creador:</b> <span style="color:var(--verde); font-weight:bold;">$${data.precioNetoProveedor || 0}</span></div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
+                    <div class="info-grid">
+                        <div><b>Cobro adicional Transporte:</b> ${data.cobroAdicionalTransporte || 'N/A'}</div>
+                        <div><b>Costo Adicional:</b> $${data.pagoAdicionalTransporte || 0}</div>
                     </div>
                 </div>
 
@@ -330,7 +338,7 @@
                 <div class="info-seccion" style="background:#fff3e0; border-color:#ffcc80;">
                     <h4 style="color:#e65100;">⚙️ Operación y Riesgos</h4>
                     <div class="info-grid">
-                        <div><b>Duración:</b> ${data.duracionValor} ${data.duracionUnidad}</div>
+                        <div><b>Duración:</b> ${data.duracionValor || 'N/A'} ${data.duracionUnidad || ''}</div>
                         <div><b>Nivel Físico:</b> ${data.nivelFisicoExigido || 'N/A'}</div>
                         <div><b>Capacidad Mín/Máx:</b> ${data.capacidadMinima || 1} a ${data.capacidadMaxima || 'N/A'} personas</div>
                         <div><b>Reserva Mínima:</b> ${data.margenTiempoReserva || 'Inmediato'}</div>
