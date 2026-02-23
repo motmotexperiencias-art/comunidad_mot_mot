@@ -123,6 +123,7 @@
         import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, setDoc, signInWithPopup, provider, signOut } from './firebase-config.js';
 
         let currentStatus = "pendiente_aprobacion";
+        // Guardaremos los datos originales en memoria para poder mostrarlos en el modal
         let datosEnMemoria = {};
 
         // --- SEGURIDAD DE ENTRADA ---
@@ -249,7 +250,7 @@
                 return html;
             };
 
-            // 4. CORRECCIÓN: Procesar Galería Fotográfica usando la variable correcta 'fotosExtra'
+            // 4. Procesar Galería Fotográfica
             let htmlGaleria = "<i>No se adjuntaron fotos adicionales.</i>";
             if (data.fotosExtra && data.fotosExtra.length > 0) {
                 htmlGaleria = "<div class='galeria-grid'>";
@@ -259,10 +260,9 @@
                 htmlGaleria += "</div>";
             }
 
-            // CORRECCIÓN: Formatear la descripción larga para que respete los saltos de línea (\n)
+            // 5. Formatear la descripción (y agregar word-break para textos sin espacios)
             let descripcionFormateada = 'Sin descripción';
             if (data.descripcionLarga) {
-                // Reemplazamos los saltos de línea invisibles por la etiqueta HTML <br>
                 descripcionFormateada = data.descripcionLarga.replace(/\n/g, '<br>');
             } else if (data.descripcion) {
                 descripcionFormateada = data.descripcion.replace(/\n/g, '<br>');
@@ -297,7 +297,7 @@
 
                 <div class="info-seccion">
                     <h4>📝 Descripción y Venta</h4>
-                    <p style="font-size:0.9em; line-height:1.6; color: #333;">${descripcionFormateada}</p>
+                    <p style="font-size:0.9em; line-height:1.6; color: #333; word-break: break-word;">${descripcionFormateada}</p>
                 </div>
 
                 <div class="info-seccion">
