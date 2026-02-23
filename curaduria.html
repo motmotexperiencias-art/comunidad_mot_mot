@@ -123,7 +123,6 @@
         import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, setDoc, signInWithPopup, provider, signOut } from './firebase-config.js';
 
         let currentStatus = "pendiente_aprobacion";
-        // Guardaremos los datos originales en memoria para poder mostrarlos en el modal
         let datosEnMemoria = {};
 
         // --- SEGURIDAD DE ENTRADA ---
@@ -167,7 +166,7 @@
             onSnapshot(q, (snapshot) => {
                 const container = document.getElementById('contenedor-solicitudes');
                 container.innerHTML = "";
-                datosEnMemoria = {}; // Limpiamos la memoria
+                datosEnMemoria = {}; 
                 
                 if (snapshot.empty) {
                     container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; opacity:0.5; margin-top:40px;">No hay solicitudes en este estado.</p>`;
@@ -177,7 +176,7 @@
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
-                    datosEnMemoria[id] = data; // Guardamos en memoria para el modal
+                    datosEnMemoria[id] = data; 
                     renderCard(id, data, container);
                 });
             });
@@ -187,7 +186,6 @@
             const card = document.createElement('div');
             card.className = 'card-solicitud';
             
-            // Botones según el estado actual
             let btnEstado = "";
             if (data.estado === "pendiente_aprobacion") {
                 btnEstado = `<button class="btn-action btn-approve" onclick="cambiarEstado('${id}', 'validado')">✅ Marcar como Validado</button>`;
@@ -242,7 +240,7 @@
                 htmlItinerario += "</ul>";
             }
 
-            // 3. Procesar Listas Simples (Incluye, No Incluye, Que Llevar)
+            // 3. Procesar Listas Simples
             const hacerLista = (array) => {
                 if(!array || array.length === 0) return "<i>No especificado.</i>";
                 let html = "<ul class='lista-modal'>";
@@ -251,15 +249,23 @@
                 return html;
             };
 
-            // 4. NUEVO: Procesar Galería Fotográfica
+            // 4. CORRECCIÓN: Procesar Galería Fotográfica usando la variable correcta 'fotosExtra'
             let htmlGaleria = "<i>No se adjuntaron fotos adicionales.</i>";
-            if (data.galeriaImagenes && data.galeriaImagenes.length > 0) {
+            if (data.fotosExtra && data.fotosExtra.length > 0) {
                 htmlGaleria = "<div class='galeria-grid'>";
-                data.galeriaImagenes.forEach(imgUrl => {
-                    // Crea una miniatura que al hacer clic se abre en pestaña nueva a tamaño completo
+                data.fotosExtra.forEach(imgUrl => {
                     htmlGaleria += `<a href="${imgUrl}" target="_blank"><img src="${imgUrl}" class="galeria-item" title="Clic para ampliar" alt="Foto de galería"></a>`;
                 });
                 htmlGaleria += "</div>";
+            }
+
+            // CORRECCIÓN: Formatear la descripción larga para que respete los saltos de línea (\n)
+            let descripcionFormateada = 'Sin descripción';
+            if (data.descripcionLarga) {
+                // Reemplazamos los saltos de línea invisibles por la etiqueta HTML <br>
+                descripcionFormateada = data.descripcionLarga.replace(/\n/g, '<br>');
+            } else if (data.descripcion) {
+                descripcionFormateada = data.descripcion.replace(/\n/g, '<br>');
             }
 
             // Construir el HTML del Expediente
@@ -291,7 +297,7 @@
 
                 <div class="info-seccion">
                     <h4>📝 Descripción y Venta</h4>
-                    <p style="white-space: pre-wrap; font-size:0.9em; line-height:1.5;">${data.descripcion || 'Sin descripción'}</p>
+                    <p style="font-size:0.9em; line-height:1.6; color: #333;">${descripcionFormateada}</p>
                 </div>
 
                 <div class="info-seccion">
@@ -334,7 +340,7 @@
             `;
 
             document.getElementById('modal-info').style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Bloquea el scroll del fondo
+            document.body.style.overflow = 'hidden'; 
         };
 
         window.cerrarModal = () => {
@@ -342,7 +348,6 @@
             document.body.style.overflow = 'auto';
         };
 
-        // Cerrar modal haciendo clic afuera
         window.onclick = function(event) {
             const modal = document.getElementById('modal-info');
             if (event.target === modal) {
