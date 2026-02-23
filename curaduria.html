@@ -56,6 +56,11 @@
         ul.lista-modal { margin: 0; padding-left: 20px; font-size: 0.9em; color: #444;}
         ul.lista-modal li { margin-bottom: 5px; }
 
+        /* Estilos Galería de Fotos en Modal */
+        .galeria-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; }
+        .galeria-item { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .galeria-item:hover { border-color: var(--naranja); transform: scale(1.02); }
+
         #login-overlay { position: fixed; inset: 0; background: var(--negro); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; }
         .btn-google { background: white; color: black; padding: 15px 30px; border-radius: 50px; border: none; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
         .btn-google:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
@@ -246,6 +251,17 @@
                 return html;
             };
 
+            // 4. NUEVO: Procesar Galería Fotográfica
+            let htmlGaleria = "<i>No se adjuntaron fotos adicionales.</i>";
+            if (data.galeriaImagenes && data.galeriaImagenes.length > 0) {
+                htmlGaleria = "<div class='galeria-grid'>";
+                data.galeriaImagenes.forEach(imgUrl => {
+                    // Crea una miniatura que al hacer clic se abre en pestaña nueva a tamaño completo
+                    htmlGaleria += `<a href="${imgUrl}" target="_blank"><img src="${imgUrl}" class="galeria-item" title="Clic para ampliar" alt="Foto de galería"></a>`;
+                });
+                htmlGaleria += "</div>";
+            }
+
             // Construir el HTML del Expediente
             modalBody.innerHTML = `
                 <h2>Expediente: ${data.tituloServicio}</h2>
@@ -265,6 +281,12 @@
                     <h4>⚖️ Documentos Legales</h4>
                     ${linksDocs}
                     <p style="margin-top:10px; font-size:0.85em;"><b>RNT Digitado:</b> ${data.rnt || 'N/A'}</p>
+                </div>
+
+                <div class="info-seccion" style="background: #e3f2fd; border-color: #bbdefb;">
+                    <h4 style="color: #1565c0;">📸 Galería Fotográfica</h4>
+                    <p style="font-size: 0.8em; color: #555; margin-bottom: 5px;">Haz clic en cualquier imagen para verla en tamaño completo y poder descargarla para Amelia.</p>
+                    ${htmlGaleria}
                 </div>
 
                 <div class="info-seccion">
