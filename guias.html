@@ -32,7 +32,6 @@
 
         .info-box { background: #e0f7fa; padding: 15px; border-radius: 12px; font-size: 0.85em; color: #006064; margin-bottom: 20px; display: flex; gap: 10px; align-items: center; border-left: 5px solid #006064; line-height: 1.5;}
 
-        /* WIZARD (6 PASOS) */
         .step { display: none; animation: fadeIn 0.4s ease; }
         .step.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -52,7 +51,6 @@
         .text-legal { font-size: 0.8em; color: #666; line-height: 1.6; background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 15px;}
         .caja-finanzas { background: #fdfdfd; padding: 20px; border-radius: 12px; border: 2px dashed var(--turquesa); margin-top: 15px; display: none; animation: fadeIn 0.4s ease;}
         
-        /* LISTAS DINÁMICAS Y TAGS */
         .dynamic-list-container { background: #fafafa; padding: 15px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
         .dynamic-item { background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; }
         .btn-add { background: var(--turquesa); color: white; border: none; padding: 12px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; font-size: 0.8em;}
@@ -65,22 +63,16 @@
         .tag-rapido.peligro { background: #ffebee; color: #c62828; border-color: #ffcdd2; }
         .tag-rapido.peligro:hover { background: #ffcdd2; }
 
-        /* VISTA PREVIA DOCUMENTO LEGAL */
         .doc-legal-preview { background: #fffcf5; padding: 25px; border: 1px solid #e0e0e0; border-left: 5px solid var(--naranja); border-radius: 12px; margin-top: 20px; font-size: 0.85em; line-height: 1.6; color: #444; }
         .doc-legal-preview h4 { text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
         .doc-legal-preview b { color: var(--naranja); }
         
-        /* Acordeón de Ayuda */
         details { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #bbdefb; font-size: 0.85em; cursor: pointer; transition: 0.3s; }
         summary { font-weight: bold; color: #1565c0; outline: none; }
         details[open] summary { margin-bottom: 10px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
 
-        /* ESTILOS PARA OCULTAR CAJAS POR DEFECTO Y EVITAR PARPADEO */
         #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales { display: none; }
 
-        /* =========================================
-           📱 PARCHE MÓVIL (RESPONSIVE DESIGN MEJORADO)
-           ========================================= */
         @media (max-width: 768px) {
             .container { margin: 10px auto; padding: 10px; }
             .card-form { padding: 20px 15px; border-radius: 15px; }
@@ -176,7 +168,7 @@
                         </div>
 
                         <div id="caja-doc-camara" style="display: none;">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Cámara de Comercio (Si eres agencia)</label>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Cámara de Comercio (Opcional - Solo si eres agencia)</label>
                             <input type="file" id="doc-camara" accept="image/*,application/pdf">
                         </div>
 
@@ -416,8 +408,17 @@
                     <h3>Riesgos y Condiciones</h3>
                     
                     <div class="form-group" id="caja-exigencia-fisica">
-                        <label id="lbl-exigencia">Nivel de Exigencia Física</label>
+                        <label id="lbl-exigencia">Nivel de Exigencia Física y Técnica</label>
                         <select id="tour-nivel-fisico">
+                            <option value="Nulo">Nulo / No tiene exigencia</option>
+                            <option value="Suave">Suave (Apto para todos)</option>
+                            <option value="Medio">Medio (Caminatas moderadas)</option>
+                            <option value="Medio-Alta">Medio-Alta (Requiere buen estado físico)</option>
+                            <option value="Alta">Alta (Exigente físicamente)</option>
+                            <option value="Muy Alta">Muy Alta (Extremo)</option>
+                            <option value="Experiencia Previa">Requiere experiencia previa</option>
+                            <option value="Tecnica">Técnica (Uso de equipo especializado)</option>
+                            <option value="Tecnica Certificada">Técnica - Certificada (Solo expertos)</option>
                         </select>
                     </div>
 
@@ -443,11 +444,11 @@
                     <div class="doc-legal-preview" id="preview-legal">
                         <h4>Formato Único de Consentimiento Informado<br><span style="font-size: 0.6em; color:#888;">(Vista Previa del Cliente)</span></h4>
                         <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa únicamente como una plataforma tecnológica que conecta aventureros con proveedores locales.</p>
-                        <p style="font-size: 0.9em;">El servicio es prestado bajo la responsabilidad legal y operativa exclusiva de: <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>.</p>
+                        <p style="font-size: 0.9em;">El servicio es prestado bajo la responsibility legal y operativa exclusiva de: <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>.</p>
                         <hr style="border: 0; border-bottom: 1px dashed #ccc; margin: 15px 0;">
                         <p><b>PARTE A: DECLARACIÓN DE RIESGOS:</b> El participante acepta que la actividad conlleva RIESGOS INHERENTES descritos en este perfil y asume la responsabilidad de su participación.</p>
                         <p><b>PARTE B: DECLARACIÓN DE SALUD:</b> El participante declara NO padecer las restricciones mencionadas y confirma poseer la condición física apta para el nivel seleccionado.</p>
-                        <p><b>PARTE C: EXENCIÓN DE RESPONSABILIDAD:</b> El participante exime de responsabilidad a Mot Mot Experiencias y se somete a las instrucciones operativas y de seguridad establecidas por el Líder responsable.</p>
+                        <p><b>PARTE C: EXENCIÓN DE RESPONSABILIDAD:</b> El participante exime de responsibility a Mot Mot Experiencias y se somete a las instrucciones operativas y de seguridad establecidas por el Líder responsable.</p>
                     </div>
 
                     <div class="checkbox-group" style="background: #e8f5e9; border-color: #c8e6c9; margin-top: 20px;">
@@ -517,7 +518,7 @@
                     <div class="checkbox-group" style="background: #fff3e0; border-color: #ffcc80; margin-top:20px;">
                         <input type="checkbox" id="firma-digital" required>
                         <label for="firma-digital" style="color: #e65100;">
-                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad las Condiciones de Mot Mot. Declaro que la información es veraz y asumo la responsabilidad civil y legal.
+                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad las Condiciones de Mot Mot. Declaro que la información es veraz y asumo la responsibility civil y legal.
                         </label>
                     </div>
 
@@ -537,18 +538,10 @@
         let precioNetoGuardar = 0; 
         let precioFinalClienteGuardar = 0;
         
-        // ESTRUCTURAS DE DATOS DINÁMICAS
         let dbLists = {
-            incluye: [],
-            noIncluye: [],
-            queLlevar: [],
-            itinerario: [],
-            extras: [], 
-            recursos: [],
-            restricciones: [] 
+            incluye: [], noIncluye: [], queLlevar: [], itinerario: [], extras: [], recursos: [], restricciones: [] 
         };
 
-        // --- 1. EL CEREBRO CAMALEÓNICO ---
         window.adaptarFormulario = (rol) => {
             const selectTipo = document.getElementById('tipo-guia');
             const titulo = document.getElementById('titulo-principal');
@@ -567,6 +560,11 @@
                     <option value="Saberes del Campo">Saberes del Campo / Agricultura</option>
                     <option value="Experiencia Cultural">Experiencia Cultural Local</option>
                 `;
+                
+                // 🚨 INYECCIÓN: OCULTAR CAMPOS DE COSTO Y TIPS EN EL ITINERARIO PARA ANFITRIONES
+                document.getElementById('caja-iti-tips').style.display = 'none';
+                document.getElementById('lbl-itinerario').innerText = "📍 Construye el Itinerario / Horario de la Actividad";
+                document.getElementById('desc-itinerario').innerText = "Ej: 10:00 AM - Inicio del taller de barro. (Tú vendes un paquete cerrado, el cliente no verá costos individuales por paso).";
             } 
             else if (rol === 'guia') {
                 titulo.innerText = "Crear Experiencia de Montaña 🏕️";
@@ -583,6 +581,11 @@
                     <option value="Aventura">Aventura Extrema (Rafting, Espeleología)</option>
                     <option value="Naturaleza">Naturaleza y Contemplación</option>
                 `;
+
+                // 🚨 INYECCIÓN: OCULTAR CAMPOS DE COSTO Y TIPS EN EL ITINERARIO PARA GUÍAS
+                document.getElementById('caja-iti-tips').style.display = 'none';
+                document.getElementById('lbl-itinerario').innerText = "📍 Construye el Itinerario de la Ruta";
+                document.getElementById('desc-itinerario').innerText = "Ej: 6:00 AM - Encuentro en la plaza principal. (Tú vendes un paquete cerrado, el cliente no verá costos individuales por paso).";
             } 
             else {
                 titulo.innerText = "Crear Mi Itinerario de Viaje 🎒";
@@ -603,13 +606,15 @@
                 document.getElementById('caja-no-incluye').style.display = 'none';
                 document.getElementById('caja-extras-completos').style.display = 'none';
                 
+                // 🚨 INYECCIÓN: MOSTRAR CAMPOS DE COSTO Y TIPS PARA VIAJEROS
+                document.getElementById('caja-iti-tips').style.display = 'flex';
                 document.getElementById('lbl-itinerario').innerText = "📍 Agrega los lugares, horas, costos y tus TIPS secretos.";
                 document.getElementById('desc-itinerario').innerText = "Ej: Día 1 - 8:00 AM - Salida al aeropuerto | Costo: 60000 | Tip: Tomen el bus D12 que es más rápido.";
 
                 document.getElementById('titulo-paso6').innerText = "Monetiza tu Itinerario";
                 document.getElementById('texto-legal-pago').innerHTML = `<b>Condiciones de Pago:</b> Si decides ponerle precio a tu itinerario, cada vez que un usuario lo desbloquee ganarás el 50% del valor. El pago se reflejará en tu billetera virtual de Mot Mot.`;
                 document.getElementById('caja-seguros').style.display = 'none';
-                document.querySelector('input[name="seguro"][value="propio"]').checked = true;
+                document.querySelector('input[name="seguro"][value="propio"]').checked = true; 
                 document.getElementById('caja-reglas-cobro').style.display = 'none';
                 
                 document.getElementById('lbl-precio').innerText = "¿Por cuánto quieres vender tu Itinerario? (Pon 0 si es gratis)";
@@ -629,26 +634,42 @@
             window.verificarDocumentosLegales(rol);
         };
 
+        // 🚨 INYECCIÓN: LÓGICA CORREGIDA DE DOCUMENTOS LEGALES (PUNTO 2)
         window.verificarDocumentosLegales = (rol) => {
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
             const docRut = document.getElementById('doc-rut');
+            const cajaDocRnt = document.getElementById('caja-doc-rnt');
+            const inputRntFile = document.getElementById('doc-rnt-file');
+            const cajaCamara = document.getElementById('caja-doc-camara');
 
             if (rol === 'viajero') {
                 contenedorDocs.style.display = 'none';
                 docId.removeAttribute('required');
                 docRut.removeAttribute('required');
+                inputRntFile.removeAttribute('required');
                 document.getElementById('check-consentimiento').removeAttribute('required');
             } else if (rol === 'anfitrion') {
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
-            } else { 
+                
+                // Anfitrión: Se apaga RNT y Cámara
+                cajaDocRnt.style.display = 'none';
+                inputRntFile.removeAttribute('required');
+                cajaCamara.style.display = 'none';
+                
+            } else { // Si es Guía
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
+                
+                // Guía: Se enciende RNT (Obligatorio) y Cámara (Opcional)
+                cajaDocRnt.style.display = 'block';
+                inputRntFile.setAttribute('required', 'true');
+                cajaCamara.style.display = 'block';
             }
             window.verificarGastronomia();
         }
@@ -671,7 +692,6 @@
             }
         };
 
-        // --- FUNCIONES DINÁMICAS GLOBALES (CON DOMPURIFY FASE 2) ---
         window.agregarSimple = (listaNom, inputId) => {
             const val = DOMPurify.sanitize(document.getElementById(inputId).value);
             if(!val.trim()) return;
@@ -697,7 +717,6 @@
             });
         }
 
-        // --- ITINERARIO ESTRUCTURADO (CON DOMPURIFY FASE 2) ---
         window.agregarItinerarioEstructurado = () => {
             const hora = DOMPurify.sanitize(document.getElementById('iti-hora').value);
             const act = DOMPurify.sanitize(document.getElementById('iti-actividad').value);
@@ -734,7 +753,6 @@
             });
         }
 
-        // --- EXTRAS DINÁMICOS (CON DOMPURIFY FASE 2) ---
         window.agregarExtra = () => {
             const nom = DOMPurify.sanitize(document.getElementById('extra-nombre').value);
             const prec = DOMPurify.sanitize(document.getElementById('extra-precio').value);
@@ -753,7 +771,6 @@
             });
         }
 
-        // --- RECURSOS DINÁMICOS (CON DOMPURIFY FASE 2) ---
         window.agregarRecurso = () => {
             const nom = DOMPurify.sanitize(document.getElementById('res-nombre').value);
             const cant = DOMPurify.sanitize(document.getElementById('res-cant').value);
@@ -772,7 +789,6 @@
             });
         }
 
-        // CLOUDINARY
         const CLOUD_NAME = "djqkbywpu";
         const UPLOAD_PRESET = "motmot_fotos";
         async function uploadCloudinary(file) {
@@ -955,7 +971,6 @@
                     rolCreador: userRolGlobal, 
                     tipoProducto: tipoProducto,
                     
-                    // 🛡️ DOMPURIFY FASE 2: SANITIZACIÓN FINAL DE DATOS AL GUARDAR
                     tipoProfesional: DOMPurify.sanitize(document.getElementById('tipo-guia').value),
                     rnt: rntVal,
                     documentosLegales: {

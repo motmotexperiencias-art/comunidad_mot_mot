@@ -340,7 +340,11 @@
 
         onAuthStateChanged(auth, async (u) => {
             if (u) {
-                userId = u.uid; document.getElementById('txt-nombre').innerText = DOMPurify.sanitize(u.displayName);
+                // 🚨 CORRECCIÓN PUNTO 4: EL BOTÓN APARECE SIEMPRE QUE EL USUARIO ESTÉ LOGUEADO (SIN IMPORTAR SI ES NUEVO O NO)
+                document.getElementById('btn-eliminar-cuenta').style.display = 'flex';
+
+                userId = u.uid; 
+                document.getElementById('txt-nombre').innerText = DOMPurify.sanitize(u.displayName);
                 const currentSrc = document.getElementById('img-perfil').src;
                 if(currentSrc.includes("via.placeholder")) document.getElementById('img-perfil').src = u.photoURL || "https://ui-avatars.com/api/?name=Viajero&background=80C4C8&color=fff";
                 
@@ -372,9 +376,6 @@
                             }
                         }); 
                     }, 200);
-
-                    // 🚨 INYECCIÓN: MOSTRAR BOTÓN DE ELIMINAR SOLO SI EL USUARIO YA ESTÁ REGISTRADO (NO ES NUEVO)
-                    document.getElementById('btn-eliminar-cuenta').style.display = 'flex';
                 }
 
                 activarTiempoRealComunidad(userId);
