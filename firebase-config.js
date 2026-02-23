@@ -1,8 +1,9 @@
-// firebase-config.js - VERSIÓN FINAL FERIA BOGOTÁ (FULL TRADUCCIÓN + BANDERAS + TARJETAS DINÁMICAS + LOGIN/REGISTRO)
+// firebase-config.js - VERSIÓN FINAL FERIA BOGOTÁ (FULL TRADUCCIÓN + BANDERAS + TARJETAS DINÁMICAS + LOGIN/REGISTRO + HABEAS DATA)
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+// 🛡️ INYECCIÓN FASE 3: IMPORTAMOS deleteUser
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -20,7 +21,8 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 
-export { app, auth, db, storage, provider, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, updateProfile, ref, uploadBytes, getDownloadURL };
+// 🛡️ INYECCIÓN FASE 3: EXPORTAMOS deleteUser y deleteDoc
+export { app, auth, db, storage, provider, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, updateProfile, deleteUser, ref, uploadBytes, getDownloadURL };
 
 // ==========================================
 // 4. DICCIONARIO MAESTRO (TODO EL CONTENIDO)
@@ -60,7 +62,7 @@ const traducciones = {
         log_img_tit: "Bentornato.", log_img_sub: "La montagna ti aspetta.", log_volver: "← Torna alla home", log_tit: "Ciao viaggiatore", log_sub: "Inserisci i tuoi dati.", log_email: "Email", log_pass: "Password", log_btn: "ACCEDI", log_o: "Oppure accedi con", log_google: "Continua con Google", log_no_cuenta: "Non hai un account?", log_registro: "Iscriviti gratis", reg_img_tit: "La tua prossima avventura inizia qui.", reg_img_sub: "Unisciti alla comunità MOT.", reg_tit: "Crea Account", reg_sub: "Iscriviti per connetterti.", reg_nombre: "Nome e Cognome", reg_place_nom: "Es. Antonio Mot Mot", reg_btn: "ISCRIVITI", reg_o: "O iscriviti con", reg_ya_cuenta: "Hai già un account?", reg_inicia: "Accedi"
     },
     pt: { 
-        flag: "🇧🇷", btn_volver: "← Ir para Mot Mot", titulo_bitacora: "MEU DIÁRIO", subtitulo: "Conecte-se com aventureiros.", btn_editar: "Editar perfil", btn_salir: "Sair", alerta_ubi: "📍 Local não definido.", configurar_ya: "CONFIGURAR", buscar_place: "Para onde quer ir?", btn_buscar: "🔍 Buscar", rol_label: "Filtrar por cargo:", f_todos: "🌍 Todos", f_anfitrion: "🏠 Anfitriões", f_guia: "🚩 Guias", f_viajero: "🎒 Viajeros", interes_label: "Por interesse:", opt_todos: "Todos interesses", exploradores: "Exploradores encontrados", vacio: "Use a busca.", seguidores: "Seguidores", siguiendo: "Seguindo", habla: "Fala:", aprende: "Aprende:", bio_label: "Sobre mim", perfil_privado: "Perfil Privado", seguir: "➕ Seguir", publicar_resena: "Publicar Resenha", identidad_titulo: "Identidade", seguinte: "Próximo ➔", atras: "⬅ Voltar", enviar: "✅ ENVIAR",
+        flag: "🇧🇷", btn_volver: "← Ir para Mot Mot", titulo_bitacora: "MEU DIÁRIO", subtitulo: "Conecte-se com aventureiros.", btn_editar: "Editar perfil", btn_salir: "Sair", alerta_ubi: "📍 Local não definido.", configurar_ya: "CONFIGURAR", buscar_place: "Para onde quer ir?", btn_buscar: "🔍 Buscar", rol_label: "Filtrar por cargo:", f_todos: "🌍 Todos", f_anfitrion: "🏠 Anfitriões", f_guia: "🚩 Guias", f_viajero: "🎒 Viajeros", interes_label: "Por interesse:", opt_todos: "Todos interesses", exploradores: "Exploradores encontrados", vacio: "Use a busca.", seguidores: "Seguidores", siguiendo: "Seguindo", habla: "Fala:", aprende: "Aprende:", bio_label: "Sobre mim", perfil_privado: "Perfil Privado", seguir: "➕ Seguir", publicar_resena: "Publicar Resenha", identidade_titulo: "Identidade", seguinte: "Próximo ➔", atras: "⬅ Voltar", enviar: "✅ ENVIAR",
         p_guia_tit: "Você é um Guia Profissional 🏕️", p_guia_sub: "Publique suas rotas para que os viajantes o encontrem.", p_guia_btn: "👑 Criar Rota", p_anf_tit: "Você é um Anfitrião Local 🧑‍🌾", p_anf_sub: "Gostaria de ensinar um ofício ou vender seu itinerário?", p_anf_btn: "👑 Publicar Experiência", p_via_tit: "Você é um Viajante 🎒", p_via_sub: "Quer planejar sua viagem e compartilhar com a comunidade?", p_via_btn: "📍 Planejar Minha Viagem",
         rol_guia: "Guia", rol_anfitrion: "Anfitrião", rol_viajero: "Viajante", sin_etiquetas: "Sem tags", default_user: "Usuário", explorador_nav: "Explorador",
         log_img_tit: "Bem-vindo de volta.", log_img_sub: "A montanha te espera.", log_volver: "← Voltar ao início", log_tit: "Olá viajante", log_sub: "Insira seus dados.", log_email: "E-mail", log_pass: "Senha", log_btn: "ENTRAR", log_o: "Ou entrar com", log_google: "Continuar com o Google", log_no_cuenta: "Não tem uma conta?", log_registro: "Cadastre-se grátis", reg_img_tit: "Sua próxima aventura começa aqui.", reg_img_sub: "Junte-se à comunidade MOT.", reg_tit: "Criar Conta", reg_sub: "Cadastre-se para viajar.", reg_nombre: "Nome Completo", reg_place_nom: "Ex. Antonio Mot Mot", reg_btn: "CADASTRAR", reg_o: "Ou cadastre-se com", reg_ya_cuenta: "Já tem uma conta?", reg_inicia: "Entrar"

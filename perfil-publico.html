@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil Público - Mot Mot</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+
     <style>
         :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --gris-fondo: #f4f6f8; --dorado: #D4AF37; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--gris-fondo); margin: 0; padding: 0; color: var(--negro); }
@@ -65,37 +68,15 @@
         .icono-campana { font-size: 1.5em; cursor: pointer; position: relative; text-decoration: none; margin-right: 15px;}
         .punto-rojo { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.5em; font-weight: bold; display: none; border: 2px solid white;}
 
-        /* =========================================
-           📱 PARCHE MÓVIL (RESPONSIVE DESIGN MEJORADO)
-           ========================================= */
+        /* PARCHE MÓVIL RESPONSIVE */
         @media (max-width: 768px) {
             .container { margin: 10px auto; padding: 10px; }
-            .card-form { padding: 20px 15px; border-radius: 15px; }
-            
-            h1 { font-size: 1.4em !important; text-align: center; }
-            h3 { font-size: 1em; text-align: center; }
-            label { font-size: 0.95em; }
-            input, select, textarea { font-size: 16px !important; }
-
+            .card-perfil { padding: 20px 15px; border-radius: 15px; }
             .nav-perfil { padding: 10px 15px; flex-direction: column; gap: 10px; text-align: center; }
-            .nav-logo { height: 30px; }
-
-            div[style*="grid-template-columns"] { 
-                grid-template-columns: 1fr !important; 
-                gap: 15px !important; 
-            }
-
-            .btn-nav, .btn-enviar, .btn-add { 
-                width: 100%; 
-                padding: 15px; 
-                font-size: 1em; 
-                float: none; 
-                display: block; 
-                margin-top: 10px; 
-            }
-            
-            .stepper { flex-wrap: wrap; gap: 5px; font-size: 0.6em; }
-            .step-indicator { padding: 5px; border-bottom-width: 2px; }
+            .nombre-usuario { font-size: 1.6em !important; }
+            .stats-red-social { gap: 15px; }
+            .stat-num { font-size: 1.2em; }
+            .btn-action { position: relative; top: 0; right: 0; width: 100%; display: block; margin-bottom: 15px; box-sizing: border-box; }
         }
     </style>
 </head>
@@ -103,19 +84,19 @@
     <nav class="nav-perfil">
         <img src="https://www.motmotexperiencias.com/wp-content/uploads/2023/08/cropped-Logo-foto-de-perfil-instagram.png" height="35" style="cursor:pointer" onclick="window.location.href='dashboard.html'">
         <div style="display:flex; align-items:center;">
-            <a href="perfil.html#seccion-comunidad" class="icono-campana">
+            <a href="perfil.html" class="icono-campana">
                 🔔<span id="notificacion-roja" class="punto-rojo">0</span>
             </a>
-            <a href="dashboard.html" data-i18n="btn_volver" style="text-decoration:none; color:var(--naranja); font-weight:800;">← IR AL DASHBOARD</a>
+            <a href="dashboard.html" style="text-decoration:none; color:var(--naranja); font-weight:800;">← IR AL DASHBOARD</a>
         </div>
     </nav>
     <div class="container">
         <div class="card-perfil">
             <div id="loading">✨ Preparando bitácora...</div>
             
-            <a href="perfil.html" id="btn-edit" data-i18n="btn_editar" class="btn-action" style="display:none;">✏️ Editar Perfil</a>
+            <a href="perfil.html" id="btn-edit" class="btn-action" style="display:none;">✏️ Editar Perfil</a>
             
-            <button id="btn-seguir" data-i18n="seguir" class="btn-action" style="display:none;">➕ Seguir</button>
+            <button id="btn-seguir" class="btn-action" style="display:none;">➕ Seguir</button>
 
             <div id="perfil-content" style="display: none;">
                 <img id="p-foto" class="foto-perfil" src="">
@@ -127,11 +108,11 @@
                 <div class="stats-red-social">
                     <div class="stat-item">
                         <span class="stat-num" id="stat-seguidores">0</span>
-                        <span class="stat-label" data-i18n="seguidores">Seguidores</span>
+                        <span class="stat-label">Seguidores</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-num" id="stat-siguiendo">0</span>
-                        <span class="stat-label" data-i18n="siguiendo">Siguiendo</span>
+                        <span class="stat-label">Siguiendo</span>
                     </div>
                 </div>
 
@@ -139,8 +120,8 @@
                 <p id="p-bio" class="bio">...</p>
 
                 <div style="background:#f4f6f8; padding:15px; border-radius:15px; text-align:left; margin-top:20px;">
-                    <p style="margin:0; font-size:0.85em;">🗣️ <b data-i18n="habla">Habla:</b> <span id="p-idiomas-habla">...</span></p>
-                    <p style="margin:5px 0 0; font-size:0.85em;">📚 <b data-i18n="aprende">Aprende:</b> <span id="p-idiomas-aprende">...</span></p>
+                    <p style="margin:0; font-size:0.85em;">🗣️ <b>Habla:</b> <span id="p-idiomas-habla">...</span></p>
+                    <p style="margin:5px 0 0; font-size:0.85em;">📚 <b>Aprende:</b> <span id="p-idiomas-aprende">...</span></p>
                 </div>
 
                 <div id="p-tags" class="tags-container"></div>
@@ -153,7 +134,7 @@
                         <h3>💬 Reseñas de la Comunidad</h3>
                         <div id="form-comentario" style="display:none; background:#fdfdfd; padding:15px; border-radius:15px; border:1px dashed #ccc;">
                             <textarea id="txt-comentario" class="comment-input" rows="3" placeholder="Deja una reseña..."></textarea>
-                            <button id="btn-send-comment" data-i18n="publicar_resena" class="btn-comentar">Publicar Reseña</button>
+                            <button id="btn-send-comment" class="btn-comentar">Publicar Reseña</button>
                         </div>
                         <p id="aviso-login" style="display:none; font-size:0.8em; color:#888; text-align:center;">Debes iniciar sesión para comentar.</p>
                         <div id="lista-comentarios" class="lista-comentarios"></div>
@@ -162,7 +143,7 @@
 
                 <div id="bloqueo-candado" class="bloqueo-privacidad" style="display: none;">
                     <div class="candado-icon">🔒</div>
-                    <h3 data-i18n="perfil_privado" style="margin:0; text-align: center; border:none; color: var(--negro);">Perfil Privado</h3>
+                    <h3 style="margin:0; text-align: center; border:none; color: var(--negro);">Perfil Privado</h3>
                     <p style="color:#666; font-size:0.9em;">Sigue a este usuario y espera que te acepte para ver su bitácora de viajes y rutas.</p>
                 </div>
 
@@ -171,11 +152,13 @@
     </div>
     
     <script type="module">
-        // INYECCIÓN: importamos where, onSnapshot
-        import { db, doc, getDoc, auth, onAuthStateChanged, collection, addDoc, query, orderBy, getDocs, serverTimestamp, where, onSnapshot } from './firebase-config.js';
+        import { db, doc, getDoc, auth, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs, onSnapshot, serverTimestamp } from './firebase-config.js';
 
-        let perfilVisitadoID = ""; let miUsuarioNombre = "Anónimo";
-        let miUsuarioFoto = ""; let miUid = null; let estadoConexion = "ninguna";
+        let perfilVisitadoID = ""; 
+        let miUsuarioNombre = "Anónimo";
+        let miUsuarioFoto = "";
+        let miUid = null;
+        let estadoConexion = "ninguna"; 
 
         onAuthStateChanged(auth, async (u) => {
             const params = new URLSearchParams(window.location.search);
@@ -189,11 +172,12 @@
                 }
                 const miSnap = await getDoc(doc(db, "usuarios", miUid));
                 if(miSnap.exists()) {
-                    miUsuarioNombre = miSnap.data().nombre || u.displayName;
+                    // 🛡️ DOMPURIFY APLICADO A TU PROPIO NOMBRE EN SESIÓN
+                    miUsuarioNombre = DOMPurify.sanitize(miSnap.data().nombre || u.displayName);
                     miUsuarioFoto = miSnap.data().foto || "";
                 }
 
-                // INYECCIÓN: CAMPANITA
+                // INYECCIÓN: ESCUCHADOR DE LA CAMPANITA
                 const qNotif = query(collection(db, "conexiones"), where("idSeguido", "==", miUid), where("estado", "==", "pendiente"));
                 onSnapshot(qNotif, (snapshot) => {
                     const notifBadge = document.getElementById('notificacion-roja');
@@ -212,8 +196,7 @@
                 } else { 
                     document.getElementById('btn-seguir').style.display = 'block'; 
                     document.getElementById('form-comentario').style.display = 'block'; 
-                    // INYECCIÓN: VERIFICA SI ES AMIGO EN TIEMPO REAL
-                    verificarConexionEnTiempoReal();
+                    verificarConexionEnTiempoReal(); 
                 }
             } else { 
                 document.getElementById('aviso-login').style.display = 'block'; 
@@ -226,7 +209,6 @@
             }
         });
 
-        // INYECCIÓN: FUNCIÓN DE TIEMPO REAL
         function verificarConexionEnTiempoReal() {
             try {
                 const q = query(collection(db, "conexiones"), 
@@ -302,34 +284,38 @@
             }
         };
 
-        // TU CÓDIGO ORIGINAL INTACTO DE CARGA
         async function loadPerfil(uid) {
             try {
                 const snap = await getDoc(doc(db, "usuarios", uid));
                 if (snap.exists()) {
                     const d = snap.data();
                     document.getElementById('p-foto').src = d.foto || "https://ui-avatars.com/api/?name=Viajero&background=80C4C8&color=fff";
-                    document.getElementById('p-nombre').innerText = d.nombre;
-                    document.getElementById('p-rol').innerText = d.rol || "VIAJERO";
-                    document.getElementById('p-ubicacion').innerText = d.ubicacion || "Mundo";
-                    document.getElementById('p-lema').innerText = `"${d.titularCorto || 'Explorando...'}"`;
-                    document.getElementById('p-bio').innerText = d.bio || "Sin biografía.";
-                    document.getElementById('p-idiomas-habla').innerText = d.idiomasHabla || "No especificado";
-                    document.getElementById('p-idiomas-aprende').innerText = d.idiomasAprende || "Ninguno";
+                    
+                    // 🛡️ DOMPURIFY APLICADO A LA VISUALIZACIÓN DE DATOS PÚBLICOS
+                    document.getElementById('p-nombre').innerText = DOMPurify.sanitize(d.nombre);
+                    document.getElementById('p-rol').innerText = DOMPurify.sanitize(d.rol || "VIAJERO");
+                    document.getElementById('p-ubicacion').innerText = DOMPurify.sanitize(d.ubicacion || "Mundo");
+                    document.getElementById('p-lema').innerText = `"${DOMPurify.sanitize(d.titularCorto || 'Explorando...')}"`;
+                    document.getElementById('p-bio').innerText = DOMPurify.sanitize(d.bio || "Sin biografía.");
+                    
+                    const habla = d.idiomasHabla ? DOMPurify.sanitize(d.idiomasHabla.join(', ')) : "No especificado";
+                    const aprende = d.idiomasAprende ? DOMPurify.sanitize(d.idiomasAprende.join(', ')) : "Ninguno";
+                    document.getElementById('p-idiomas-habla').innerText = habla;
+                    document.getElementById('p-idiomas-aprende').innerText = aprende;
 
                     const tags = [...(d.interesesOutdoor || []), ...(d.interesesGeneral || [])];
-                    tags.forEach(t => document.getElementById('p-tags').innerHTML += `<div class="tag">${t}</div>`);
+                    tags.forEach(t => document.getElementById('p-tags').innerHTML += `<div class="tag">${DOMPurify.sanitize(t)}</div>`);
 
                     const expDiv = document.getElementById('p-experiencias');
                     if (d.experiencias && d.experiencias.length > 0) {
                         d.experiencias.forEach(e => {
                             let fotosHTML = "";
                             if(e.fotos) e.fotos.forEach(f => fotosHTML += `<img src="${f}" class="exp-foto" onclick="window.open('${f}')">`);
-                            expDiv.innerHTML += `<div class="exp-card"><div class="exp-header"><h4 class="exp-titulo">${e.titulo}</h4><span class="exp-lugar">📍 ${e.lugar}</span></div><div class="exp-desc">${e.descripcion}</div><div class="exp-galeria">${fotosHTML}</div></div>`;
+                            expDiv.innerHTML += `<div class="exp-card"><div class="exp-header"><h4 class="exp-titulo">${DOMPurify.sanitize(e.titulo)}</h4><span class="exp-lugar">📍 ${DOMPurify.sanitize(e.lugar)}</span></div><div class="exp-desc">${DOMPurify.sanitize(e.descripcion)}</div><div class="exp-galeria">${fotosHTML}</div></div>`;
                         });
                     } else if (d.pasaporteViajes && d.pasaporteViajes.length > 0) {
                         d.pasaporteViajes.forEach(r => {
-                            expDiv.innerHTML += `<div class="exp-card"><div class="exp-header"><h4 class="exp-titulo">${r.lugar}</h4></div><div class="exp-desc">${r.descripcion}</div><div class="exp-galeria"><img src="${r.foto}" class="exp-foto" onclick="window.open('${r.foto}')"></div></div>`;
+                            expDiv.innerHTML += `<div class="exp-card"><div class="exp-header"><h4 class="exp-titulo">${DOMPurify.sanitize(r.lugar)}</h4></div><div class="exp-desc">${DOMPurify.sanitize(r.descripcion)}</div><div class="exp-galeria"><img src="${r.foto}" class="exp-foto" onclick="window.open('${r.foto}')"></div></div>`;
                         });
                     } else {
                         expDiv.innerHTML = "<p style='color:#ccc; text-align:center;'>Sin experiencias aún.</p>";
@@ -338,7 +324,7 @@
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('perfil-content').style.display = 'block';
                 }
-            } catch (error) { console.error(error); document.getElementById('loading').innerText = "Error."; }
+            } catch (error) { console.error(error); document.getElementById('loading').innerText = "Error cargando perfil."; }
         }
 
         async function loadComentarios(uid) {
@@ -349,18 +335,21 @@
             snap.forEach(d => {
                 const c = d.data();
                 let fechaStr = "Reciente"; if(c.fecha) fechaStr = new Date(c.fecha.seconds*1000).toLocaleDateString();
-                list.innerHTML += `<div class="comentario-item"><div class="comentario-autor"><span>${c.autorNombre}</span><span class="comentario-fecha">${fechaStr}</span></div><div class="comentario-texto">${c.contenido}</div></div>`;
+                
+                // 🛡️ DOMPURIFY APLICADO AL LEER LOS COMENTARIOS
+                list.innerHTML += `<div class="comentario-item"><div class="comentario-autor"><span>${DOMPurify.sanitize(c.autorNombre)}</span><span class="comentario-fecha">${fechaStr}</span></div><div class="comentario-texto">${DOMPurify.sanitize(c.contenido)}</div></div>`;
             });
         }
 
         document.getElementById('btn-send-comment').onclick = async () => {
-            const txt = document.getElementById('txt-comentario').value;
+            // 🛡️ DOMPURIFY APLICADO AL ENVIAR UN NUEVO COMENTARIO
+            const txt = DOMPurify.sanitize(document.getElementById('txt-comentario').value);
             if(!txt.trim()) return;
+            
             const btn = document.getElementById('btn-send-comment'); btn.innerText = "..."; btn.disabled = true;
             await addDoc(collection(db, "usuarios", perfilVisitadoID, "resenas"), { autorNombre: miUsuarioNombre, contenido: txt, fecha: serverTimestamp() });
             document.getElementById('txt-comentario').value = ""; loadComentarios(perfilVisitadoID); btn.innerText = "Publicar Reseña"; btn.disabled = false;
         };
     </script>
-    <script type="module" src="firebase-config.js"></script>
 </body>
 </html>

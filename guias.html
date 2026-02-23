@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postular Experiencia Pro - Mot Mot</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+
     <style>
         :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --gris-fondo: #f4f6f8; --dorado: #D4AF37; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--gris-fondo); margin: 0; padding: 0; color: var(--negro); }
@@ -135,7 +138,7 @@
             <form id="form-guia">
                 
                 <div class="step active" id="step-1">
-                    <h3 data-i18n="identidad_titulo">Identidad del Creador</h3>
+                    <h3>Identidad del Creador</h3>
 
                     <div class="form-group" id="caja-tipo-perfil">
                         <label>Tu Perfil Registrado:</label>
@@ -190,7 +193,7 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(1, 2)" id="btn-paso1-next" data-i18n="siguiente">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(1, 2)" id="btn-paso1-next">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -232,8 +235,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(2, 1)" data-i18n="atras">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso2()" data-i18n="siguiente">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(2, 1)">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso2()">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -313,8 +316,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(3, 2)" data-i18n="atras">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(3, 4)" data-i18n="siguiente">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(3, 2)">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(3, 4)">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -404,8 +407,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso4()" data-i18n="atras">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso4()" data-i18n="siguiente">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso4()">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso4()">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -442,7 +445,7 @@
                         <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa únicamente como una plataforma tecnológica que conecta aventureros con proveedores locales.</p>
                         <p style="font-size: 0.9em;">El servicio es prestado bajo la responsabilidad legal y operativa exclusiva de: <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>.</p>
                         <hr style="border: 0; border-bottom: 1px dashed #ccc; margin: 15px 0;">
-                        <p><b>PARTE A: DECLARACIÓN DE RIESGOS:</b> El participante acepta que la actividad conlleva RIESGOS INHERENTES descritos en este perfil y asume la responsabilidad de su participation.</p>
+                        <p><b>PARTE A: DECLARACIÓN DE RIESGOS:</b> El participante acepta que la actividad conlleva RIESGOS INHERENTES descritos en este perfil y asume la responsabilidad de su participación.</p>
                         <p><b>PARTE B: DECLARACIÓN DE SALUD:</b> El participante declara NO padecer las restricciones mencionadas y confirma poseer la condición física apta para el nivel seleccionado.</p>
                         <p><b>PARTE C: EXENCIÓN DE RESPONSABILIDAD:</b> El participante exime de responsabilidad a Mot Mot Experiencias y se somete a las instrucciones operativas y de seguridad establecidas por el Líder responsable.</p>
                     </div>
@@ -455,8 +458,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(5, 4)" data-i18n="atras">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(5, 6)" data-i18n="siguiente">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(5, 4)">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(5, 6)">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -519,8 +522,8 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()" data-i18n="atras">⬅ Atrás</button>
-                        <button type="submit" class="btn-enviar" id="btn-submit" data-i18n="enviar">✅ ENVIAR A CURADURÍA</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()">⬅ Atrás</button>
+                        <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR A CURADURÍA</button>
                     </div>
                 </div>
             </form>
@@ -545,23 +548,18 @@
             restricciones: [] 
         };
 
-        // --- 1. EL CEREBRO CAMALEÓNICO (MUTA EL FORMULARIO SEGÚN QUIÉN ENTRE) ---
+        // --- 1. EL CEREBRO CAMALEÓNICO ---
         window.adaptarFormulario = (rol) => {
             const selectTipo = document.getElementById('tipo-guia');
             const titulo = document.getElementById('titulo-principal');
             const cajaBienvenida = document.getElementById('caja-bienvenida');
             const selectCategoria = document.getElementById('tour-categoria');
             
-            // Si es un ANFITRIÓN LOCAL
             if (rol === 'anfitrion') {
                 titulo.innerText = "Crear Experiencia Local 🧑‍🌾";
                 cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">🏡</span><span><b>El Corazón de Mot Mot:</b> Comparte tu cultura, oficios y gastronomía con viajeros que buscan experiencias auténticas.</span>`;
-                
-                // Forzamos el select para que solo exista Anfitrión
                 selectTipo.innerHTML = `<option value="anfitrion_local">Anfitrión Local / Experto (Talleres, Cultura, Gastronomía)</option>`;
                 selectTipo.value = 'anfitrion_local';
-                
-                // Categorías de Anfitrión (NO VE NADA DE ALTA MONTAÑA)
                 selectCategoria.innerHTML = `
                     <option value="">Selecciona...</option>
                     <option value="Taller Artesanal">Taller Artesanal / Oficios</option>
@@ -570,20 +568,15 @@
                     <option value="Experiencia Cultural">Experiencia Cultural Local</option>
                 `;
             } 
-            // Si es un GUÍA PROFESIONAL
             else if (rol === 'guia') {
                 titulo.innerText = "Crear Experiencia de Montaña 🏕️";
                 cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">🥾</span><span><b>El Corazón de Mot Mot:</b> Somos una plataforma que conecta personas a través del caminar. Promovemos fuertemente el trekking, hiking y las caminatas.</span>`;
-                
-                // Forzamos el select a solo opciones de montaña
                 selectTipo.innerHTML = `
                     <option value="guia_turismo">Guía de Turismo Profesional (Carnet MinCIT)</option>
                     <option value="cultura_fisica">Profesional en Cultura Física y Deporte / Trekking</option>
                     <option value="agencia_operadora">Agencia Operadora / Op. de Turismo de Aventura</option>
                 `;
                 selectTipo.value = 'guia_turismo';
-
-                // Categorías de Guía (NO VE NADA DE TALLERES)
                 selectCategoria.innerHTML = `
                     <option value="">Selecciona...</option>
                     <option value="Caminata / Trekking">Caminata / Trekking / Hiking</option>
@@ -591,20 +584,13 @@
                     <option value="Naturaleza">Naturaleza y Contemplación</option>
                 `;
             } 
-            // Si es un VIAJERO (Creando Itinerario)
             else {
                 titulo.innerText = "Crear Mi Itinerario de Viaje 🎒";
                 cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">📍</span><span><b>Comparte tu ruta:</b> Diseña tu itinerario, agrega tus tips y monetízalo para que otros viajeros lo copien.</span>`;
-                
-                // Forzamos el select a Viajero
                 selectTipo.innerHTML = `<option value="viajero_creador">Viajero Creador (Compartir Itinerarios)</option>`;
                 selectTipo.value = 'viajero_creador';
-
-                // Categoría de Viajero
                 selectCategoria.innerHTML = `<option value="Itinerario Digital" selected>Itinerario Digital (Ruta Autoguiada / Tips)</option>`;
                 
-                // --- MUTACIÓN DEL HTML PARA EL VIAJERO ---
-                // Modificamos el Paso 2 (Detalles)
                 document.getElementById('caja-tipo-oferta').style.display = 'none';
                 document.getElementById('lbl-nombre').innerText = "Ponle un título a tu Viaje";
                 document.getElementById('tour-titulo').placeholder = "Ej: Fin de semana perfecto en Barichara";
@@ -612,7 +598,6 @@
                 document.getElementById('lbl-desc').innerText = "Cuenta un resumen de tu experiencia (El gancho)";
                 document.getElementById('lbl-img').innerText = "Sube la mejor foto de tu viaje (Portada)";
 
-                // Modificamos el Paso 4 (Contenido)
                 document.getElementById('titulo-paso4').innerText = "Arma tu Itinerario de Viaje";
                 document.getElementById('caja-incluye').style.display = 'none';
                 document.getElementById('caja-no-incluye').style.display = 'none';
@@ -621,13 +606,11 @@
                 document.getElementById('lbl-itinerario').innerText = "📍 Agrega los lugares, horas, costos y tus TIPS secretos.";
                 document.getElementById('desc-itinerario').innerText = "Ej: Día 1 - 8:00 AM - Salida al aeropuerto | Costo: 60000 | Tip: Tomen el bus D12 que es más rápido.";
 
-                // Modificamos el Paso 6 (Finanzas)
                 document.getElementById('titulo-paso6').innerText = "Monetiza tu Itinerario";
                 document.getElementById('texto-legal-pago').innerHTML = `<b>Condiciones de Pago:</b> Si decides ponerle precio a tu itinerario, cada vez que un usuario lo desbloquee ganarás el 50% del valor. El pago se reflejará en tu billetera virtual de Mot Mot.`;
                 document.getElementById('caja-seguros').style.display = 'none';
-                document.querySelector('input[name="seguro"][value="propio"]').checked = true; // Auto-selecciona
+                document.querySelector('input[name="seguro"][value="propio"]').checked = true;
                 document.getElementById('caja-reglas-cobro').style.display = 'none';
-                document.getElementById('reglas-cobro').value = 'fijo_grupo';
                 
                 document.getElementById('lbl-precio').innerText = "¿Por cuánto quieres vender tu Itinerario? (Pon 0 si es gratis)";
                 document.getElementById('linea-comision').innerHTML = `<span style="color: var(--naranja); font-size: 0.85em;">Comisión Plataforma (50%):</span> <b id="lbl-comision" style="color: var(--naranja);">- 0 COP</b>`;
@@ -635,16 +618,17 @@
                 document.getElementById('lbl-total-cliente').innerText = "PRECIO AL PÚBLICO:";
                 document.getElementById('regla-80').innerHTML = `<b>💡 Tip de Creador:</b> Los itinerarios entre $5.000 y $15.000 COP son los que más se venden.`;
                 
-                // Desactivamos pasos innecesarios del Stepper UI
+                document.getElementById('preview-legal').style.display = 'none';
+                document.getElementById('label-consentimiento').innerHTML = "<b>Declaro que este itinerario es informativo y de mi autoría.</b> Entiendo que Mot Mot no se hace responsable por las personas que sigan esta ruta de forma independiente.";
+                document.getElementById('check-consentimiento').removeAttribute('required');
+
                 document.getElementById('ind-3').style.display = 'none';
                 document.getElementById('ind-5').style.display = 'none';
             }
 
-            // Ejecutamos la lógica de documentos basándonos en el rol ya detectado
             window.verificarDocumentosLegales(rol);
         };
 
-        // --- LÓGICA DE DOCUMENTOS SEGÚN EL ROL ---
         window.verificarDocumentosLegales = (rol) => {
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
@@ -660,7 +644,7 @@
                 docId.setAttribute('required', 'true');
                 docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
-            } else { // Guía
+            } else { 
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 docRut.setAttribute('required', 'true');
@@ -669,13 +653,11 @@
             window.verificarGastronomia();
         }
 
-        // --- 2. LÓGICA DE GASTRONOMÍA (Detecta si enseñas a cocinar) ---
         window.verificarGastronomia = () => {
             const categoria = document.getElementById('tour-categoria').value;
             const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
             const inputAlimentos = document.getElementById('doc-alimentos');
             
-            // Solo si es anfitrión y eligió cocina
             if (userRolGlobal === 'anfitrion' && (categoria === 'Clase de Cocina' || categoria.includes('Gastronomía'))) {
                 cajaDocAlimentos.style.display = 'block';
                 inputAlimentos.setAttribute('required', 'true');
@@ -689,15 +671,16 @@
             }
         };
 
-        // --- FUNCIONES DINÁMICAS GLOBALES ---
+        // --- FUNCIONES DINÁMICAS GLOBALES (CON DOMPURIFY FASE 2) ---
         window.agregarSimple = (listaNom, inputId) => {
-            const val = document.getElementById(inputId).value;
+            const val = DOMPurify.sanitize(document.getElementById(inputId).value);
             if(!val.trim()) return;
             dbLists[listaNom].push(val);
             document.getElementById(inputId).value = "";
             renderListaSimple(listaNom);
         };
         window.addTagToList = (texto, listaNom) => {
+            texto = DOMPurify.sanitize(texto);
             if(!dbLists[listaNom].includes(texto)){
                 dbLists[listaNom].push(texto);
                 renderListaSimple(listaNom);
@@ -710,16 +693,16 @@
         function renderListaSimple(listaNom) {
             const c = document.getElementById(`lista-${listaNom}-ui`); c.innerHTML = "";
             dbLists[listaNom].forEach((item, i) => {
-                c.innerHTML += `<div class="dynamic-item"><span>✔️ ${item}</span> <button type="button" class="btn-delete" onclick="borrarSimple('${listaNom}', ${i})">X</button></div>`;
+                c.innerHTML += `<div class="dynamic-item"><span>✔️ ${DOMPurify.sanitize(item)}</span> <button type="button" class="btn-delete" onclick="borrarSimple('${listaNom}', ${i})">X</button></div>`;
             });
         }
 
-        // --- ITINERARIO ESTRUCTURADO (HORA + ACTIVIDAD + COSTO + TIP) ---
+        // --- ITINERARIO ESTRUCTURADO (CON DOMPURIFY FASE 2) ---
         window.agregarItinerarioEstructurado = () => {
-            const hora = document.getElementById('iti-hora').value;
-            const act = document.getElementById('iti-actividad').value;
-            const costo = document.getElementById('iti-costo') ? document.getElementById('iti-costo').value : "";
-            const tip = document.getElementById('iti-tip') ? document.getElementById('iti-tip').value : "";
+            const hora = DOMPurify.sanitize(document.getElementById('iti-hora').value);
+            const act = DOMPurify.sanitize(document.getElementById('iti-actividad').value);
+            const costo = document.getElementById('iti-costo') ? DOMPurify.sanitize(document.getElementById('iti-costo').value) : "";
+            const tip = document.getElementById('iti-tip') ? DOMPurify.sanitize(document.getElementById('iti-tip').value) : "";
             
             if(!hora || !act) { alert("Completa la hora y la actividad."); return; }
             
@@ -747,15 +730,15 @@
         function renderItinerarioEstructurado() {
             const c = document.getElementById('lista-itinerario-ui'); c.innerHTML = "";
             dbLists.itinerario.forEach((iti, i) => {
-                c.innerHTML += `<div class="dynamic-item"><span>🕒 ${iti}</span> <button type="button" class="btn-delete" onclick="borrarItinerarioEst(${i})">X</button></div>`;
+                c.innerHTML += `<div class="dynamic-item"><span>🕒 ${DOMPurify.sanitize(iti)}</span> <button type="button" class="btn-delete" onclick="borrarItinerarioEst(${i})">X</button></div>`;
             });
         }
 
-        // --- EXTRAS DINÁMICOS ---
+        // --- EXTRAS DINÁMICOS (CON DOMPURIFY FASE 2) ---
         window.agregarExtra = () => {
-            const nom = document.getElementById('extra-nombre').value;
-            const prec = document.getElementById('extra-precio').value;
-            const tipo = document.getElementById('extra-tipo').value;
+            const nom = DOMPurify.sanitize(document.getElementById('extra-nombre').value);
+            const prec = DOMPurify.sanitize(document.getElementById('extra-precio').value);
+            const tipo = DOMPurify.sanitize(document.getElementById('extra-tipo').value);
             if(!nom || !prec) { alert("Completa nombre y precio."); return; }
             dbLists.extras.push({ nombre: nom, precio: prec, tipoCobro: tipo });
             document.getElementById('extra-nombre').value = ""; document.getElementById('extra-precio').value = "";
@@ -766,14 +749,14 @@
             const c = document.getElementById('lista-extras-ui'); c.innerHTML = "";
             dbLists.extras.forEach((ext, i) => {
                 const tipoTxt = ext.tipoCobro === 'por_persona' ? 'p/p' : 'por grupo';
-                c.innerHTML += `<div class="dynamic-item"><span>✨ <b>${ext.nombre}</b> - $${ext.precio} (${tipoTxt})</span> <button type="button" class="btn-delete" onclick="borrarExtra(${i})">X</button></div>`;
+                c.innerHTML += `<div class="dynamic-item"><span>✨ <b>${DOMPurify.sanitize(ext.nombre)}</b> - $${DOMPurify.sanitize(ext.precio)} (${tipoTxt})</span> <button type="button" class="btn-delete" onclick="borrarExtra(${i})">X</button></div>`;
             });
         }
 
-        // --- RECURSOS DINÁMICOS ---
+        // --- RECURSOS DINÁMICOS (CON DOMPURIFY FASE 2) ---
         window.agregarRecurso = () => {
-            const nom = document.getElementById('res-nombre').value;
-            const cant = document.getElementById('res-cant').value;
+            const nom = DOMPurify.sanitize(document.getElementById('res-nombre').value);
+            const cant = DOMPurify.sanitize(document.getElementById('res-cant').value);
             const grupo = document.getElementById('res-grupo').checked;
             if(!nom || !cant) { alert("Completa nombre y cantidad."); return; }
             dbLists.recursos.push({ nombre: nom, cantidad: cant, usoGrupo: grupo });
@@ -785,7 +768,7 @@
             const c = document.getElementById('lista-recursos-ui'); c.innerHTML = "";
             dbLists.recursos.forEach((r, i) => {
                 const txtGrp = r.usoGrupo ? '(Compartido)' : '(Individual)';
-                c.innerHTML += `<div class="dynamic-item"><span>🛠️ <b>${r.nombre}</b> (Cant: ${r.cantidad}) ${txtGrp}</span> <button type="button" class="btn-delete" onclick="borrarRecurso(${i})">X</button></div>`;
+                c.innerHTML += `<div class="dynamic-item"><span>🛠️ <b>${DOMPurify.sanitize(r.nombre)}</b> (Cant: ${DOMPurify.sanitize(r.cantidad)}) ${txtGrp}</span> <button type="button" class="btn-delete" onclick="borrarRecurso(${i})">X</button></div>`;
             });
         }
 
@@ -802,7 +785,6 @@
             return data.secure_url;
         }
 
-        // CALCULADORA FINANCIERA DINÁMICA
         window.calcularFinanzas = () => {
             const precioBase = parseFloat(document.getElementById('tour-precio').value) || 0;
             const seguroSel = document.querySelector('input[name="seguro"]:checked');
@@ -812,7 +794,6 @@
                 cajaFinanzas.style.display = 'block';
                 const formatCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
                 
-                // Si es Viajero (Itinerario) la comisión es 50% y no hay seguro.
                 if (userRolGlobal === 'viajero') {
                     const comision = precioBase * 0.50;
                     precioNetoGuardar = precioBase * 0.50; 
@@ -823,7 +804,6 @@
                     document.getElementById('lbl-venta-final').innerText = formatCOP.format(precioFinalClienteGuardar);
                     document.getElementById('lbl-neto').innerText = formatCOP.format(precioNetoGuardar);
                 } 
-                // Si es Guía o Anfitrión (Operan en campo)
                 else {
                     const comision = precioBase * 0.20;
                     precioNetoGuardar = precioBase * 0.80; 
@@ -847,11 +827,9 @@
         };
         document.getElementById('tour-precio').addEventListener('input', calcularFinanzas);
 
-        // WIZARD A 6 PASOS (CON SALTOS PARA VIAJERO)
         window.nextStep = (current, next) => {
             if(next > current) {
                 const stepDiv = document.getElementById(`step-${current}`);
-                // Solo validar los inputs que son visibles y requeridos
                 const inputs = Array.from(stepDiv.querySelectorAll('[required]')).filter(el => {
                     return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
                 });
@@ -868,7 +846,6 @@
             document.getElementById(`step-${current}`).classList.remove('active');
             document.getElementById(`step-${next}`).classList.add('active');
             
-            // Lógica visual del stepper
             if(document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.remove('active');
             if(next > current && document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.add('completed');
             else if (document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.remove('completed');
@@ -877,25 +854,23 @@
             window.scrollTo(0, 0);
         };
 
-        // LÓGICA DE SALTO DE PASOS PARA VIAJERO
         window.avanzarDesdePaso2 = () => {
-            if (userRolGlobal === 'viajero') nextStep(2, 4); // Salta Operación
+            if (userRolGlobal === 'viajero') nextStep(2, 4); 
             else nextStep(2, 3);
         };
         window.retrocederDesdePaso4 = () => {
-            if (userRolGlobal === 'viajero') nextStep(4, 2); // Salta Operación
+            if (userRolGlobal === 'viajero') nextStep(4, 2); 
             else nextStep(4, 3);
         };
         window.avanzarDesdePaso4 = () => {
-            if (userRolGlobal === 'viajero') nextStep(4, 6); // Salta Riesgos
+            if (userRolGlobal === 'viajero') nextStep(4, 6); 
             else nextStep(4, 5);
         };
         window.retrocederDesdePaso6 = () => {
-            if (userRolGlobal === 'viajero') nextStep(6, 4); // Salta Riesgos
+            if (userRolGlobal === 'viajero') nextStep(6, 4); 
             else nextStep(6, 5);
         };
 
-        // AUTH CON INICIO CAMALEÓNICO INMEDIATO
         onAuthStateChanged(auth, async (u) => {
             if (u) {
                 userId = u.uid; userEmail = u.email;
@@ -903,15 +878,12 @@
                 if(snap.exists()) {
                     const data = snap.data();
                     userName = data.nombre || "Usuario";
-                    userRolGlobal = data.rol || "viajero"; // Guardamos el rol globalmente
-                    
-                    // EJECUTAMOS LA MAGIA CAMALEÓNICA ANTES DE QUE EL USUARIO TOQUE NADA
+                    userRolGlobal = data.rol || "viajero";
                     window.adaptarFormulario(userRolGlobal); 
                 }
             } else window.location.replace('index.html');
         });
 
-        // ENVÍO DE FORMULARIO MAESTRO
         document.getElementById('form-guia').onsubmit = async (e) => {
             e.preventDefault();
             
@@ -932,10 +904,8 @@
             try {
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "";
 
-                // Si no es viajero, sube documentos
                 if (userRolGlobal === 'guia' || userRolGlobal === 'anfitrion') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
-                    
                     const inputId = document.getElementById('doc-id');
                     if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
 
@@ -969,9 +939,9 @@
                 btn.innerText = "GUARDANDO EN BÓVEDA MOT MOT...";
 
                 let rntVal = "";
-                if(document.getElementById('num-rnt')) rntVal = document.getElementById('num-rnt').value;
+                if(document.getElementById('num-rnt')) rntVal = DOMPurify.sanitize(document.getElementById('num-rnt').value);
 
-                let seguroMod = "ninguno"; // Por defecto para viajeros
+                let seguroMod = "ninguno"; 
                 if(document.querySelector('input[name="seguro"]:checked')) {
                     seguroMod = document.querySelector('input[name="seguro"]:checked').value;
                 }
@@ -985,8 +955,8 @@
                     rolCreador: userRolGlobal, 
                     tipoProducto: tipoProducto,
                     
-                    // Paso 1: Legal
-                    tipoProfesional: document.getElementById('tipo-guia').value,
+                    // 🛡️ DOMPURIFY FASE 2: SANITIZACIÓN FINAL DE DATOS AL GUARDAR
+                    tipoProfesional: DOMPurify.sanitize(document.getElementById('tipo-guia').value),
                     rnt: rntVal,
                     documentosLegales: {
                         documentoIdentidad: urlDocId,
@@ -997,24 +967,21 @@
                         manipulacionAlimentos: urlDocAlimentos
                     },
                     
-                    // Paso 2: Detalles
-                    tipoOfertaAmelia: document.getElementById('tipo-oferta') ? document.getElementById('tipo-oferta').value : "servicio",
-                    tituloServicio: document.getElementById('tour-titulo').value,
-                    categoria: document.getElementById('tour-categoria').value,
-                    ubicacion: document.getElementById('tour-ubicacion').value,
-                    descripcion: document.getElementById('tour-desc').value,
+                    tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",
+                    tituloServicio: DOMPurify.sanitize(document.getElementById('tour-titulo').value),
+                    categoria: DOMPurify.sanitize(document.getElementById('tour-categoria').value),
+                    ubicacion: DOMPurify.sanitize(document.getElementById('tour-ubicacion').value),
+                    descripcion: DOMPurify.sanitize(document.getElementById('tour-desc').value),
                     imagenPrincipal: urlPrincipal,
                     
-                    // Paso 3: Operación
-                    duracionValor: document.getElementById('tour-duracion-valor') ? document.getElementById('tour-duracion-valor').value : "0",
-                    duracionUnidad: document.getElementById('tour-duracion-unidad') ? document.getElementById('tour-duracion-unidad').value : "Horas",
-                    capacidadMinima: document.getElementById('capacidad-min') ? document.getElementById('capacidad-min').value : "1",
-                    capacidadMaxima: document.getElementById('capacidad-max') ? document.getElementById('capacidad-max').value : "10",
-                    margenTiempoReserva: document.getElementById('margen-reserva') ? document.getElementById('margen-reserva').value : "Inmediato",
-                    margenCancelacion: document.getElementById('margen-cancelacion') ? document.getElementById('margen-cancelacion').value : "Flexible_24h",
+                    duracionValor: document.getElementById('tour-duracion-valor') ? DOMPurify.sanitize(document.getElementById('tour-duracion-valor').value) : "0",
+                    duracionUnidad: document.getElementById('tour-duracion-unidad') ? DOMPurify.sanitize(document.getElementById('tour-duracion-unidad').value) : "Horas",
+                    capacidadMinima: document.getElementById('capacidad-min') ? DOMPurify.sanitize(document.getElementById('capacidad-min').value) : "1",
+                    capacidadMaxima: document.getElementById('capacidad-max') ? DOMPurify.sanitize(document.getElementById('capacidad-max').value) : "10",
+                    margenTiempoReserva: document.getElementById('margen-reserva') ? DOMPurify.sanitize(document.getElementById('margen-reserva').value) : "Inmediato",
+                    margenCancelacion: document.getElementById('margen-cancelacion') ? DOMPurify.sanitize(document.getElementById('margen-cancelacion').value) : "Flexible_24h",
                     recursos: dbLists.recursos,
                     
-                    // Paso 4: Contenido
                     incluye: dbLists.incluye,
                     noIncluye: dbLists.noIncluye,
                     queLlevar: dbLists.queLlevar,
@@ -1022,17 +989,15 @@
                     serviciosExtras: dbLists.extras,
                     galeriaVisual: urlsGaleria,
 
-                    // Paso 5: Riesgos Médicos
-                    nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? document.getElementById('tour-nivel-fisico').value : "0",
+                    nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? DOMPurify.sanitize(document.getElementById('tour-nivel-fisico').value) : "0",
                     restriccionesMedicas: dbLists.restricciones,
-                    condicionesRuta: document.getElementById('tour-condiciones-ruta') ? document.getElementById('tour-condiciones-ruta').value : "N/A",
+                    condicionesRuta: document.getElementById('tour-condiciones-ruta') ? DOMPurify.sanitize(document.getElementById('tour-condiciones-ruta').value) : "N/A",
                     aceptaProtocoloSeguridad: document.getElementById('check-consentimiento') ? document.getElementById('check-consentimiento').checked : true,
                     
-                    // Paso 6: Finanzas y Legal
-                    precioVentaBase: document.getElementById('tour-precio').value,
+                    precioVentaBase: DOMPurify.sanitize(document.getElementById('tour-precio').value),
                     precioFinalCliente: precioFinalClienteGuardar, 
                     precioNetoProveedor: precioNetoGuardar, 
-                    reglasCobro: document.getElementById('reglas-cobro') ? document.getElementById('reglas-cobro').value : "fijo_grupo",
+                    reglasCobro: document.getElementById('reglas-cobro') ? DOMPurify.sanitize(document.getElementById('reglas-cobro').value) : "fijo_grupo",
                     modalidadSeguro: seguroMod,
                     firmaAcuerdosLegales: document.getElementById('firma-digital').checked,
                     
@@ -1052,6 +1017,5 @@
             }
         };
     </script>
-    <script type="module" src="firebase-config.js"></script>
 </body>
 </html>

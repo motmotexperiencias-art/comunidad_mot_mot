@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configurar mi Identidad - Mot Mot</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+
     <style>
         :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --gris-fondo: #f4f6f8; --dorado: #D4AF37; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--gris-fondo); margin: 0; padding: 0; color: var(--negro); }
@@ -25,13 +28,11 @@
         .sugerencia-item { padding: 15px; cursor: pointer; border-bottom: 1px solid #f9f9f9; display: flex; align-items: center; gap: 10px; }
         .sugerencia-item:hover { background: #f0faff; font-weight: 700; color: var(--turquesa); }
         
-        /* Grid de Tags (Intereses e Idiomas) */
         .interests-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .interest-tag { padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; cursor: pointer; font-size: 0.85em; font-weight: 500; transition: 0.2s; background: #fff; }
         .interest-tag:hover { border-color: var(--turquesa); color: var(--turquesa); }
         .interest-tag.selected { background: var(--turquesa); border-color: var(--turquesa); color: white; transform: scale(1.05); font-weight: 700; box-shadow: 0 4px 10px rgba(128, 196, 200, 0.4); }
         
-        /* Estilos Experiencias */
         .passport-box { background: #fffbf0; border: 2px dashed var(--dorado); padding: 25px; border-radius: 15px; margin-bottom: 25px; transition: 0.3s; }
         .passport-card { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; border-left: 5px solid var(--naranja); }
         .mini-galeria { display: flex; gap: 5px; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; }
@@ -42,41 +43,21 @@
         .btn-disabled { background: #ccc; cursor: not-allowed; opacity: 0.7; }
         .btn-cambiar-foto { background: var(--turquesa); border:none; padding: 5px 15px; border-radius: 15px; color: white; font-size: 0.8em; cursor: pointer; margin-top: -10px; margin-bottom: 20px; font-weight: bold;}
 
-        /* INYECCIÓN: CAMPANITA */
+        /* 🚨 INYECCIÓN: ESTILOS DEL BOTÓN ROJO HABEAS DATA */
+        .btn-eliminar-cuenta { width: 100%; padding: 15px; background: #fff; color: #c62828; border: 2px solid #ffcdd2; border-radius: 12px; font-weight: 800; font-size: 0.9em; cursor: pointer; transition: 0.3s; margin-top: 40px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .btn-eliminar-cuenta:hover { background: #ffebee; border-color: #ef9a9a; }
+
         .icono-campana { font-size: 1.5em; cursor: pointer; position: relative; text-decoration: none; margin-right: 15px;}
         .punto-rojo { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.5em; font-weight: bold; display: none; border: 2px solid white;}
 
-        /* =========================================
-           📱 PARCHE MÓVIL (RESPONSIVE DESIGN MEJORADO)
-           ========================================= */
         @media (max-width: 768px) {
             .container { margin: 10px auto; padding: 10px; }
-            .card-form, .card-perfil { padding: 20px 15px; border-radius: 15px; }
-            
-            h1 { font-size: 1.4em !important; text-align: center; }
-            h3 { font-size: 1em; text-align: center; }
-            label { font-size: 0.95em; }
-            input, select, textarea { font-size: 16px !important; }
-
+            .card-perfil { padding: 20px 15px; border-radius: 15px; }
             .nav-perfil { padding: 10px 15px; flex-direction: column; gap: 10px; text-align: center; }
             .nav-logo { height: 30px; }
-
-            div[style*="grid-template-columns"] { 
-                grid-template-columns: 1fr !important; 
-                gap: 15px !important; 
-            }
-
-            .btn-nav, .btn-enviar, .btn-add, .btn-guardar { 
-                width: 100%; 
-                padding: 15px; 
-                font-size: 1em; 
-                float: none; 
-                display: block; 
-                margin-top: 10px; 
-            }
-            
-            .stepper { flex-wrap: wrap; gap: 5px; font-size: 0.6em; }
-            .step-indicator { padding: 5px; border-bottom-width: 2px; }
+            div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 15px !important; }
+            .btn-guardar { padding: 15px; font-size: 1em; }
+            .foto-preview { width: 100px; height: 100px; }
         }
     </style>
 </head>
@@ -87,7 +68,7 @@
             <a href="#seccion-comunidad" class="icono-campana">
                 🔔<span id="notificacion-roja" class="punto-rojo">0</span>
             </a>
-            <a href="dashboard.html" data-i18n="btn_volver" style="text-decoration:none; color:var(--naranja); font-weight:800;">← VOLVER</a>
+            <a href="dashboard.html" style="text-decoration:none; color:var(--naranja); font-weight:800;">← VOLVER</a>
         </div>
     </nav>
     <div class="container">
@@ -100,6 +81,7 @@
                 <br>
                 <h2 id="txt-nombre" style="margin:10px 0 0 0; font-weight: 900;">...</h2>
             </div>
+            
             <form id="form-perfil">
                 
                 <h3 id="seccion-comunidad" style="color:var(--turquesa); border-bottom-color:var(--turquesa);">🤝 Mi Comunidad</h3>
@@ -110,10 +92,10 @@
                 </div>
                 <div style="display:flex; gap:10px; margin-bottom:30px;">
                     <div style="flex:1; background:#fff; padding:15px; border-radius:12px; border: 1px solid #eee; text-align:center;">
-                        <b id="count-seguidores" style="font-size:1.8em; color:var(--negro);">0</b><br><small data-i18n="seguidores" style="color:#888; font-weight:bold; text-transform:uppercase;">Seguidores</small>
+                        <b id="count-seguidores" style="font-size:1.8em; color:var(--negro);">0</b><br><small style="color:#888; font-weight:bold; text-transform:uppercase;">Seguidores</small>
                     </div>
                     <div style="flex:1; background:#fff; padding:15px; border-radius:12px; border: 1px solid #eee; text-align:center;">
-                        <b id="count-siguiendo" style="font-size:1.8em; color:var(--negro);">0</b><br><small data-i18n="siguiendo" style="color:#888; font-weight:bold; text-transform:uppercase;">Siguiendo</small>
+                        <b id="count-siguiendo" style="font-size:1.8em; color:var(--negro);">0</b><br><small style="color:#888; font-weight:bold; text-transform:uppercase;">Siguiendo</small>
                     </div>
                 </div>
 
@@ -204,14 +186,25 @@
                     <textarea id="bio" placeholder="Tu historia completa..."></textarea>
                 </div>
 
+                <h3>🔗 Conexión Social</h3>
+                <div class="form-group">
+                    <label>Tu Instagram (Sin @)</label>
+                    <input type="text" id="social-ig" placeholder="usuario_instagram">
+                </div>
+
                 <button type="submit" class="btn-guardar" id="btn-submit">ACTUALIZAR IDENTIDAD</button>
+
+                <button type="button" class="btn-eliminar-cuenta" id="btn-eliminar-cuenta" style="display: none;">
+                    ⚠️ Eliminar mi cuenta y mis datos definitivamente
+                </button>
+
             </form>
         </div>
     </div>
 
     <script type="module">
-        // INYECCIÓN: Agregué query, where, getDocs y onSnapshot a tu importación
-        import { auth, db, doc, getDoc, setDoc, onAuthStateChanged, collection, query, where, getDocs, onSnapshot } from './firebase-config.js';
+        // 🛡️ INYECCIÓN: Importamos deleteDoc (para borrar BD) y deleteUser (para borrar Auth)
+        import { auth, db, doc, getDoc, setDoc, onAuthStateChanged, collection, query, where, getDocs, onSnapshot, deleteDoc, deleteUser } from './firebase-config.js';
 
         const CLOUD_NAME = "djqkbywpu";
         const UPLOAD_PRESET = "motmot_fotos";
@@ -301,9 +294,9 @@
         inputUbi.onblur = () => setTimeout(() => sugerencias.style.display = 'none', 200);
 
         document.getElementById('btn-agregar-experiencia').onclick = async () => {
-            const titulo = document.getElementById('exp-titulo').value;
-            const lugar = document.getElementById('exp-lugar').value;
-            const desc = document.getElementById('exp-desc').value;
+            const titulo = DOMPurify.sanitize(document.getElementById('exp-titulo').value);
+            const lugar = DOMPurify.sanitize(document.getElementById('exp-lugar').value);
+            const desc = DOMPurify.sanitize(document.getElementById('exp-desc').value);
             const files = document.getElementById('exp-fotos').files;
 
             if(!titulo || !lugar || files.length === 0) return alert("Completa título, lugar y al menos 1 foto.");
@@ -328,7 +321,7 @@
             const container = document.getElementById('lista-experiencias'); container.innerHTML = "";
             experiencias.forEach(exp => {
                 let htmlFotos = ""; exp.fotos.forEach(f => { htmlFotos += `<img src="${f}" class="mini-foto">`; });
-                container.innerHTML += `<div class="passport-card"><b>${exp.titulo}</b> <br> <small>📍 ${exp.lugar}</small><div class="mini-galeria">${htmlFotos}</div><button type="button" onclick="window.delExp(${exp.id})" style="border:none; background:none; color:red; cursor:pointer; font-size:0.8em;">Eliminar</button></div>`;
+                container.innerHTML += `<div class="passport-card"><b>${DOMPurify.sanitize(exp.titulo)}</b> <br> <small>📍 ${DOMPurify.sanitize(exp.lugar)}</small><div class="mini-galeria">${htmlFotos}</div><button type="button" onclick="window.delExp(${exp.id})" style="border:none; background:none; color:red; cursor:pointer; font-size:0.8em;">Eliminar</button></div>`;
             });
         }
         window.delExp = (id) => { experiencias = experiencias.filter(e => e.id !== id); renderExperiencias(); };
@@ -347,7 +340,7 @@
 
         onAuthStateChanged(auth, async (u) => {
             if (u) {
-                userId = u.uid; document.getElementById('txt-nombre').innerText = u.displayName;
+                userId = u.uid; document.getElementById('txt-nombre').innerText = DOMPurify.sanitize(u.displayName);
                 const currentSrc = document.getElementById('img-perfil').src;
                 if(currentSrc.includes("via.placeholder")) document.getElementById('img-perfil').src = u.photoURL || "https://ui-avatars.com/api/?name=Viajero&background=80C4C8&color=fff";
                 
@@ -360,6 +353,7 @@
                     document.getElementById('ubicacion-final').value = d.ubicacion || "";
                     document.getElementById('titular-corto').value = d.titularCorto || "";
                     document.getElementById('bio').value = d.bio || "";
+                    document.getElementById('social-ig').value = d.instagram || "";
                     
                     if(d.interesesOutdoor) selectedOutdoor = d.interesesOutdoor;
                     if(d.interesesGeneral) selectedGeneral = d.interesesGeneral;
@@ -378,18 +372,17 @@
                             }
                         }); 
                     }, 200);
+
+                    // 🚨 INYECCIÓN: MOSTRAR BOTÓN DE ELIMINAR SOLO SI EL USUARIO YA ESTÁ REGISTRADO (NO ES NUEVO)
+                    document.getElementById('btn-eliminar-cuenta').style.display = 'flex';
                 }
 
-                // INYECCIÓN: ACTIVAR COMUNIDAD EN TIEMPO REAL
                 activarTiempoRealComunidad(userId);
 
             } else window.location.href = 'login.html';
         });
 
-        // --- INYECCIÓN: LÓGICA DE RED SOCIAL EN TIEMPO REAL ---
         function activarTiempoRealComunidad(uid) {
-            
-            // 1. Escuchador de Solicitudes Pendientes (Bandeja y Campanita)
             const qSol = query(collection(db, "conexiones"), where("idSeguido", "==", uid), where("estado", "==", "pendiente"));
             onSnapshot(qSol, (snapshot) => {
                 const cajaSol = document.getElementById('caja-solicitudes');
@@ -404,11 +397,12 @@
 
                     snapshot.forEach(d => {
                         const c = d.data();
+                        const nombreLimpio = DOMPurify.sanitize(c.nombreSeguidor);
                         listaSol.innerHTML += `
                             <div style="display:flex; justify-content:space-between; align-items:center; background:white; padding:10px; border-radius:8px; margin-bottom:8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                                 <div style="display:flex; align-items:center; gap:10px;">
-                                    <img src="${c.fotoSeguidor || 'https://ui-avatars.com/api/?name='+c.nombreSeguidor}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
-                                    <b style="font-size:0.9em; color:var(--negro);">${c.nombreSeguidor}</b>
+                                    <img src="${c.fotoSeguidor || 'https://ui-avatars.com/api/?name='+nombreLimpio}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+                                    <b style="font-size:0.9em; color:var(--negro);">${nombreLimpio}</b>
                                 </div>
                                 <div style="display:flex; gap:5px;">
                                     <button type="button" onclick="responderSolicitud('${d.id}', 'aceptado')" style="background:var(--turquesa); border:none; padding:8px 12px; color:white; border-radius:8px; cursor:pointer; font-weight:bold;">Aceptar</button>
@@ -423,39 +417,33 @@
                 }
             });
 
-            // 2. Escuchador Contar Seguidores
             const qSeg = query(collection(db, "conexiones"), where("idSeguido", "==", uid), where("estado", "==", "aceptado"));
-            onSnapshot(qSeg, (snapshot) => {
-                document.getElementById('count-seguidores').innerText = snapshot.size;
-            });
+            onSnapshot(qSeg, (snapshot) => { document.getElementById('count-seguidores').innerText = snapshot.size; });
 
-            // 3. Escuchador Contar Siguiendo
             const qSig = query(collection(db, "conexiones"), where("idSeguidor", "==", uid), where("estado", "==", "aceptado"));
-            onSnapshot(qSig, (snapshot) => {
-                document.getElementById('count-siguiendo').innerText = snapshot.size;
-            });
+            onSnapshot(qSig, (snapshot) => { document.getElementById('count-siguiendo').innerText = snapshot.size; });
         }
 
-        // Responder Solicitud 
         window.responderSolicitud = async (idDocumento, nuevoEstado) => {
-            try {
-                await setDoc(doc(db, "conexiones", idDocumento), { estado: nuevoEstado }, { merge: true });
+            try { await setDoc(doc(db, "conexiones", idDocumento), { estado: nuevoEstado }, { merge: true });
             } catch(e) { console.error(e); alert("Error al procesar solicitud."); }
         };
 
         document.getElementById('form-perfil').onsubmit = async (e) => {
             e.preventDefault();
-            const ubiValida = document.getElementById('ubicacion-final').value || document.getElementById('ubicacion-input').value; 
+            const ubiValida = DOMPurify.sanitize(document.getElementById('ubicacion-final').value || document.getElementById('ubicacion-input').value); 
             if(!ubiValida || ubiValida.trim() === "") { alert("⚠️ Escribe tu ciudad."); return; }
+            
             const btn = document.getElementById('btn-submit'); btn.innerText = "Guardando..."; btn.classList.add('btn-disabled');
             try {
                 await setDoc(doc(db, "usuarios", userId), {
                     nombre: document.getElementById('txt-nombre').innerText,
                     foto: document.getElementById('img-perfil').src,
                     ubicacion: ubiValida,
-                    rol: document.getElementById('rol-usuario').value,
-                    titularCorto: document.getElementById('titular-corto').value,
-                    bio: document.getElementById('bio').value,
+                    rol: DOMPurify.sanitize(document.getElementById('rol-usuario').value),
+                    titularCorto: DOMPurify.sanitize(document.getElementById('titular-corto').value),
+                    bio: DOMPurify.sanitize(document.getElementById('bio').value),
+                    instagram: DOMPurify.sanitize(document.getElementById('social-ig').value),
                     interesesOutdoor: selectedOutdoor, 
                     interesesGeneral: selectedGeneral,
                     idiomasHabla: selectedIdiomasHabla,
@@ -467,7 +455,44 @@
             } catch (error) { console.error(error); alert("Error guardando."); } 
             finally { btn.innerText = "ACTUALIZAR IDENTIDAD"; btn.classList.remove('btn-disabled'); }
         };
+
+        // 🚨 INYECCIÓN: LÓGICA DE DESTRUCCIÓN DE CUENTA (HABEAS DATA)
+        document.getElementById('btn-eliminar-cuenta').onclick = async () => {
+            const confirmacion = confirm("⚠️ ¿Estás absolutamente seguro?\n\nAl dar Aceptar, se borrará tu bitácora, tus fotos y tus conexiones de forma irreversible. Esta acción no se puede deshacer.");
+            
+            if(confirmacion) {
+                const btn = document.getElementById('btn-eliminar-cuenta');
+                btn.innerText = "Destruyendo cuenta... ⏳";
+                btn.classList.add('btn-disabled');
+                
+                try {
+                    // 1. Borramos el documento de la base de datos (Habeas Data)
+                    await deleteDoc(doc(db, "usuarios", userId));
+                    
+                    // 2. Destruimos la identidad en Firebase Auth
+                    const user = auth.currentUser;
+                    if(user) {
+                        await deleteUser(user);
+                    }
+                    
+                    alert("Tu cuenta y tus datos han sido eliminados de nuestra base de datos. ¡Buen camino, explorador!");
+                    window.location.href = 'index.html'; // Lo mandamos afuera
+
+                } catch (error) {
+                    console.error("Error al eliminar cuenta:", error);
+                    // Si lleva mucho tiempo logueado, Firebase pide re-autenticar por seguridad antes de borrar.
+                    if(error.code === 'auth/requires-recent-login') {
+                        alert("Por seguridad, debes cerrar sesión, volver a iniciar sesión y luego intentar eliminar tu cuenta nuevamente.");
+                        window.location.href = 'index.html';
+                    } else {
+                        alert("Hubo un error al eliminar tu cuenta. Intenta más tarde.");
+                    }
+                    btn.innerText = "⚠️ Eliminar mi cuenta y mis datos definitivamente";
+                    btn.classList.remove('btn-disabled');
+                }
+            }
+        };
+
     </script>
-    <script type="module" src="firebase-config.js"></script>
 </body>
 </html>
