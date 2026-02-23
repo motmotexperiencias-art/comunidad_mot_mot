@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Curaduría - Mot Mot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --gris: #f4f6f8; --rojo: #d32f2f; --amarillo: #fbc02d; --verde: #388e3c; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--gris); margin: 0; padding: 0; color: var(--negro); }
+        
+        .header-admin { background: var(--negro); color: white; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+        /* TABS (Pestañas del Semáforo) */
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; background: #eee; padding: 10px; border-radius: 15px; }
+        .tab-btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.8em; }
+        
+        .tab-pending { background: #ffebee; color: var(--rojo); }
+        .tab-pending.active { background: var(--rojo); color: white; }
+        
+        .tab-validated { background: #fffde7; color: #827717; }
+        .tab-validated.active { background: var(--amarillo); color: black; }
+        
+        .tab-completed { background: #e8f5e9; color: var(--verde); }
+        .tab-completed.active { background: var(--verde); color: white; }
+
+        /* TARJETAS DE SOLICITUD */
+        .grid-solicitudes { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .card-solicitud { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--negro); transition: 0.3s; }
+        .card-header { padding: 20px; border-bottom: 1px solid #eee; }
+        .card-body { padding: 20px; font-size: 0.9em; }
+        .card-footer { padding: 15px; background: #fafafa; display: flex; gap: 10px; }
+
+        .img-tour { width: 100%; height: 180px; object-fit: cover; }
+        .badge { padding: 5px 10px; border-radius: 5px; font-size: 0.7em; font-weight: 900; text-transform: uppercase; }
+        
+        .btn-action { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.75em; transition: 0.2s; }
+        .btn-approve { background: var(--turquesa); color: white; }
+        .btn-complete { background: var(--verde); color: white; }
+        .btn-view { background: var(--negro); color: white; text-decoration: none; text-align: center; }
+
+        /* MODAL DE DETALLE */
+        .modal-detalle { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; padding: 20px; overflow-y: auto; }
+        .modal-content { background: white; max-width: 800px; margin: auto; border-radius: 20px; padding: 40px; position: relative; }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 2em; cursor: pointer; }
+
+        #login-overlay { position: fixed; inset: 0; background: var(--negro); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; }
+        .btn-google { background: white; color: black; padding: 15px 30px; border-radius: 50px; border: none; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <img src="https://www.motmotexperiencias.com/wp-content/uploads/2023/08/cropped-Logo-foto-de-perfil-instagram.png" height="80" style="margin-bottom: 20px;">
+        <h1>Acceso Privado - Curaduría</h1>
+        <p>Inicia sesión con la cuenta autorizada para gestionar solicitudes.</p>
+        <button class="btn-google" id="btn-login">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20">
+            Continuar con Google
+        </button>
+    </div>
+
+    <div class="header-admin">
+        <img src="https://www.motmotexperiencias.com/wp-content/uploads/2023/08/cropped-Logo-foto-de-perfil-instagram.png" height="30">
+        <div>
+            <span id="user-email" style="margin-right: 20px; font-size: 0.8em; opacity: 0.7;"></span>
+            <button onclick="cerrarSesion()" style="background:transparent; color:white; border:1px solid white; padding:5px 15px; border-radius:20px; cursor:pointer;">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Gestión de Solicitudes 🚦</h1>
+        
+        <div class="tabs">
+            <button class="tab-btn tab-pending active" onclick="switchTab('pendiente_aprobacion', this)">🔴 Pendientes</button>
+            <button class="tab-btn tab-validated" onclick="switchTab('validado', this)">🟡 Validados</button>
+            <button class="tab-btn tab-completed" onclick="switchTab('completado', this)">🟢 En Amelia</button>
+        </div>
+
+        <div id="contenedor-solicitudes" class="grid-solicitudes">
+            </div>
+    </div>
+
+    <script type="module">
+        import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, updateDoc, signInWithPopup, provider, signOut } from './firebase-config.js';
+
+        let currentStatus = "pendiente_aprobacion";
+
+        // --- SEGURIDAD DE ENTRADA ---
+        document.getElementById('btn-login').onclick = () => signInWithPopup(auth, provider);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email === "comunidadmotmot@gmail.com") {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('user-email').innerText = user.email;
+                cargarSolicitudes();
+            } else if (user) {
+                alert("No tienes permisos para acceder a esta área.");
+                signOut(auth);
+            }
+        });
+
+        window.cerrarSesion = () => signOut(auth).then(() => location.reload());
+
+        // --- CAMBIAR PESTAÑAS ---
+        window.switchTab = (status, btn) => {
+            currentStatus = status;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            cargarSolicitudes();
+        };
+
+        // --- CARGAR DATOS EN TIEMPO REAL ---
+        function cargarSolicitudes() {
+            const q = query(collection(db, "solicitudes_amelia"), where("estado", "==", currentStatus));
+            
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById('contenedor-solicitudes');
+                container.innerHTML = "";
+                
+                if (snapshot.empty) {
+                    container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; opacity:0.5; margin-top:40px;">No hay solicitudes en este estado.</p>`;
+                    return;
+                }
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    renderCard(id, data, container);
+                });
+            });
+        }
+
+        function renderCard(id, data, container) {
+            const card = document.createElement('div');
+            card.className = 'card-solicitud';
+            
+            // Botones según el estado actual
+            let botones = "";
+            if (data.estado === "pendiente_aprobacion") {
+                botones = `<button class="btn-action btn-approve" onclick="cambiarEstado('${id}', 'validado')">✅ Validar Info</button>`;
+            } else if (data.estado === "validado") {
+                botones = `<button class="btn-action btn-complete" onclick="cambiarEstado('${id}', 'completado')">🚀 Subido a Amelia</button>`;
+            }
+
+            card.innerHTML = `
+                <img src="${data.imagenPrincipal || 'https://via.placeholder.com/400x200'}" class="img-tour">
+                <div class="card-header">
+                    <span class="badge" style="background:#eee;">${data.rolCreador}</span>
+                    <h3 style="margin:10px 0 5px 0;">${data.tituloServicio}</h3>
+                    <small>Por: ${data.guiaNombre}</small>
+                </div>
+                <div class="card-body">
+                    <p><b>Categoría:</b> ${data.categoria}</p>
+                    <p><b>Ubicación:</b> ${data.ubicacion}</p>
+                    <hr>
+                    <p style="font-size:0.8em; color:#666;">${data.descripcion.substring(0, 100)}...</p>
+                </div>
+                <div class="card-footer">
+                    ${botones}
+                </div>
+            `;
+            container.appendChild(card);
+        }
+
+        // --- CAMBIAR ESTADO (MOVIMIENTO DEL SEMÁFORO) ---
+        window.cambiarEstado = async (id, nuevoEstado) => {
+            const confirmacion = confirm(`¿Cambiar solicitud a estado ${nuevoEstado.toUpperCase()}?`);
+            if (confirmacion) {
+                try {
+                    await updateDoc(doc(db, "solicitudes_amelia", id), {
+                        estado: nuevoEstado
+                    });
+                } catch (e) {
+                    console.error(e);
+                    alert("Error al actualizar estado.");
+                }
+            }
+        };
+
+    </script>
+</body>
+</html>
