@@ -13,8 +13,8 @@
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
 
         /* TABS (Pestañas del Semáforo) */
-        .tabs { display: flex; gap: 10px; margin-bottom: 30px; background: #eee; padding: 10px; border-radius: 15px; }
-        .tab-btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.8em; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; background: #eee; padding: 10px; border-radius: 15px; flex-wrap: wrap;}
+        .tab-btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; font-size: 0.8em; min-width: 150px;}
         
         .tab-pending { background: #ffebee; color: var(--rojo); }
         .tab-pending.active { background: var(--rojo); color: white; }
@@ -24,6 +24,10 @@
         
         .tab-completed { background: #e8f5e9; color: var(--verde); }
         .tab-completed.active { background: var(--verde); color: white; }
+
+        /* NUEVA PESTAÑA DE RECHAZADOS */
+        .tab-rejected { background: #e0e0e0; color: #555; }
+        .tab-rejected.active { background: #555; color: white; }
 
         /* TARJETAS DE SOLICITUD */
         .grid-solicitudes { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
@@ -51,7 +55,6 @@
         .info-seccion { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eee; }
         .info-seccion h4 { color: var(--turquesa); margin-top: 0; text-transform: uppercase; font-size: 1em; letter-spacing: 1px; border-bottom: 1px dashed #ddd; padding-bottom: 8px;}
         
-        /* Contenedores flexibles para datos */
         .data-row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 10px; }
         .data-box { background: white; border: 1px solid #e0e0e0; padding: 10px 15px; border-radius: 8px; flex: 1; min-width: 200px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
         .data-label { font-size: 0.75em; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px; font-weight: bold;}
@@ -62,7 +65,6 @@
         ul.lista-modal { margin: 0; padding-left: 20px; font-size: 0.9em; color: #444; line-height: 1.6;}
         ul.lista-modal li { margin-bottom: 5px; }
 
-        /* Estilos Galería de Fotos en Modal */
         .galeria-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 10px; }
         .galeria-item { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
         .galeria-item:hover { border-color: var(--naranja); transform: scale(1.02); }
@@ -111,6 +113,7 @@
             <button class="tab-btn tab-pending active" onclick="switchTab('pendiente_aprobacion', this)">🔴 Pendientes</button>
             <button class="tab-btn tab-validated" onclick="switchTab('validado', this)">🟡 Validados</button>
             <button class="tab-btn tab-completed" onclick="switchTab('completado', this)">🟢 En Amelia</button>
+            <button class="tab-btn tab-rejected" onclick="switchTab('rechazado', this)">⚫ Rechazados</button>
         </div>
 
         <div id="contenedor-solicitudes" class="grid-solicitudes">
@@ -126,7 +129,8 @@
     </div>
 
     <script type="module">
-        import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, setDoc, signInWithPopup, provider, signOut } from './firebase-config.js';
+        // IMPORTANTE: Hemos añadido addDoc y serverTimestamp a la importación para generar las notificaciones
+        import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, setDoc, addDoc, serverTimestamp, signInWithPopup, provider, signOut } from './firebase-config.js';
 
         let currentStatus = "pendiente_aprobacion";
         let datosEnMemoria = {};
@@ -192,15 +196,21 @@
             const card = document.createElement('div');
             card.className = 'card-solicitud';
             
+            // 🛡️ LÓGICA DE BOTONES SEGÚN EL ESTADO
             let btnEstado = "";
+            let btnRechazar = `<button class="btn-action" style="background:#d32f2f; color:white; margin-top:10px;" onclick="cambiarEstado('${id}', 'rechazado', '${data.guiaId}', '${data.tituloServicio}')">❌ Rechazar (No Pasa)</button>`;
+
             if (data.estado === "pendiente_aprobacion") {
-                btnEstado = `<button class="btn-action btn-approve" onclick="cambiarEstado('${id}', 'validado')">✅ Marcar como Validado</button>`;
+                btnEstado = `<button class="btn-action btn-approve" onclick="cambiarEstado('${id}', 'validado', '${data.guiaId}', '${data.tituloServicio}')">✅ Marcar como Validado</button>` + btnRechazar;
             } else if (data.estado === "validado") {
-                btnEstado = `<button class="btn-action btn-complete" onclick="cambiarEstado('${id}', 'completado')">🚀 Marcar: Subido a Amelia</button>`;
+                btnEstado = `<button class="btn-action btn-complete" onclick="cambiarEstado('${id}', 'completado', '${data.guiaId}', '${data.tituloServicio}')">🚀 Marcar: Subido a Amelia</button>` + btnRechazar;
+            } else if (data.estado === "rechazado") {
+                // Botón de salvavidas por si te equivocas al rechazar
+                btnEstado = `<button class="btn-action" style="background:#555; color:white; margin-top:10px;" onclick="cambiarEstado('${id}', 'pendiente_aprobacion', '${data.guiaId}', '${data.tituloServicio}')">♻️ Restaurar a Pendiente</button>`;
             }
 
             card.innerHTML = `
-                <img src="${data.imagenPrincipal || 'https://via.placeholder.com/400x200'}" class="img-tour">
+                <img src="${data.imagenPrincipal || 'https://via.placeholder.com/400x200'}" class="img-tour" style="${data.estado === 'rechazado' ? 'filter: grayscale(100%);' : ''}">
                 <div class="card-header">
                     <span class="badge" style="background:#eee;">${data.rolCreador || 'GUÍA'}</span>
                     <h3 style="margin:10px 0 5px 0;">${data.tituloServicio || 'Sin Título'}</h3>
@@ -218,14 +228,13 @@
             container.appendChild(card);
         }
 
-        // --- SISTEMA DE MODAL PROFUNDO (RADIOGRAFÍA COMPLETA) ---
+        // --- SISTEMA DE MODAL PROFUNDO ---
         window.abrirModalExpediente = (id) => {
             const data = datosEnMemoria[id];
             if(!data) return;
 
             const modalBody = document.getElementById('modal-body-content');
             
-            // --- 1. PROCESAR DOCUMENTOS LEGALES ---
             let linksDocs = "<p><i>No hay documentos cargados.</i></p>";
             if (data.documentosLegales) {
                 linksDocs = "";
@@ -238,7 +247,6 @@
                 if(docs.otrosDocumentos) linksDocs += `<a href="${docs.otrosDocumentos}" target="_blank" class="doc-link">📄 Otros Docs</a>`;
             }
 
-            // --- 2. PROCESAR LISTAS SIMPLES ---
             const hacerLista = (array) => {
                 if(!array || array.length === 0) return "<i>No especificado.</i>";
                 let html = "<ul class='lista-modal'>";
@@ -246,7 +254,6 @@
                 return html + "</ul>";
             };
 
-            // --- 3. PROCESAR ITINERARIO ---
             let htmlItinerario = "<i>No se agregó itinerario.</i>";
             if(data.itinerario && data.itinerario.length > 0) {
                 htmlItinerario = "<ul class='lista-modal'>";
@@ -254,7 +261,6 @@
                 htmlItinerario += "</ul>";
             }
 
-            // --- 4. PROCESAR RECURSOS (VITAL PARA AMELIA) ---
             let htmlRecursos = "<i>No se agregaron recursos de inventario.</i>";
             if(data.recursos && data.recursos.length > 0) {
                 htmlRecursos = "<ul class='lista-modal'>";
@@ -265,7 +271,6 @@
                 htmlRecursos += "</ul>";
             }
 
-            // --- 5. PROCESAR EXTRAS (UPSELLING) ---
             let htmlExtras = "<i>No hay servicios adicionales.</i>";
             if(data.serviciosExtras && data.serviciosExtras.length > 0) {
                 htmlExtras = "<ul class='lista-modal'>";
@@ -276,7 +281,6 @@
                 htmlExtras += "</ul>";
             }
 
-            // --- 6. PROCESAR GALERÍA ---
             let htmlGaleria = "<i>No se adjuntaron fotos adicionales en galería.</i>";
             const galeriaFinal = data.galeriaVisual || data.fotosExtra; 
             if (galeriaFinal && galeriaFinal.length > 0) {
@@ -287,10 +291,8 @@
                 htmlGaleria += "</div>";
             }
 
-            // --- 7. FORMATEAR DESCRIPCIÓN CON SALTOS DE LÍNEA ---
             let descFormateada = data.descripcion ? data.descripcion.replace(/\n/g, '<br>') : 'Sin descripción';
 
-            // --- DICCIONARIO DE CANCELACIÓN ---
             const diccCancelacion = {
                 "Inmediato": "Sin restricción",
                 "12h": "Mínimo 12h antes",
@@ -305,7 +307,6 @@
             let txtReserva = diccCancelacion[data.margenTiempoReserva] || data.margenTiempoReserva || 'Inmediato';
             let txtCancelacion = diccCancelacion[data.margenCancelacion] || data.margenCancelacion || 'N/A';
 
-            // CONSTRUCCIÓN DEL HTML ESTRUCTURADO (RADIOGRAFÍA)
             modalBody.innerHTML = `
                 <h2 style="font-size: 1.8em;">${data.tituloServicio || 'Sin Título'}</h2>
                 <div style="background: #eee; padding: 10px 15px; border-radius: 8px; margin-bottom: 25px; display: flex; gap: 20px; flex-wrap: wrap;">
@@ -429,17 +430,37 @@
             }
         }
 
-        // --- CAMBIAR ESTADO (MOVIMIENTO DEL SEMÁFORO) ---
-        window.cambiarEstado = async (id, nuevoEstado) => {
-            const confirmacion = confirm(`¿Estás seguro de mover esta tarjeta a ${nuevoEstado.toUpperCase()}?`);
+        // --- CAMBIAR ESTADO Y CREAR NOTIFICACIÓN (NUEVO MOTOR) ---
+        window.cambiarEstado = async (id, nuevoEstado, guiaId, tituloTour) => {
+            
+            // 1. Mensaje de confirmación personalizado si es un rechazo
+            let mensaje = `¿Estás seguro de mover esta tarjeta a ${nuevoEstado.toUpperCase()}?`;
+            if (nuevoEstado === 'rechazado') {
+                mensaje = `⚠️ ESTÁS A PUNTO DE RECHAZAR ESTA SOLICITUD.\n\nEl perfil se moverá al archivo de rechazados y el creador recibirá una notificación. ¿Proceder?`;
+            }
+
+            const confirmacion = confirm(mensaje);
             if (confirmacion) {
                 try {
+                    // 2. Mover la tarjeta en el semáforo
                     await setDoc(doc(db, "solicitudes_amelia", id), {
                         estado: nuevoEstado
                     }, { merge: true });
+
+                    // 3. Crear el "telegrama" de notificación para el usuario
+                    // (Esto es lo que leerá el dashboard.html después)
+                    await addDoc(collection(db, "notificaciones"), {
+                        receptorId: guiaId,
+                        tipo: 'estado_curaduria',
+                        nuevoEstado: nuevoEstado,
+                        tituloServicio: tituloTour,
+                        leida: false,
+                        fechaHora: serverTimestamp()
+                    });
+
                 } catch (e) {
                     console.error("Error cambiando estado:", e);
-                    alert("Error al actualizar estado.");
+                    alert("Hubo un error de conexión al cambiar el estado.");
                 }
             }
         };
