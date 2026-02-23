@@ -27,27 +27,43 @@
 
         /* TARJETAS DE SOLICITUD */
         .grid-solicitudes { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
-        .card-solicitud { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--negro); transition: 0.3s; }
+        .card-solicitud { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--negro); transition: 0.3s; display: flex; flex-direction: column;}
         .card-header { padding: 20px; border-bottom: 1px solid #eee; }
-        .card-body { padding: 20px; font-size: 0.9em; }
-        .card-footer { padding: 15px; background: #fafafa; display: flex; gap: 10px; }
+        .card-body { padding: 20px; font-size: 0.9em; flex-grow: 1;}
+        .card-footer { padding: 15px; background: #fafafa; display: flex; flex-direction: column; gap: 10px; }
 
         .img-tour { width: 100%; height: 180px; object-fit: cover; }
         .badge { padding: 5px 10px; border-radius: 5px; font-size: 0.7em; font-weight: 900; text-transform: uppercase; }
         
-        .btn-action { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.75em; transition: 0.2s; }
+        .btn-action { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.85em; transition: 0.2s; text-transform: uppercase;}
         .btn-approve { background: var(--turquesa); color: white; }
         .btn-complete { background: var(--verde); color: white; }
-        .btn-view { background: var(--negro); color: white; text-decoration: none; text-align: center; }
+        .btn-view { background: var(--negro); color: white; }
 
-        /* MODAL DE DETALLE */
-        .modal-detalle { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; padding: 20px; overflow-y: auto; }
-        .modal-content { background: white; max-width: 800px; margin: auto; border-radius: 20px; padding: 40px; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 2em; cursor: pointer; }
+        /* MODAL DE DETALLE PROFUNDO */
+        .modal-detalle { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; padding: 20px; overflow-y: auto; backdrop-filter: blur(5px);}
+        .modal-content { background: white; max-width: 900px; margin: 40px auto; border-radius: 20px; padding: 40px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);}
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 2.5em; cursor: pointer; color: var(--naranja); font-weight: bold; line-height: 1;}
+        .close-modal:hover { color: var(--negro); }
+
+        /* Estilos Internos del Modal */
+        .modal-content h2 { margin-top: 0; color: var(--negro); font-weight: 900; border-bottom: 3px solid var(--naranja); padding-bottom: 15px;}
+        .info-seccion { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eee; }
+        .info-seccion h4 { color: var(--turquesa); margin-top: 0; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;}
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9em;}
+        .doc-link { display: inline-block; background: #e0f2f1; color: #00695c; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.8em; margin-right: 10px; margin-bottom: 10px; border: 1px solid #b2dfdb;}
+        .doc-link:hover { background: #b2dfdb; }
+        ul.lista-modal { margin: 0; padding-left: 20px; font-size: 0.9em; color: #444;}
+        ul.lista-modal li { margin-bottom: 5px; }
 
         #login-overlay { position: fixed; inset: 0; background: var(--negro); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20000; }
         .btn-google { background: white; color: black; padding: 15px 30px; border-radius: 50px; border: none; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
         .btn-google:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
+
+        @media (max-width: 768px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .modal-content { padding: 30px 20px; margin: 20px auto;}
+        }
     </style>
 </head>
 <body>
@@ -90,11 +106,20 @@
             </div>
     </div>
 
+    <div id="modal-info" class="modal-detalle">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <div id="modal-body-content">
+                </div>
+        </div>
+    </div>
+
     <script type="module">
-        // 🛡️ CORRECCIÓN DE CÓDIGO: Usamos setDoc en lugar de updateDoc para evitar el "crasheo" por funciones no exportadas
         import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, setDoc, signInWithPopup, provider, signOut } from './firebase-config.js';
 
         let currentStatus = "pendiente_aprobacion";
+        // Guardaremos los datos originales en memoria para poder mostrarlos en el modal
+        let datosEnMemoria = {};
 
         // --- SEGURIDAD DE ENTRADA ---
         const loginBtn = document.getElementById('btn-login');
@@ -137,6 +162,7 @@
             onSnapshot(q, (snapshot) => {
                 const container = document.getElementById('contenedor-solicitudes');
                 container.innerHTML = "";
+                datosEnMemoria = {}; // Limpiamos la memoria
                 
                 if (snapshot.empty) {
                     container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; opacity:0.5; margin-top:40px;">No hay solicitudes en este estado.</p>`;
@@ -146,6 +172,7 @@
                 snapshot.forEach((docSnap) => {
                     const data = docSnap.data();
                     const id = docSnap.id;
+                    datosEnMemoria[id] = data; // Guardamos en memoria para el modal
                     renderCard(id, data, container);
                 });
             });
@@ -156,11 +183,11 @@
             card.className = 'card-solicitud';
             
             // Botones según el estado actual
-            let botones = "";
+            let btnEstado = "";
             if (data.estado === "pendiente_aprobacion") {
-                botones = `<button class="btn-action btn-approve" onclick="cambiarEstado('${id}', 'validado')">✅ Validar Info</button>`;
+                btnEstado = `<button class="btn-action btn-approve" onclick="cambiarEstado('${id}', 'validado')">✅ Marcar como Validado</button>`;
             } else if (data.estado === "validado") {
-                botones = `<button class="btn-action btn-complete" onclick="cambiarEstado('${id}', 'completado')">🚀 Subido a Amelia</button>`;
+                btnEstado = `<button class="btn-action btn-complete" onclick="cambiarEstado('${id}', 'completado')">🚀 Marcar: Subido a Amelia</button>`;
             }
 
             card.innerHTML = `
@@ -168,19 +195,137 @@
                 <div class="card-header">
                     <span class="badge" style="background:#eee;">${data.rolCreador}</span>
                     <h3 style="margin:10px 0 5px 0;">${data.tituloServicio}</h3>
-                    <small>Por: ${data.guiaNombre}</small>
+                    <small>Por: <b>${data.guiaNombre}</b></small>
                 </div>
                 <div class="card-body">
-                    <p><b>Categoría:</b> ${data.categoria}</p>
-                    <p><b>Ubicación:</b> ${data.ubicacion}</p>
-                    <hr>
-                    <p style="font-size:0.8em; color:#666;">${data.descripcion.substring(0, 100)}...</p>
+                    <p style="margin:5px 0;"><b>Categoría:</b> ${data.categoria || 'N/A'}</p>
+                    <p style="margin:5px 0;"><b>Ubicación:</b> ${data.ubicacion || 'N/A'}</p>
                 </div>
                 <div class="card-footer">
-                    ${botones}
+                    <button class="btn-action btn-view" onclick="abrirModalExpediente('${id}')">👁️ Ver Expediente Completo</button>
+                    ${btnEstado}
                 </div>
             `;
             container.appendChild(card);
+        }
+
+        // --- SISTEMA DE MODAL PROFUNDO ---
+        window.abrirModalExpediente = (id) => {
+            const data = datosEnMemoria[id];
+            if(!data) return;
+
+            const modalBody = document.getElementById('modal-body-content');
+            
+            // 1. Procesar Documentos Legales
+            let linksDocs = "<p>No hay documentos cargados.</p>";
+            if (data.documentosLegales) {
+                linksDocs = "";
+                const docs = data.documentosLegales;
+                if(docs.documentoIdentidad) linksDocs += `<a href="${docs.documentoIdentidad}" target="_blank" class="doc-link">📄 Doc. Identidad</a>`;
+                if(docs.rut) linksDocs += `<a href="${docs.rut}" target="_blank" class="doc-link">📄 RUT</a>`;
+                if(docs.soporteRnt) linksDocs += `<a href="${docs.soporteRnt}" target="_blank" class="doc-link">📄 RNT / Tarjeta Prof.</a>`;
+                if(docs.camaraComercio) linksDocs += `<a href="${docs.camaraComercio}" target="_blank" class="doc-link">📄 Cámara de Comercio</a>`;
+                if(docs.manipulacionAlimentos) linksDocs += `<a href="${docs.manipulacionAlimentos}" target="_blank" class="doc-link">🍽️ Cert. Alimentos</a>`;
+                if(docs.otrosDocumentos) linksDocs += `<a href="${docs.otrosDocumentos}" target="_blank" class="doc-link">📄 Otros Docs</a>`;
+            }
+
+            // 2. Procesar Itinerario
+            let htmlItinerario = "<i>No se agregó itinerario estructurado.</i>";
+            if(data.itinerario && data.itinerario.length > 0) {
+                htmlItinerario = "<ul class='lista-modal'>";
+                data.itinerario.forEach(iti => htmlItinerario += `<li>🕒 ${iti}</li>`);
+                htmlItinerario += "</ul>";
+            }
+
+            // 3. Procesar Listas Simples (Incluye, No Incluye, Que Llevar)
+            const hacerLista = (array) => {
+                if(!array || array.length === 0) return "<i>No especificado.</i>";
+                let html = "<ul class='lista-modal'>";
+                array.forEach(item => html += `<li>${item}</li>`);
+                html += "</ul>";
+                return html;
+            };
+
+            // Construir el HTML del Expediente
+            modalBody.innerHTML = `
+                <h2>Expediente: ${data.tituloServicio}</h2>
+                <p><b>Creador:</b> ${data.guiaNombre} (${data.guiaEmail}) - Rol: ${data.rolCreador.toUpperCase()}</p>
+                
+                <div class="info-seccion">
+                    <h4>💰 Información Financiera</h4>
+                    <div class="info-grid">
+                        <div><b>Precio Base (COP):</b> $${data.precioVentaBase || 0}</div>
+                        <div><b>Regla de Cobro:</b> ${data.reglasCobro === 'por_persona' ? 'Por Persona' : 'Fijo por Grupo'}</div>
+                        <div><b>Precio Final Público:</b> <span style="color:var(--naranja); font-weight:bold;">$${data.precioFinalCliente || 0}</span></div>
+                        <div><b>Neto para el Creador:</b> <span style="color:var(--verde); font-weight:bold;">$${data.precioNetoProveedor || 0}</span></div>
+                    </div>
+                </div>
+
+                <div class="info-seccion">
+                    <h4>⚖️ Documentos Legales</h4>
+                    ${linksDocs}
+                    <p style="margin-top:10px; font-size:0.85em;"><b>RNT Digitado:</b> ${data.rnt || 'N/A'}</p>
+                </div>
+
+                <div class="info-seccion">
+                    <h4>📝 Descripción y Venta</h4>
+                    <p style="white-space: pre-wrap; font-size:0.9em; line-height:1.5;">${data.descripcion || 'Sin descripción'}</p>
+                </div>
+
+                <div class="info-seccion">
+                    <h4>📍 Itinerario de la Experiencia</h4>
+                    ${htmlItinerario}
+                </div>
+
+                <div class="info-grid" style="margin-bottom:20px;">
+                    <div class="info-seccion" style="margin-bottom:0;">
+                        <h4>✅ Qué Incluye</h4>
+                        ${hacerLista(data.incluye)}
+                    </div>
+                    <div class="info-seccion" style="margin-bottom:0;">
+                        <h4>❌ Qué NO Incluye</h4>
+                        ${hacerLista(data.noIncluye)}
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-seccion">
+                        <h4>🎒 Qué Llevar</h4>
+                        ${hacerLista(data.queLlevar)}
+                    </div>
+                    <div class="info-seccion">
+                        <h4>⚠️ Restricciones Médicas</h4>
+                        ${hacerLista(data.restriccionesMedicas)}
+                    </div>
+                </div>
+
+                <div class="info-seccion" style="background:#fff3e0; border-color:#ffcc80;">
+                    <h4 style="color:#e65100;">⚙️ Operación y Riesgos</h4>
+                    <div class="info-grid">
+                        <div><b>Duración:</b> ${data.duracionValor} ${data.duracionUnidad}</div>
+                        <div><b>Nivel Físico:</b> ${data.nivelFisicoExigido || 'N/A'}</div>
+                        <div><b>Capacidad Mín/Máx:</b> ${data.capacidadMinima || 1} a ${data.capacidadMaxima || 'N/A'} personas</div>
+                        <div><b>Reserva Mínima:</b> ${data.margenTiempoReserva || 'Inmediato'}</div>
+                    </div>
+                    <p style="margin-top:15px; font-size:0.85em;"><b>Condiciones Especiales de Ruta:</b> ${data.condicionesRuta || 'N/A'}</p>
+                </div>
+            `;
+
+            document.getElementById('modal-info').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Bloquea el scroll del fondo
+        };
+
+        window.cerrarModal = () => {
+            document.getElementById('modal-info').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+
+        // Cerrar modal haciendo clic afuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal-info');
+            if (event.target === modal) {
+                cerrarModal();
+            }
         }
 
         // --- CAMBIAR ESTADO (MOVIMIENTO DEL SEMÁFORO) ---
@@ -188,7 +333,6 @@
             const confirmacion = confirm(`¿Estás seguro de mover esta tarjeta a ${nuevoEstado.toUpperCase()}?`);
             if (confirmacion) {
                 try {
-                    // Usamos setDoc con merge: true para evitar problemas de dependencias
                     await setDoc(doc(db, "solicitudes_amelia", id), {
                         estado: nuevoEstado
                     }, { merge: true });
