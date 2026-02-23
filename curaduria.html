@@ -49,11 +49,17 @@
         /* Estilos Internos del Modal */
         .modal-content h2 { margin-top: 0; color: var(--negro); font-weight: 900; border-bottom: 3px solid var(--naranja); padding-bottom: 15px;}
         .info-seccion { background: #f9f9f9; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #eee; }
-        .info-seccion h4 { color: var(--turquesa); margin-top: 0; text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;}
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9em;}
+        .info-seccion h4 { color: var(--turquesa); margin-top: 0; text-transform: uppercase; font-size: 1em; letter-spacing: 1px; border-bottom: 1px dashed #ddd; padding-bottom: 8px;}
+        
+        /* Contenedores flexibles para datos */
+        .data-row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 10px; }
+        .data-box { background: white; border: 1px solid #e0e0e0; padding: 10px 15px; border-radius: 8px; flex: 1; min-width: 200px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .data-label { font-size: 0.75em; color: #888; text-transform: uppercase; display: block; margin-bottom: 3px; font-weight: bold;}
+        .data-value { font-size: 0.95em; color: #333; font-weight: 500;}
+
         .doc-link { display: inline-block; background: #e0f2f1; color: #00695c; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.8em; margin-right: 10px; margin-bottom: 10px; border: 1px solid #b2dfdb;}
         .doc-link:hover { background: #b2dfdb; }
-        ul.lista-modal { margin: 0; padding-left: 20px; font-size: 0.9em; color: #444;}
+        ul.lista-modal { margin: 0; padding-left: 20px; font-size: 0.9em; color: #444; line-height: 1.6;}
         ul.lista-modal li { margin-bottom: 5px; }
 
         /* Estilos Galería de Fotos en Modal */
@@ -66,7 +72,7 @@
         .btn-google:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
 
         @media (max-width: 768px) {
-            .info-grid { grid-template-columns: 1fr; }
+            .data-box { min-width: 100%; }
             .modal-content { padding: 30px 20px; margin: 20px auto;}
         }
     </style>
@@ -123,7 +129,6 @@
         import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, setDoc, signInWithPopup, provider, signOut } from './firebase-config.js';
 
         let currentStatus = "pendiente_aprobacion";
-        // Guardaremos los datos originales en memoria para poder mostrarlos en el modal
         let datosEnMemoria = {};
 
         // --- SEGURIDAD DE ENTRADA ---
@@ -213,15 +218,15 @@
             container.appendChild(card);
         }
 
-        // --- SISTEMA DE MODAL PROFUNDO ---
+        // --- SISTEMA DE MODAL PROFUNDO (RADIOGRAFÍA COMPLETA) ---
         window.abrirModalExpediente = (id) => {
             const data = datosEnMemoria[id];
             if(!data) return;
 
             const modalBody = document.getElementById('modal-body-content');
             
-            // 1. Procesar Documentos Legales
-            let linksDocs = "<p>No hay documentos cargados.</p>";
+            // --- 1. PROCESAR DOCUMENTOS LEGALES ---
+            let linksDocs = "<p><i>No hay documentos cargados.</i></p>";
             if (data.documentosLegales) {
                 linksDocs = "";
                 const docs = data.documentosLegales;
@@ -233,121 +238,178 @@
                 if(docs.otrosDocumentos) linksDocs += `<a href="${docs.otrosDocumentos}" target="_blank" class="doc-link">📄 Otros Docs</a>`;
             }
 
-            // 2. Procesar Itinerario
-            let htmlItinerario = "<i>No se agregó itinerario estructurado.</i>";
+            // --- 2. PROCESAR LISTAS SIMPLES ---
+            const hacerLista = (array) => {
+                if(!array || array.length === 0) return "<i>No especificado.</i>";
+                let html = "<ul class='lista-modal'>";
+                array.forEach(item => html += `<li>${item}</li>`);
+                return html + "</ul>";
+            };
+
+            // --- 3. PROCESAR ITINERARIO ---
+            let htmlItinerario = "<i>No se agregó itinerario.</i>";
             if(data.itinerario && data.itinerario.length > 0) {
                 htmlItinerario = "<ul class='lista-modal'>";
                 data.itinerario.forEach(iti => htmlItinerario += `<li>🕒 ${iti}</li>`);
                 htmlItinerario += "</ul>";
             }
 
-            // 3. Procesar Listas Simples
-            const hacerLista = (array) => {
-                if(!array || array.length === 0) return "<i>No especificado.</i>";
-                let html = "<ul class='lista-modal'>";
-                array.forEach(item => html += `<li>${item}</li>`);
-                html += "</ul>";
-                return html;
-            };
+            // --- 4. PROCESAR RECURSOS (VITAL PARA AMELIA) ---
+            let htmlRecursos = "<i>No se agregaron recursos de inventario.</i>";
+            if(data.recursos && data.recursos.length > 0) {
+                htmlRecursos = "<ul class='lista-modal'>";
+                data.recursos.forEach(r => {
+                    let tipoUso = r.usoGrupo ? "<span style='color:var(--naranja)'>Uso compartido (Todo el grupo)</span>" : "<span style='color:var(--turquesa)'>Uso individual (Por persona)</span>";
+                    htmlRecursos += `<li><b>${r.nombre}</b> - Cantidad Total: ${r.cantidad} - <i>${tipoUso}</i></li>`;
+                });
+                htmlRecursos += "</ul>";
+            }
 
-            // 4. Procesar Galería Fotográfica
-            let htmlGaleria = "<i>No se adjuntaron fotos adicionales.</i>";
+            // --- 5. PROCESAR EXTRAS (UPSELLING) ---
+            let htmlExtras = "<i>No hay servicios adicionales.</i>";
+            if(data.serviciosExtras && data.serviciosExtras.length > 0) {
+                htmlExtras = "<ul class='lista-modal'>";
+                data.serviciosExtras.forEach(e => {
+                    let tipoCob = e.tipoCobro === 'por_persona' ? 'Se cobra por persona' : 'Se cobra una vez por grupo';
+                    htmlExtras += `<li>✨ <b>${e.nombre}</b> - Precio: $${e.precio} COP - <i>(${tipoCob})</i></li>`;
+                });
+                htmlExtras += "</ul>";
+            }
+
+            // --- 6. PROCESAR GALERÍA ---
+            let htmlGaleria = "<i>No se adjuntaron fotos adicionales en galería.</i>";
             const galeriaFinal = data.galeriaVisual || data.fotosExtra; 
-            
             if (galeriaFinal && galeriaFinal.length > 0) {
                 htmlGaleria = "<div class='galeria-grid'>";
                 galeriaFinal.forEach(imgUrl => {
-                    htmlGaleria += `<a href="${imgUrl}" target="_blank"><img src="${imgUrl}" class="galeria-item" title="Clic para ampliar" alt="Foto de galería"></a>`;
+                    htmlGaleria += `<a href="${imgUrl}" target="_blank"><img src="${imgUrl}" class="galeria-item" title="Clic para ampliar" alt="Foto"></a>`;
                 });
                 htmlGaleria += "</div>";
             }
 
-            // 5. Formatear la descripción
-            let descripcionFormateada = 'Sin descripción';
-            if (data.descripcionLarga) {
-                descripcionFormateada = data.descripcionLarga.replace(/\n/g, '<br>');
-            } else if (data.descripcion) {
-                descripcionFormateada = data.descripcion.replace(/\n/g, '<br>');
-            }
+            // --- 7. FORMATEAR DESCRIPCIÓN CON SALTOS DE LÍNEA ---
+            let descFormateada = data.descripcion ? data.descripcion.replace(/\n/g, '<br>') : 'Sin descripción';
 
-            // Construir el HTML del Expediente (Incluyendo los nuevos campos de finanzas y operación)
+            // --- DICCIONARIO DE CANCELACIÓN ---
+            const diccCancelacion = {
+                "Inmediato": "Sin restricción",
+                "12h": "Mínimo 12h antes",
+                "24h": "Mínimo 24h antes",
+                "48h": "Mínimo 48h antes",
+                "1_semana": "Mínimo 1 semana antes",
+                "Flexible_24h": "Hasta 24h antes (Flexible)",
+                "Moderada_48h": "Hasta 48h antes (Moderada)",
+                "Estricta_1sem": "Hasta 1 semana antes (Estricta)",
+                "No_Reembolsable": "No Reembolsable"
+            };
+            let txtReserva = diccCancelacion[data.margenTiempoReserva] || data.margenTiempoReserva || 'Inmediato';
+            let txtCancelacion = diccCancelacion[data.margenCancelacion] || data.margenCancelacion || 'N/A';
+
+            // CONSTRUCCIÓN DEL HTML ESTRUCTURADO (RADIOGRAFÍA)
             modalBody.innerHTML = `
-                <h2>Expediente: ${data.tituloServicio || 'Sin Título'}</h2>
-                <p><b>Creador:</b> ${data.guiaNombre} (${data.guiaEmail}) - Rol: ${(data.rolCreador || 'GUIA').toUpperCase()}</p>
-                
-                <div class="info-seccion">
-                    <h4>💰 Información Financiera</h4>
-                    <div class="info-grid">
-                        <div><b>Precio Base (COP):</b> $${data.precioVentaBase || 0}</div>
-                        <div><b>Regla de Cobro:</b> ${data.reglasCobro === 'por_persona' ? 'Por Persona' : 'Fijo por Grupo'}</div>
-                        <div><b>Precio Final Público:</b> <span style="color:var(--naranja); font-weight:bold;">$${data.precioFinalCliente || 0}</span></div>
-                        <div><b>Neto para el Creador:</b> <span style="color:var(--verde); font-weight:bold;">$${data.precioNetoProveedor || 0}</span></div>
-                    </div>
-                    <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
-                    <div class="info-grid">
-                        <div><b>Cobro adicional Transporte:</b> ${data.cobroAdicionalTransporte || 'N/A'}</div>
-                        <div><b>Costo Adicional:</b> $${data.pagoAdicionalTransporte || 0}</div>
-                    </div>
+                <h2 style="font-size: 1.8em;">${data.tituloServicio || 'Sin Título'}</h2>
+                <div style="background: #eee; padding: 10px 15px; border-radius: 8px; margin-bottom: 25px; display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div><b style="color:var(--naranja);">Creador:</b> ${data.guiaNombre}</div>
+                    <div><b style="color:var(--naranja);">Email:</b> ${data.guiaEmail}</div>
+                    <div><b style="color:var(--naranja);">Rol de Sistema:</b> ${(data.rolCreador || 'GUIA').toUpperCase()}</div>
+                    <div><b style="color:var(--naranja);">Tipo Oferta:</b> ${(data.tipoOfertaAmelia || 'Servicio').toUpperCase()}</div>
                 </div>
 
                 <div class="info-seccion">
-                    <h4>⚖️ Documentos Legales</h4>
-                    ${linksDocs}
-                    <p style="margin-top:10px; font-size:0.85em;"><b>RNT Digitado:</b> ${data.rnt || 'N/A'}</p>
-                </div>
-
-                <div class="info-seccion" style="background: #e3f2fd; border-color: #bbdefb;">
-                    <h4 style="color: #1565c0;">📸 Galería Fotográfica</h4>
-                    <p style="font-size: 0.8em; color: #555; margin-bottom: 5px;">Haz clic en cualquier imagen para verla en tamaño completo y poder descargarla para Amelia.</p>
-                    ${htmlGaleria}
+                    <h4>💰 Bloque 1: Finanzas y Pagos</h4>
+                    <div class="data-row">
+                        <div class="data-box"><span class="data-label">Precio Base Registrado</span><span class="data-value">$${data.precioVentaBase || 0} COP</span></div>
+                        <div class="data-box"><span class="data-label">Regla de Cobro</span><span class="data-value" style="color:var(--naranja); font-weight:bold;">${data.reglasCobro === 'por_persona' ? 'Se cobra X Persona' : 'Fijo X Grupo'}</span></div>
+                        <div class="data-box"><span class="data-label">Seguro de Asistencia</span><span class="data-value">${data.modalidadSeguro === 'plataforma' ? 'Plataforma (+ $5k)' : 'Seguro Propio'}</span></div>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-box" style="background:#fff3e0; border-color:#ffcc80;"><span class="data-label">Precio Final Público</span><span class="data-value" style="font-size:1.2em; font-weight:900;">$${data.precioFinalCliente || 0} COP</span></div>
+                        <div class="data-box" style="background:#e8f5e9; border-color:#a5d6a7;"><span class="data-label">Neto Proveedor (80%)</span><span class="data-value" style="font-size:1.2em; font-weight:900; color:#2e7d32;">$${data.precioNetoProveedor || 0} COP</span></div>
+                    </div>
                 </div>
 
                 <div class="info-seccion">
-                    <h4>📝 Descripción y Venta</h4>
-                    <p style="font-size:0.9em; line-height:1.6; color: #333; word-break: break-word;">${descripcionFormateada}</p>
+                    <h4>⚙️ Bloque 2: Logística y Tiempos de Operación</h4>
+                    <div class="data-row">
+                        <div class="data-box"><span class="data-label">Duración Total</span><span class="data-value">${data.duracionValor || '0'} ${data.duracionUnidad || 'Horas'}</span></div>
+                        <div class="data-box"><span class="data-label">Rango de Personas</span><span class="data-value">Mín: ${data.capacidadMinima || 1} / Máx: ${data.capacidadMaxima || 'Sin límite'}</span></div>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-box"><span class="data-label">Anticipación de Reserva</span><span class="data-value" style="color:#d32f2f; font-weight:bold;">${txtReserva}</span></div>
+                        <div class="data-box"><span class="data-label">Política de Cancelación</span><span class="data-value" style="color:#d32f2f; font-weight:bold;">${txtCancelacion}</span></div>
+                    </div>
+                    
+                    <div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                        <span class="data-label" style="color:var(--turquesa);">Inventario (Recursos a configurar en Amelia)</span>
+                        ${htmlRecursos}
+                    </div>
+                    
+                    <div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                        <span class="data-label" style="color:var(--turquesa);">Servicios Extra (Upselling)</span>
+                        ${htmlExtras}
+                    </div>
                 </div>
 
                 <div class="info-seccion">
-                    <h4>📍 Itinerario de la Experiencia</h4>
-                    ${htmlItinerario}
+                    <h4>📝 Bloque 3: Textos y Multimedia para la App</h4>
+                    
+                    <div style="background: #e3f2fd; border: 1px solid #bbdefb; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <span class="data-label" style="color: #1565c0;">📸 Galería de Fotos</span>
+                        ${htmlGaleria}
+                    </div>
+
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 15px;">
+                        <span class="data-label">Descripción Atractiva</span>
+                        <p style="font-size:0.9em; line-height:1.6; color: #333; word-break: break-word; margin-bottom:0;">${descFormateada}</p>
+                    </div>
+
+                    <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 15px;">
+                        <span class="data-label">Itinerario Paso a Paso</span>
+                        ${htmlItinerario}
+                    </div>
+
+                    <div class="data-row">
+                        <div class="data-box">
+                            <span class="data-label" style="color:var(--turquesa);">✅ Qué Incluye</span>
+                            ${hacerLista(data.incluye)}
+                        </div>
+                        <div class="data-box">
+                            <span class="data-label" style="color:var(--rojo);">❌ Qué NO Incluye</span>
+                            ${hacerLista(data.noIncluye)}
+                        </div>
+                    </div>
+                    <div class="data-row">
+                        <div class="data-box">
+                            <span class="data-label">🎒 Qué Llevar</span>
+                            ${hacerLista(data.queLlevar)}
+                        </div>
+                        <div class="data-box">
+                            <span class="data-label" style="color:var(--naranja);">⚠️ Restricciones Médicas</span>
+                            ${hacerLista(data.restriccionesMedicas)}
+                        </div>
+                    </div>
                 </div>
 
-                <div class="info-grid" style="margin-bottom:20px;">
-                    <div class="info-seccion" style="margin-bottom:0;">
-                        <h4>✅ Qué Incluye</h4>
-                        ${hacerLista(data.incluye)}
+                <div class="info-seccion" style="border-left: 5px solid #455a64;">
+                    <h4>⚖️ Bloque 4: Riesgos, Legal y Soporte</h4>
+                    <div class="data-row">
+                        <div class="data-box"><span class="data-label">Nivel de Exigencia Física</span><span class="data-value">${data.nivelFisicoExigido || 'N/A'}</span></div>
+                        <div class="data-box"><span class="data-label">Condiciones Especiales de Ruta</span><span class="data-value">${data.condicionesRuta || 'Ninguna reportada'}</span></div>
                     </div>
-                    <div class="info-seccion" style="margin-bottom:0;">
-                        <h4>❌ Qué NO Incluye</h4>
-                        ${hacerLista(data.noIncluye)}
+                    
+                    <div style="margin-top: 15px; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                        <span class="data-label">Archivos Legales Subidos</span>
+                        <div style="margin-bottom: 5px; font-size: 0.85em;"><b>RNT Numérico:</b> ${data.rnt || 'No registró'}</div>
+                        ${linksDocs}
                     </div>
-                </div>
 
-                <div class="info-grid" style="margin-bottom:20px;">
-                    <div class="info-seccion" style="margin-bottom:0;">
-                        <h4>🎒 Qué Llevar</h4>
-                        ${hacerLista(data.queLlevar)}
+                    <div style="margin-top: 15px; background: ${data.firmaAcuerdosLegales ? '#e8f5e9' : '#ffebee'}; padding: 15px; border-radius: 8px; border: 1px solid ${data.firmaAcuerdosLegales ? '#a5d6a7' : '#ffcdd2'};">
+                        <span class="data-label">Validaciones del Sistema</span>
+                        <ul style="margin:0; padding-left: 20px; font-size:0.85em;">
+                            <li><b>Aceptó Protocolo de Seguridad en Campo:</b> ${data.aceptaProtocoloSeguridad ? 'SÍ ✅' : 'NO ❌'}</li>
+                            <li><b>Firma Digital y Acuerdos Financieros:</b> ${data.firmaAcuerdosLegales ? 'SÍ ✅' : 'NO ❌'}</li>
+                        </ul>
                     </div>
-                    <div class="info-seccion" style="margin-bottom:0;">
-                        <h4>⚠️ Restricciones Médicas</h4>
-                        ${hacerLista(data.restriccionesMedicas)}
-                    </div>
-                </div>
-
-                <div class="info-seccion" style="background:#fff3e0; border-color:#ffcc80;">
-                    <h4 style="color:#e65100;">⚙️ Operación y Riesgos</h4>
-                    <div class="info-grid" style="margin-bottom:15px;">
-                        <div><b>Duración:</b> ${data.duracionValor || 'N/A'} ${data.duracionUnidad || ''}</div>
-                        <div><b>Nivel Físico:</b> ${data.nivelFisicoExigido || 'N/A'}</div>
-                        <div><b>Capacidad Mín/Máx:</b> ${data.capacidadMinima || 1} a ${data.capacidadMaxima || 'N/A'} personas</div>
-                        <div><b>Reserva Mínima:</b> ${data.margenTiempoReserva || 'Inmediato'}</div>
-                    </div>
-                    <div class="info-grid">
-                        <div><b>Edad Mínima:</b> ${data.edadMinima || 'N/A'}</div>
-                        <div><b>Edad Máxima:</b> ${data.edadMaxima || 'N/A'}</div>
-                        <div><b>Política de Cancelación:</b> ${data.politicaCancelacion || 'N/A'}</div>
-                    </div>
-                    <p style="margin-top:15px; font-size:0.85em;"><b>Condiciones Especiales de Ruta:</b> ${data.condicionesRuta || 'N/A'}</p>
                 </div>
             `;
 
