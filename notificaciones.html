@@ -106,24 +106,22 @@
                     let icono = "🔔";
                     let mensajePrincipal = "Tienes una nueva notificación.";
 
-                    // Personalizar el mensaje según lo que decidió Curaduría
                     if (data.tipo === "estado_curaduria") {
                         if (data.nuevoEstado === "validado") {
-                            claseColor = "alerta-sistema"; // Amarillo/Naranja
+                            claseColor = "alerta-sistema"; 
                             icono = "✅";
                             mensajePrincipal = `Tu experiencia <b>"${data.tituloServicio}"</b> ha sido revisada y validada. ¡Pronto estará en Amelia!`;
                         } else if (data.nuevoEstado === "completado") {
-                            claseColor = "alerta-aprobado"; // Verde
+                            claseColor = "alerta-aprobado"; 
                             icono = "🚀";
                             mensajePrincipal = `¡Felicidades! Tu experiencia <b>"${data.tituloServicio}"</b> ya está publicada y lista para recibir reservas.`;
                         } else if (data.nuevoEstado === "rechazado") {
-                            claseColor = "alerta-rechazo"; // Rojo
+                            claseColor = "alerta-rechazo"; 
                             icono = "❌";
                             mensajePrincipal = `Tu experiencia <b>"${data.tituloServicio}"</b> no ha pasado el filtro de curaduría. Por favor, revisa que la información y los documentos legales estén completos y vuelve a intentarlo.`;
                         }
                     }
 
-                    // Formatear Fecha (Si existe)
                     let fechaTxt = "";
                     if (data.fechaHora) {
                         const dateObj = data.fechaHora.toDate();
@@ -142,10 +140,12 @@
                         </div>
                     `;
                 });
+            }, (error) => {
+                console.error("Error al escuchar notificaciones:", error);
+                document.getElementById('contenedor-sistema').innerHTML = `<div class="vacio" style="color:red;">Error al cargar las notificaciones. Verifica tu conexión.</div>`;
             });
         }
 
-        // Marcar notificación del sistema como leída (para que desaparezca de esta lista y baje el contador de la campana)
         window.marcarLeida = async (idNotif) => {
             try {
                 await updateDoc(doc(db, "notificaciones", idNotif), { leida: true });
@@ -173,7 +173,6 @@
                     const data = docSnap.data();
                     const idConexion = docSnap.id;
                     
-                    // Buscar el nombre y foto de quien envía la solicitud
                     let nombreSeguidor = "Un viajero";
                     let fotoSeguidor = "https://ui-avatars.com/api/?name=User&background=80C4C8&color=fff";
                     
@@ -203,7 +202,6 @@
             });
         }
 
-        // Acciones para la red social
         window.responderSolicitud = async (idConexion, nuevoEstado) => {
             try {
                 await updateDoc(doc(db, "conexiones", idConexion), { estado: nuevoEstado });
