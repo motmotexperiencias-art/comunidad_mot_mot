@@ -16,7 +16,6 @@
         .btn-crear { background-color: var(--naranja); color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: 800; font-size: 0.85em; text-transform: uppercase; display: inline-block; }
         .search-section { background: white; padding: 25px; border-radius: 20px; margin-top: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
         
-        /* 🛡️ CORRECCIÓN DEL BUSCADOR PARA RESPONSIVE */
         .search-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .search-input { flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat'; font-size: 1em; outline: none; transition:0.3s; min-width: 200px; box-sizing: border-box;}
         .search-input:focus { border-color: var(--turquesa); }
@@ -45,7 +44,6 @@
 
         @media (max-width: 768px) {
             .nav-perfil { padding: 10px 15px; flex-direction: column; gap: 10px; text-align: center; }
-            /* 🛡️ REGLA PARA QUE EL BOTÓN BUSCAR OCUPE EL 100% EN MÓVIL Y NO SE SALGA */
             .btn-buscar { width: 100%; }
         }
     </style>
@@ -54,7 +52,7 @@
     <nav class="dashboard-nav">
         <div style="width: 40px;"></div> 
         <div class="user-menu">
-            <a href="perfil.html" class="icono-campana" title="Notificaciones">
+            <a href="notificaciones.html" class="icono-campana" title="Notificaciones">
                 🔔<span id="notificacion-roja" class="punto-rojo">0</span>
             </a>
             <a href="#" id="link-mi-perfil" style="text-decoration:none; color:inherit; display:flex; align-items:center; gap:10px;">
@@ -177,10 +175,8 @@
                         snapSiguiendo.forEach(docX => { misSiguiendo.push(docX.data().idSeguido); });
                     } catch(e) { console.error("Error red social:", e) }
 
-                    // 🛡️ MOTOR DE NOTIFICACIONES MULTIPLE (Amigos + Curaduría)
-                    // 1. Escuchar solicitudes de amistad pendientes
+                    // MOTOR DE NOTIFICACIONES MULTIPLE (Amigos + Curaduría)
                     const qAmigos = query(collection(db, "conexiones"), where("idSeguido", "==", user.uid), where("estado", "==", "pendiente"));
-                    // 2. Escuchar notificaciones de curaduría NO leídas
                     const qCuraduria = query(collection(db, "notificaciones"), where("receptorId", "==", user.uid), where("leida", "==", false));
 
                     const actualizarCampana = async () => {
@@ -201,7 +197,6 @@
                         }
                     };
 
-                    // Poner a escuchar cambios en tiempo real en ambas colecciones
                     onSnapshot(qAmigos, () => actualizarCampana());
                     onSnapshot(qCuraduria, () => actualizarCampana());
                 }
