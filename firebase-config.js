@@ -3,7 +3,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 // 🛡️ INYECCIÓN FASE 3: IMPORTAMOS deleteUser
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+// ✔️ CORRECCIÓN: Se agregó updateDoc a la siguiente línea de importación
+import { getFirestore, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -22,7 +24,8 @@ const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 
 // 🛡️ INYECCIÓN FASE 3: EXPORTAMOS deleteUser y deleteDoc
-export { app, auth, db, storage, provider, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, updateProfile, deleteUser, ref, uploadBytes, getDownloadURL };
+// ✔️ CORRECCIÓN: Se agregó updateDoc a la siguiente línea de exportación
+export { app, auth, db, storage, provider, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc, updateDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, updateProfile, deleteUser, ref, uploadBytes, getDownloadURL };
 
 // ==========================================
 // 4. DICCIONARIO MAESTRO (TODO EL CONTENIDO)

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.1/dist/browser-image-compression.js"></script>
 
     <style>
         :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --gris-fondo: #f4f6f8; --dorado: #D4AF37; }
@@ -791,10 +792,35 @@
 
         const CLOUD_NAME = "djqkbywpu";
         const UPLOAD_PRESET = "motmot_fotos";
+        
+        // 🛡️ LÓGICA DE COMPRESIÓN INYECTADA EN LA FUNCIÓN DE SUBIDA
         async function uploadCloudinary(file) {
             if(!file) return "";
+            
+            let fileToUpload = file;
+
+            // Solo comprimir si es una imagen (No PDFs)
+            if (file.type.startsWith('image/')) {
+                const options = {
+                    maxSizeMB: 0.6, // Peso máximo: 600KB (Netlify ni se enterará)
+                    maxWidthOrHeight: 1200, // HD, pero sin excesos
+                    useWebWorker: true // No congela la pantalla mientras comprime
+                };
+                
+                try {
+                    console.log(`Comprimiendo imagen... Original: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+                    fileToUpload = await imageCompression(file, options);
+                    console.log(`Comprimida... Nueva: ${(fileToUpload.size / 1024 / 1024).toFixed(2)} MB`);
+                } catch (error) {
+                    console.error("Error al comprimir la imagen, subiendo original:", error);
+                    // Si falla la compresión, sube el original para no bloquear al usuario
+                    fileToUpload = file; 
+                }
+            }
+
+            // Subir a Cloudinary (la versión ya ligera)
             const formData = new FormData();
-            formData.append("file", file);
+            formData.append("file", fileToUpload);
             formData.append("upload_preset", UPLOAD_PRESET);
             const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: "POST", body: formData });
             const data = await res.json();
