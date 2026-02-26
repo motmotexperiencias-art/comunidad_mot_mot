@@ -135,7 +135,7 @@
 
                     <div class="form-group" id="caja-tipo-perfil">
                         <label>Tu Perfil Registrado:</label>
-                        <select id="tipo-guia" required onchange="adaptarFormulario(this.value)">
+                        <select id="tipo-guia" required>
                         </select>
                     </div>
 
@@ -562,7 +562,6 @@
                     <option value="Experiencia Cultural">Experiencia Cultural Local</option>
                 `;
                 
-                // 🚨 INYECCIÓN: OCULTAR CAMPOS DE COSTO Y TIPS EN EL ITINERARIO PARA ANFITRIONES
                 document.getElementById('caja-iti-tips').style.display = 'none';
                 document.getElementById('lbl-itinerario').innerText = "📍 Construye el Itinerario / Horario de la Actividad";
                 document.getElementById('desc-itinerario').innerText = "Ej: 10:00 AM - Inicio del taller de barro. (Tú vendes un paquete cerrado, el cliente no verá costos individuales por paso).";
@@ -583,7 +582,6 @@
                     <option value="Naturaleza">Naturaleza y Contemplación</option>
                 `;
 
-                // 🚨 INYECCIÓN: OCULTAR CAMPOS DE COSTO Y TIPS EN EL ITINERARIO PARA GUÍAS
                 document.getElementById('caja-iti-tips').style.display = 'none';
                 document.getElementById('lbl-itinerario').innerText = "📍 Construye el Itinerario de la Ruta";
                 document.getElementById('desc-itinerario').innerText = "Ej: 6:00 AM - Encuentro en la plaza principal. (Tú vendes un paquete cerrado, el cliente no verá costos individuales por paso).";
@@ -607,7 +605,6 @@
                 document.getElementById('caja-no-incluye').style.display = 'none';
                 document.getElementById('caja-extras-completos').style.display = 'none';
                 
-                // 🚨 INYECCIÓN: MOSTRAR CAMPOS DE COSTO Y TIPS PARA VIAJEROS
                 document.getElementById('caja-iti-tips').style.display = 'flex';
                 document.getElementById('lbl-itinerario').innerText = "📍 Agrega los lugares, horas, costos y tus TIPS secretos.";
                 document.getElementById('desc-itinerario').innerText = "Ej: Día 1 - 8:00 AM - Salida al aeropuerto | Costo: 60000 | Tip: Tomen el bus D12 que es más rápido.";
@@ -635,7 +632,6 @@
             window.verificarDocumentosLegales(rol);
         };
 
-        // 🚨 INYECCIÓN: LÓGICA CORREGIDA DE DOCUMENTOS LEGALES (PUNTO 2)
         window.verificarDocumentosLegales = (rol) => {
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
@@ -793,18 +789,16 @@
         const CLOUD_NAME = "djqkbywpu";
         const UPLOAD_PRESET = "motmot_fotos";
         
-        // 🛡️ LÓGICA DE COMPRESIÓN INYECTADA EN LA FUNCIÓN DE SUBIDA
         async function uploadCloudinary(file) {
             if(!file) return "";
             
             let fileToUpload = file;
 
-            // Solo comprimir si es una imagen (No PDFs)
             if (file.type.startsWith('image/')) {
                 const options = {
-                    maxSizeMB: 0.6, // Peso máximo: 600KB (Netlify ni se enterará)
-                    maxWidthOrHeight: 1200, // HD, pero sin excesos
-                    useWebWorker: true // No congela la pantalla mientras comprime
+                    maxSizeMB: 0.6,
+                    maxWidthOrHeight: 1200, 
+                    useWebWorker: true 
                 };
                 
                 try {
@@ -813,12 +807,10 @@
                     console.log(`Comprimida... Nueva: ${(fileToUpload.size / 1024 / 1024).toFixed(2)} MB`);
                 } catch (error) {
                     console.error("Error al comprimir la imagen, subiendo original:", error);
-                    // Si falla la compresión, sube el original para no bloquear al usuario
                     fileToUpload = file; 
                 }
             }
 
-            // Subir a Cloudinary (la versión ya ligera)
             const formData = new FormData();
             formData.append("file", fileToUpload);
             formData.append("upload_preset", UPLOAD_PRESET);
