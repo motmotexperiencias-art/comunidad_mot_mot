@@ -43,12 +43,17 @@
         .btn-disabled { background: #ccc; cursor: not-allowed; opacity: 0.7; }
         .btn-cambiar-foto { background: var(--turquesa); border:none; padding: 5px 15px; border-radius: 15px; color: white; font-size: 0.8em; cursor: pointer; margin-top: -10px; margin-bottom: 20px; font-weight: bold;}
 
-        /* 🚨 INYECCIÓN: ESTILOS DEL BOTÓN ROJO HABEAS DATA */
+        /* 🚨 ESTILOS DEL BOTÓN ROJO HABEAS DATA */
         .btn-eliminar-cuenta { width: 100%; padding: 15px; background: #fff; color: #c62828; border: 2px solid #ffcdd2; border-radius: 12px; font-weight: 800; font-size: 0.9em; cursor: pointer; transition: 0.3s; margin-top: 40px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .btn-eliminar-cuenta:hover { background: #ffebee; border-color: #ef9a9a; }
 
         .icono-campana { font-size: 1.5em; cursor: pointer; position: relative; text-decoration: none; margin-right: 15px;}
         .punto-rojo { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.5em; font-weight: bold; display: none; border: 2px solid white;}
+
+        /* 🚀 INYECCIÓN FASE 3: ESTILOS BOTÓN ADMINISTRATIVO AMELIA */
+        .btn-admin-panel { display: block; background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); color: white; text-align: center; padding: 15px; border-radius: 12px; text-decoration: none; font-weight: 900; font-size: 0.95em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s; border-left: 5px solid var(--turquesa); }
+        .btn-admin-panel:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); background: var(--turquesa); border-left-color: var(--negro); color: var(--negro); }
+        .caja-invitacion-ventas { background: #e0f7fa; border: 1px solid #b2ebf2; padding: 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
 
         @media (max-width: 768px) {
             .container { margin: 10px auto; padding: 10px; }
@@ -72,6 +77,16 @@
         </div>
     </nav>
     <div class="container">
+        
+        <div class="caja-invitacion-ventas">
+            <a href="https://motmotexperiencias.com/portal-anfitriones" target="_blank" class="btn-admin-panel">
+                🗓️ Mi Panel de Ventas y Calendario
+            </a>
+            <p style="margin: 0; font-size: 0.85em; color: #006064; line-height: 1.4;">
+                <b>¿Aún no tienes productos a la venta?</b><br>
+                Recuerda que como Viajero, Guía o Anfitrión puedes monetizar tus conocimientos creando rutas, itinerarios o talleres. <a href="guias.html" style="color: var(--naranja); font-weight: 900; text-decoration: underline;">Sube tu experiencia aquí para validarla.</a>
+            </p>
+        </div>
         <div class="card-perfil">
             <div class="perfil-header">
                 <img id="img-perfil" class="foto-preview" src="https://ui-avatars.com/api/?name=Viajero&background=80C4C8&color=fff" referrerpolicy="no-referrer">
@@ -203,7 +218,6 @@
     </div>
 
     <script type="module">
-        // 🛡️ INYECCIÓN: Importamos deleteDoc (para borrar BD) y deleteUser (para borrar Auth)
         import { auth, db, doc, getDoc, setDoc, onAuthStateChanged, collection, query, where, getDocs, onSnapshot, deleteDoc, deleteUser } from './firebase-config.js';
 
         const CLOUD_NAME = "djqkbywpu";
@@ -340,7 +354,6 @@
 
         onAuthStateChanged(auth, async (u) => {
             if (u) {
-                // 🚨 CORRECCIÓN PUNTO 4: EL BOTÓN APARECE SIEMPRE QUE EL USUARIO ESTÉ LOGUEADO (SIN IMPORTAR SI ES NUEVO O NO)
                 document.getElementById('btn-eliminar-cuenta').style.display = 'flex';
 
                 userId = u.uid; 
@@ -457,7 +470,7 @@
             finally { btn.innerText = "ACTUALIZAR IDENTIDAD"; btn.classList.remove('btn-disabled'); }
         };
 
-        // 🚨 INYECCIÓN: LÓGICA DE DESTRUCCIÓN DE CUENTA (HABEAS DATA)
+        // LÓGICA DE DESTRUCCIÓN DE CUENTA (HABEAS DATA)
         document.getElementById('btn-eliminar-cuenta').onclick = async () => {
             const confirmacion = confirm("⚠️ ¿Estás absolutamente seguro?\n\nAl dar Aceptar, se borrará tu bitácora, tus fotos y tus conexiones de forma irreversible. Esta acción no se puede deshacer.");
             
@@ -467,21 +480,18 @@
                 btn.classList.add('btn-disabled');
                 
                 try {
-                    // 1. Borramos el documento de la base de datos (Habeas Data)
                     await deleteDoc(doc(db, "usuarios", userId));
                     
-                    // 2. Destruimos la identidad en Firebase Auth
                     const user = auth.currentUser;
                     if(user) {
                         await deleteUser(user);
                     }
                     
                     alert("Tu cuenta y tus datos han sido eliminados de nuestra base de datos. ¡Buen camino, explorador!");
-                    window.location.href = 'index.html'; // Lo mandamos afuera
+                    window.location.href = 'index.html';
 
                 } catch (error) {
                     console.error("Error al eliminar cuenta:", error);
-                    // Si lleva mucho tiempo logueado, Firebase pide re-autenticar por seguridad antes de borrar.
                     if(error.code === 'auth/requires-recent-login') {
                         alert("Por seguridad, debes cerrar sesión, volver a iniciar sesión y luego intentar eliminar tu cuenta nuevamente.");
                         window.location.href = 'index.html';

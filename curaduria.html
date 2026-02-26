@@ -129,7 +129,6 @@
     </div>
 
     <script type="module">
-        // IMPORTANTE: Hemos añadido addDoc y serverTimestamp a la importación para generar las notificaciones
         import { auth, db, onAuthStateChanged, collection, query, where, onSnapshot, doc, setDoc, addDoc, serverTimestamp, signInWithPopup, provider, signOut } from './firebase-config.js';
 
         let currentStatus = "pendiente_aprobacion";
@@ -209,6 +208,12 @@
                 btnEstado = `<button class="btn-action" style="background:#555; color:white; margin-top:10px;" onclick="cambiarEstado('${id}', 'pendiente_aprobacion', '${data.guiaId}', '${data.tituloServicio}')">♻️ Restaurar a Pendiente</button>`;
             }
 
+            // Si ya está en estado "completado" mostramos un link verde por si quieres verificarlo
+            let infoLink = "";
+            if(data.estado === "completado" && data.linkAmelia) {
+                infoLink = `<a href="${data.linkAmelia}" target="_blank" style="display:block; text-align:center; color:#388e3c; font-weight:bold; margin-bottom:10px; font-size:0.85em; text-decoration:none;">🔗 Ver página de venta</a>`;
+            }
+
             card.innerHTML = `
                 <img src="${data.imagenPrincipal || 'https://via.placeholder.com/400x200'}" class="img-tour" style="${data.estado === 'rechazado' ? 'filter: grayscale(100%);' : ''}">
                 <div class="card-header">
@@ -221,6 +226,7 @@
                     <p style="margin:5px 0;"><b>Ubicación:</b> ${data.ubicacion || 'N/A'}</p>
                 </div>
                 <div class="card-footer">
+                    ${infoLink}
                     <button class="btn-action btn-view" onclick="abrirModalExpediente('${id}')">👁️ Ver Expediente Completo</button>
                     ${btnEstado}
                 </div>
@@ -430,25 +436,50 @@
             }
         }
 
-        // --- CAMBIAR ESTADO Y CREAR NOTIFICACIÓN (NUEVO MOTOR) ---
+        // --- CAMBIAR ESTADO Y GUARDAR LINK DE AMELIA (NUEVO MOTOR - FASE 1) ---
         window.cambiarEstado = async (id, nuevoEstado, guiaId, tituloTour) => {
             
-            // 1. Mensaje de confirmación personalizado si es un rechazo
-            let mensaje = `¿Estás seguro de mover esta tarjeta a ${nuevoEstado.toUpperCase()}?`;
+            let datosActualizar = { estado: nuevoEstado };
+            let mensajeConfirmacion = `¿Estás seguro de mover esta tarjeta a ${nuevoEstado.toUpperCase()}?`;
+
+            // 🛡️ Lógica para RECHAZO
             if (nuevoEstado === 'rechazado') {
-                mensaje = `⚠️ ESTÁS A PUNTO DE RECHAZAR ESTA SOLICITUD.\n\nEl perfil se moverá al archivo de rechazados y el creador recibirá una notificación. ¿Proceder?`;
+                mensajeConfirmacion = `⚠️ ESTÁS A PUNTO DE RECHAZAR ESTA SOLICITUD.\n\nEl perfil se moverá al archivo de rechazados y el creador recibirá una notificación. ¿Proceder?`;
             }
 
-            const confirmacion = confirm(mensaje);
+            // 🚀 Lógica para SUBIR A AMELIA (La Magia de la Fase 1)
+            if (nuevoEstado === 'completado') {
+                // Le pedimos al administrador que pegue el link
+                let linkAmelia = prompt(`PASO FINAL: Pega aquí el enlace (URL) de la página de reservas en WordPress para la experiencia "${tituloTour}":\n\nEjemplo: https://motmotexperiencias.com/reserva-tour`);
+                
+                // Si el administrador le da a "Cancelar" o deja el link en blanco, se detiene el proceso
+                if (linkAmelia === null || linkAmelia.trim() === "") {
+                    alert("Operación cancelada. Debes pegar el enlace de WordPress para poder subir la experiencia a la comunidad.");
+                    return; // Abortamos la misión
+                }
+
+                // Verificamos por seguridad que el link parezca un enlace válido (que empiece con http)
+                if (!linkAmelia.startsWith('http')) {
+                    alert("⚠️ El enlace ingresado no parece válido. Asegúrate de copiar la URL completa empezando por https://");
+                    return; // Abortamos la misión
+                }
+
+                // Si todo está bien, preparamos la caja de datos para guardar el estado y el link juntos
+                datosActualizar = { 
+                    estado: nuevoEstado,
+                    linkAmelia: linkAmelia.trim() // Limpiamos espacios en blanco por si acaso
+                };
+                
+                mensajeConfirmacion = `Todo listo. Vamos a publicar esta experiencia en la comunidad y conectarla con WordPress. ¿Proceder?`;
+            }
+
+            const confirmacion = confirm(mensajeConfirmacion);
             if (confirmacion) {
                 try {
-                    // 2. Mover la tarjeta en el semáforo
-                    await setDoc(doc(db, "solicitudes_amelia", id), {
-                        estado: nuevoEstado
-                    }, { merge: true });
+                    // 1. Mover la tarjeta en el semáforo y guardar el link (si aplica)
+                    await setDoc(doc(db, "solicitudes_amelia", id), datosActualizar, { merge: true });
 
-                    // 3. Crear el "telegrama" de notificación para el usuario
-                    // (Esto es lo que leerá el dashboard.html después)
+                    // 2. Crear el "telegrama" de notificación para el usuario
                     await addDoc(collection(db, "notificaciones"), {
                         receptorId: guiaId,
                         tipo: 'estado_curaduria',

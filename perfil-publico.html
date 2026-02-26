@@ -68,6 +68,19 @@
         .icono-campana { font-size: 1.5em; cursor: pointer; position: relative; text-decoration: none; margin-right: 15px;}
         .punto-rojo { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.5em; font-weight: bold; display: none; border: 2px solid white;}
 
+        /* INYECCIÓN FASE 2: ESTILOS VITRINA DE VENTAS */
+        .vitrina-ventas { margin-top: 40px; text-align: left; }
+        .vitrina-ventas h3 { color: var(--turquesa); border-bottom: 2px solid var(--turquesa); }
+        .grid-ventas { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card-venta { background: white; border: 2px solid var(--turquesa); border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; }
+        .card-venta:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(128,196,200,0.2); }
+        .venta-img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid #eee;}
+        .venta-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .venta-titulo { font-size: 1.2em; font-weight: 900; color: var(--negro); margin: 0 0 5px 0; line-height: 1.2;}
+        .venta-precio { font-size: 1.4em; font-weight: 900; color: var(--naranja); margin: 15px 0; }
+        .btn-reservar { background: var(--naranja); color: white; border: none; padding: 12px; border-radius: 25px; font-weight: 800; text-transform: uppercase; cursor: pointer; text-align: center; text-decoration: none; display: block; margin-top: auto; transition: 0.3s; box-shadow: 0 4px 10px rgba(230,81,39,0.3);}
+        .btn-reservar:hover { background: var(--negro); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
+
         /* PARCHE MÓVIL RESPONSIVE */
         @media (max-width: 768px) {
             .container { margin: 10px auto; padding: 10px; }
@@ -126,6 +139,10 @@
 
                 <div id="p-tags" class="tags-container"></div>
 
+                <div id="vitrina-ventas-container" class="vitrina-ventas" style="display: none;">
+                    <h3>🎟️ EXPERIENCIAS Y RUTAS DISPONIBLES</h3>
+                    <div id="grid-ventas" class="grid-ventas"></div>
+                </div>
                 <div id="contenedor-privado" style="display: none;">
                     <h3 style="text-align:left; border-bottom:2px solid #eee; padding-bottom:5px; margin-top:40px;">📸 BITÁCORA DE VIAJES Y RUTAS</h3>
                     <div id="p-experiencias"></div>
@@ -144,7 +161,7 @@
                 <div id="bloqueo-candado" class="bloqueo-privacidad" style="display: none;">
                     <div class="candado-icon">🔒</div>
                     <h3 style="margin:0; text-align: center; border:none; color: var(--negro);">Perfil Privado</h3>
-                    <p style="color:#666; font-size:0.9em;">Sigue a este usuario y espera que te acepte para ver su bitácora de viajes y rutas.</p>
+                    <p style="color:#666; font-size:0.9em;">Sigue a este usuario y espera que te acepte para ver su bitácora de viajes y fotos.</p>
                 </div>
 
             </div>
@@ -206,6 +223,7 @@
             if(perfilVisitadoID) { 
                 await loadEstadisticasRedSocial(perfilVisitadoID);
                 loadPerfil(perfilVisitadoID); 
+                loadVitrinaVentas(perfilVisitadoID); // 🚀 EJECUCIÓN INYECCIÓN FASE 2
             }
         });
 
@@ -283,6 +301,55 @@
                 alert("Error al enviar solicitud.");
             }
         };
+
+        // 🚀 INYECCIÓN FASE 2: LÓGICA DE LA VITRINA DE VENTAS 🚀
+        async function loadVitrinaVentas(uid) {
+            const container = document.getElementById('vitrina-ventas-container');
+            const grid = document.getElementById('grid-ventas');
+            grid.innerHTML = "";
+
+            try {
+                // Buscamos en Firebase todas las solicitudes aprobadas ("completado") de esta persona
+                const q = query(collection(db, "solicitudes_amelia"),
+                    where("guiaId", "==", uid),
+                    where("estado", "==", "completado")
+                );
+                const snap = await getDocs(q);
+
+                if (!snap.empty) {
+                    container.style.display = 'block'; // Mostramos el contenedor si hay productos que vender
+                    
+                    snap.forEach(docSnap => {
+                        const d = docSnap.data();
+                        
+                        // Limpieza de seguridad y variables por defecto
+                        const titulo = DOMPurify.sanitize(d.tituloServicio || 'Experiencia Mágica');
+                        const lugar = DOMPurify.sanitize(d.ubicacion || 'Barichara');
+                        const precio = d.precioFinalCliente || 'Consultar';
+                        const imagen = d.imagenPrincipal || 'https://via.placeholder.com/400x200';
+                        
+                        // Este es el enlace mágico que guardaste en el panel de curaduría
+                        const linkReserva = d.linkAmelia || '#';
+
+                        // Dibujamos la tarjeta de venta
+                        grid.innerHTML += `
+                            <div class="card-venta">
+                                <img src="${imagen}" class="venta-img" alt="Foto Experiencia">
+                                <div class="venta-body">
+                                    <h4 class="venta-titulo">${titulo}</h4>
+                                    <span style="font-size: 0.85em; color: #888; font-weight: bold;">📍 ${lugar}</span>
+                                    <div class="venta-precio">$${precio} <span style="font-size:0.6em; color:#999; font-weight:normal;">COP</span></div>
+                                    <a href="${linkReserva}" target="_blank" class="btn-reservar">Reservar Cupo</a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error("Error cargando la vitrina de ventas:", error);
+            }
+        }
+        // FIN LÓGICA FASE 2
 
         async function loadPerfil(uid) {
             try {
