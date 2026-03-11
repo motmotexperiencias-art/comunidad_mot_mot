@@ -23,16 +23,36 @@
         .btn-buscar { background: var(--negro); color: white; border: none; padding: 15px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; transition:0.3s; font-family: 'Montserrat'; white-space: nowrap;}
         .btn-buscar:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
         
+        /* INYECCIÓN DE ESTILOS: El Interruptor Maestro */
+        .switch-container { display: flex; background: #eee; border-radius: 30px; padding: 5px; margin-bottom: 25px; max-width: 500px; margin-left: auto; margin-right: auto;}
+        .switch-btn { flex: 1; padding: 12px; border: none; background: transparent; border-radius: 25px; font-family: 'Montserrat'; font-weight: 800; font-size: 0.9em; color: #666; cursor: pointer; transition: 0.3s; text-transform: uppercase;}
+        .switch-btn.activo { background: var(--negro); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+
         .filtros { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
         .chip { padding: 8px 20px; border-radius: 20px; background: #eee; cursor: pointer; font-size: 0.85em; font-weight: 700; transition: 0.3s; white-space: nowrap; }
         .chip.activo { background: var(--turquesa); color: white; box-shadow: 0 4px 10px rgba(128, 196, 200, 0.4); }
         .filtro-interes-select { width: 100%; padding: 12px; border: 1px solid #eee; border-radius: 10px; font-family: 'Montserrat'; font-size: 0.9em; background-color: #fafafa; outline:none; box-sizing: border-box;}
+        
         .usuario-card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; border: 1px solid transparent; position: relative;}
         .usuario-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--turquesa); }
         .badge-mini { font-size: 0.6em; text-transform: uppercase; padding: 3px 8px; border-radius: 10px; background: #eee; margin-top: 5px; font-weight: bold; }
         .badge-mini.anfitrion { background: #FFF3E0; color: #E65127; }
         .badge-mini.guia { background: #E0F7FA; color: #006064; }
         .intereses-mini { font-size: 0.65em; color: #999; margin-top: 10px; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        
+        /* INYECCIÓN DE ESTILOS: Tarjetas Comerciales (Comercio Social) */
+        .experiencia-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; position: relative; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid #eee;}
+        .experiencia-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--dorado);}
+        .experiencia-img { width: 100%; height: 160px; object-fit: cover; }
+        .precio-tag { position: absolute; top: 10px; right: 10px; background: rgba(26,26,26,0.9); color: white; padding: 5px 12px; border-radius: 20px; font-weight: 900; font-size: 0.85em; backdrop-filter: blur(5px);}
+        .creador-avatar { position: absolute; top: 130px; left: 15px; width: 50px; height: 50px; border-radius: 50%; border: 3px solid white; object-fit: cover; background: #eee;}
+        .experiencia-info { padding: 25px 15px 15px 15px; flex: 1; display: flex; flex-direction: column;}
+        .exp-titulo { font-size: 1em; font-weight: 800; margin: 0 0 5px 0; line-height: 1.3; }
+        .exp-creador { font-size: 0.7em; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;}
+        .exp-detalles { display: flex; gap: 10px; font-size: 0.75em; color: #888; font-weight: 600; margin-bottom: 15px;}
+        .btn-reservar-card { width: 100%; padding: 10px; background: var(--turquesa); color: white; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; text-transform: uppercase; font-size: 0.8em; margin-top: auto;}
+        .btn-reservar-card:hover { background: var(--negro); }
+
         #alerta-perfil { background: var(--naranja); color: white; padding: 12px; border-radius: 10px; margin-bottom: 25px; display: none; text-align: center; font-weight: 700; font-size: 0.85em; }
         
         .panel-guia { background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); color: white; padding: 20px 30px; border-radius: 20px; margin-top: 25px; display: none; justify-content: space-between; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.15); border-left: 5px solid var(--dorado); animation: fadeIn 0.5s ease; }
@@ -45,8 +65,8 @@
 
         @media (max-width: 768px) {
             .nav-perfil { padding: 10px 15px; flex-direction: column; gap: 10px; text-align: center; }
-            /* Añadido para que el botón ocupe todo el ancho en móviles */
             .btn-buscar { width: 100%; } 
+            .panel-guia { flex-direction: column; text-align: center; gap: 15px; padding: 20px; }
         }
     </style>
 </head>
@@ -101,36 +121,62 @@
         </div>
 
         <div class="search-section">
+            <div class="switch-container">
+                <button class="switch-btn activo" id="btn-modo-social" onclick="switchModo('social')">👥 Comunidad</button>
+                <button class="switch-btn" id="btn-modo-ventas" onclick="switchModo('ventas')">🏔️ Rutas y Experiencias</button>
+            </div>
+
             <div class="search-bar">
                 <input type="text" id="input-buscar" data-i18n="buscar_place" class="search-input" placeholder="¿A dónde quieres ir? (Ej: Barichara)">
                 <button id="btn-buscar" data-i18n="btn_buscar" class="btn-buscar">🔍 Buscar</button>
             </div>
-            <label data-i18n="rol_label" style="font-size:0.7em; font-weight:bold; color:#aaa; text-transform:uppercase;">Filtrar por Rol:</label>
-            <div class="filtros">
-                <div class="chip activo" data-i18n="f_todos" onclick="setFiltroRol('todos', this)">🌍 Todos</div>
-                <div class="chip" data-i18n="f_anfitrion" onclick="setFiltroRol('anfitrion', this)">🏠 Anfitriones</div>
-                <div class="chip" data-i18n="f_guia" onclick="setFiltroRol('guia', this)">🚩 Guías</div>
-                <div class="chip" data-i18n="f_viajero" onclick="setFiltroRol('viajero', this)">🎒 Viajeros</div>
+            
+            <div id="filtros-social">
+                <label data-i18n="rol_label" style="font-size:0.7em; font-weight:bold; color:#aaa; text-transform:uppercase;">Filtrar por Rol:</label>
+                <div class="filtros">
+                    <div class="chip activo" data-i18n="f_todos" onclick="setFiltroRol('todos', this)">🌍 Todos</div>
+                    <div class="chip" data-i18n="f_anfitrion" onclick="setFiltroRol('anfitrion', this)">🏠 Anfitriones</div>
+                    <div class="chip" data-i18n="f_guia" onclick="setFiltroRol('guia', this)">🚩 Guías</div>
+                    <div class="chip" data-i18n="f_viajero" onclick="setFiltroRol('viajero', this)">🎒 Viajeros</div>
+                </div>
+                <label data-i18n="interes_label" style="font-size:0.7em; font-weight:bold; color:#aaa; text-transform:uppercase;">Por Interés:</label>
+                <select id="filtro-interes" onchange="renderResults()" class="filtro-interes-select">
+                    <option value="todos" data-i18n="opt_todos">Todos los intereses</option>
+                    <option value="🥾 Hiking">🥾 Hiking</option>
+                    <option value="🐕 Caminar con perros">🐕 Caminar con perros</option>
+                    <option value="✨ Golden Hour Walk">✨ Golden Hour Walk</option>
+                    <option value="🥦 Caminata 420">🥦 Caminata 420</option>
+                    <option value="🧘‍♂️ Yoga">🧘‍♂️ Yoga</option>
+                    <option value="📸 Caminata Fotográfica">📸 Fotografía</option>
+                    <option value="🗣️ Aprender Idiomas">🗣️ Idiomas</option>
+                    <option value="🛸 Ovnis/Misterios">🛸 Ovnis</option>
+                    <option value="🍺 Caminata y Cerveza">🍺 Cerveza</option>
+                </select>
             </div>
-            <label data-i18n="interes_label" style="font-size:0.7em; font-weight:bold; color:#aaa; text-transform:uppercase;">Por Interés:</label>
-            <select id="filtro-interes" onchange="renderResults()" class="filtro-interes-select">
-                <option value="todos" data-i18n="opt_todos">Todos los intereses</option>
-                <option value="🥾 Hiking">🥾 Hiking</option>
-                <option value="🐕 Caminar con perros">🐕 Caminar con perros</option>
-                <option value="✨ Golden Hour Walk">✨ Golden Hour Walk</option>
-                <option value="🥦 Caminata 420">🥦 Caminata 420</option>
-                <option value="🧘‍♂️ Yoga">🧘‍♂️ Yoga</option>
-                <option value="📸 Caminata Fotográfica">📸 Fotografía</option>
-                <option value="🗣️ Aprender Idiomas">🗣️ Idiomas</option>
-                <option value="🛸 Ovnis/Misterios">🛸 Ovnis</option>
-                <option value="🍺 Caminata y Cerveza">🍺 Cerveza</option>
-            </select>
+
+            <div id="filtros-ventas" style="display: none;">
+                <label style="font-size:0.7em; font-weight:bold; color:#aaa; text-transform:uppercase;">Filtrar por Tipo de Experiencia:</label>
+                <div class="filtros">
+                    <div class="chip activo" onclick="setFiltroVentas('todos', this)">🌍 Todo el Catálogo</div>
+                    <div class="chip" onclick="setFiltroVentas('Caminata / Trekking', this)">🥾 Caminatas</div>
+                    <div class="chip" onclick="setFiltroVentas('Aventura', this)">🧗 Aventura</div>
+                    <div class="chip" onclick="setFiltroVentas('Taller Artesanal', this)">🧶 Talleres</div>
+                    <div class="chip" onclick="setFiltroVentas('Clase de Cocina', this)">🍲 Gastronomía</div>
+                </div>
+            </div>
         </div>
 
-        <div style="margin-top:30px;">
+        <div id="resultados-social" style="margin-top:30px;">
             <h3 data-i18n="exploradores" style="font-size:1em; text-transform:uppercase; letter-spacing:1px; color:#888;">Exploradores encontrados</h3>
             <div id="contenedor-comunidad" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:20px; margin-top:20px;">
                 <p data-i18n="vacio" style="color:#999; grid-column:1/-1; text-align:center;">Usa el buscador para ver quién está en el destino.</p>
+            </div>
+        </div>
+
+        <div id="resultados-ventas" style="margin-top:30px; display: none;">
+            <h3 style="font-size:1em; text-transform:uppercase; letter-spacing:1px; color:#888;">🏔️ Experiencias Disponibles</h3>
+            <div id="contenedor-experiencias" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:25px; margin-top:20px;">
+                <p style="color:#999; grid-column:1/-1; text-align:center;">Busca un destino para descubrir increíbles experiencias guiadas.</p>
             </div>
         </div>
     </div>
@@ -138,8 +184,30 @@
     <script type="module">
         import { auth, db, doc, getDoc, collection, query, getDocs, where, onSnapshot, onAuthStateChanged, signOut } from './firebase-config.js';
 
-        let cacheUsers = []; let currentRol = 'todos';
+        let cacheUsers = []; 
+        let cacheExperiencias = []; // Almacén ligero para ventas
+        let currentRol = 'todos';
+        let currentTipoVenta = 'todos'; // Estado para el filtro comercial
+        let modoActual = 'social'; // 'social' o 'ventas'
         let misSiguiendo = []; 
+
+        // INYECCIÓN LÓGICA: Alternar el Interruptor Maestro
+        window.switchModo = (modo) => {
+            modoActual = modo;
+            
+            // Estilos de los botones
+            document.getElementById('btn-modo-social').classList.remove('activo');
+            document.getElementById('btn-modo-ventas').classList.remove('activo');
+            document.getElementById(`btn-modo-${modo}`).classList.add('activo');
+
+            // Mostrar/Ocultar Filtros
+            document.getElementById('filtros-social').style.display = modo === 'social' ? 'block' : 'none';
+            document.getElementById('filtros-ventas').style.display = modo === 'ventas' ? 'block' : 'none';
+
+            // Mostrar/Ocultar Resultados
+            document.getElementById('resultados-social').style.display = modo === 'social' ? 'block' : 'none';
+            document.getElementById('resultados-ventas').style.display = modo === 'ventas' ? 'block' : 'none';
+        };
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -160,7 +228,7 @@
                     else {
                         const ciudadLimpia = d.ubicacion.split(',')[0];
                         document.getElementById('input-buscar').value = ciudadLimpia;
-                        search(ciudadLimpia);
+                        search(ciudadLimpia); // Esto ahora buscará en ambas bases de datos
                     }
 
                     if (d.rol === 'guia') {
@@ -205,22 +273,46 @@
             } else window.location.replace('index.html');
         });
 
+        // INYECCIÓN LÓGICA: Búsqueda Bilingüe (Consulta Usuarios y Productos simultáneamente)
         async function search(termino) {
-            const container = document.getElementById('contenedor-comunidad');
+            const containerSoc = document.getElementById('contenedor-comunidad');
+            const containerVen = document.getElementById('contenedor-experiencias');
+            
             const lang = localStorage.getItem('motmot_lang') || 'es';
             const vacioText = window.diccionarioGlobal ? window.diccionarioGlobal[lang]?.vacio : "Buscando...";
-            container.innerHTML = `<p style='color:#ccc; grid-column:1/-1; text-align:center;'>${vacioText || "Buscando..."}</p>`;
             
+            containerSoc.innerHTML = `<p style='color:#ccc; grid-column:1/-1; text-align:center;'>${vacioText || "Buscando exploradores..."}</p>`;
+            containerVen.innerHTML = `<p style='color:#ccc; grid-column:1/-1; text-align:center;'>Buscando experiencias increíbles...</p>`;
+            
+            const terminoLower = termino.toLowerCase().trim();
+
             try {
-                const q = query(collection(db, "usuarios"));
-                const snap = await getDocs(q);
-                cacheUsers = []; const terminoLower = termino.toLowerCase().trim();
-                snap.forEach(doc => {
+                // 1. Buscar Personas (Lógica Original Intacta)
+                const qSoc = query(collection(db, "usuarios"));
+                const snapSoc = await getDocs(qSoc);
+                cacheUsers = []; 
+                snapSoc.forEach(doc => {
                     const d = doc.data(); d.uid = doc.id;
                     if(d.uid !== auth.currentUser.uid && d.ubicacion?.toLowerCase().includes(terminoLower)) cacheUsers.push(d);
                 });
                 renderResults();
-            } catch (error) { console.error(error); container.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Error buscando.</p>"; }
+
+                // 2. Buscar Productos/Experiencias (Lógica Nueva Optimizada)
+                // Usamos where para descargar SOLO lo que ya fue aprobado en Curaduría
+                const qVen = query(collection(db, "solicitudes_amelia"), where("estado", "==", "completado"));
+                const snapVen = await getDocs(qVen);
+                cacheExperiencias = [];
+                snapVen.forEach(doc => {
+                    const d = doc.data(); d.idProducto = doc.id;
+                    if(d.ubicacion?.toLowerCase().includes(terminoLower)) cacheExperiencias.push(d);
+                });
+                renderExperiencias();
+
+            } catch (error) { 
+                console.error(error); 
+                containerSoc.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Error buscando.</p>"; 
+                containerVen.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Error buscando experiencias.</p>";
+            }
         }
 
         window.renderResults = () => {
@@ -276,9 +368,66 @@
             });
         }
 
+        // INYECCIÓN LÓGICA: Motor de Renderizado Comercial (Comercio Social)
+        window.renderExperiencias = () => {
+            const container = document.getElementById('contenedor-experiencias'); container.innerHTML = "";
+            const formatCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+
+            // Filtrado del catálogo
+            const filtered = cacheExperiencias.filter(exp => {
+                return currentTipoVenta === 'todos' || exp.categoria === currentTipoVenta;
+            });
+
+            if(filtered.length === 0) { 
+                container.innerHTML = `<p style='grid-column:1/-1; text-align:center; color:#999;'>No encontramos experiencias de este tipo en la zona.</p>`; 
+                return; 
+            }
+
+            filtered.forEach(exp => {
+                // Recuperar datos desnormalizados (rápidos)
+                const titulo = exp.tituloServicio || "Experiencia Mot Mot";
+                const precio = exp.precioFinalCliente || 0;
+                const imgFondo = exp.imagenPrincipal || "https://images.unsplash.com/photo-1518182170546-076616fdfa1e";
+                const duracion = `${exp.duracionValor || 'Varios'} ${exp.duracionUnidad || 'hrs'}`;
+                const nivel = exp.nivelFisicoExigido || "Suave";
+                
+                // El Factor Humano (Recuperar foto del creador de la base de usuarios si es posible, o usar placeholder)
+                const nombreCreador = (exp.guiaNombre || "Guía Local").split(' ')[0];
+                const fotoCreador = `https://ui-avatars.com/api/?name=${nombreCreador}&background=1a1a1a&color=fff`; 
+                
+                // El Puente Transaccional (Hacia WordPress)
+                const urlReserva = exp.linkAmelia || "#"; 
+
+                container.innerHTML += `
+                    <a href="${urlReserva}" class="experiencia-card" target="_blank">
+                        <img src="${imgFondo}" class="experiencia-img" loading="lazy">
+                        <div class="precio-tag">${formatCOP.format(precio)}</div>
+                        <img src="${fotoCreador}" class="creador-avatar">
+                        
+                        <div class="experiencia-info">
+                            <h4 class="exp-titulo">${titulo}</h4>
+                            <span class="exp-creador">Por ${nombreCreador}</span>
+                            
+                            <div class="exp-detalles">
+                                <span>⏱️ ${duracion}</span>
+                                <span>⚡ Nivel: ${nivel}</span>
+                            </div>
+                            
+                            <button class="btn-reservar-card">Reservar Cupo</button>
+                        </div>
+                    </a>`;
+            });
+        }
+
         window.setFiltroRol = (rol, el) => {
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('activo'));
+            document.querySelectorAll('#filtros-social .chip').forEach(c => c.classList.remove('activo'));
             el.classList.add('activo'); currentRol = rol; renderResults();
+        };
+
+        // INYECCIÓN LÓGICA: Filtros para el catálogo comercial
+        window.setFiltroVentas = (tipo, el) => {
+            document.querySelectorAll('#filtros-ventas .chip').forEach(c => c.classList.remove('activo'));
+            el.classList.add('activo'); currentTipoVenta = tipo; renderExperiencias();
         };
 
         document.getElementById('btn-buscar').onclick = () => search(document.getElementById('input-buscar').value);
