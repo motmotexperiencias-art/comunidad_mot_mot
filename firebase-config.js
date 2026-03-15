@@ -1,10 +1,7 @@
 // firebase-config.js - VERSIÓN FINAL FERIA BOGOTÁ (FULL TRADUCCIÓN + BANDERAS + TARJETAS DINÁMICAS + LOGIN/REGISTRO + HABEAS DATA)
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-// 🛡️ INYECCIÓN FASE 3: IMPORTAMOS deleteUser
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, deleteUser } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
-// ✔️ CORRECCIÓN: Se agregó updateDoc a la siguiente línea de importación
 import { getFirestore, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";
 
@@ -23,21 +20,16 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 
-// 🛡️ INYECCIÓN FASE 3: EXPORTAMOS deleteUser y deleteDoc
-// ✔️ CORRECCIÓN: Se agregó updateDoc a la siguiente línea de exportación
 export { app, auth, db, storage, provider, doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, orderBy, serverTimestamp, onSnapshot, deleteDoc, updateDoc, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInWithPopup, updateProfile, deleteUser, ref, uploadBytes, getDownloadURL };
 
 // ==========================================
-// 4. DICCIONARIO MAESTRO (TODO EL CONTENIDO)
+// 4. DICCIONARIO MAESTRO
 // ==========================================
 const traducciones = {
     es: { 
         flag: "🇪🇸", short: "ES", titulo_bitacora: "MI BITÁCORA", subtitulo: "Conecta con aventureros reales.", btn_editar: "Editar mi Perfil", btn_salir: "Salir", alerta_ubi: "📍 Ubicación no definida.", configurar_ya: "CONFIGURAR AHORA", buscar_place: "¿A dónde quieres ir?", btn_buscar: "🔍 Buscar", rol_label: "Filtrar por Rol:", f_todos: "🌍 Todos", f_anfitrion: "🏠 Anfitriones", f_guia: "🚩 Guías", f_viajero: "🎒 Viajeros", interes_label: "Por Interés:", opt_todos: "Todos los intereses", exploradores: "Exploradores encontrados", vacio: "Usa el buscador para ver quién está.", seguidores: "Seguidores", siguiendo: "Siguiendo", habla: "Habla:", aprende: "Aprende:", bio_label: "Sobre mí", perfil_privado: "Perfil Privado", seguir: "➕ Seguir", publicar_resena: "Publicar Reseña", identidad_titulo: "Identidad del Creador", siguiente: "Siguiente ➔", atras: "⬅ Atrás", enviar: "✅ ENVIAR A CURADURÍA",
-        // BANNERS DASHBOARD
         p_guia_tit: "Eres un Guía Profesional 🏕️", p_guia_sub: "Publica tus rutas y caminatas para que los viajeros te encuentren.", p_guia_btn: "👑 Crear Ruta", p_anf_tit: "Eres Anfitrión Local 🧑‍🌾", p_anf_sub: "¿Te gustaría enseñar un oficio, dar un taller o vender tu itinerario?", p_anf_btn: "👑 Publicar Experiencia", p_via_tit: "Eres un Viajero 🎒", p_via_sub: "¿Quieres planear tu viaje, crear tu ruta y compartirla con la comunidad?", p_via_btn: "📍 Armar Mi Viaje",
-        // TARJETAS DINÁMICAS
         rol_guia: "Guía", rol_anfitrion: "Anfitrión", rol_viajero: "Viajero", sin_etiquetas: "Sin etiquetas", default_user: "Usuario", explorador_nav: "Explorador",
-        // LOGIN / REGISTRO
         log_img_tit: "Bienvenido de nuevo.", log_img_sub: "La montaña te espera.", log_volver: "← Volver al inicio", log_tit: "Hola viajero", log_sub: "Ingresa tus datos para continuar.", log_email: "Correo Electrónico", log_pass: "Contraseña", log_btn: "ENTRAR", log_o: "O ingresa con", log_google: "Continuar con Google", log_no_cuenta: "¿No tienes cuenta?", log_registro: "Regístrate gratis", reg_img_tit: "Tu próxima aventura comienza aquí.", reg_img_sub: "Únete a la comunidad de viajeros y anfitriones MOT.", reg_tit: "Crear Cuenta", reg_sub: "Regístrate para conectar, viajar y compartir.", reg_nombre: "Nombre Completo", reg_place_nom: "Ej. Antonio Mot Mot", reg_btn: "REGISTRARME", reg_o: "O regístrate con", reg_ya_cuenta: "¿Ya tienes cuenta?", reg_inicia: "Inicia Sesión"
     },
     en: { 
@@ -72,7 +64,6 @@ const traducciones = {
     }
 };
 
-// Guardamos el diccionario globalmente para que las tarjetas de usuario dinámicas puedan leerlo
 window.diccionarioGlobal = traducciones;
 
 // ==========================================
@@ -101,38 +92,41 @@ function cargarUI() {
 
     const lang = localStorage.getItem('motmot_lang') || (navigator.language.startsWith('es') ? 'es' : 'en');
     
-    // CSS Responsivo Actualizado
+    // CSS Responsivo Mejorado (Z-index y display mobile)
     const css = `
         <style>
-            .lang-wrapper { z-index: 10001; font-family: 'Montserrat', sans-serif; }
+            .lang-wrapper { z-index: 99999; font-family: 'Montserrat', sans-serif; }
             .lang-wrapper.fixed-mode { position: fixed; top: 15px; left: 15px; } 
             .lang-wrapper.nav-mode { position: relative; display: inline-block; margin-right: auto;}
             
-            /* Círculo expandido para mostrar texto y bandera */
             .lang-trigger { background: white; padding: 6px 12px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); cursor: pointer; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; border: 2px solid #eee; transition: 0.3s; color: #333; height: 35px; box-sizing: border-box;}
             .lang-trigger:hover { border-color: #80C4C8; }
             
-            .lang-menu { display: none; position: absolute; top: 45px; left: 0; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); padding: 8px; flex-direction: column; gap: 5px; min-width: 140px; border: 1px solid #eee; }
-            .lang-wrapper:hover .lang-menu { display: flex; }
+            .lang-menu { display: none; position: absolute; top: 45px; left: 0; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.25); padding: 8px; flex-direction: column; gap: 5px; min-width: 140px; border: 1px solid #eee; z-index: 99999;}
+            
+            /* En escritorio usamos hover, en movil lo manejaremos con javascript (click) */
+            @media (min-width: 769px) {
+                .lang-wrapper:hover .lang-menu { display: flex; }
+            }
+            .lang-menu.show-mobile { display: flex !important; }
             
             .lang-option { padding: 8px 15px; cursor: pointer; border-radius: 8px; font-size: 14px; display: flex; gap: 10px; align-items: center; transition: 0.2s; font-weight: 600; color: #333; }
             .lang-option:hover { background: #f4f6f8; color: #E65127; }
 
-            /* Ajuste fino para móviles */
             @media (max-width: 768px) {
                 .lang-trigger { padding: 4px 10px; font-size: 13px; height: 32px; }
             }
         </style>
     `;
 
-    // Botón principal dinámico (Bandera + Sigla) y Menú completo
+    // Botón principal y menú con banderas restauradas
     const langHTML = `
         <div class="lang-wrapper" id="selector-idiomas">
-            <div class="lang-trigger">
+            <div class="lang-trigger" id="lang-btn-toggle">
                 <span>${traducciones[lang].flag}</span>
                 <span>${traducciones[lang].short}</span>
             </div>
-            <div class="lang-menu">
+            <div class="lang-menu" id="lang-menu-list">
                 <div class="lang-option" onclick="cambiarIdiomaManual('es')">🇪🇸 Español</div>
                 <div class="lang-option" onclick="cambiarIdiomaManual('en')">🇬🇧 English</div>
                 <div class="lang-option" onclick="cambiarIdiomaManual('de')">🇩🇪 Deutsch</div>
@@ -145,7 +139,6 @@ function cargarUI() {
 
     document.head.insertAdjacentHTML('beforeend', css);
 
-    // INYECCIÓN INTELIGENTE
     const navBarLeft = document.querySelector('.dashboard-nav > div:first-child');
     if (navBarLeft) {
         navBarLeft.innerHTML = langHTML;
@@ -154,6 +147,21 @@ function cargarUI() {
     } else {
         document.body.insertAdjacentHTML('afterbegin', langHTML);
         document.getElementById('selector-idiomas').classList.add('fixed-mode');
+    }
+
+    // Lógica para móviles: mostrar menú al tocar el botón
+    const btnToggle = document.getElementById('lang-btn-toggle');
+    const menuList = document.getElementById('lang-menu-list');
+    if(btnToggle && menuList) {
+        btnToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita que el clic se propague al body
+            menuList.classList.toggle('show-mobile');
+        });
+        
+        // Cierra el menú si se toca fuera de él
+        document.addEventListener('click', () => {
+            menuList.classList.remove('show-mobile');
+        });
     }
 
     aplicarTraduccionCompleta(lang);
