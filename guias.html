@@ -23,7 +23,7 @@
         
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9em; color: #333; }
-        input[type="text"], input[type="time"], input[type="number"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
+        input[type="text"], input[type="time"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
         input[type="file"] { width: 100%; padding: 10px; border: 2px dashed #ccc; border-radius: 12px; font-family: 'Montserrat', sans-serif; background: #fafafa; transition: 0.3s; }
         input:focus, textarea:focus, select:focus { border-color: var(--dorado); outline: none; }
         
@@ -31,7 +31,9 @@
         .checkbox-group input, .radio-group input { margin-top: 4px; transform: scale(1.2); cursor: pointer; }
         .checkbox-group label, .radio-group label { font-weight: 500; font-size: 0.85em; color: #555; margin: 0; cursor: pointer; line-height: 1.5; }
 
-        .info-box { background: #e0f7fa; padding: 15px; border-radius: 12px; font-size: 0.85em; color: #006064; margin-bottom: 20px; display: flex; gap: 10px; align-items: center; border-left: 5px solid #006064; line-height: 1.5;}
+        .info-box { background: #e0f7fa; padding: 15px; border-radius: 12px; font-size: 0.85em; color: #006064; margin-bottom: 20px; display: flex; gap: 10px; align-items: flex-start; border-left: 5px solid #006064; line-height: 1.5;}
+        
+        .helper-text { font-size: 0.75em; color: #666; margin-top: -5px; margin-bottom: 10px; display: block; }
 
         .step { display: none; animation: fadeIn 0.4s ease; }
         .step.active { display: block; }
@@ -73,7 +75,7 @@
         details[open] summary { margin-bottom: 10px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
 
         /* Estilos base de visibilidad para formularios */
-        #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales, #caja-checklist-anfitrion, #alerta-legal-frontera { display: none; }
+        #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales, #caja-checklist-anfitrion, #alerta-legal-frontera, #caja-sello-confianza { display: none; }
 
         /* Estilo para las preguntas del Checklist */
         .check-pregunta { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
@@ -122,7 +124,7 @@
         <div class="card-form">
             <h1 id="titulo-principal">Cargando...</h1>
             
-            <div class="info-box" id="caja-bienvenida" style="background: #e8f5e9; color: #2e7d32; border-color: #2e7d32;">
+            <div class="info-box" id="caja-bienvenida" style="background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; margin-bottom: 30px;">
             </div>
 
             <div class="stepper" id="stepper-ui">
@@ -155,7 +157,7 @@
                         
                         <div class="check-pregunta">
                             <label>1. ¿Ofreces pernoctación (Dormir en casa/finca)?</label>
-                            <p>Si hospedas a la gente, la ley exige RNT de Vivienda Turística.</p>
+                            <p>Si hospedas a la gente, la ley exige RNT de Vivienda Turística. Es obligatorio aunque sea una habitación en una casa de campo.</p>
                             <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
                                 <label><input type="radio" name="chk_pernocta" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_pernocta" value="no" onchange="evaluarChecklist()" checked> No</label>
@@ -164,7 +166,7 @@
 
                         <div class="check-pregunta">
                             <label>2. ¿Ofreces alimentación (Plato servido a la mesa)?</label>
-                            <p>Requiere normas básicas de higiene y manipulación de alimentos.</p>
+                            <p>Si es algo recurrente, debe cumplir con normas básicas de higiene de la Secretaría de Salud (Certificado de Manipulación de Alimentos).</p>
                             <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
                                 <label><input type="radio" name="chk_alimentos" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_alimentos" value="no" onchange="evaluarChecklist()" checked> No</label>
@@ -173,19 +175,26 @@
 
                         <div class="check-pregunta">
                             <label>3. ¿La actividad implica salir de tu propiedad/taller a la naturaleza?</label>
-                            <p>Ej: Caminar por senderos públicos o llevarlos a una cascada cercana.</p>
+                            <p>Ej: Caminar por senderos públicos o llevar a la gente a otros lugares.</p>
                             <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
                                 <label><input type="radio" name="chk_frontera" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_frontera" value="no" onchange="evaluarChecklist()" checked> No</label>
                             </div>
                             <div id="alerta-legal-frontera" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
-                                ⚠️ ALTO: Si sales a senderos o espacios públicos, la ley exige que estés registrado como Agencia Operadora o Guía. Por favor, cambia tu perfil en la parte superior o ajusta tu actividad para hacerla dentro de tu finca/casa.
+                                ⚠️ ALTO: Si sales a senderos o espacios públicos, la ley exige que estés registrado como Agencia Operadora o Guía Profesional. Por favor, cambia tu perfil en la parte superior o ajusta tu actividad para hacerla dentro de tu finca/casa.
                             </div>
                         </div>
                     </div>
-                    <div class="form-group" id="caja-rnt">
-                        <label>Número de RNT (Registro Nacional de Turismo) *</label>
-                        <input type="number" id="num-rnt" placeholder="Ej: 123456">
+
+                    <div id="caja-rnt" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                        <div class="form-group" style="flex: 2; margin-bottom: 0;">
+                            <label>Número de RNT (Registro Nacional de Turismo) *</label>
+                            <input type="number" id="num-rnt" placeholder="Ej: 123456">
+                        </div>
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <label>Fecha de Vencimiento *</label>
+                            <input type="date" id="fecha-rnt">
+                        </div>
                     </div>
 
                     <div class="form-group" id="contenedor-docs-legales" style="background: #fdfdfd; padding: 20px; border: 1px dashed var(--turquesa); border-radius: 12px; margin-top:20px;">
@@ -194,17 +203,20 @@
                         
                         <div id="caja-doc-id">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">1. Documento de Identidad (Cédula/Pasaporte) *</label>
-                            <input type="file" id="doc-id" accept="image/*,application/pdf">
+                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <input type="file" id="doc-id" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-rnt" style="display: none;">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">2. Soporte RNT / Tarjeta Profesional *</label>
-                            <input type="file" id="doc-rnt-file" accept="image/*,application/pdf">
+                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <input type="file" id="doc-rnt-file" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-camara" style="display: none;">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Cámara de Comercio (Opcional - Solo si eres agencia)</label>
-                            <input type="file" id="doc-camara" accept="image/*,application/pdf">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Cámara de Comercio (Obligatorio para Agencias) *</label>
+                            <span class="helper-text">Vigencia no mayor a 30 días. Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <input type="file" id="doc-camara" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-pregunta-aventura" style="display:none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
@@ -219,17 +231,44 @@
                         <div id="caja-doc-aventura" style="display: none; background: #fffcf5; padding: 15px; border-left: 4px solid var(--naranja); margin-top: 10px; border-radius: 8px;">
                             <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">📑 Certificados de Aventura (ISO / Normativa / Procesos) *</label>
                             <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube el certificado que valide tus procesos de operación segura. (No es necesario subir el plan completo, solo el certificado de normativas). Nuestros validadores lo revisarán y se pondrán en contacto contigo.</p>
-                            <input type="file" id="doc-aventura" accept="image/*,application/pdf">
+                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <input type="file" id="doc-aventura" accept="image/jpeg, image/png, application/pdf">
                         </div>
                         <div id="caja-doc-alimentos" style="background: #fffcf5; padding: 10px; border-radius: 8px; border-left: 4px solid var(--naranja); margin-top: 15px; display: none;">
                             <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">🍽️ Certificado de Manipulación de Alimentos *</label>
                             <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Requerido por ley de Secretaría de Salud para tu actividad.</p>
-                            <input type="file" id="doc-alimentos" accept="image/*,application/pdf">
+                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <input type="file" id="doc-alimentos" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-otros">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Otros documentos que certifiquen tu actividad (Opcional)</label>
-                            <input type="file" id="doc-otros" accept="image/*,application/pdf">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Certificados Adicionales (Idiomas, Primeros Auxilios, etc.) - Opcional</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma que acredite un saber o competencia que fortalezca tu perfil.</p>
+                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <input type="file" id="doc-otros" accept="image/jpeg, image/png, application/pdf">
+                        </div>
+                    </div>
+
+                    <div id="caja-sello-confianza" style="background: #e3f2fd; padding: 25px; border-radius: 12px; border: 1px solid #90caf9; margin-top:20px; display:none;">
+                        <h4 style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot (Voluntario)</h4>
+                        <p style="font-size:0.85em; color:#444; line-height: 1.5; margin-bottom: 20px;">Sabemos que en nuestra tierra la palabra vale oro, pero para los viajeros que vienen de lejos, un respaldo extra ayuda mucho. Activa tu Sello de Confianza subiendo estos certificados. Es gratuito y te posicionará mejor en los resultados.</p>
+                        
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            <div>
+                                <label style="font-size:0.85em; color:#1565c0;">1. Antecedentes de la Policía</label>
+                                <small style="display:block; color:#666; margin-bottom:5px;">Descárgalo gratis en la <a href="https://antecedentes.policia.gov.co:7005/WebCiudadano/" target="_blank" style="color:var(--naranja); font-weight:bold;">página de la Policía</a>.</small>
+                                <input type="file" id="doc-policia" accept="application/pdf">
+                            </div>
+                            <div>
+                                <label style="font-size:0.85em; color:#1565c0;">2. Antecedentes de la Procuraduría (SIRPRO)</label>
+                                <small style="display:block; color:#666; margin-bottom:5px;">Descarga el Certificado Ordinario en <a href="https://www.procuraduria.gov.co/Pages/Certificado-de-Antecedentes.aspx" target="_blank" style="color:var(--naranja); font-weight:bold;">SIRPRO</a>.</small>
+                                <input type="file" id="doc-procuraduria" accept="application/pdf">
+                            </div>
+                            <div>
+                                <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio</label>
+                                <small style="display:block; color:#666; margin-bottom:5px;">Sube una foto real de tu taller, cocina o lugar donde ocurre la magia para validar que es seguro.</small>
+                                <input type="file" id="doc-espacio" accept="image/jpeg, image/png">
+                            </div>
                         </div>
                     </div>
 
@@ -272,7 +311,8 @@
 
                     <div class="form-group">
                         <label id="lbl-img">Imagen Principal (Avatar del Servicio o Ruta)</label>
-                        <input type="file" id="foto-principal" accept="image/*" required>
+                        <span class="helper-text">Formatos: JPG, PNG. Peso máx: 5MB.</span>
+                        <input type="file" id="foto-principal" accept="image/jpeg, image/png" required>
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
@@ -421,7 +461,7 @@
                                 <input type="number" id="iti-costo" placeholder="Costo ej: 60000" style="width:30%; padding:8px;">
                                 <input type="text" id="iti-tip" placeholder="Tips o Links (Ej: Comprar en aerolinea.com)" style="width:70%; padding:8px;">
                             </div>
-                            <button type="button" onclick="agregarItinerarioEstructurado()" class="btn-add" style="margin-top:10px;">Añadir Parada</button>
+                            <button type="button" onclick="agregarItinerarioEstructurado()" class="btn-add" style="margin-top:10px;">Agregar Parada</button>
                         </div>
                     </div>
 
@@ -444,7 +484,8 @@
 
                     <div class="form-group" style="background: #fff; padding: 15px; border: 1px dashed #ccc; border-radius: 12px; margin-top:20px;">
                         <label>Fotografías Adicionales (Galería sin límite)</label>
-                        <input type="file" id="fotos-galeria" accept="image/*" multiple>
+                        <span class="helper-text">Formatos: JPG, PNG. Peso máx: 5MB por foto.</span>
+                        <input type="file" id="fotos-galeria" accept="image/jpeg, image/png" multiple>
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
@@ -491,13 +532,12 @@
                     </div>
 
                     <div class="doc-legal-preview" id="preview-legal">
-                        <h4>Formato Único de Consentimiento Informado<br><span style="font-size: 0.6em; color:#888;">(Vista Previa del Cliente)</span></h4>
-                        <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa únicamente como una plataforma tecnológica que conecta aventureros con proveedores locales.</p>
-                        <p style="font-size: 0.9em;">El servicio es prestado bajo la responsibility legal y operativa exclusiva de: <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>.</p>
+                        <h4>Deslinde de Responsabilidad<br><span style="font-size: 0.6em; color:#888;">(Vista Previa del Cliente)</span></h4>
+                        <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa como una plataforma tecnológica de conexión y no asume responsabilidad directa sobre la ejecución de los servicios en terreno.</p>
+                        <p style="font-size: 0.9em;">La responsabilidad operativa recae en <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>, salvo en el caso de los itinerarios digitales y rutas autoguiadas publicadas por "Viajeros", donde <b>la ejecución de la ruta es bajo cuenta y riesgo exclusivo de quien la realiza.</b></p>
                         <hr style="border: 0; border-bottom: 1px dashed #ccc; margin: 15px 0;">
-                        <p><b>PARTE A: DECLARACIÓN DE RIESGOS:</b> El participante acepta que la actividad conlleva RIESGOS INHERENTES descritos en este perfil y asume la responsabilidad de su participación.</p>
-                        <p><b>PARTE B: DECLARACIÓN DE SALUD:</b> El participante declara NO padecer las restricciones mencionadas y confirma poseer la condición física apta para el nivel seleccionado.</p>
-                        <p><b>PARTE C: EXENCIÓN DE RESPONSABILIDAD:</b> El participante exime de responsibility a Mot Mot Experiencias y se somete a las instrucciones operativas y de seguridad establecidas por el Líder responsable.</p>
+                        <p><b>A. DECLARACIÓN DE RIESGOS Y SALUD:</b> El participante acepta conocer los riesgos inherentes de la actividad descrita y declara tener la condición física y de salud apta para completarla, eximiendo a la plataforma de responsabilidades por lesiones o incidentes derivados de su participación o del seguimiento de rutas autoguiadas.</p>
+                        <p><b>B. SOMETIMIENTO A NORMAS:</b> Para experiencias guiadas, el participante se compromete a acatar estrictamente las instrucciones de seguridad dictadas por el guía o anfitrión durante el desarrollo de la actividad.</p>
                     </div>
 
                     <div class="checkbox-group" style="background: #e8f5e9; border-color: #c8e6c9; margin-top: 20px;">
@@ -567,13 +607,13 @@
                     <div class="checkbox-group" style="background: #fff3e0; border-color: #ffcc80; margin-top:20px;">
                         <input type="checkbox" id="firma-digital" required>
                         <label for="firma-digital" style="color: #e65100;">
-                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad las Condiciones de Mot Mot. Declaro que la información es veraz y asumo la responsibility civil y legal.
+                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad las <a href="#" target="_blank" style="color:var(--negro); text-decoration:underline;">Condiciones de Mot Mot</a>. Declaro que la información es veraz y asumo la responsibility civil y legal.
                         </label>
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()">⬅ Atrás</button>
-                        <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR A CURADURÍA</button>
+                        <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR PARA APROBACIÓN</button>
                     </div>
                 </div>
             </form>
@@ -605,18 +645,21 @@
             const inputRnt = document.getElementById('doc-rnt-file');
             const cajaRntNumero = document.getElementById('caja-rnt');
             const inputRntNumero = document.getElementById('num-rnt');
+            const inputFechaRnt = document.getElementById('fecha-rnt');
 
             if(pernocta === 'si') {
                 cajaDocRnt.style.display = 'block';
                 inputRnt.setAttribute('required', 'true');
-                cajaRntNumero.style.display = 'block';
+                cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
+                inputFechaRnt.setAttribute('required', 'true');
                 inputRntNumero.placeholder = "Ej: 12345 (RNT de Vivienda)";
             } else {
                 cajaDocRnt.style.display = 'none';
                 inputRnt.removeAttribute('required');
                 cajaRntNumero.style.display = 'none';
                 inputRntNumero.removeAttribute('required');
+                inputFechaRnt.removeAttribute('required');
             }
 
             // 2. Alimentos exige Certificado
@@ -652,7 +695,23 @@
             
             if (rol === 'anfitrion') {
                 titulo.innerText = "Crear Experiencia Local 🧑‍🌾";
-                cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">🏡</span><span><b>El Corazón de Mot Mot:</b> Comparte tu cultura, oficios y gastronomía con viajeros que buscan experiencias auténticas.</span>`;
+                
+                // INYECCIÓN: TEXTO DE BIENVENIDA ANFITRIÓN
+                cajaBienvenida.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size: 2em;">🏡</span>
+                            <h4 style="margin:0; font-size:1.1em; color:#1b5e20; text-transform:uppercase;">El Anfitrión (Guardián del Saber Local)</h4>
+                        </div>
+                        <p style="margin:0; font-size:0.95em; color:#2e7d32;">
+                            <b>¿Quién eres?</b> La persona local que abre las puertas de su mundo privado para compartir un oficio (artesano, campesino, cocinero).<br><br>
+                            <b>Tu producto:</b> Vendes la conexión con un saber y la tierra. Te reciben en su taller, finca o cocina para enseñarte algo práctico.<br><br>
+                            <b>⚠️ Regla de Oro:</b> Mot Mot no es una plataforma de alojamiento. El hospedaje solo se permite si es una herramienta necesaria para vivir la experiencia (ej. pernoctar en la finca para el proceso del café). Publicaciones de "solo cama" no serán admitidas.<br><br>
+                            <b>🌟 ¿Quieres ser un Anfitrión Destacado?</b><br>
+                            Activa tu <b>Sello de Confianza</b> subiendo tus certificados básicos abajo. Es voluntario, gratuito y nos ayuda a que Mot Mot sea la comunidad más segura.
+                        </p>
+                    </div>`;
+
                 selectTipo.innerHTML = `<option value="anfitrion_local">Anfitrión Local / Experto (Talleres, Cultura, Gastronomía)</option>`;
                 selectTipo.value = 'anfitrion_local';
                 selectCategoria.innerHTML = `
@@ -669,7 +728,22 @@
             } 
             else if (rol === 'guia') {
                 titulo.innerText = "Crear Experiencia de Montaña 🏕️";
-                cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">🥾</span><span><b>El Corazón de Mot Mot:</b> Somos una plataforma que conecta personas a través del caminar. Promovemos fuertemente el trekking, hiking y las caminatas.</span>`;
+                
+                // INYECCIÓN: TEXTO DE BIENVENIDA GUÍA
+                cajaBienvenida.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size: 2em;">🥾</span>
+                            <h4 style="margin:0; font-size:1.1em; color:#1b5e20; text-transform:uppercase;">El Guía / Agencia (Profesional del Terreno)</h4>
+                        </div>
+                        <p style="margin:0; font-size:0.95em; color:#2e7d32;">
+                            <b>¿Quién eres?</b> El experto técnico y legal encargado de que la aventura sea segura, profunda y educativa.<br><br>
+                            <b>Tu producto:</b> Operación de Aventura. Vendes seguridad, logística y conocimiento del territorio.<br><br>
+                            <b>Qué haces:</b> Llevas físicamente por los caminos, cañones o rutas de trekking. Gestionas riesgos, clima y narrativa histórica.<br><br>
+                            <b>🌟 Activa tu Sello de Confianza</b> en la sección legal inferior subiendo tus documentos para destacar en los resultados de búsqueda.
+                        </p>
+                    </div>`;
+
                 selectTipo.innerHTML = `
                     <option value="guia_turismo">Guía de Turismo Profesional (Carnet MinCIT)</option>
                     <option value="agencia_operadora">Agencia Operadora / Op. de Turismo de Aventura</option>
@@ -688,7 +762,21 @@
             } 
             else {
                 titulo.innerText = "Crear Mi Itinerario de Viaje 🎒";
-                cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">📍</span><span><b>Comparte tu ruta:</b> Diseña tu itinerario, agrega tus tips y monetízalo para que otros viajeros lo copien.</span>`;
+                
+                // INYECCIÓN: TEXTO DE BIENVENIDA VIAJERO
+                cajaBienvenida.innerHTML = `
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size: 2em;">📍</span>
+                            <h4 style="margin:0; font-size:1.1em; color:#1b5e20; text-transform:uppercase;">El Viajero (Curador de Itinerarios)</h4>
+                        </div>
+                        <p style="margin:0; font-size:0.95em; color:#2e7d32;">
+                            <b>¿Quién eres?</b> Un estratega del viaje y experto en "el arte de viajar" que conoce los rincones que no aparecen en guías comerciales.<br><br>
+                            <b>Tu producto:</b> Información Maestra. Vendes un "mapa del tesoro" digital.<br><br>
+                            <b>Qué haces:</b> Entregas una hoja de ruta con links, ubicaciones exactas, contactos locales y datos específicos. No reservas hoteles ni acompañas, das la inteligencia logística para que el turista haga su propia ruta.
+                        </p>
+                    </div>`;
+
                 selectTipo.innerHTML = `<option value="viajero_creador">Viajero Creador (Compartir Itinerarios)</option>`;
                 selectTipo.value = 'viajero_creador';
                 selectCategoria.innerHTML = `<option value="Itinerario Digital" selected>Itinerario Digital (Ruta Autoguiada / Tips)</option>`;
@@ -747,6 +835,21 @@
             }
         };
 
+        // CIRUGÍA: Evaluar Cámara de Comercio independientemente
+        window.evaluarCamaraComercio = () => {
+            const selectTipo = document.getElementById('tipo-guia').value;
+            const cajaCamara = document.getElementById('caja-doc-camara');
+            const inputCamara = document.getElementById('doc-camara');
+
+            if(selectTipo === 'agencia_operadora') {
+                cajaCamara.style.display = 'block';
+                inputCamara.setAttribute('required', 'true');
+            } else {
+                cajaCamara.style.display = 'none';
+                inputCamara.removeAttribute('required');
+            }
+        };
+
         window.verificarDocumentosLegales = (rol) => {
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
@@ -754,16 +857,18 @@
             const inputRntFile = document.getElementById('doc-rnt-file');
             const cajaRntNumero = document.getElementById('caja-rnt');
             const inputRntNumero = document.getElementById('num-rnt');
-            const cajaCamara = document.getElementById('caja-doc-camara');
+            const inputFechaRnt = document.getElementById('fecha-rnt');
             
             const cajaPreguntaAventura = document.getElementById('caja-pregunta-aventura');
             const cajaDocAventura = document.getElementById('caja-doc-aventura');
             const cajaChecklistAnfitrion = document.getElementById('caja-checklist-anfitrion');
+            const cajaSelloConfianza = document.getElementById('caja-sello-confianza');
 
             if (rol === 'viajero') {
                 contenedorDocs.style.display = 'none';
                 cajaRntNumero.style.display = 'none';
                 inputRntNumero.removeAttribute('required');
+                inputFechaRnt.removeAttribute('required');
                 docId.removeAttribute('required');
                 inputRntFile.removeAttribute('required');
                 document.getElementById('check-consentimiento').removeAttribute('required');
@@ -771,18 +876,18 @@
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
                 if(cajaDocAventura) cajaDocAventura.style.display = 'none';
                 if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
+                if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'none';
 
             } else if (rol === 'anfitrion') {
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
-                cajaCamara.style.display = 'none';
-                
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
                 if(cajaDocAventura) cajaDocAventura.style.display = 'none';
                 
                 if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'block';
+                if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'block';
                 
                 // Limpiar valores por defecto al cambiar a anfitrión
                 document.querySelector('input[name="chk_pernocta"][value="no"]').checked = true;
@@ -790,22 +895,27 @@
                 document.querySelector('input[name="chk_frontera"][value="no"]').checked = true;
                 
                 window.evaluarChecklist();
+                window.evaluarCamaraComercio(); // Por si acaso estaba en agencia
 
             } else { // Si es Guía
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
-                cajaRntNumero.style.display = 'block';
+                cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
+                inputFechaRnt.setAttribute('required', 'true');
                 inputRntNumero.placeholder = "Ej: 12345";
+                
                 cajaDocRnt.style.display = 'block';
                 inputRntFile.setAttribute('required', 'true');
-                cajaCamara.style.display = 'block';
                 
                 if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'block';
+                if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'block';
+                
                 window.toggleAventuraDocs();
+                window.evaluarCamaraComercio(); // Verifica si es guía (apaga) o agencia (prende)
                 
                 const btnSiguiente1 = document.getElementById('btn-paso1-next');
                 btnSiguiente1.classList.remove('btn-disabled');
@@ -1043,6 +1153,13 @@
                     const data = snap.data();
                     userName = data.nombre || "Usuario";
                     userRolGlobal = data.rol || "viajero";
+                    
+                    // Asegurar que evaluarCamaraComercio se asigne al change *antes* de adaptar el formulario
+                    document.getElementById('tipo-guia').addEventListener('change', () => {
+                        window.adaptarFormulario(userRolGlobal);
+                        window.evaluarCamaraComercio(); 
+                    });
+
                     window.adaptarFormulario(userRolGlobal); 
                 }
             } else window.location.replace('index.html');
@@ -1067,6 +1184,7 @@
 
             try {
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
+                let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
 
                 if (userRolGlobal === 'guia' || userRolGlobal === 'anfitrion') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
@@ -1090,6 +1208,14 @@
                     if(inputAventura && inputAventura.files.length > 0 && radioAventura && radioAventura.value === 'si') {
                         urlDocAventura = await uploadCloudinary(inputAventura.files[0]);
                     }
+
+                    // SELLO DE CONFIANZA
+                    const inputPolicia = document.getElementById('doc-policia');
+                    if(inputPolicia && inputPolicia.files.length > 0) urlSelloPolicia = await uploadCloudinary(inputPolicia.files[0]);
+                    const inputProcuraduria = document.getElementById('doc-procuraduria');
+                    if(inputProcuraduria && inputProcuraduria.files.length > 0) urlSelloProcuraduria = await uploadCloudinary(inputProcuraduria.files[0]);
+                    const inputEspacio = document.getElementById('doc-espacio');
+                    if(inputEspacio && inputEspacio.files.length > 0) urlSelloEspacio = await uploadCloudinary(inputEspacio.files[0]);
                 }
 
                 btn.innerText = "SUBIENDO IMÁGENES...";
@@ -1106,7 +1232,9 @@
                 btn.innerText = "GUARDANDO EN BÓVEDA MOT MOT...";
 
                 let rntVal = "";
+                let rntFech = "";
                 if(document.getElementById('num-rnt')) rntVal = DOMPurify.sanitize(document.getElementById('num-rnt').value);
+                if(document.getElementById('fecha-rnt')) rntFech = DOMPurify.sanitize(document.getElementById('fecha-rnt').value);
 
                 let seguroMod = "ninguno"; 
                 if(document.querySelector('input[name="seguro"]:checked')) {
@@ -1129,6 +1257,7 @@
                     
                     tipoProfesional: DOMPurify.sanitize(document.getElementById('tipo-guia').value),
                     rnt: rntVal,
+                    vencimientoRnt: rntFech,
                     
                     // Datos del checklist de Anfitrión
                     operacionLocal: {
@@ -1144,7 +1273,12 @@
                         camaraComercio: urlDocCamara,
                         otrosDocumentos: urlDocOtros,
                         manipulacionAlimentos: urlDocAlimentos,
-                        certificadosAventura: urlDocAventura
+                        certificadosAventura: urlDocAventura,
+                        selloConfianza: {
+                            policia: urlSelloPolicia,
+                            procuraduria: urlSelloProcuraduria,
+                            fotoEspacio: urlSelloEspacio
+                        }
                     },
                     
                     tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",
@@ -1192,7 +1326,7 @@
                 console.error(error);
                 alert("Error de conexión al subir archivos. Verifica el tamaño de tus fotos/PDFs y tu internet.");
             } finally {
-                btn.innerText = "✅ ENVIAR A CURADURÍA";
+                btn.innerText = "✅ ENVIAR PARA APROBACIÓN";
                 btn.classList.remove('btn-disabled');
             }
         };
