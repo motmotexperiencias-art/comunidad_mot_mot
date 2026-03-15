@@ -72,7 +72,13 @@
         summary { font-weight: bold; color: #1565c0; outline: none; }
         details[open] summary { margin-bottom: 10px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
 
-        #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales { display: none; }
+        /* Estilos base de visibilidad para formularios */
+        #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales, #caja-checklist-anfitrion, #alerta-legal-frontera { display: none; }
+
+        /* Estilo para las preguntas del Checklist */
+        .check-pregunta { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
+        .check-pregunta label { margin-bottom: 5px; color: var(--negro); font-size: 0.95em; }
+        .check-pregunta p { margin: 0 0 10px 0; font-size: 0.75em; color: #666; }
 
         @media (max-width: 768px) {
             .container { margin: 10px auto; padding: 10px; }
@@ -135,15 +141,48 @@
 
                     <div class="form-group" id="caja-tipo-perfil">
                         <label>Tu Perfil Registrado:</label>
-                        <select id="tipo-guia" required>
+                        <select id="tipo-guia" required onchange="window.adaptarFormulario(userRolGlobal)">
                         </select>
                     </div>
 
                     <div id="aviso-anfitrion" class="info-box" style="background: #fff3e0; color: #d84315; border-color: #ff9800; animation: fadeIn 0.4s ease;">
                         <span style="font-size: 1.5em;">🛡️</span>
-                        <span><b>Escudo Legal:</b> Como Anfitrión Local no necesitas RNT, pero por ley <b>solo puedes vender talleres, cultura, o gastronomía</b>.</span>
+                        <span><b>Escudo Legal:</b> Como Anfitrión Local no necesitas RNT, pero por ley <b>solo puedes vender talleres, cultura, o gastronomía dentro de tu propiedad</b>.</span>
                     </div>
 
+                    <div id="caja-checklist-anfitrion" style="background: #f9f9f9; padding: 20px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 20px;">
+                        <h4 style="margin-top: 0; color: var(--turquesa); text-transform: uppercase;">📋 Cuestionario de Operación Local</h4>
+                        
+                        <div class="check-pregunta">
+                            <label>1. ¿Ofreces pernoctación (Dormir en casa/finca)?</label>
+                            <p>Si hospedas a la gente, la ley exige RNT de Vivienda Turística.</p>
+                            <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
+                                <label><input type="radio" name="chk_pernocta" value="si" onchange="evaluarChecklist()"> Sí</label>
+                                <label><input type="radio" name="chk_pernocta" value="no" onchange="evaluarChecklist()" checked> No</label>
+                            </div>
+                        </div>
+
+                        <div class="check-pregunta">
+                            <label>2. ¿Ofreces alimentación (Plato servido a la mesa)?</label>
+                            <p>Requiere normas básicas de higiene y manipulación de alimentos.</p>
+                            <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
+                                <label><input type="radio" name="chk_alimentos" value="si" onchange="evaluarChecklist()"> Sí</label>
+                                <label><input type="radio" name="chk_alimentos" value="no" onchange="evaluarChecklist()" checked> No</label>
+                            </div>
+                        </div>
+
+                        <div class="check-pregunta">
+                            <label>3. ¿La actividad implica salir de tu propiedad/taller a la naturaleza?</label>
+                            <p>Ej: Caminar por senderos públicos o llevarlos a una cascada cercana.</p>
+                            <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
+                                <label><input type="radio" name="chk_frontera" value="si" onchange="evaluarChecklist()"> Sí</label>
+                                <label><input type="radio" name="chk_frontera" value="no" onchange="evaluarChecklist()" checked> No</label>
+                            </div>
+                            <div id="alerta-legal-frontera" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
+                                ⚠️ ALTO: Si sales a senderos o espacios públicos, la ley exige que estés registrado como Agencia Operadora o Guía. Por favor, cambia tu perfil en la parte superior o ajusta tu actividad para hacerla dentro de tu finca/casa.
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group" id="caja-rnt">
                         <label>Número de RNT (Registro Nacional de Turismo) *</label>
                         <input type="number" id="num-rnt" placeholder="Ej: 123456">
@@ -158,18 +197,13 @@
                             <input type="file" id="doc-id" accept="image/*,application/pdf">
                         </div>
 
-                        <div id="caja-doc-rut">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">2. RUT (Registro Único Tributario) *</label>
-                            <input type="file" id="doc-rut" accept="image/*,application/pdf">
-                        </div>
-
                         <div id="caja-doc-rnt" style="display: none;">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT / Tarjeta Profesional *</label>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">2. Soporte RNT / Tarjeta Profesional *</label>
                             <input type="file" id="doc-rnt-file" accept="image/*,application/pdf">
                         </div>
 
                         <div id="caja-doc-camara" style="display: none;">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Cámara de Comercio (Opcional - Solo si eres agencia)</label>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Cámara de Comercio (Opcional - Solo si eres agencia)</label>
                             <input type="file" id="doc-camara" accept="image/*,application/pdf">
                         </div>
 
@@ -187,15 +221,15 @@
                             <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube el certificado que valide tus procesos de operación segura. (No es necesario subir el plan completo, solo el certificado de normativas). Nuestros validadores lo revisarán y se pondrán en contacto contigo.</p>
                             <input type="file" id="doc-aventura" accept="image/*,application/pdf">
                         </div>
-                        <div id="caja-doc-otros">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">5. Otros documentos que certifiquen tu actividad (Opcional)</label>
-                            <input type="file" id="doc-otros" accept="image/*,application/pdf">
+                        <div id="caja-doc-alimentos" style="background: #fffcf5; padding: 10px; border-radius: 8px; border-left: 4px solid var(--naranja); margin-top: 15px; display: none;">
+                            <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">🍽️ Certificado de Manipulación de Alimentos *</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Requerido por ley de Secretaría de Salud para tu actividad.</p>
+                            <input type="file" id="doc-alimentos" accept="image/*,application/pdf">
                         </div>
 
-                        <div id="caja-doc-alimentos" style="background: #fffcf5; padding: 10px; border-radius: 8px; border-left: 4px solid var(--naranja); margin-top: 15px;">
-                            <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">🍽️ Certificado de Manipulación de Alimentos *</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Requerido por ley ya que ofrecerás experiencia de gastronomía.</p>
-                            <input type="file" id="doc-alimentos" accept="image/*,application/pdf">
+                        <div id="caja-doc-otros">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Otros documentos que certifiquen tu actividad (Opcional)</label>
+                            <input type="file" id="doc-otros" accept="image/*,application/pdf">
                         </div>
                     </div>
 
@@ -557,6 +591,59 @@
             incluye: [], noIncluye: [], queLlevar: [], itinerario: [], extras: [], recursos: [], restricciones: [] 
         };
 
+        // LÓGICA DEL CHECKLIST DE ANFITRIÓN
+        window.evaluarChecklist = () => {
+            if(userRolGlobal !== 'anfitrion') return;
+
+            const pernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value;
+            const alimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value;
+            const frontera = document.querySelector('input[name="chk_frontera"]:checked')?.value;
+            const categoria = document.getElementById('tour-categoria').value;
+
+            // 1. Pernoctación exige RNT
+            const cajaDocRnt = document.getElementById('caja-doc-rnt');
+            const inputRnt = document.getElementById('doc-rnt-file');
+            const cajaRntNumero = document.getElementById('caja-rnt');
+            const inputRntNumero = document.getElementById('num-rnt');
+
+            if(pernocta === 'si') {
+                cajaDocRnt.style.display = 'block';
+                inputRnt.setAttribute('required', 'true');
+                cajaRntNumero.style.display = 'block';
+                inputRntNumero.setAttribute('required', 'true');
+                inputRntNumero.placeholder = "Ej: 12345 (RNT de Vivienda)";
+            } else {
+                cajaDocRnt.style.display = 'none';
+                inputRnt.removeAttribute('required');
+                cajaRntNumero.style.display = 'none';
+                inputRntNumero.removeAttribute('required');
+            }
+
+            // 2. Alimentos exige Certificado
+            const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
+            const inputAlimentos = document.getElementById('doc-alimentos');
+            if(alimentos === 'si' || categoria === 'Clase de Cocina' || categoria.includes('Gastronomía')) {
+                cajaDocAlimentos.style.display = 'block';
+                inputAlimentos.setAttribute('required', 'true');
+            } else {
+                cajaDocAlimentos.style.display = 'none';
+                inputAlimentos.removeAttribute('required');
+            }
+
+            // 3. Frontera bloquea
+            const alertaFrontera = document.getElementById('alerta-legal-frontera');
+            const btnSiguiente1 = document.getElementById('btn-paso1-next');
+            if(frontera === 'si') {
+                alertaFrontera.style.display = 'block';
+                btnSiguiente1.classList.add('btn-disabled');
+                btnSiguiente1.onclick = null;
+            } else {
+                alertaFrontera.style.display = 'none';
+                btnSiguiente1.classList.remove('btn-disabled');
+                btnSiguiente1.onclick = () => nextStep(1, 2);
+            }
+        };
+
         window.adaptarFormulario = (rol) => {
             const selectTipo = document.getElementById('tipo-guia');
             const titulo = document.getElementById('titulo-principal');
@@ -663,66 +750,72 @@
         window.verificarDocumentosLegales = (rol) => {
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
-            const docRut = document.getElementById('doc-rut');
             const cajaDocRnt = document.getElementById('caja-doc-rnt');
             const inputRntFile = document.getElementById('doc-rnt-file');
+            const cajaRntNumero = document.getElementById('caja-rnt');
+            const inputRntNumero = document.getElementById('num-rnt');
             const cajaCamara = document.getElementById('caja-doc-camara');
             
             const cajaPreguntaAventura = document.getElementById('caja-pregunta-aventura');
             const cajaDocAventura = document.getElementById('caja-doc-aventura');
+            const cajaChecklistAnfitrion = document.getElementById('caja-checklist-anfitrion');
 
             if (rol === 'viajero') {
                 contenedorDocs.style.display = 'none';
+                cajaRntNumero.style.display = 'none';
+                inputRntNumero.removeAttribute('required');
                 docId.removeAttribute('required');
-                docRut.removeAttribute('required');
                 inputRntFile.removeAttribute('required');
                 document.getElementById('check-consentimiento').removeAttribute('required');
                 
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
                 if(cajaDocAventura) cajaDocAventura.style.display = 'none';
+                if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
+
             } else if (rol === 'anfitrion') {
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
-                docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
-                cajaDocRnt.style.display = 'none';
-                inputRntFile.removeAttribute('required');
                 cajaCamara.style.display = 'none';
                 
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
                 if(cajaDocAventura) cajaDocAventura.style.display = 'none';
+                
+                if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'block';
+                
+                // Limpiar valores por defecto al cambiar a anfitrión
+                document.querySelector('input[name="chk_pernocta"][value="no"]').checked = true;
+                document.querySelector('input[name="chk_alimentos"][value="no"]').checked = true;
+                document.querySelector('input[name="chk_frontera"][value="no"]').checked = true;
+                
+                window.evaluarChecklist();
+
             } else { // Si es Guía
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
-                docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
+                cajaRntNumero.style.display = 'block';
+                inputRntNumero.setAttribute('required', 'true');
+                inputRntNumero.placeholder = "Ej: 12345";
                 cajaDocRnt.style.display = 'block';
                 inputRntFile.setAttribute('required', 'true');
                 cajaCamara.style.display = 'block';
                 
+                if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'block';
                 window.toggleAventuraDocs();
+                
+                const btnSiguiente1 = document.getElementById('btn-paso1-next');
+                btnSiguiente1.classList.remove('btn-disabled');
+                btnSiguiente1.onclick = () => nextStep(1, 2);
             }
-            window.verificarGastronomia();
         }
 
         window.verificarGastronomia = () => {
-            const categoria = document.getElementById('tour-categoria').value;
-            const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
-            const inputAlimentos = document.getElementById('doc-alimentos');
-            
-            if (userRolGlobal === 'anfitrion' && (categoria === 'Clase de Cocina' || categoria.includes('Gastronomía'))) {
-                cajaDocAlimentos.style.display = 'block';
-                inputAlimentos.setAttribute('required', 'true');
-                alert("¡Qué rico! 🥘 Como darás una experiencia de gastronomía, por favor asegúrate de subir tu Certificado de Manipulación de Alimentos en el Paso 1.");
-            } else {
-                cajaDocAlimentos.style.display = 'none';
-                if(inputAlimentos) {
-                    inputAlimentos.removeAttribute('required');
-                    inputAlimentos.value = '';
-                }
+            if(userRolGlobal === 'anfitrion') {
+                window.evaluarChecklist();
             }
         };
 
@@ -979,9 +1072,6 @@
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     const inputId = document.getElementById('doc-id');
                     if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
-
-                    const inputRut = document.getElementById('doc-rut');
-                    if(inputRut && inputRut.files.length > 0) urlDocRut = await uploadCloudinary(inputRut.files[0]);
                     
                     const inputRntFile = document.getElementById('doc-rnt-file');
                     if(inputRntFile && inputRntFile.files.length > 0) urlDocRnt = await uploadCloudinary(inputRntFile.files[0]);
@@ -1025,6 +1115,11 @@
 
                 let tipoProducto = (userRolGlobal === 'viajero') ? "itinerario_viajero" : "experiencia_pro";
 
+                // Capturar valores del checklist si existen
+                const chkPernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value || "no";
+                const chkAlimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value || "no";
+                const chkFrontera = document.querySelector('input[name="chk_frontera"]:checked')?.value || "no";
+
                 await addDoc(collection(db, "solicitudes_amelia"), {
                     guiaId: userId,
                     guiaNombre: userName,
@@ -1034,6 +1129,14 @@
                     
                     tipoProfesional: DOMPurify.sanitize(document.getElementById('tipo-guia').value),
                     rnt: rntVal,
+                    
+                    // Datos del checklist de Anfitrión
+                    operacionLocal: {
+                        pernocta: chkPernocta,
+                        alimentos: chkAlimentos,
+                        saleDeFrontera: chkFrontera
+                    },
+
                     documentosLegales: {
                         documentoIdentidad: urlDocId,
                         rut: urlDocRut,
