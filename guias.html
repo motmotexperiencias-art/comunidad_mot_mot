@@ -173,6 +173,20 @@
                             <input type="file" id="doc-camara" accept="image/*,application/pdf">
                         </div>
 
+                        <div id="caja-pregunta-aventura" style="display:none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
+                            <label style="color:var(--negro); font-size:0.9em; font-weight: 800;">⛰️ ¿Ofreces actividades de Aventura?</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Ej: Trekking, parapente, rafting, cuatrimotos, cabalgatas, etc.</p>
+                            <div class="radio-group" style="background:transparent; border:none; padding:0; margin-top:5px;">
+                                <label><input type="radio" name="ofrece_aventura" value="si" onchange="toggleAventuraDocs()"> Sí</label>
+                                <label><input type="radio" name="ofrece_aventura" value="no" onchange="toggleAventuraDocs()" checked> No</label>
+                            </div>
+                        </div>
+
+                        <div id="caja-doc-aventura" style="display: none; background: #fffcf5; padding: 15px; border-left: 4px solid var(--naranja); margin-top: 10px; border-radius: 8px;">
+                            <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">📑 Certificados de Aventura (ISO / Normativa / Procesos) *</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube el certificado que valide tus procesos de operación segura. (No es necesario subir el plan completo, solo el certificado de normativas). Nuestros validadores lo revisarán y se pondrán en contacto contigo.</p>
+                            <input type="file" id="doc-aventura" accept="image/*,application/pdf">
+                        </div>
                         <div id="caja-doc-otros">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">5. Otros documentos que certifiquen tu actividad (Opcional)</label>
                             <input type="file" id="doc-otros" accept="image/*,application/pdf">
@@ -571,7 +585,6 @@
                 cajaBienvenida.innerHTML = `<span style="font-size: 1.5em;">🥾</span><span><b>El Corazón de Mot Mot:</b> Somos una plataforma que conecta personas a través del caminar. Promovemos fuertemente el trekking, hiking y las caminatas.</span>`;
                 selectTipo.innerHTML = `
                     <option value="guia_turismo">Guía de Turismo Profesional (Carnet MinCIT)</option>
-                    <option value="cultura_fisica">Profesional en Cultura Física y Deporte / Trekking</option>
                     <option value="agencia_operadora">Agencia Operadora / Op. de Turismo de Aventura</option>
                 `;
                 selectTipo.value = 'guia_turismo';
@@ -632,6 +645,21 @@
             window.verificarDocumentosLegales(rol);
         };
 
+        window.toggleAventuraDocs = () => {
+            const radioAventura = document.querySelector('input[name="ofrece_aventura"]:checked');
+            if(!radioAventura) return;
+            const isSi = radioAventura.value === 'si';
+            const cajaDocAventura = document.getElementById('caja-doc-aventura');
+            const inputAventura = document.getElementById('doc-aventura');
+            if (isSi) {
+                cajaDocAventura.style.display = 'block';
+                inputAventura.setAttribute('required', 'true');
+            } else {
+                cajaDocAventura.style.display = 'none';
+                inputAventura.removeAttribute('required');
+            }
+        };
+
         window.verificarDocumentosLegales = (rol) => {
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
@@ -639,6 +667,9 @@
             const cajaDocRnt = document.getElementById('caja-doc-rnt');
             const inputRntFile = document.getElementById('doc-rnt-file');
             const cajaCamara = document.getElementById('caja-doc-camara');
+            
+            const cajaPreguntaAventura = document.getElementById('caja-pregunta-aventura');
+            const cajaDocAventura = document.getElementById('caja-doc-aventura');
 
             if (rol === 'viajero') {
                 contenedorDocs.style.display = 'none';
@@ -646,27 +677,33 @@
                 docRut.removeAttribute('required');
                 inputRntFile.removeAttribute('required');
                 document.getElementById('check-consentimiento').removeAttribute('required');
+                
+                if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
+                if(cajaDocAventura) cajaDocAventura.style.display = 'none';
             } else if (rol === 'anfitrion') {
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
-                // Anfitrión: Se apaga RNT y Cámara
                 cajaDocRnt.style.display = 'none';
                 inputRntFile.removeAttribute('required');
                 cajaCamara.style.display = 'none';
                 
+                if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
+                if(cajaDocAventura) cajaDocAventura.style.display = 'none';
             } else { // Si es Guía
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
-                // Guía: Se enciende RNT (Obligatorio) y Cámara (Opcional)
                 cajaDocRnt.style.display = 'block';
                 inputRntFile.setAttribute('required', 'true');
                 cajaCamara.style.display = 'block';
+                
+                if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'block';
+                window.toggleAventuraDocs();
             }
             window.verificarGastronomia();
         }
@@ -936,7 +973,7 @@
             btn.classList.add('btn-disabled');
 
             try {
-                let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "";
+                let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
 
                 if (userRolGlobal === 'guia' || userRolGlobal === 'anfitrion') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
@@ -957,6 +994,12 @@
 
                     const inputAlimentos = document.getElementById('doc-alimentos');
                     if(inputAlimentos && inputAlimentos.files.length > 0) urlDocAlimentos = await uploadCloudinary(inputAlimentos.files[0]);
+
+                    const inputAventura = document.getElementById('doc-aventura');
+                    const radioAventura = document.querySelector('input[name="ofrece_aventura"]:checked');
+                    if(inputAventura && inputAventura.files.length > 0 && radioAventura && radioAventura.value === 'si') {
+                        urlDocAventura = await uploadCloudinary(inputAventura.files[0]);
+                    }
                 }
 
                 btn.innerText = "SUBIENDO IMÁGENES...";
@@ -997,7 +1040,8 @@
                         soporteRnt: urlDocRnt,
                         camaraComercio: urlDocCamara,
                         otrosDocumentos: urlDocOtros,
-                        manipulacionAlimentos: urlDocAlimentos
+                        manipulacionAlimentos: urlDocAlimentos,
+                        certificadosAventura: urlDocAventura
                     },
                     
                     tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",

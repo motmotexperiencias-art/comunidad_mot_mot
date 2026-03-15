@@ -33,6 +33,10 @@
         .interest-tag:hover { border-color: var(--turquesa); color: var(--turquesa); }
         .interest-tag.selected { background: var(--turquesa); border-color: var(--turquesa); color: white; transform: scale(1.05); font-weight: 700; box-shadow: 0 4px 10px rgba(128, 196, 200, 0.4); }
         
+        /* 🚩 INYECCIÓN FASE 3: Banderas en Perfil */
+        .img-flag-mini { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; vertical-align: middle; margin-right: 6px; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .interest-tag-lang { display: inline-flex; align-items: center; padding: 6px 15px; }
+
         .passport-box { background: #fffbf0; border: 2px dashed var(--dorado); padding: 25px; border-radius: 15px; margin-bottom: 25px; transition: 0.3s; }
         .passport-card { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; border-left: 5px solid var(--naranja); }
         .mini-galeria { display: flex; gap: 5px; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; }
@@ -43,14 +47,12 @@
         .btn-disabled { background: #ccc; cursor: not-allowed; opacity: 0.7; }
         .btn-cambiar-foto { background: var(--turquesa); border:none; padding: 5px 15px; border-radius: 15px; color: white; font-size: 0.8em; cursor: pointer; margin-top: -10px; margin-bottom: 20px; font-weight: bold;}
 
-        /* 🚨 ESTILOS DEL BOTÓN ROJO HABEAS DATA */
         .btn-eliminar-cuenta { width: 100%; padding: 15px; background: #fff; color: #c62828; border: 2px solid #ffcdd2; border-radius: 12px; font-weight: 800; font-size: 0.9em; cursor: pointer; transition: 0.3s; margin-top: 40px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .btn-eliminar-cuenta:hover { background: #ffebee; border-color: #ef9a9a; }
 
         .icono-campana { font-size: 1.5em; cursor: pointer; position: relative; text-decoration: none; margin-right: 15px;}
         .punto-rojo { position: absolute; top: -5px; right: -5px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.5em; font-weight: bold; display: none; border: 2px solid white;}
 
-        /* 🚀 INYECCIÓN FASE 3: ESTILOS BOTÓN ADMINISTRATIVO AMELIA */
         .btn-admin-panel { display: block; background: linear-gradient(135deg, #1a1a1a 0%, #333 100%); color: white; text-align: center; padding: 15px; border-radius: 12px; text-decoration: none; font-weight: 900; font-size: 0.95em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s; border-left: 5px solid var(--turquesa); }
         .btn-admin-panel:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); background: var(--turquesa); border-left-color: var(--negro); color: var(--negro); }
         .caja-invitacion-ventas { background: #e0f7fa; border: 1px solid #b2ebf2; padding: 20px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
@@ -253,7 +255,20 @@
             "🦜 Avistamiento de Aves", "🛸 Ovnis/Misterios", "👻 Paranormal", "🤝 Conectar"
         ];
 
-        const idiomasList = ["🇪🇸 Español", "🇺🇸 Inglés", "🇫🇷 Francés", "🇩🇪 Alemán", "🇮🇹 Italiano", "🇧🇷 Portugués", "🇯🇵 Japonés", "🇨🇳 Chino", "🇷🇺 Ruso", "🇸🇦 Árabe", "🤟 Señas"];
+        // 🚩 DATOS CON BANDERAS REALES (Sin dañar el valor que se guarda en DB)
+        const idiomasData = [
+            { id: "🇪🇸 Español", img: "https://flagcdn.com/w40/es.png", text: "Español" },
+            { id: "🇺🇸 Inglés", img: "https://flagcdn.com/w40/gb.png", text: "Inglés" },
+            { id: "🇫🇷 Francés", img: "https://flagcdn.com/w40/fr.png", text: "Francés" },
+            { id: "🇩🇪 Alemán", img: "https://flagcdn.com/w40/de.png", text: "Alemán" },
+            { id: "🇮🇹 Italiano", img: "https://flagcdn.com/w40/it.png", text: "Italiano" },
+            { id: "🇧🇷 Portugués", img: "https://flagcdn.com/w40/br.png", text: "Portugués" },
+            { id: "🇯🇵 Japonés", img: "https://flagcdn.com/w40/jp.png", text: "Japonés" },
+            { id: "🇨🇳 Chino", img: "https://flagcdn.com/w40/cn.png", text: "Chino" },
+            { id: "🇷🇺 Ruso", img: "https://flagcdn.com/w40/ru.png", text: "Ruso" },
+            { id: "🇸🇦 Árabe", img: "https://flagcdn.com/w40/sa.png", text: "Árabe" },
+            { id: "🤟 Señas", img: null, text: "🤟 Señas" }
+        ];
 
         let selectedOutdoor = [], selectedGeneral = [], experiencias = [], userId = "";
         let selectedIdiomasHabla = [], selectedIdiomasAprende = [];
@@ -264,9 +279,35 @@
             lista.forEach(item => {
                 const tag = document.createElement('div');
                 tag.className = 'interest-tag'; tag.innerText = item;
+                tag.dataset.valor = item; // Guardamos el valor exacto para leerlo después
                 tag.onclick = () => {
                     tag.classList.toggle('selected');
-                    const val = tag.innerText;
+                    const val = item;
+                    if(arraySeleccion.includes(val)) arraySeleccion.splice(arraySeleccion.indexOf(val), 1);
+                    else arraySeleccion.push(val);
+                };
+                container.appendChild(tag);
+            });
+        }
+
+        // 🚩 FUNCIÓN EXCLUSIVA PARA IDIOMAS CON BANDERAS
+        function crearTagsIdiomas(lista, contenedorId, arraySeleccion) {
+            const container = document.getElementById(contenedorId);
+            container.innerHTML = ""; 
+            lista.forEach(item => {
+                const tag = document.createElement('div');
+                tag.className = 'interest-tag interest-tag-lang'; 
+                tag.dataset.valor = item.id; // ¡Acá se guarda el "🇪🇸 Español" original para la DB!
+                
+                if (item.img) {
+                    tag.innerHTML = `<img src="${item.img}" class="img-flag-mini"> ${item.text}`;
+                } else {
+                    tag.innerHTML = item.text;
+                }
+
+                tag.onclick = () => {
+                    tag.classList.toggle('selected');
+                    const val = item.id;
                     if(arraySeleccion.includes(val)) arraySeleccion.splice(arraySeleccion.indexOf(val), 1);
                     else arraySeleccion.push(val);
                 };
@@ -276,8 +317,8 @@
         
         crearTags(outdoorList, 'grid-outdoor', selectedOutdoor);
         crearTags(generalList, 'grid-general', selectedGeneral);
-        crearTags(idiomasList, 'grid-idiomas-habla', selectedIdiomasHabla);
-        crearTags(idiomasList, 'grid-idiomas-aprende', selectedIdiomasAprende);
+        crearTagsIdiomas(idiomasData, 'grid-idiomas-habla', selectedIdiomasHabla);
+        crearTagsIdiomas(idiomasData, 'grid-idiomas-aprende', selectedIdiomasAprende);
 
         const inputUbi = document.getElementById('ubicacion-input');
         const sugerencias = document.getElementById('lista-sugerencias');
@@ -381,10 +422,11 @@
                     
                     setTimeout(() => { 
                         document.querySelectorAll('.interest-tag').forEach(tag => { 
-                            if(selectedOutdoor.includes(tag.innerText) || 
-                               selectedGeneral.includes(tag.innerText) ||
-                               selectedIdiomasHabla.includes(tag.innerText) ||
-                               selectedIdiomasAprende.includes(tag.innerText)) {
+                            const val = tag.dataset.valor; // 🚩 Leemos el data-valor oculto
+                            if(selectedOutdoor.includes(val) || 
+                               selectedGeneral.includes(val) ||
+                               selectedIdiomasHabla.includes(val) ||
+                               selectedIdiomasAprende.includes(val)) {
                                 tag.classList.add('selected'); 
                             }
                         }); 
@@ -470,7 +512,6 @@
             finally { btn.innerText = "ACTUALIZAR IDENTIDAD"; btn.classList.remove('btn-disabled'); }
         };
 
-        // LÓGICA DE DESTRUCCIÓN DE CUENTA (HABEAS DATA)
         document.getElementById('btn-eliminar-cuenta').onclick = async () => {
             const confirmacion = confirm("⚠️ ¿Estás absolutamente seguro?\n\nAl dar Aceptar, se borrará tu bitácora, tus fotos y tus conexiones de forma irreversible. Esta acción no se puede deshacer.");
             
