@@ -185,26 +185,22 @@
         import { auth, db, doc, getDoc, collection, query, getDocs, where, onSnapshot, onAuthStateChanged, signOut } from './firebase-config.js';
 
         let cacheUsers = []; 
-        let cacheExperiencias = []; // Almacén ligero para ventas
+        let cacheExperiencias = []; 
         let currentRol = 'todos';
-        let currentTipoVenta = 'todos'; // Estado para el filtro comercial
-        let modoActual = 'social'; // 'social' o 'ventas'
+        let currentTipoVenta = 'todos'; 
+        let modoActual = 'social'; 
         let misSiguiendo = []; 
 
-        // INYECCIÓN LÓGICA: Alternar el Interruptor Maestro
         window.switchModo = (modo) => {
             modoActual = modo;
             
-            // Estilos de los botones
             document.getElementById('btn-modo-social').classList.remove('activo');
             document.getElementById('btn-modo-ventas').classList.remove('activo');
             document.getElementById(`btn-modo-${modo}`).classList.add('activo');
 
-            // Mostrar/Ocultar Filtros
             document.getElementById('filtros-social').style.display = modo === 'social' ? 'block' : 'none';
             document.getElementById('filtros-ventas').style.display = modo === 'ventas' ? 'block' : 'none';
 
-            // Mostrar/Ocultar Resultados
             document.getElementById('resultados-social').style.display = modo === 'social' ? 'block' : 'none';
             document.getElementById('resultados-ventas').style.display = modo === 'ventas' ? 'block' : 'none';
         };
@@ -228,7 +224,7 @@
                     else {
                         const ciudadLimpia = d.ubicacion.split(',')[0];
                         document.getElementById('input-buscar').value = ciudadLimpia;
-                        search(ciudadLimpia); // Esto ahora buscará en ambas bases de datos
+                        search(ciudadLimpia); 
                     }
 
                     if (d.rol === 'guia') {
@@ -245,7 +241,6 @@
                         snapSiguiendo.forEach(docX => { misSiguiendo.push(docX.data().idSeguido); });
                     } catch(e) { console.error("Error red social:", e) }
 
-                    // CORRECCIÓN 3: MOTOR DE NOTIFICACIONES COMPLETO
                     const qAmigos = query(collection(db, "conexiones"), where("idSeguido", "==", user.uid), where("estado", "==", "pendiente"));
                     const qCuraduria = query(collection(db, "notificaciones"), where("receptorId", "==", user.uid), where("leida", "==", false));
 
@@ -273,7 +268,7 @@
             } else window.location.replace('index.html');
         });
 
-        // INYECCIÓN LÓGICA: Búsqueda Bilingüe (Consulta Usuarios y Productos simultáneamente)
+        // CIRUGÍA DE PRECISIÓN: Separación de las búsquedas para evitar el borrado en cadena
         async function search(termino) {
             const containerSoc = document.getElementById('contenedor-comunidad');
             const containerVen = document.getElementById('contenedor-experiencias');
@@ -286,8 +281,8 @@
             
             const terminoLower = termino.toLowerCase().trim();
 
+            // 1. CÁPSULA A: Buscar Personas (Totalmente aislada)
             try {
-                // 1. Buscar Personas (Lógica Original Intacta)
                 const qSoc = query(collection(db, "usuarios"));
                 const snapSoc = await getDocs(qSoc);
                 cacheUsers = []; 
@@ -295,10 +290,14 @@
                     const d = doc.data(); d.uid = doc.id;
                     if(d.uid !== auth.currentUser.uid && d.ubicacion?.toLowerCase().includes(terminoLower)) cacheUsers.push(d);
                 });
-                renderResults();
+                renderResults(); // ¡Se dibuja la comunidad y ya no se borra!
+            } catch (error) { 
+                console.error("Error cargando exploradores:", error); 
+                containerSoc.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Error buscando exploradores.</p>"; 
+            }
 
-                // 2. Buscar Productos/Experiencias (Lógica Nueva Optimizada)
-                // Usamos where para descargar SOLO lo que ya fue aprobado en Curaduría
+            // 2. CÁPSULA B: Buscar Experiencias (Aislada, si falla Firebase, falla sola)
+            try {
                 const qVen = query(collection(db, "solicitudes_amelia"), where("estado", "==", "completado"));
                 const snapVen = await getDocs(qVen);
                 cacheExperiencias = [];
@@ -307,11 +306,9 @@
                     if(d.ubicacion?.toLowerCase().includes(terminoLower)) cacheExperiencias.push(d);
                 });
                 renderExperiencias();
-
             } catch (error) { 
-                console.error(error); 
-                containerSoc.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Error buscando.</p>"; 
-                containerVen.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Error buscando experiencias.</p>";
+                console.error("Aviso: Permisos de Firebase bloquean las experiencias. Ajusta las reglas de 'solicitudes_amelia'.", error); 
+                containerVen.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Aún no hay experiencias subidas en este destino.</p>";
             }
         }
 
@@ -368,12 +365,10 @@
             });
         }
 
-        // INYECCIÓN LÓGICA: Motor de Renderizado Comercial (Comercio Social)
         window.renderExperiencias = () => {
             const container = document.getElementById('contenedor-experiencias'); container.innerHTML = "";
             const formatCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 
-            // Filtrado del catálogo
             const filtered = cacheExperiencias.filter(exp => {
                 return currentTipoVenta === 'todos' || exp.categoria === currentTipoVenta;
             });
@@ -384,18 +379,15 @@
             }
 
             filtered.forEach(exp => {
-                // Recuperar datos desnormalizados (rápidos)
                 const titulo = exp.tituloServicio || "Experiencia Mot Mot";
                 const precio = exp.precioFinalCliente || 0;
                 const imgFondo = exp.imagenPrincipal || "https://images.unsplash.com/photo-1518182170546-076616fdfa1e";
                 const duracion = `${exp.duracionValor || 'Varios'} ${exp.duracionUnidad || 'hrs'}`;
                 const nivel = exp.nivelFisicoExigido || "Suave";
                 
-                // El Factor Humano (Recuperar foto del creador de la base de usuarios si es posible, o usar placeholder)
                 const nombreCreador = (exp.guiaNombre || "Guía Local").split(' ')[0];
                 const fotoCreador = `https://ui-avatars.com/api/?name=${nombreCreador}&background=1a1a1a&color=fff`; 
                 
-                // El Puente Transaccional (Hacia WordPress)
                 const urlReserva = exp.linkAmelia || "#"; 
 
                 container.innerHTML += `
@@ -424,7 +416,6 @@
             el.classList.add('activo'); currentRol = rol; renderResults();
         };
 
-        // INYECCIÓN LÓGICA: Filtros para el catálogo comercial
         window.setFiltroVentas = (tipo, el) => {
             document.querySelectorAll('#filtros-ventas .chip').forEach(c => c.classList.remove('activo'));
             el.classList.add('activo'); currentTipoVenta = tipo; renderExperiencias();
