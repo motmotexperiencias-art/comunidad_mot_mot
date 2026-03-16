@@ -76,6 +76,7 @@
         summary { font-weight: bold; color: #1565c0; outline: none; }
         details[open] summary { margin-bottom: 10px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
 
+        /* Estilos base de visibilidad para formularios */
         #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #caja-doc-alimentos, #contenedor-docs-legales, #caja-checklist-anfitrion, #alerta-legal-frontera, #caja-sello-confianza { display: none; }
 
         .check-pregunta { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
@@ -259,7 +260,7 @@
                     </div>
 
                     <div id="caja-sello-confianza" style="background: #e3f2fd; padding: 25px; border-radius: 12px; border: 1px solid #90caf9; margin-top:20px; display:none;">
-                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot</h4>
+                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot (Voluntario)</h4>
                         <p style="font-size:0.85em; color:#444; line-height: 1.5; margin-bottom: 20px;">Sabemos que en nuestra tierra la palabra vale oro, pero para los viajeros que vienen de lejos, un respaldo extra ayuda mucho. Activa tu Sello de Confianza subiendo estos certificados. Es gratuito y te posicionará mejor en los resultados.</p>
                         
                         <div style="display:flex; flex-direction:column; gap:15px;">
@@ -348,8 +349,8 @@
                     </div>
 
                     <div class="dynamic-list-container" id="caja-intercambio" style="display: none; background: #e3f2fd; border-color: #bbdefb;">
-                        <label style="color: #1565c0;">¿Qué buscas con esta conexión? (Selecciona intereses)</label>
-                        <p style="font-size:0.8em; color:#666; margin-top:0;">Si no está en la lista escribe otro interés y dale al ➕</p>
+                        <label style="color: #1565c0;">¿Qué buscas con esta conexión? (Selecciona una o varias)</label>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;">Esto le ayudará a los viajeros a saber qué pueden hacer contigo.</p>
                         <div class="tags-rapidos" id="tags-intercambio" style="margin-bottom: 15px;">
                             <span class="tag-rapido" onclick="window.toggleTagCat('Mostrar mi ciudad/pueblo', this)">🏙️ Mostrar mi ciudad/pueblo</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Tomar un café/cerveza', this)">☕ Tomar un café/cerveza</span>
@@ -587,37 +588,15 @@
                     </div>
 
                     <div class="form-group" style="background: #fff3e0; padding: 15px; border-radius: 12px; border-color: #ffcc80;">
-                        <label style="color: #d84315;">👶 ¿La actividad tiene restricciones de edad?</label>
+                        <label style="color: #d84315;">👥 ¿Para quién es perfecta tu experiencia / espacio?</label>
                         <select id="restriccion-edad" style="margin-bottom: 15px;">
-                            <option value="sin_limite">NO HAY EDAD LÍMITE (Apto para todos)</option>
-                            <option value="mayor_12">Solo mayores de 12 años</option>
-                            <option value="mayor_15">Solo mayores de 15 años</option>
-                            <option value="mayor_18">Solo mayores de edad (+18)</option>
+                            <option value="todos">Para todos (Incluso Bebés y Niños)</option>
+                            <option value="familias_ninos_grandes">Familias con niños grandes (+12 años)</option>
+                            <option value="solo_adultos">Solo Adultos (+18 años)</option>
+                            <option value="parejas">Ideal para Parejas</option>
+                            <option value="grupos_amigos">Grupos de Amigos</option>
+                            <option value="viajeros_solitarios">Viajeros Solitarios</option>
                         </select>
-
-                        <div class="check-pregunta" style="border: 1px dashed #ffcc80; padding-bottom: 10px;">
-                            <label style="color: #d84315; font-size: 0.9em;">¿El participante que estás registrando AHORA es menor de edad (menor de 18 años)?</label>
-                            <div class="radio-group" style="padding: 5px; background: transparent; border: none; margin-top:0;">
-                                <label><input type="radio" name="chk_menor_edad" value="si" onchange="toggleCajaMenor()"> Sí</label>
-                                <label><input type="radio" name="chk_menor_edad" value="no" onchange="toggleCajaMenor()" checked> No</label>
-                            </div>
-                            
-                            <div id="caja-datos-menor" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #ffcc80;">
-                                <p style="font-size: 0.8em; color: #d84315; margin-bottom: 10px;"><b>Atención:</b> Esta sección debe ser completada OBLIGATORIAMENTE por el padre, madre o Tutor Legal del participante menor.</p>
-                                
-                                <label style="font-size: 0.85em; color: #333;">Nombre Completo del Padre/Madre/Tutor *</label>
-                                <input type="text" id="tutor-nombre" placeholder="Ej: Carlos Pérez" style="margin-bottom: 10px; padding:8px;">
-                                
-                                <label style="font-size: 0.85em; color: #333;">Tipo y Número de Documento del Tutor *</label>
-                                <input type="text" id="tutor-doc" placeholder="Ej: CC 123456789" style="margin-bottom: 10px; padding:8px;">
-
-                                <label style="font-size: 0.85em; color: #333;">Teléfono de Contacto del Tutor *</label>
-                                <input type="number" id="tutor-tel" placeholder="Ej: 3001234567" style="margin-bottom: 10px; padding:8px;">
-
-                                <label style="font-size: 0.85em; color: #333;">Correo Electrónico del Tutor *</label>
-                                <input type="email" id="tutor-email" placeholder="Ej: tutor@correo.com" style="margin-bottom: 10px; padding:8px;">
-                            </div>
-                        </div>
                     </div>
 
                     <div class="dynamic-list-container">
@@ -787,29 +766,6 @@
             window.verificarGastronomia();
         };
 
-        window.toggleCajaMenor = () => {
-            const radioMenor = document.querySelector('input[name="chk_menor_edad"]:checked')?.value;
-            const cajaMenor = document.getElementById('caja-datos-menor');
-            const inNombre = document.getElementById('tutor-nombre');
-            const inDoc = document.getElementById('tutor-doc');
-            const inTel = document.getElementById('tutor-tel');
-            const inEmail = document.getElementById('tutor-email');
-
-            if(radioMenor === 'si') {
-                cajaMenor.style.display = 'block';
-                inNombre.setAttribute('required', 'true');
-                inDoc.setAttribute('required', 'true');
-                inTel.setAttribute('required', 'true');
-                inEmail.setAttribute('required', 'true');
-            } else {
-                cajaMenor.style.display = 'none';
-                inNombre.removeAttribute('required');
-                inDoc.removeAttribute('required');
-                inTel.removeAttribute('required');
-                inEmail.removeAttribute('required');
-            }
-        };
-
         window.agregarInteresGratis = () => {
             const input = document.getElementById('input-intercambio-nuevo');
             const val = input.value.trim();
@@ -860,13 +816,11 @@
             const alertaFrontera = document.getElementById('alerta-legal-frontera');
             const btnSiguiente1 = document.getElementById('btn-paso1-next');
             
-            // CORRECCIÓN SOLICITADA: No bloquear el paso 1, solo advertir
             if(frontera === 'si') {
                 alertaFrontera.style.display = 'block';
             } else {
                 alertaFrontera.style.display = 'none';
             }
-            // El botón siempre debe permitir avanzar
             btnSiguiente1.classList.remove('btn-disabled');
             btnSiguiente1.onclick = () => avanzarDesdePaso1();
         };
@@ -939,9 +893,7 @@
             
             const checkboxFirma = document.getElementById('firma-digital');
 
-            // --- LÓGICA PARA ADAPTAR UI SEGÚN ANFITRIÓN --- //
             if(selectTipo === 'anfitrion_aficionado') {
-                // UI: Ajustar textos de bienvenida
                 tituloPri.innerText = "Conectar con la Comunidad 🤝";
                 cajaBienvenida.innerHTML = `
                     <div style="display:flex; flex-direction:column; gap:10px;">
@@ -957,11 +909,15 @@
                         </p>
                     </div>`;
 
-                // UI: Ocultar todo lo legal innecesario y checklist
-                contenedorDocs.style.display = 'block'; // Mantenemos la caja para pedir la Cédula
+                contenedorDocs.style.display = 'block'; 
                 document.getElementById('caja-doc-rut').style.display = 'none';
                 docRut.removeAttribute('required');
                 checkboxFirma.removeAttribute('required');
+                
+                // Ocultar Alimentos y Otros para Gratis
+                document.getElementById('caja-doc-alimentos').style.display = 'none';
+                document.getElementById('doc-alimentos').removeAttribute('required');
+                document.getElementById('caja-doc-otros').style.display = 'none';
                 
                 document.getElementById('lbl-docs-legales').innerText = "📄 Validación de Identidad (Sello Verificado)";
                 document.getElementById('desc-docs-legales').innerText = "Sube tu documento para seguridad de la comunidad.";
@@ -969,7 +925,9 @@
                 docId.setAttribute('required', 'true');
                 
                 cajaChecklistAnfitrion.style.display = 'none';
-                cajaSelloConfianza.style.display = 'none';
+                cajaSelloConfianza.style.display = 'block'; // Mostrar sellos para Gratis
+                document.getElementById('lbl-sello-tit').innerText = "🛡️ Sello de Confianza (Voluntario)";
+                
                 cajaRntNumero.style.display = 'none';
                 inputRntNumero.removeAttribute('required');
                 inputFechaRnt.removeAttribute('required');
@@ -978,14 +936,12 @@
                 cajaPreguntaAventura.style.display = 'none';
                 cajaDocAventura.style.display = 'none';
 
-                // Stepper Dinámico (Ocultar 3,4,5,6 y Mostrar 7)
                 document.getElementById('ind-3').classList.add('hidden');
                 document.getElementById('ind-4').classList.add('hidden');
                 document.getElementById('ind-5').classList.add('hidden');
                 document.getElementById('ind-6').classList.add('hidden');
                 document.getElementById('ind-7').classList.remove('hidden');
 
-                // Detalles UI (Ocultar precios y categorias formales)
                 document.getElementById('caja-tipo-oferta').style.display = 'none';
                 document.getElementById('caja-categorias').style.display = 'none';
                 document.getElementById('caja-intercambio').style.display = 'block';
@@ -996,7 +952,6 @@
                 document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
                 
             } else {
-                // Expertos, Alojamiento, Agencia: Mostrar todo normal
                 tituloPri.innerText = "Crear Experiencia Local 🧑‍🌾";
                 cajaBienvenida.innerHTML = `
                     <div style="display:flex; flex-direction:column; gap:10px;">
@@ -1019,20 +974,21 @@
                 docRut.setAttribute('required', 'true');
                 checkboxFirma.setAttribute('required', 'true');
                 
+                document.getElementById('caja-doc-otros').style.display = 'block';
+                
                 document.getElementById('lbl-docs-legales').innerText = "📄 Carga de Documentos Legales";
                 document.getElementById('desc-docs-legales').innerText = "Sube los soportes en formato Imagen o PDF. Son indispensables para poder vender.";
                 document.getElementById('lbl-doc-id').innerText = "1. Documento de Identidad (Cédula/Pasaporte) *";
                 
                 cajaSelloConfianza.style.display = 'block';
+                document.getElementById('lbl-sello-tit').innerText = "🛡️ Sello de Confianza Mot Mot (Voluntario)";
 
-                // Stepper Dinámico (Mostrar 3,4,5,6 y Ocultar 7)
                 document.getElementById('ind-3').classList.remove('hidden');
                 document.getElementById('ind-4').classList.remove('hidden');
                 document.getElementById('ind-5').classList.remove('hidden');
                 document.getElementById('ind-6').classList.remove('hidden');
                 document.getElementById('ind-7').classList.add('hidden');
 
-                // Detalles UI
                 document.getElementById('caja-tipo-oferta').style.display = 'block';
                 document.getElementById('caja-categorias').style.display = 'block';
                 document.getElementById('caja-intercambio').style.display = 'none';
@@ -1260,7 +1216,13 @@
         document.getElementById('tour-precio').addEventListener('input', calcularFinanzas);
 
         window.nextStep = (current, next) => {
-            if(next > current && current !== 7) {
+            const selectTipo = document.getElementById('tipo-guia').value;
+            
+            // Bypass estricto de validaciones si es gratis y está saltando pasos
+            if(selectTipo === 'anfitrion_aficionado' && (current !== 1 && current !== 2 && current !== 7)) {
+                 // No hacer nada, no debería estar aquí
+            } else if (next > current && current !== 7) {
+                // Validación Normal
                 const stepDiv = document.getElementById(`step-${current}`);
                 const inputs = Array.from(stepDiv.querySelectorAll('[required]')).filter(el => {
                     return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
@@ -1277,7 +1239,6 @@
             }
 
             // Lógica de enrutamiento especial para Aficionado (Gratis)
-            const selectTipo = document.getElementById('tipo-guia').value;
             if(selectTipo === 'anfitrion_aficionado') {
                 if(current === 2 && next > 2) next = 7; // De Detalles salta a Acuerdos Gratis
                 if(current === 7 && next < 7) next = 2; // De Acuerdos Gratis retrocede a Detalles
@@ -1358,7 +1319,6 @@
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
                 let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
 
-                // Solo pide Rut y CC al inicio a los que cobran. Al gratis solo le pide el ID y ya está validado arriba.
                 if(selectTipo !== 'anfitrion_aficionado') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     
@@ -1400,10 +1360,17 @@
                     const inputEspacio = document.getElementById('doc-espacio');
                     if(inputEspacio && inputEspacio.files.length > 0) urlSelloEspacio = await uploadCloudinary(inputEspacio.files[0]);
                 } else {
-                    // Sube el ID del Anfitrión Gratis
+                    // Sube el ID y Sellos del Anfitrión Gratis
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     const inputId = document.getElementById('doc-id');
                     if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
+                    
+                    const inputPolicia = document.getElementById('doc-policia');
+                    if(inputPolicia && inputPolicia.files.length > 0) urlSelloPolicia = await uploadCloudinary(inputPolicia.files[0]);
+                    const inputProcuraduria = document.getElementById('doc-procuraduria');
+                    if(inputProcuraduria && inputProcuraduria.files.length > 0) urlSelloProcuraduria = await uploadCloudinary(inputProcuraduria.files[0]);
+                    const inputEspacio = document.getElementById('doc-espacio');
+                    if(inputEspacio && inputEspacio.files.length > 0) urlSelloEspacio = await uploadCloudinary(inputEspacio.files[0]);
                 }
 
                 btn.innerText = "SUBIENDO IMÁGENES...";
@@ -1481,7 +1448,7 @@
                             nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? DOMPurify.sanitize(document.getElementById('tour-nivel-fisico').value) : "0",
                             restriccionesMedicas: dbLists.restricciones,
                             condicionesRuta: document.getElementById('tour-condiciones-ruta') ? DOMPurify.sanitize(document.getElementById('tour-condiciones-ruta').value) : "N/A",
-                            esParticipanteMenor: document.querySelector('input[name="chk_menor_edad"]:checked')?.value || "no"
+                            perfilVisitante: document.getElementById('restriccion-edad') ? DOMPurify.sanitize(document.getElementById('restriccion-edad').value) : "todos"
                         },
                         precioVentaBase: precioVta, precioFinalCliente: pFinal, precioNetoProveedor: pNeto, reglasCobro: reglasCob, modalidadSeguro: seguroMod,
                         firmaAcuerdosLegales: document.getElementById('firma-digital') ? document.getElementById('firma-digital').checked : true
@@ -1491,7 +1458,8 @@
                         tituloServicio: DOMPurify.sanitize(document.getElementById('tour-titulo').value),
                         reglasCasa: DOMPurify.sanitize(document.getElementById('tour-reglas-gratis').value),
                         documentosLegales: {
-                            documentoIdentidad: urlDocId
+                            documentoIdentidad: urlDocId,
+                            selloConfianza: { policia: urlSelloPolicia, procuraduria: urlSelloProcuraduria, fotoEspacio: urlSelloEspacio }
                         },
                         acuerdosGratis: {
                             escudoResponsabilidad: true,
