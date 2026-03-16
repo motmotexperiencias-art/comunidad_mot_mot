@@ -23,7 +23,7 @@
         
         .form-group { margin-bottom: 20px; position: relative;}
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9em; color: #333; }
-        input[type="text"], input[type="email"], input[type="time"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
+        input[type="text"], input[type="time"], input[type="number"], input[type="date"], input[type="email"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
         input[type="file"] { width: 100%; padding: 10px; border: 2px dashed #ccc; border-radius: 12px; font-family: 'Montserrat', sans-serif; background: #fafafa; transition: 0.3s; }
         input:focus, textarea:focus, select:focus { border-color: var(--turquesa); outline: none; }
         
@@ -68,7 +68,8 @@
         .tag-rapido.peligro:hover { background: #ffcdd2; }
 
         .doc-legal-preview { background: #fffcf5; padding: 25px; border: 1px solid #e0e0e0; border-left: 5px solid var(--naranja); border-radius: 12px; margin-top: 20px; font-size: 0.85em; line-height: 1.6; color: #444; }
-        .doc-legal-preview h4 { margin-top: 0; text-transform: uppercase; font-size: 1.1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
+        .doc-legal-preview h4 { text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
+        .doc-legal-preview b { color: var(--naranja); }
         
         details { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #bbdefb; font-size: 0.85em; cursor: pointer; transition: 0.3s; }
         summary { font-weight: bold; color: #1565c0; outline: none; }
@@ -151,7 +152,7 @@
 
                     <div class="form-group" id="caja-tipo-perfil">
                         <label>Tu Perfil Registrado:</label>
-                        <select id="tipo-guia" required onchange="cambioDeRolManual()">
+                        <select id="tipo-guia" required onchange="window.adaptarFormulario(userRolGlobal)">
                         </select>
                     </div>
 
@@ -184,7 +185,9 @@
                                 <label><input type="radio" name="chk_frontera" value="no" onchange="evaluarChecklist()" checked> No</label>
                             </div>
                             <div id="alerta-legal-frontera" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
-                                ⚠️ ALTO: Si tu experiencia incluye sacar al turista a caminar por el pueblo, hacer senderismo, o interpretar el patrimonio cultural o natural de la región, la ley colombiana (Ley 300 de 1996) exige que esa actividad específica sea liderada por alguien con tarjeta profesional de Guía de Turismo. Por favor, asegúrate de cumplir con la normativa o ajusta tu actividad.
+                                ⚠️ ALTO: En Colombia, si ofreces la cama y la experiencia en el mismo lugar, eres un Prestador de Servicios Turísticos (PST) con un portafolio mixto.<br><br>
+                                Muchos anfitriones cometen el error de sacar solo el código de Vivienda Turística (5519) y asumen que eso cubre todo. Pero si cobras por la experiencia de forma estructurada, necesitas registrar la actividad adicional.<br><br>
+                                Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía dentro del hospedaje se cubre con los códigos recreativos o educativos. Sin embargo, si la "experiencia" incluye sacar al turista a caminar por el pueblo, hacer senderismo, o interpretar el patrimonio cultural o natural de la región, la ley colombiana (Ley 300 de 1996 y sus actualizaciones) exige que esa actividad específica sea liderada por alguien con tarjeta profesional de Guía de Turismo. Si te registras como agencia debes contar con un guía certificado y aceptas que conoces este requerimiento y te comprometes a cumplirlo.
                             </div>
                         </div>
                     </div>
@@ -257,8 +260,8 @@
                         </div>
 
                         <div id="caja-doc-otros">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Primeros Auxilios, Idiomas, etc.) - Opcional</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma (ej. Primeros Auxilios, WFR) que acredite competencias y fortalezca tu perfil. Puedes seleccionar varios archivos a la vez.</p>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Idiomas, Primeros Auxilios, etc.) - Opcional</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma que acredite un saber o competencia que fortalezca tu perfil. Puedes subir varios a la vez.</p>
                             <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB por archivo.</span>
                             <input type="file" id="doc-otros" accept="image/jpeg, image/png, application/pdf" multiple>
                         </div>
@@ -281,7 +284,7 @@
                             </div>
                             <div id="caja-foto-espacio">
                                 <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio (Opcional)</label>
-                                <small style="display:block; color:#666; margin-bottom:5px;">Sube una foto real de tu taller o lugar de operación para validar que es seguro y existe.</small>
+                                <small style="display:block; color:#666; margin-bottom:5px;">Sube una foto real de tu taller, cocina o lugar donde ocurre la magia para validar que es seguro.</small>
                                 <input type="file" id="doc-espacio" accept="image/jpeg, image/png">
                             </div>
                         </div>
@@ -329,7 +332,28 @@
                             <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Sostenible/Regenerativo', this)" title="Enfocado en minimizar impacto ambiental y mejorar el entorno">Turismo Sostenible/Regenerativo</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Oscuro', this)" title="Visita a lugares asociados a historia profunda">Turismo Oscuro</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Volunturismo', this)" title="Viajes combinados con voluntariado">Volunturismo</span>
+                            
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Taller Artesanal', this)" title="Talleres de oficios manuales y artesanía">Taller Artesanal / Oficios</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Clase de Cocina', this)" title="Aprender a cocinar platos locales">Clase de Cocina / Gastronomía</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Saberes del Campo', this)" title="Conocer sobre agricultura y vida rural">Saberes del Campo / Agricultura</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Alojamiento', this)" title="Alojamiento o Vivienda turística">Alojamiento</span>
                         </div>
+
+                        <details style="margin-bottom: 5px;">
+                            <summary>¿Qué significan estas categorías?</summary>
+                            <div style="color: #444; margin-top:5px; font-size: 0.9em; line-height: 1.4;">
+                                <b>Sol y Playa:</b> Actividades de descanso y recreación cerca del mar.<br>
+                                <b>Cultural:</b> Aprender sobre historia, arte, tradiciones y vida local.<br>
+                                <b>Naturaleza y Ecoturismo:</b> Disfrutar del medio ambiente, observación de fauna/flora, minimizando el impacto.<br>
+                                <b>Aventura:</b> Actividades físicas y de riesgo moderado a alto (cuerdas, agua, alturas).<br>
+                                <b>Rural:</b> Inmersión en la vida del campo, granjas o pueblos pequeños.<br>
+                                <b>Gastronómico:</b> Experiencias centradas en probar o preparar comida y bebida local.<br>
+                                <b>Negocios y MICE:</b> Experiencias pensadas para grupos de empresas, ferias o convenciones.<br>
+                                <b>Salud y Bienestar:</b> Actividades de relajación, spas, yoga o retiros mentales.<br>
+                                <b>Sostenible/Regenerativo:</b> Experiencias que activamente mejoran el lugar que se visita (sembrar árboles, etc).<br>
+                                <b>Volunturismo:</b> Viajes combinados con trabajo voluntario no remunerado.
+                            </div>
+                        </details>
                     </div>
 
                     <div class="form-group" id="caja-ubicacion">
@@ -551,27 +575,37 @@
                         </select>
                     </div>
 
-                    <div class="check-pregunta" style="background: #fff3e0; border-color: #ffcc80;">
-                        <label style="color: #d84315;">👶 ¿El participante es menor de edad (menor de 18 años)?</label>
-                        <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
-                            <label><input type="radio" name="chk_menor_edad" value="si" onchange="toggleCajaMenor()"> Sí</label>
-                            <label><input type="radio" name="chk_menor_edad" value="no" onchange="toggleCajaMenor()" checked> No</label>
-                        </div>
-                        
-                        <div id="caja-datos-menor" style="display:none; margin-top:15px; padding-top:15px; border-top:1px dashed #ffcc80;">
-                            <p style="font-size: 0.8em; color: #d84315; margin-bottom: 10px;"><b>Atención:</b> Esta sección debe ser completada OBLIGATORIAMENTE por el padre, madre o Tutor Legal del participante.</p>
-                            
-                            <label style="font-size: 0.85em; color: #333;">Nombre Completo del Padre/Madre/Tutor *</label>
-                            <input type="text" id="tutor-nombre" placeholder="Ej: Carlos Pérez" style="margin-bottom: 10px; padding:8px;">
-                            
-                            <label style="font-size: 0.85em; color: #333;">Tipo y Número de Documento del Tutor *</label>
-                            <input type="text" id="tutor-doc" placeholder="Ej: CC 123456789" style="margin-bottom: 10px; padding:8px;">
+                    <div class="form-group" style="background: #fff3e0; padding: 15px; border-radius: 12px; border-color: #ffcc80;">
+                        <label style="color: #d84315;">👶 ¿La actividad tiene restricciones de edad?</label>
+                        <select id="restriccion-edad" style="margin-bottom: 15px;">
+                            <option value="sin_limite">NO HAY EDAD LÍMITE (Apto para todos)</option>
+                            <option value="mayor_12">Solo mayores de 12 años</option>
+                            <option value="mayor_15">Solo mayores de 15 años</option>
+                            <option value="mayor_18">Solo mayores de edad (+18)</option>
+                        </select>
 
-                            <label style="font-size: 0.85em; color: #333;">Teléfono de Contacto del Tutor *</label>
-                            <input type="number" id="tutor-tel" placeholder="Ej: 3001234567" style="margin-bottom: 10px; padding:8px;">
+                        <div class="check-pregunta" style="border: 1px dashed #ffcc80; padding-bottom: 10px;">
+                            <label style="color: #d84315; font-size: 0.9em;">¿El participante que estás registrando AHORA es menor de edad (menor de 18 años)?</label>
+                            <div class="radio-group" style="padding: 5px; background: transparent; border: none; margin-top:0;">
+                                <label><input type="radio" name="chk_menor_edad" value="si" onchange="toggleCajaMenor()"> Sí</label>
+                                <label><input type="radio" name="chk_menor_edad" value="no" onchange="toggleCajaMenor()" checked> No</label>
+                            </div>
+                            
+                            <div id="caja-datos-menor" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #ffcc80;">
+                                <p style="font-size: 0.8em; color: #d84315; margin-bottom: 10px;"><b>Atención:</b> Esta sección debe ser completada OBLIGATORIAMENTE por el padre, madre o Tutor Legal del participante menor.</p>
+                                
+                                <label style="font-size: 0.85em; color: #333;">Nombre Completo del Padre/Madre/Tutor *</label>
+                                <input type="text" id="tutor-nombre" placeholder="Ej: Carlos Pérez" style="margin-bottom: 10px; padding:8px;">
+                                
+                                <label style="font-size: 0.85em; color: #333;">Tipo y Número de Documento del Tutor *</label>
+                                <input type="text" id="tutor-doc" placeholder="Ej: CC 123456789" style="margin-bottom: 10px; padding:8px;">
 
-                            <label style="font-size: 0.85em; color: #333;">Correo Electrónico del Tutor *</label>
-                            <input type="email" id="tutor-email" placeholder="Ej: tutor@correo.com" style="margin-bottom: 10px; padding:8px;">
+                                <label style="font-size: 0.85em; color: #333;">Teléfono de Contacto del Tutor *</label>
+                                <input type="number" id="tutor-tel" placeholder="Ej: 3001234567" style="margin-bottom: 10px; padding:8px;">
+
+                                <label style="font-size: 0.85em; color: #333;">Correo Electrónico del Tutor *</label>
+                                <input type="email" id="tutor-email" placeholder="Ej: tutor@correo.com" style="margin-bottom: 10px; padding:8px;">
+                            </div>
                         </div>
                     </div>
 
@@ -740,8 +774,10 @@
             const cajaRntNumero = document.getElementById('caja-rnt');
             const inputRntNumero = document.getElementById('num-rnt');
             const inputFechaRnt = document.getElementById('fecha-rnt');
+            
+            const selectTipo = document.getElementById('tipo-guia').value;
 
-            if(pernocta === 'si' || document.getElementById('tipo-guia').value === 'alojamiento') {
+            if(pernocta === 'si' || selectTipo === 'alojamiento') {
                 cajaDocRnt.style.display = 'block';
                 inputRnt.setAttribute('required', 'true');
                 cajaRntNumero.style.display = 'flex';
@@ -798,7 +834,7 @@
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
                             <b>¿Quién eres?</b> La persona local que abre las puertas de su mundo privado para compartir un oficio (artesano, campesino, cocinero).<br><br>
-                            <b>Tu producto:</b> Hospitalidad Temática. Vendes la conexión con un saber y la tierra. Te reciben en su taller, finca o cocina para enseñarte algo práctico.<br><br>
+                            <b>Tu producto:</b> Vendes la conexión con un saber y la tierra. Te reciben en su taller, finca o cocina para enseñarte algo práctico.<br><br>
                             <b>⚠️ Regla de Oro:</b> Mot Mot no es una plataforma de alojamiento. El hospedaje solo se permite si es una herramienta necesaria para vivir la experiencia (ej. pernoctar en la finca para el proceso del café). Publicaciones de "solo cama" no serán admitidas.<br><br>
                             <b>🌟 ¿Quieres ser un Anfitrión Destacado?</b><br>
                             Activa tu <b>Sello de Confianza</b> subiendo tus certificados básicos abajo. Es voluntario, gratuito y nos ayuda a que Mot Mot sea la comunidad más segura.
@@ -829,7 +865,7 @@
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
                             <b>¿Quién eres?</b> El experto técnico y legal encargado de que la aventura sea segura, profunda y educativa.<br><br>
-                            <b>Tu producto:</b> Operación de Aventura. Vendes seguridad, logística y conocimiento del territorio.<br><br>
+                            <b>Tu producto:</b> Operación de Caminatas, Experiencias o Paquetes de Aventura. Vendes seguridad, logística y conocimiento del territorio.<br><br>
                             <b>Qué haces:</b> Llevas físicamente por los caminos, cañones o rutas de trekking. Gestionas riesgos, clima y narrativa histórica.<br><br>
                             <b>🌟 Activa tu Sello de Confianza</b> en la sección legal inferior subiendo tus documentos para destacar en los resultados de búsqueda.
                         </p>
@@ -856,7 +892,7 @@
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
                             <b>¿Quién eres?</b> Un estratega del viaje y experto en "el arte de viajar" que conoce los rincones que no aparecen en guías comerciales.<br><br>
-                            <b>Tu producto:</b> Información Maestra. Vendes un itinerario digital, guías y consejos con información puntual y clara.<br><br>
+                            <b>Tu producto:</b> Información Maestra. Vendes un itinerario digital, guías y consejos con información puntual y clara de tu experiencia en el terreno.<br><br>
                             <b>Qué haces:</b> Entregas una hoja de ruta con links, ubicaciones exactas, contactos locales y datos específicos. No reservas hoteles ni acompañas, das la inteligencia logística para que el turista haga su propia ruta.
                         </p>
                     </div>`;
@@ -891,7 +927,6 @@
                 document.getElementById('regla-80').innerHTML = `<b>💡 Tip de Creador:</b> Los itinerarios entre $5.000 y $15.000 COP son los que más se venden.`;
                 
                 document.getElementById('ind-3').style.display = 'none';
-                // El paso 5 se mantiene para Viajeros para el consentimiento
             }
 
             window.verificarDocumentosLegales(rol);
@@ -990,6 +1025,7 @@
                 inputRntFile.removeAttribute('required');
                 cajaDocTarjeta.style.display = 'none';
                 inputTarjetaFile.removeAttribute('required');
+                document.getElementById('firma-digital').removeAttribute('required');
                 
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
                 if(cajaDocAventura) cajaDocAventura.style.display = 'none';
@@ -1002,6 +1038,7 @@
                     contenedorDocs.style.display = 'none';
                     docId.removeAttribute('required');
                     docRut.removeAttribute('required');
+                    document.getElementById('firma-digital').removeAttribute('required');
                     
                     if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
                     if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'none';
@@ -1016,6 +1053,7 @@
                     docId.setAttribute('required', 'true');
                     cajaDocRut.style.display = 'block'; 
                     docRut.setAttribute('required', 'true');
+                    document.getElementById('firma-digital').setAttribute('required', 'true');
                     
                     cajaDocTarjeta.style.display = 'none';
                     inputTarjetaFile.removeAttribute('required');
@@ -1057,6 +1095,7 @@
                 docId.setAttribute('required', 'true');
                 cajaDocRut.style.display = 'block'; 
                 docRut.setAttribute('required', 'true');
+                document.getElementById('firma-digital').setAttribute('required', 'true');
                 
                 cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
@@ -1342,16 +1381,17 @@
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocTarjeta = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
                 let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
 
-                // TODOS suben RUT y CC
-                const inputId = document.getElementById('doc-id');
-                if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
+                // TODOS suben RUT y CC si no son anfitrion aficionado
+                const selectTipo = document.getElementById('tipo-guia').value;
+                if(selectTipo !== 'anfitrion_aficionado') {
+                    const inputId = document.getElementById('doc-id');
+                    if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
 
-                const inputRut = document.getElementById('doc-rut');
-                if(inputRut && inputRut.files.length > 0) urlDocRut = await uploadCloudinary(inputRut.files[0]);
-
+                    const inputRut = document.getElementById('doc-rut');
+                    if(inputRut && inputRut.files.length > 0) urlDocRut = await uploadCloudinary(inputRut.files[0]);
+                }
 
                 if (userRolGlobal === 'guia' || userRolGlobal === 'anfitrion') {
-                    const selectTipo = document.getElementById('tipo-guia').value;
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     
                     if(selectTipo !== 'anfitrion_aficionado') {
