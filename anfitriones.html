@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postular Experiencia Pro - Mot Mot</title>
+    <title>Crear Experiencia Local - Mot Mot</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
@@ -43,7 +43,7 @@
         .step-indicator { flex: 1; text-align: center; padding-bottom: 10px; border-bottom: 4px solid #eee; transition: 0.3s; }
         .step-indicator.active { color: var(--naranja); border-bottom-color: var(--naranja); }
         .step-indicator.completed { color: var(--turquesa); border-bottom-color: var(--turquesa); }
-        .step-indicator.hidden { display: none; } 
+        .step-indicator.hidden { display: none; }
 
         .btn-nav { padding: 15px 30px; border: none; border-radius: 30px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 0.9em; text-transform: uppercase;}
         .btn-next { background: var(--negro); color: white; float: right; }
@@ -69,7 +69,8 @@
         .tag-rapido.peligro:hover { background: #ffcdd2; }
 
         .doc-legal-preview { background: #fffcf5; padding: 25px; border: 1px solid #e0e0e0; border-left: 5px solid var(--naranja); border-radius: 12px; margin-top: 20px; font-size: 0.85em; line-height: 1.6; color: #444; }
-        .doc-legal-preview h4 { text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1.1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
+        .doc-legal-preview h4 { margin-top: 0; text-transform: uppercase; font-size: 1.1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
+        .doc-legal-preview b { color: var(--naranja); }
         
         details { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #bbdefb; font-size: 0.85em; cursor: pointer; transition: 0.3s; }
         summary { font-weight: bold; color: #1565c0; outline: none; }
@@ -110,7 +111,7 @@
 
     <div class="container">
         <div class="card-form">
-            <h1 id="titulo-principal">Crear Experiencia Local 🧑‍🌾</h1>
+            <h1 id="titulo-principal">Cargando...</h1>
             
             <div class="info-box" id="caja-bienvenida" style="background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; margin-bottom: 30px;">
             </div>
@@ -145,7 +146,6 @@
                         
                         <div class="check-pregunta">
                             <label>1. ¿Ofreces pernoctación (Dormir en casa/finca)?</label>
-                            <p>Si hospedas a la gente, la ley exige RNT de Vivienda Turística. Es obligatorio aunque sea una habitación en una casa de campo.</p>
                             <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
                                 <label><input type="radio" name="chk_pernocta" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_pernocta" value="no" onchange="evaluarChecklist()" checked> No</label>
@@ -154,7 +154,6 @@
 
                         <div class="check-pregunta">
                             <label>2. ¿Ofreces alimentación (Plato servido a la mesa)?</label>
-                            <p>Si es algo recurrente, debe cumplir con normas básicas de higiene de la Secretaría de Salud.</p>
                             <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
                                 <label><input type="radio" name="chk_alimentos" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_alimentos" value="no" onchange="evaluarChecklist()" checked> No</label>
@@ -163,14 +162,12 @@
 
                         <div class="check-pregunta">
                             <label>3. ¿La actividad implica salir de tu propiedad/taller a la naturaleza?</label>
-                            <p>Ej: Caminar por senderos públicos o llevar a la gente a otros lugares.</p>
                             <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
                                 <label><input type="radio" name="chk_frontera" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_frontera" value="no" onchange="evaluarChecklist()" checked> No</label>
                             </div>
                             <div id="alerta-legal-frontera" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
-                                ⚠️ ALTO: En Colombia, si ofreces la cama y la experiencia en el mismo lugar, eres un Prestador de Servicios Turísticos (PST) con un portafolio mixto.<br><br>
-                                Si la "experiencia" incluye sacar al turista a caminar por el pueblo, hacer senderismo, o interpretar el patrimonio cultural o natural de la región, la ley (Ley 300 de 1996) exige que esa actividad específica sea liderada por alguien con Tarjeta Profesional de Guía de Turismo. Si te registras como agencia debes contar con un guía certificado y aceptas que conoces este requerimiento y te comprometes a cumplirlo.
+                                ⚠️ ALTO: En Colombia, si la "experiencia" incluye salir de la propiedad a interpretar el patrimonio, la ley exige tarjeta profesional de Guía de Turismo.
                             </div>
                         </div>
                     </div>
@@ -188,35 +185,29 @@
 
                     <div class="form-group" id="contenedor-docs-legales" style="background: #fdfdfd; padding: 20px; border: 1px dashed var(--turquesa); border-radius: 12px; margin-top:20px;">
                         <label id="lbl-docs-legales" style="color:var(--turquesa); font-size:1.1em;">📄 Carga de Documentos Legales</label>
-                        <p style="font-size:0.8em; color:#666; margin-top:0;">Sube los soportes en formato Imagen o PDF. Son indispensables para poder vender.</p>
                         
                         <div id="caja-doc-id">
                             <label id="lbl-doc-id" style="font-size:0.85em; margin-top:15px; color:var(--negro);">1. Documento de Identidad (Cédula/Pasaporte) *</label>
-                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-id" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-rut">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">2. RUT (Registro Único Tributario) *</label>
-                            <span class="helper-text">Indispensable para transferirte los pagos de la plataforma.</span>
                             <input type="file" id="doc-rut" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-rnt" style="display: none;">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT Físico / Digital *</label>
-                            <span class="helper-text">Sube el certificado actualizado. Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-rnt-file" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-camara" style="display: none;">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">Cámara de Comercio (Obligatorio para Agencias) *</label>
-                            <span class="helper-text">Vigencia no mayor a 30 días. Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-camara" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-pregunta-aventura" style="display:none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
                             <label style="color:var(--negro); font-size:0.9em; font-weight: 800;">⛰️ ¿Ofreces actividades de Aventura?</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Ej: Trekking, parapente, rafting, cuatrimotos, cabalgatas, etc.</p>
                             <div class="radio-group" style="background:transparent; border:none; padding:0; margin-top:5px;">
                                 <label><input type="radio" name="ofrece_aventura" value="si" onchange="toggleAventuraDocs()"> Sí</label>
                                 <label><input type="radio" name="ofrece_aventura" value="no" onchange="toggleAventuraDocs()" checked> No</label>
@@ -224,45 +215,34 @@
                         </div>
 
                         <div id="caja-doc-aventura" style="display: none; background: #fffcf5; padding: 15px; border-left: 4px solid var(--naranja); margin-top: 10px; border-radius: 8px;">
-                            <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">📑 Certificados de Aventura (ISO / Normativa / Procesos) *</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube el certificado que valide tus procesos de operación segura. (No es necesario subir el plan completo, solo el certificado de normativas). Nuestros validadores lo revisarán y se pondrán en contacto contigo.</p>
-                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">📑 Certificados de Aventura *</label>
                             <input type="file" id="doc-aventura" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-alimentos" style="background: #fffcf5; padding: 10px; border-radius: 8px; border-left: 4px solid var(--naranja); margin-top: 15px; display: none;">
                             <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">🍽️ Certificado de Manipulación de Alimentos *</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Requerido por ley de Secretaría de Salud para tu actividad.</p>
-                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-alimentos" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-otros">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Idiomas, Primeros Auxilios, etc.) - Opcional</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma que acredite un saber o competencia que fortalezca tu perfil. Puedes seleccionar varios archivos a la vez.</p>
-                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB por archivo.</span>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Idiomas, Primeros Auxilios) - Opcional</label>
                             <input type="file" id="doc-otros" accept="image/jpeg, image/png, application/pdf" multiple>
                         </div>
                     </div>
 
                     <div id="caja-sello-confianza" style="background: #e3f2fd; padding: 25px; border-radius: 12px; border: 1px solid #90caf9; margin-top:20px; display:none;">
-                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot (Voluntario)</h4>
-                        <p id="lbl-sello-desc" style="font-size:0.85em; color:#444; line-height: 1.5; margin-bottom: 20px;">Sabemos que en nuestra tierra la palabra vale oro, pero para los viajeros que vienen de lejos, un respaldo extra ayuda mucho. Activa tu Sello de Confianza subiendo estos certificados. Es gratuito y te posicionará mejor en los resultados.</p>
-                        
+                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot</h4>
                         <div style="display:flex; flex-direction:column; gap:15px;">
                             <div>
                                 <label style="font-size:0.85em; color:#1565c0;">1. Antecedentes de la Policía</label>
-                                <small style="display:block; color:#666; margin-bottom:5px;">Descárgalo gratis en la <a href="https://antecedentes.policia.gov.co:7005/WebCiudadano/" target="_blank" style="color:var(--naranja); font-weight:bold;">página de la Policía</a>.</small>
                                 <input type="file" id="doc-policia" accept="application/pdf">
                             </div>
                             <div>
                                 <label style="font-size:0.85em; color:#1565c0;">2. Antecedentes de la Procuraduría (SIRPRO)</label>
-                                <small style="display:block; color:#666; margin-bottom:5px;">Descarga el Certificado Ordinario en <a href="https://www.procuraduria.gov.co/Pages/Certificado-de-Antecedentes.aspx" target="_blank" style="color:var(--naranja); font-weight:bold;">SIRPRO</a>.</small>
                                 <input type="file" id="doc-procuraduria" accept="application/pdf">
                             </div>
                             <div id="caja-foto-espacio">
-                                <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio (Opcional)</label>
-                                <small style="display:block; color:#666; margin-bottom:5px;">Sube una foto real de tu taller, cocina o lugar donde ocurre la magia para validar que es seguro.</small>
+                                <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio</label>
                                 <input type="file" id="doc-espacio" accept="image/jpeg, image/png">
                             </div>
                         </div>
@@ -285,78 +265,52 @@
                     </div>
 
                     <div class="form-group">
-                        <label id="lbl-nombre-paso2">Nombre Atractivo de tu Espacio o Experiencia</label>
-                        <input type="text" id="tour-titulo" placeholder="Ej: Taller de Cerámica Guane o Intercambio de Idiomas" required>
+                        <label id="lbl-nombre-paso2">Nombre Atractivo</label>
+                        <input type="text" id="tour-titulo" placeholder="..." required>
                     </div>
 
                     <div class="dynamic-list-container" id="caja-categorias">
                         <label>Categoría Principal y Tipos de Turismo *</label>
-                        <p style="font-size:0.8em; color:#666; margin-top:0;">Selecciona las etiquetas que mejor describan tu experiencia (puedes elegir varias).</p>
-                        
                         <div class="tags-rapidos" id="tags-categorias" style="margin-bottom: 15px;">
-                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Caminata Urbana', this)" title="Exploración a pie en entornos de ciudad">🥾 Caminata Urbana</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Senderismo (Rutas suaves)', this)" title="Caminatas de baja dificultad por senderos marcados">🥾 Senderismo (Rutas suaves)</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('🧗 Trekking (Rutas exigentes)', this)" title="Caminatas exigentes de varios días o terreno difícil">🧗 Trekking (Rutas exigentes)</span>
-                            
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Sol y Playa', this)" title="El más popular, centrado en el descanso y actividades acuáticas">Turismo de Sol y Playa</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Cultural', this)" title="Enfocado en conocer historia, arte, tradiciones y monumentos">Turismo Cultural</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Naturaleza y Ecoturismo', this)" title="Viajes para disfrutar y conservar el medio ambiente">Turismo de Naturaleza y Ecoturismo</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Aventura', this)" title="Actividades físicas y de riesgo moderado a alto">Turismo de Aventura</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Rural', this)" title="Experiencias en entornos rurales, granjas y pueblos pequeños">Turismo Rural</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Gastronómico/Enológico', this)" title="Viajes enfocados en la gastronomía local y bebidas">Turismo Gastronómico/Enológico</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Negocios y MICE', this)" title="Viajes por motivos laborales, congresos, ferias">Turismo de Negocios y MICE</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Salud y Bienestar (Wellness)', this)" title="Búsqueda de tratamientos, spas o retiros">Turismo de Salud y Bienestar (Wellness)</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Religioso', this)" title="Visitas a lugares santos o de peregrinación">Turismo Religioso</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Sostenible/Regenerativo', this)" title="Enfocado en minimizar impacto ambiental y mejorar el entorno">Turismo Sostenible/Regenerativo</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Oscuro', this)" title="Visita a lugares asociados a historia profunda">Turismo Oscuro</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Volunturismo', this)" title="Viajes combinados con voluntariado">Volunturismo</span>
-                            
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Taller Artesanal', this)" title="Talleres de oficios manuales y artesanía">Taller Artesanal / Oficios</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Clase de Cocina', this)" title="Aprender a cocinar platos locales">Clase de Cocina / Gastronomía</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Saberes del Campo', this)" title="Conocer sobre agricultura y vida rural">Saberes del Campo / Agricultura</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Alojamiento', this)" title="Alojamiento o Vivienda turística">Alojamiento</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Caminata Urbana', this)">🥾 Caminata Urbana</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Senderismo (Rutas suaves)', this)">🥾 Senderismo (Rutas suaves)</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🧗 Trekking (Rutas exigentes)', this)">🧗 Trekking (Rutas exigentes)</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Sol y Playa', this)">Turismo de Sol y Playa</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Cultural', this)">Turismo Cultural</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Naturaleza', this)">Turismo de Naturaleza</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Gastronómico', this)">Turismo Gastronómico</span>
                         </div>
                     </div>
 
                     <div class="dynamic-list-container" id="caja-intercambio" style="display: none; background: #e3f2fd; border-color: #bbdefb;">
-                        <label style="color: #1565c0;">¿Qué buscas con esta conexión? (Selecciona una o varias)</label>
-                        <p style="font-size:0.8em; color:#666; margin-top:0;">Esto le ayudará a los viajeros a saber qué pueden hacer contigo. Si no está en la lista escribe otro interés y dale a ➕</p>
+                        <label style="color: #1565c0;">¿Qué buscas con esta conexión? (Selecciona intereses)</label>
                         <div class="tags-rapidos" id="tags-intercambio" style="margin-bottom: 15px;">
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Mostrar mi ciudad/pueblo', this)">🏙️ Mostrar mi ciudad/pueblo</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Tomar un café/cerveza', this)">☕ Tomar un café/cerveza</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Intercambio de Idiomas', this)">🗣️ Intercambio de Idiomas</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Hospedar en mi casa', this)">🏡 Hospedar en mi casa</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Hacer deporte juntos', this)">🚴 Hacer deporte juntos</span>
-                            <span class="tag-rapido" onclick="window.toggleTagCat('Compartir una comida', this)">🍲 Compartir una comida</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Mostrar mi pueblo', this)">🏙️ Mostrar mi pueblo</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Tomar un café', this)">☕ Tomar un café</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Intercambio de Idiomas', this)">🗣️ Idiomas</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Hospedar en casa', this)">🏡 Hospedar</span>
                         </div>
-                        <div style="display:flex; gap:10px; margin-top:10px;">
-                            <input type="text" id="input-intercambio-nuevo" placeholder="Escribe otro interés (Ej: Pintar juntos)">
-                            <button type="button" onclick="agregarInteresGratis()" class="btn-add-mini" style="background:#1565c0;">➕</button>
-                        </div>
-
-                        <label style="color: #c62828; margin-top: 20px;">🛡️ Reglas de tu Parche (Lo que NO quieres/gustas)</label>
-                        <textarea id="tour-reglas-gratis" rows="3" placeholder="Ej: No se fuma dentro de casa, No se permiten drogas, Mis perros son los jefes, No niños..."></textarea>
+                        <label style="color: #c62828; margin-top: 20px;">🛡️ Reglas de tu Parche (Lo que NO te gusta)</label>
+                        <textarea id="tour-reglas-gratis" rows="3" placeholder="Ej: No se fuma, No drogas, No niños..."></textarea>
                     </div>
 
                     <div class="form-group" id="caja-ubicacion">
-                        <label id="lbl-ubicacion">Ubicación / Municipio</label>
-                        <span class="helper-text">Escribe y selecciona la ciudad del menú desplegable.</span>
+                        <label id="lbl-ubicacion">Ubicación</label>
                         <div class="input-icon-wrapper">
                             <span class="input-icon">🔍</span>
-                            <input type="text" id="ubicacion-input" placeholder="Ej: Barichara..." autocomplete="off" required>
+                            <input type="text" id="ubicacion-input" placeholder="Barichara..." autocomplete="off" required>
                         </div>
                         <div id="lista-sugerencias"></div>
                         <input type="hidden" id="tour-ubicacion">
                     </div>
 
                     <div class="form-group">
-                        <label id="lbl-desc">Descripción General (Cuéntale al mundo qué ofreces)</label>
-                        <textarea id="tour-desc" rows="5" placeholder="Texto detallado sobre lo que van a vivir o conocer..." required></textarea>
+                        <label id="lbl-desc">Descripción General</label>
+                        <textarea id="tour-desc" rows="5" required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label id="lbl-img">Sube una foto tuya o de tu espacio</label>
-                        <span class="helper-text">Formatos: JPG, PNG. Peso máx: 5MB.</span>
+                        <label id="lbl-img">Sube una foto clara</label>
                         <input type="file" id="foto-principal" accept="image/jpeg, image/png" required>
                     </div>
 
@@ -367,68 +321,22 @@
                 </div>
 
                 <div class="step" id="step-3">
-                    <h3>Duración, Tiempos y Recursos</h3>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: end;">
-                        <div class="form-group" style="margin:0;">
-                            <label>Duración (Selección)</label>
-                            <input type="number" id="tour-duracion-valor" placeholder="Ej: 2.5" step="0.5" min="0.5">
-                        </div>
-                        <div class="form-group" style="margin:0;">
-                            <select id="tour-duracion-unidad">
-                                <option value="Horas">Horas</option>
-                                <option value="Días">Días</option>
-                                <option value="Semanas">Semanas</option>
-                                <option value="Meses">Meses</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top:20px;">
-                        <div class="form-group">
-                            <label>Capacidad Mínima</label>
-                            <input type="number" id="capacidad-min" placeholder="Ej: 1" min="1">
-                        </div>
-                        <div class="form-group">
-                            <label>Capacidad Máxima</label>
-                            <input type="number" id="capacidad-max" placeholder="Ej: 30" min="1">
-                        </div>
-                    </div>
-
+                    <h3>Duración y Recursos</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group">
-                            <label>Tiempo Mínimo para Reservar</label>
-                            <select id="margen-reserva">
-                                <option value="Inmediato">Sin restricción</option>
-                                <option value="12h">Mínimo 12h antes</option>
-                                <option value="24h">Mínimo 24h antes</option>
-                                <option value="1_semana">Mínimo 1 semana antes</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Tiempo Mínimo para Cancelar</label>
-                            <select id="margen-cancelacion">
-                                <option value="Flexible_24h">Hasta 24h antes (Flexible)</option>
-                                <option value="Moderada_48h">Hasta 48h antes (Moderada)</option>
-                                <option value="Estricta_1sem">Hasta 1 semana antes (Estricta)</option>
-                                <option value="No_Reembolsable">No Reembolsable</option>
-                            </select>
+                        <div class="form-group"><label>Duración</label><input type="number" id="tour-duracion-valor" step="0.5"></div>
+                        <div class="form-group"><label>Unidad</label>
+                            <select id="tour-duracion-unidad"><option value="Horas">Horas</option><option value="Días">Días</option></select>
                         </div>
                     </div>
-
-                    <div class="dynamic-list-container" style="margin-top:20px;">
-                        <label style="color:var(--turquesa);">🛠️ Agregar Recursos (Opcional - Evita Overbooking)</label>
-                        <div id="lista-recursos-ui"></div>
-                        <div style="background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:10px;">
-                            <input type="text" id="res-nombre" placeholder="Nombre (Ej: Cupos en Taller, Camas)" style="margin-bottom:10px; width:100%; box-sizing:border-box; padding:8px;">
-                            <div style="display:flex; gap:10px; align-items: center;">
-                                <input type="number" id="res-cant" placeholder="Cant. total" style="width:40%; padding:8px;" min="1">
-                                <label style="font-size:0.8em; width:60%;"><input type="checkbox" id="res-grupo"> Usar para reserva de grupo completo</label>
-                            </div>
-                            <button type="button" onclick="agregarRecurso()" class="btn-add" style="margin-top:10px;">Añadir Recurso</button>
+                    <div id="lista-recursos-ui"></div>
+                    <div style="background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:10px;">
+                        <input type="text" id="res-nombre" placeholder="Nombre Recurso" style="margin-bottom:10px; width:100%;">
+                        <div style="display:flex; gap:10px; align-items: center;">
+                            <input type="number" id="res-cant" placeholder="Cant." style="width:40%;">
+                            <label style="font-size:0.8em; width:60%;"><input type="checkbox" id="res-grupo"> Uso compartido</label>
                         </div>
+                        <button type="button" onclick="agregarRecurso()" class="btn-add" style="margin-top:10px;">Añadir</button>
                     </div>
-
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="nextStep(3, 2)">⬅ Atrás</button>
                         <button type="button" class="btn-nav btn-next" onclick="nextStep(3, 4)">Siguiente ➔</button>
@@ -437,44 +345,31 @@
 
                 <div class="step" id="step-4">
                     <h3>Construye la Experiencia</h3>
-                    <div id="secciones-contenido-pro">
-                        <div class="dynamic-list-container">
-                            <label>✅ ¿Qué INCLUYE?</label>
-                            <div id="lista-incluye-ui"></div>
-                            <div style="display:flex; gap:10px;">
-                                <input type="text" id="input-incluye" placeholder="Ej: Materiales">
-                                <button type="button" onclick="agregarSimple('incluye', 'input-incluye')" class="btn-add-mini">➕</button>
-                            </div>
-                        </div>
+                    <div class="dynamic-list-container">
+                        <label>✅ ¿Qué INCLUYE?</label>
+                        <div id="lista-incluye-ui"></div>
+                        <div style="display:flex; gap:10px;"><input type="text" id="input-incluye"><button type="button" onclick="agregarSimple('incluye', 'input-incluye')" class="btn-add-mini">➕</button></div>
                     </div>
-
-                    <div class="form-group" style="background: #fff; padding: 15px; border: 1px dashed #ccc; border-radius: 12px; margin-top:20px;">
-                        <label>Fotografías Adicionales (Galería)</label>
-                        <input type="file" id="fotos-galeria" accept="image/jpeg, image/png" multiple>
+                    <div class="form-group">
+                        <label>Galería de Fotos</label>
+                        <input type="file" id="fotos-galeria" multiple>
                     </div>
-
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso4()">⬅ Atrás</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(4, 3)">⬅ Atrás</button>
                         <button type="button" class="btn-nav btn-next" onclick="nextStep(4, 5)">Siguiente ➔</button>
                     </div>
                 </div>
 
                 <div class="step" id="step-5">
-                    <h3>Riesgos y Condiciones</h3>
-                    <div id="seccion-riesgos-pro">
-                        <div class="form-group">
-                            <label>Nivel de Exigencia Física</label>
-                            <select id="tour-nivel-fisico">
-                                <option value="Nulo">Nulo</option>
-                                <option value="Suave">Suave</option>
-                                <option value="Medio">Medio</option>
-                                <option value="Alta">Alta</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Condiciones Especiales</label>
-                            <textarea id="tour-condiciones-ruta" rows="3" placeholder="Ej: No niños..."></textarea>
-                        </div>
+                    <h3>Riesgos</h3>
+                    <div class="form-group">
+                        <label>Exigencia Física</label>
+                        <select id="tour-nivel-fisico"><option value="Suave">Suave</option><option value="Medio">Medio</option></select>
+                    </div>
+                    <div class="check-pregunta" style="background: #fff3e0;">
+                        <label>¿Es menor de edad?</label>
+                        <div class="radio-group"><label><input type="radio" name="chk_menor_edad" value="si" onchange="toggleCajaMenor()"> Sí</label><label><input type="radio" name="chk_menor_edad" value="no" onchange="toggleCajaMenor()" checked> No</label></div>
+                        <div id="caja-datos-menor" style="display:none;"><input type="text" id="tutor-nombre" placeholder="Nombre Tutor"></div>
                     </div>
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="nextStep(5, 4)">⬅ Atrás</button>
@@ -483,60 +378,30 @@
                 </div>
 
                 <div class="step" id="step-6">
-                    <h3 id="titulo-paso6">Acuerdos de Operación y Finanzas</h3>
-                    <div class="text-legal">...</div>
-                    <div class="form-group">
-                        <label>Precio de Venta Base (COP)</label>
-                        <input type="number" id="tour-precio" placeholder="Ej: 100000" min="0">
-                    </div>
-                    <div class="checkbox-group" style="background: #e8f5e9; border-color: #c8e6c9;">
-                        <input type="checkbox" id="firma-digital">
-                        <label for="firma-digital">Acepto Términos y Condiciones</label>
-                    </div>
+                    <h3>Finanzas</h3>
+                    <div class="form-group"><label>Precio Base</label><input type="number" id="tour-precio" oninput="calcularFinanzas()"></div>
+                    <div id="caja-finanzas" class="caja-finanzas">...</div>
+                    <div class="checkbox-group"><input type="checkbox" id="firma-digital"><label for="firma-digital">Acepto Términos</label></div>
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()">⬅ Atrás</button>
-                        <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR PARA APROBACIÓN</button>
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(6, 5)">⬅ Atrás</button>
+                        <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR</button>
                     </div>
                 </div>
 
                 <div class="step" id="step-7">
                     <h3 id="titulo-paso7">Acuerdos de Comunidad (Gratuito)</h3>
-                    
-                    <div class="doc-legal-preview" style="margin-top: 10px; border-left: 5px solid #4CAF50;">
-                        <h4 style="color: #4CAF50; border-bottom: 2px solid #4CAF50;">Compromisos del Anfitrión de Confianza</h4>
-                        <p style="font-size: 0.85em; margin-bottom: 15px;">Para activar tu perfil gratis, debes aceptar explícitamente estas declaraciones:</p>
-
-                        <div class="checkbox-group" style="background: #fff; border: 1px solid #ddd; border-left: 4px solid #4CAF50; margin-top: 10px; flex-direction:column; gap:10px;">
-                            <div style="display:flex; align-items:flex-start; gap:10px;">
-                                <input type="checkbox" id="check-gratis-1">
-                                <label for="check-gratis-1" style="font-size:0.85em; color:#444;">
-                                    <b>🛡️ Escudo de Responsabilidad:</b> Declaro que ofrezco mi espacio y tiempo voluntariamente. Eximo a la plataforma de toda responsabilidad civil o penal por incidentes que ocurran durante encuentros con viajeros, asumiendo yo el riesgo total.
-                                </label>
-                            </div>
-                            <div style="display:flex; align-items:flex-start; gap:10px;">
-                                <input type="checkbox" id="check-gratis-2">
-                                <label for="check-gratis-2" style="font-size:0.85em; color:#444;">
-                                    <b>🚫 Barrera Comercial:</b> Mi perfil tiene fines estrictamente sociales. Me comprometo a NO exigir pagos en dinero a los viajeros por tiempo o alojamiento bajo este perfil gratuito.
-                                </label>
-                            </div>
-                            <div style="display:flex; align-items:flex-start; gap:10px;">
-                                <input type="checkbox" id="check-gratis-3">
-                                <label for="check-gratis-3" style="font-size:0.85em; color:#444;">
-                                    <b>📜 Ley de Datos (Ley 1581):</b> Autorizo el tratamiento de mis datos personales de acuerdo con la Política de Privacidad. Entiendo que mi ID solo se usa para verificación de seguridad interna.
-                                </label>
-                            </div>
-                            <div style="display:flex; align-items:flex-start; gap:10px;">
-                                <input type="checkbox" id="check-gratis-4">
-                                <label for="check-gratis-4" style="font-size:0.85em; color:#444;">
-                                    <b>✅ Veracidad:</b> Garantizo bajo juramento que toda la información, fotos de mi casa y documentos proporcionados son reales y propios.
-                                </label>
-                            </div>
+                    <div class="doc-legal-preview" style="border-left-color: #4CAF50;">
+                        <h4 style="color: #4CAF50;">Compromisos del Anfitrión de Confianza</h4>
+                        <div class="checkbox-group" style="background: #fff; flex-direction:column; gap:10px;">
+                            <div style="display:flex; gap:10px;"><input type="checkbox" id="check-gratis-1"><label><b>🛡️ Escudo de Responsabilidad:</b> Declaro que ofrezco mi espacio y tiempo voluntariamente. Eximo a la plataforma de toda responsabilidad civil o penal por incidentes, asumiendo yo el riesgo total.</label></div>
+                            <div style="display:flex; gap:10px;"><input type="checkbox" id="check-gratis-2"><label><b>🚫 Barrera Comercial:</b> Mi perfil tiene fines sociales. Me comprometo a NO exigir pagos en dinero a los viajeros por tiempo o alojamiento bajo este perfil.</label></div>
+                            <div style="display:flex; gap:10px;"><input type="checkbox" id="check-gratis-3"><label><b>📜 Ley de Datos:</b> Autorizo el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012 y la Política de Privacidad.</label></div>
+                            <div style="display:flex; gap:10px;"><input type="checkbox" id="check-gratis-4"><label><b>✅ Veracidad:</b> Garantizo que toda la información, fotos y documentos proporcionados son reales y propios.</label></div>
                         </div>
                     </div>
-
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="nextStep(7, 2)">⬅ Atrás</button>
-                        <button type="submit" class="btn-enviar" id="btn-submit-gratis">✅ PUBLICAR PERFIL DE COMUNIDAD</button>
+                        <button type="submit" class="btn-enviar" id="btn-submit-gratis">✅ PUBLICAR PERFIL GRATIS</button>
                     </div>
                 </div>
             </form>
@@ -547,100 +412,24 @@
         import { auth, db, doc, getDoc, collection, addDoc, onAuthStateChanged, serverTimestamp } from './firebase-config.js';
 
         let userId = ""; let userName = ""; let userEmail = ""; let userRolGlobal = "anfitrion";
-        let precioNetoGuardar = 0; 
-        let precioFinalClienteGuardar = 0;
-        
-        let dbLists = {
-            incluye: [], noIncluye: [], queLlevar: [], itinerario: [], extras: [], recursos: [], restricciones: [], categoriasBase: [] 
-        };
+        let dbLists = { incluye: [], noIncluye: [], queLlevar: [], itinerario: [], extras: [], recursos: [], restricciones: [], categoriasBase: [] };
 
         window.toggleTagCat = (valor, element) => {
             element.classList.toggle('selected');
-            if(dbLists.categoriasBase.includes(valor)) {
-                dbLists.categoriasBase.splice(dbLists.categoriasBase.indexOf(valor), 1);
-            } else {
-                dbLists.categoriasBase.push(valor);
-            }
+            if(dbLists.categoriasBase.includes(valor)) dbLists.categoriasBase.splice(dbLists.categoriasBase.indexOf(valor), 1);
+            else dbLists.categoriasBase.push(valor);
             window.verificarGastronomia();
         };
 
         window.toggleCajaMenor = () => {
             const radioMenor = document.querySelector('input[name="chk_menor_edad"]:checked')?.value;
-            const cajaMenor = document.getElementById('caja-datos-menor');
-            const inNombre = document.getElementById('tutor-nombre');
-            const inDoc = document.getElementById('tutor-doc');
-            const inTel = document.getElementById('tutor-tel');
-            const inEmail = document.getElementById('tutor-email');
-
-            if(radioMenor === 'si') {
-                cajaMenor.style.display = 'block';
-                inNombre.setAttribute('required', 'true');
-                inDoc.setAttribute('required', 'true');
-                inTel.setAttribute('required', 'true');
-                inEmail.setAttribute('required', 'true');
-            } else {
-                cajaMenor.style.display = 'none';
-                inNombre.removeAttribute('required');
-                inDoc.removeAttribute('required');
-                inTel.removeAttribute('required');
-                inEmail.removeAttribute('required');
-            }
-        };
-
-        window.agregarInteresGratis = () => {
-            const input = document.getElementById('input-intercambio-nuevo');
-            const val = input.value.trim();
-            if(!val) return;
-            dbLists.categoriasBase.push(val);
-            const container = document.getElementById('tags-intercambio');
-            container.innerHTML += `<span class="tag-rapido selected" onclick="window.toggleTagCat('${val}', this)">${val}</span>`;
-            input.value = "";
+            document.getElementById('caja-datos-menor').style.display = radioMenor === 'si' ? 'block' : 'none';
         };
 
         window.evaluarChecklist = () => {
-            const pernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value;
             const frontera = document.querySelector('input[name="chk_frontera"]:checked')?.value;
-
-            const alertaFrontera = document.getElementById('alerta-legal-frontera');
-            const btnSiguiente1 = document.getElementById('btn-paso1-next');
-            if(frontera === 'si') {
-                alertaFrontera.style.display = 'block';
-                btnSiguiente1.classList.add('btn-disabled');
-                btnSiguiente1.onclick = null;
-            } else {
-                alertaFrontera.style.display = 'none';
-                btnSiguiente1.classList.remove('btn-disabled');
-                btnSiguiente1.onclick = () => avanzarDesdePaso1();
-            }
-            window.verificarDocumentosLegales();
-        };
-
-        window.toggleAventuraDocs = () => {
-            const radioAventura = document.querySelector('input[name="ofrece_aventura"]:checked');
-            if(!radioAventura) return;
-            const isSi = radioAventura.value === 'si';
-            const cajaDocAventura = document.getElementById('caja-doc-aventura');
-            const inputAventura = document.getElementById('doc-aventura');
-            if (isSi) {
-                cajaDocAventura.style.display = 'block';
-                inputAventura.setAttribute('required', 'true');
-            } else {
-                cajaDocAventura.style.display = 'none';
-                inputAventura.removeAttribute('required');
-            }
-        };
-
-        window.evaluarCamaraComercio = () => {
-            const selectTipo = document.getElementById('tipo-guia').value;
-            const cajaCamara = document.getElementById('caja-doc-camara');
-            const inputCamara = document.getElementById('doc-camara');
-            if(selectTipo === 'agencia_operadora') {
-                cajaCamara.style.display = 'block';
-                inputCamara.setAttribute('required', 'true');
-            } else {
-                cajaCamara.style.display = 'none';
-                inputCamara.removeAttribute('required');
-            }
+            document.getElementById('alerta-legal-frontera').style.display = frontera === 'si' ? 'block' : 'none';
+            document.getElementById('btn-paso1-next').onclick = frontera === 'si' ? null : () => avanzarDesdePaso1();
         };
 
         window.verificarDocumentosLegales = () => {
@@ -648,204 +437,54 @@
             const tituloPri = document.getElementById('titulo-principal');
             const cajaBienvenida = document.getElementById('caja-bienvenida');
             
-            const contenedorDocs = document.getElementById('contenedor-docs-legales');
-            const cajaRnt = document.getElementById('caja-rnt');
-            const cajaSello = document.getElementById('caja-sello-confianza');
-            const inDocId = document.getElementById('doc-id');
-            const inRntNum = document.getElementById('num-rnt');
-            
             if(selectTipo === 'anfitrion_aficionado') {
                 tituloPri.innerText = "Conectar con la Comunidad 🤝";
-                cajaBienvenida.innerHTML = `
-                    <div style="display:flex; flex-direction:column; gap:10px;">
-                        <h4 style="margin:0; font-size:1.1em; color:#1b5e20;">🏡 Anfitrión Local (Comunidad)</h4>
-                        <p style="margin:0; font-size:0.95em; color:#2e7d32;">
-                            <b>¡Bienvenido!</b> Aquí no buscas vender, buscas intercambio cultural y hospitalidad. No necesitas RNT ni RUT, pero pedimos tu ID para activar tu <b>Sello de Identidad Verificada</b> por seguridad de todos.
-                        </p>
-                    </div>`;
-                
-                contenedorDocs.style.display = 'block';
+                cajaBienvenida.innerHTML = `<p><b>🏡 El Anfitrión (Conector Local - Gratuito)</b><br>Eres la esencia de la comunidad. Un local apasionado que quiere conocer el mundo a través de los viajeros. No buscas dinero, buscas intercambio cultural.</p>`;
                 document.getElementById('caja-doc-rut').style.display = 'none';
-                document.getElementById('doc-rut').removeAttribute('required');
-                document.getElementById('lbl-docs-legales').innerText = "📄 Validación de Identidad";
-                document.getElementById('lbl-doc-id').innerText = "Sube tu Cédula o Pasaporte (Privado) *";
-                inDocId.setAttribute('required', 'true');
-                
-                cajaRnt.style.display = 'none';
-                inRntNum.removeAttribute('required');
-                document.getElementById('fecha-rnt').removeAttribute('required');
-                document.getElementById('caja-doc-rnt').style.display = 'none';
-                document.getElementById('doc-rnt-file').removeAttribute('required');
                 document.getElementById('caja-checklist-anfitrion').style.display = 'none';
-                cajaSello.style.display = 'none';
-
+                document.getElementById('caja-rnt').style.display = 'none';
+                document.getElementById('caja-sello-confianza').style.display = 'none';
                 // Stepper Gratis
-                document.getElementById('ind-3').classList.add('hidden');
-                document.getElementById('ind-4').classList.add('hidden');
-                document.getElementById('ind-5').classList.add('hidden');
-                document.getElementById('ind-6').classList.add('hidden');
+                document.getElementById('ind-3').classList.add('hidden'); document.getElementById('ind-4').classList.add('hidden');
+                document.getElementById('ind-5').classList.add('hidden'); document.getElementById('ind-6').classList.add('hidden');
                 document.getElementById('ind-7').classList.remove('hidden');
-
-                document.getElementById('caja-tipo-oferta').style.display = 'none';
-                document.getElementById('caja-categorias').style.display = 'none';
+                document.getElementById('caja-tipo-oferta').style.display = 'none'; document.getElementById('caja-categorias').style.display = 'none';
                 document.getElementById('caja-intercambio').style.display = 'block';
-                document.getElementById('lbl-nombre-paso2').innerText = "¿Qué ofreces a los viajeros?";
-                
-                document.getElementById('btn-paso1-next').classList.remove('btn-disabled');
-                document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
-
             } else {
                 tituloPri.innerText = "Crear Experiencia Local 🧑‍🌾";
-                cajaBienvenida.innerHTML = `...`; // Texto original pro
-                
-                contenedorDocs.style.display = 'block';
+                cajaBienvenida.innerHTML = `<p><b>🏡 El Anfitrión (Guardián del Saber Local)</b><br>Vendes la conexión con un saber y la tierra. Te reciben en su taller o finca para enseñarte algo práctico.</p>`;
                 document.getElementById('caja-doc-rut').style.display = 'block';
-                document.getElementById('doc-rut').setAttribute('required', 'true');
-                document.getElementById('lbl-docs-legales').innerText = "📄 Carga de Documentos Legales";
-                document.getElementById('lbl-doc-id').innerText = "1. Documento de Identidad *";
-                inDocId.setAttribute('required', 'true');
-                
-                cajaSello.style.display = 'block';
-                document.getElementById('ind-3').classList.remove('hidden');
-                document.getElementById('ind-4').classList.remove('hidden');
-                document.getElementById('ind-5').classList.remove('hidden');
-                document.getElementById('ind-6').classList.remove('hidden');
-                document.getElementById('ind-7').classList.add('hidden');
-                document.getElementById('caja-tipo-oferta').style.display = 'block';
-                document.getElementById('caja-categorias').style.display = 'block';
+                document.getElementById('caja-checklist-anfitrion').style.display = 'block';
+                document.getElementById('ind-3').classList.remove('hidden'); document.getElementById('ind-7').classList.add('hidden');
+                document.getElementById('caja-tipo-oferta').style.display = 'block'; document.getElementById('caja-categorias').style.display = 'block';
                 document.getElementById('caja-intercambio').style.display = 'none';
-                document.getElementById('lbl-nombre-paso2').innerText = "Nombre Atractivo de tu Experiencia";
-
-                window.evaluarChecklist();
             }
-            window.evaluarCamaraComercio();
         };
 
-        // --- BUSCADOR ---
         const inputUbi = document.getElementById('ubicacion-input');
-        const sugerencias = document.getElementById('lista-sugerencias');
-        const hiddenUbi = document.getElementById('tour-ubicacion');
         inputUbi.addEventListener('input', async (e) => {
             const texto = e.target.value;
-            if (texto.length < 3) { sugerencias.style.display = 'none'; return; }
-            try {
-                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${texto}&addressdetails=1&limit=5`);
-                const datos = await res.json();
-                sugerencias.innerHTML = "";
-                if (datos.length > 0) {
-                    sugerencias.style.display = 'block';
-                    datos.forEach(l => {
-                        const d = document.createElement('div');
-                        d.className = "sugerencia-item";
-                        const ciudad = l.address.town || l.address.city || l.address.village || "Lugar";
-                        const pais = l.address.country || "";
-                        const nombreLimpio = `${ciudad}, ${pais}`;
-                        d.innerHTML = `<span>📍</span> <b>${ciudad}</b> <span style="font-size:0.8em; color:#777;">(${pais})</span>`;
-                        d.onmousedown = () => { inputUbi.value = nombreLimpio; hiddenUbi.value = nombreLimpio; sugerencias.style.display = 'none'; };
-                        sugerencias.appendChild(d);
-                    });
-                }
-            } catch (err) { console.log(err); }
+            if (texto.length < 3) return;
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${texto}&limit=5`);
+            const datos = await res.json();
+            const sug = document.getElementById('lista-sugerencias'); sug.innerHTML = ""; sug.style.display = 'block';
+            datos.forEach(l => {
+                const d = document.createElement('div'); d.className = "sugerencia-item"; d.innerText = l.display_name;
+                d.onclick = () => { inputUbi.value = l.display_name; document.getElementById('tour-ubicacion').value = l.display_name; sug.style.display = 'none'; };
+                sug.appendChild(d);
+            });
         });
 
         window.agregarSimple = (listaNom, inputId) => {
-            const val = DOMPurify.sanitize(document.getElementById(inputId).value);
-            if(!val.trim()) return;
-            dbLists[listaNom].push(val);
-            document.getElementById(inputId).value = "";
-            renderListaSimple(listaNom);
+            const val = document.getElementById(inputId).value; if(!val) return;
+            dbLists[listaNom].push(val); renderListaSimple(listaNom);
         };
         function renderListaSimple(listaNom) {
             const c = document.getElementById(`lista-${listaNom}-ui`); c.innerHTML = "";
-            dbLists[listaNom].forEach((item, i) => {
-                c.innerHTML += `<div class="dynamic-item"><span>✔️ ${DOMPurify.sanitize(item)}</span> <button type="button" class="btn-delete" onclick="borrarSimple('${listaNom}', ${i})">X</button></div>`;
-            });
+            dbLists[listaNom].forEach((item, i) => { c.innerHTML += `<div class="dynamic-item"><span>✔️ ${item}</span></div>`; });
         }
-        window.borrarSimple = (listaNom, index) => { dbLists[listaNom].splice(index, 1); renderListaSimple(listaNom); };
-
-        window.agregarItinerarioEstructurado = () => {
-            const hora = DOMPurify.sanitize(document.getElementById('iti-hora').value);
-            const act = DOMPurify.sanitize(document.getElementById('iti-actividad').value);
-            if(!hora || !act) { alert("Completa hora y actividad."); return; }
-            dbLists.itinerario.push(`${hora} - ${act}`);
-            document.getElementById('iti-hora').value = ""; 
-            document.getElementById('iti-actividad').value = "";
-            renderItinerarioEstructurado();
-        };
-        function renderItinerarioEstructurado() {
-            const c = document.getElementById('lista-itinerario-ui'); c.innerHTML = "";
-            dbLists.itinerario.forEach((iti, i) => {
-                c.innerHTML += `<div class="dynamic-item"><span>🕒 ${DOMPurify.sanitize(iti)}</span> <button type="button" class="btn-delete" onclick="borrarItinerarioEst(${i})">X</button></div>`;
-            });
-        }
-        window.borrarItinerarioEst = (i) => { dbLists.itinerario.splice(i, 1); renderItinerarioEstructurado(); };
-
-        window.agregarRecurso = () => {
-            const nom = document.getElementById('res-nombre').value;
-            const cant = document.getElementById('res-cant').value;
-            const grupo = document.getElementById('res-grupo').checked;
-            if(!nom || !cant) return;
-            dbLists.recursos.push({ nombre: nom, cantidad: cant, usoGrupo: grupo });
-            document.getElementById('res-nombre').value = ""; document.getElementById('res-cant').value = "";
-            renderRecursos();
-        };
-        function renderRecursos() {
-            const c = document.getElementById('lista-recursos-ui'); c.innerHTML = "";
-            dbLists.recursos.forEach((r, i) => {
-                c.innerHTML += `<div class="dynamic-item"><span>🛠️ ${r.nombre} (${r.cantidad})</span> <button type="button" class="btn-delete" onclick="borrarRecurso(${i})">X</button></div>`;
-            });
-        }
-        window.borrarRecurso = (i) => { dbLists.recursos.splice(i, 1); renderRecursos(); };
-
-        const CLOUD_NAME = "djqkbywpu";
-        const UPLOAD_PRESET = "motmot_fotos";
-        async function uploadCloudinary(file) {
-            if(!file) return "";
-            let fileToUpload = file;
-            if (file.type.startsWith('image/')) {
-                const options = { maxSizeMB: 0.6, maxWidthOrHeight: 1200, useWebWorker: true };
-                try { fileToUpload = await imageCompression(file, options); } catch (e) {}
-            }
-            const formData = new FormData();
-            formData.append("file", fileToUpload);
-            formData.append("upload_preset", UPLOAD_PRESET);
-            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: "POST", body: formData });
-            const data = await res.json();
-            return data.secure_url;
-        }
-
-        window.calcularFinanzas = () => {
-            const precioBase = parseFloat(document.getElementById('tour-precio').value) || 0;
-            const seguroSel = document.querySelector('input[name="seguro"]:checked');
-            const cajaFinanzas = document.getElementById('caja-finanzas');
-            if (precioBase > 0) {
-                cajaFinanzas.style.display = 'block';
-                const formatCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
-                const comision = precioBase * 0.20;
-                precioNetoGuardar = precioBase * 0.80; 
-                let costoSeguro = seguroSel?.value === 'plataforma' ? 5000 : 0;
-                precioFinalClienteGuardar = precioBase + costoSeguro;
-                document.getElementById('lbl-base').innerText = formatCOP.format(precioBase);
-                document.getElementById('lbl-comision').innerText = "- " + formatCOP.format(comision);
-                document.getElementById('lbl-seguro').innerText = "+ " + formatCOP.format(costoSeguro);
-                document.getElementById('lbl-venta-final').innerText = formatCOP.format(precioFinalClienteGuardar);
-                document.getElementById('lbl-neto').innerText = formatCOP.format(precioNetoGuardar);
-            } else { cajaFinanzas.style.display = 'none'; }
-        };
 
         window.nextStep = (current, next) => {
-            if(next > current && current !== 7) {
-                const stepDiv = document.getElementById(`step-${current}`);
-                const inputs = Array.from(stepDiv.querySelectorAll('[required]')).filter(el => !!(el.offsetWidth || el.offsetHeight));
-                let valid = true;
-                inputs.forEach(input => { 
-                    if(input.type === 'radio' || input.type === 'checkbox') {
-                        if(input.name && !document.querySelector(`input[name="${input.name}"]:checked`)) valid = false;
-                        else if(!input.name && !input.checked) valid = false;
-                    } else if(!input.value) valid = false; 
-                });
-                if(!valid) { alert("Completa los campos obligatorios."); return; }
-            }
             const selectTipo = document.getElementById('tipo-guia').value;
             if(selectTipo === 'anfitrion_aficionado') {
                 if(current === 2 && next > 2) next = 7;
@@ -853,69 +492,47 @@
             }
             document.getElementById(`step-${current}`).classList.remove('active');
             document.getElementById(`step-${next}`).classList.add('active');
-            if(document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.remove('active');
-            if(next > current && document.getElementById(`ind-${current}`)) document.getElementById(`ind-${current}`).classList.add('completed');
-            if(document.getElementById(`ind-${next}`)) document.getElementById(`ind-${next}`).classList.add('active');
             window.scrollTo(0, 0);
         };
 
         window.avanzarDesdePaso1 = () => nextStep(1, 2);
         window.avanzarDesdePaso2 = () => {
             const selectTipo = document.getElementById('tipo-guia').value;
-            if(!hiddenUbi.value && !inputUbi.value) { alert("Selecciona la ubicación."); return; }
             if(selectTipo === 'anfitrion_aficionado') nextStep(2, 7); else nextStep(2, 3);
         };
 
-        onAuthStateChanged(auth, async (u) => {
-            if (u) {
-                userId = u.uid; userEmail = u.email;
-                const snap = await getDoc(doc(db, "usuarios", userId));
-                if(snap.exists()) {
-                    const data = snap.data();
-                    userName = data.nombre || "Usuario";
-                    window.verificarDocumentosLegales();
-                }
-            } else window.location.replace('index.html');
-        });
+        const CLOUD_NAME = "djqkbywpu";
+        const UPLOAD_PRESET = "motmot_fotos";
+        async function uploadCloudinary(file) {
+            if(!file) return "";
+            const formData = new FormData(); formData.append("file", file); formData.append("upload_preset", UPLOAD_PRESET);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: "POST", body: formData });
+            const data = await res.json(); return data.secure_url;
+        }
+
+        onAuthStateChanged(auth, async (u) => { if (u) { userId = u.uid; userEmail = u.email; verificarDocumentosLegales(); } });
 
         document.getElementById('form-guia').onsubmit = async (e) => {
             e.preventDefault();
             const selectTipo = document.getElementById('tipo-guia').value;
-            if(selectTipo === 'anfitrion_aficionado') {
-                if(!document.getElementById('check-gratis-1').checked || !document.getElementById('check-gratis-2').checked || !document.getElementById('check-gratis-3').checked || !document.getElementById('check-gratis-4').checked) {
-                    alert("Debes aceptar todos los compromisos de comunidad."); return;
-                }
-            } else if(!document.getElementById('firma-digital').checked) { alert("Acepta los términos."); return; }
-
             const btn = selectTipo === 'anfitrion_aficionado' ? document.getElementById('btn-submit-gratis') : document.getElementById('btn-submit');
             btn.innerText = "ENVIANDO... ⏳"; btn.classList.add('btn-disabled');
 
             try {
-                let urlDocId = await uploadCloudinary(document.getElementById('doc-id').files[0]);
-                let urlDocRut = ""; if(selectTipo !== 'anfitrion_aficionado') urlDocRut = await uploadCloudinary(document.getElementById('doc-rut').files[0]);
-                let urlPrincipal = await uploadCloudinary(document.getElementById('foto-principal').files[0]);
-
+                const urlId = await uploadCloudinary(document.getElementById('doc-id').files[0]);
+                const urlImg = await uploadCloudinary(document.getElementById('foto-principal').files[0]);
+                
                 const dataPayload = {
                     guiaId: userId, guiaNombre: userName, guiaEmail: userEmail, rolCreador: 'anfitrion',
-                    tipoProducto: selectTipo === 'anfitrion_aficionado' ? 'anfitrion_gratis' : 'experiencia_local',
-                    tipoProfesional: selectTipo, ubicacion: hiddenUbi.value || inputUbi.value,
-                    descripcion: DOMPurify.sanitize(document.getElementById('tour-desc').value),
-                    imagenPrincipal: urlPrincipal, categoriasMultiples: dbLists.categoriasBase,
-                    estado: "pendiente_aprobacion", fechaSolicitud: serverTimestamp()
+                    tipoProfesional: selectTipo, ubicacion: document.getElementById('tour-ubicacion').value || document.getElementById('ubicacion-input').value,
+                    descripcion: document.getElementById('tour-desc').value, imagenPrincipal: urlImg,
+                    categorias: dbLists.categoriasBase, estado: "pendiente_aprobacion", fechaSolicitud: serverTimestamp()
                 };
 
-                if(selectTipo === 'anfitrion_aficionado') {
-                    dataPayload.reglasCasa = document.getElementById('tour-reglas-gratis').value;
-                    dataPayload.documentosLegales = { documentoIdentidad: urlDocId };
-                } else {
-                    dataPayload.rnt = document.getElementById('num-rnt').value;
-                    dataPayload.documentosLegales = { documentoIdentidad: urlDocId, rut: urlDocRut };
-                    dataPayload.precioFinalCliente = precioFinalClienteGuardar;
-                }
+                if(selectTipo === 'anfitrion_aficionado') dataPayload.reglasCasa = document.getElementById('tour-reglas-gratis').value;
 
                 await addDoc(collection(db, "solicitudes_amelia"), dataPayload);
-                alert("¡ÉXITO! Tu perfil está en revisión.");
-                window.location.href = 'dashboard.html';
+                alert("¡ÉXITO! Perfil en revisión."); window.location.href = 'dashboard.html';
             } catch (error) { console.error(error); alert("Error de conexión."); } finally { btn.classList.remove('btn-disabled'); }
         };
     </script>
