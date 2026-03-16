@@ -16,16 +16,16 @@
         .nav-logo { height: 35px; cursor: pointer; }
         .container { max-width: 850px; margin: 40px auto; padding: 20px; }
         
-        .card-form { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 8px solid var(--dorado); overflow: hidden; }
+        .card-form { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-top: 8px solid var(--naranja); overflow: hidden; }
         
-        h1 { margin-top: 0; font-weight: 900; color: var(--negro); text-transform: uppercase; font-size: 1.8em; }
-        h3 { text-transform: uppercase; font-size: 1em; letter-spacing: 1px; margin-top: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; color: var(--naranja); font-weight: 800; }
+        h1 { margin-top: 0; font-weight: 900; color: var(--turquesa); text-transform: uppercase; font-size: 1.8em; }
+        h3 { text-transform: uppercase; font-size: 1.1em; letter-spacing: 1px; margin-top: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px; color: var(--naranja); font-weight: 800; }
         
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; position: relative;}
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9em; color: #333; }
         input[type="text"], input[type="time"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
         input[type="file"] { width: 100%; padding: 10px; border: 2px dashed #ccc; border-radius: 12px; font-family: 'Montserrat', sans-serif; background: #fafafa; transition: 0.3s; }
-        input:focus, textarea:focus, select:focus { border-color: var(--dorado); outline: none; }
+        input:focus, textarea:focus, select:focus { border-color: var(--turquesa); outline: none; }
         
         .checkbox-group, .radio-group { display: flex; gap: 15px; align-items: flex-start; background: #fffbf0; padding: 15px; border-radius: 12px; border: 1px solid #fde7a9; margin-top: 10px; }
         .checkbox-group input, .radio-group input { margin-top: 4px; transform: scale(1.2); cursor: pointer; }
@@ -33,7 +33,7 @@
 
         .info-box { background: #e0f7fa; padding: 15px; border-radius: 12px; font-size: 0.85em; color: #006064; margin-bottom: 20px; display: flex; gap: 10px; align-items: flex-start; border-left: 5px solid #006064; line-height: 1.5;}
         
-        .helper-text { font-size: 0.75em; color: #666; margin-top: -5px; margin-bottom: 10px; display: block; }
+        .helper-text { font-size: 0.75em; color: #666; margin-top: -5px; margin-bottom: 10px; display: block; font-style: italic;}
 
         .step { display: none; animation: fadeIn 0.4s ease; }
         .step.active { display: block; }
@@ -75,12 +75,20 @@
         details[open] summary { margin-bottom: 10px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
 
         /* Estilos base de visibilidad para formularios */
-        #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales, #caja-checklist-anfitrion, #alerta-legal-frontera, #caja-sello-confianza { display: none; }
+        #caja-rnt, #caja-doc-rnt, #caja-doc-tarjeta, #caja-doc-camara, #aviso-anfitrion, #caja-doc-otros, #caja-doc-alimentos, #contenedor-docs-legales, #caja-checklist-anfitrion, #alerta-legal-frontera, #caja-sello-confianza { display: none; }
 
         /* Estilo para las preguntas del Checklist */
         .check-pregunta { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
         .check-pregunta label { margin-bottom: 5px; color: var(--negro); font-size: 0.95em; }
         .check-pregunta p { margin: 0 0 10px 0; font-size: 0.75em; color: #666; }
+
+        /* Buscador de Ubicacion */
+        .input-icon-wrapper { position: relative; }
+        .input-icon-wrapper input { padding-left: 40px; }
+        .input-icon { position: absolute; left: 12px; top: 12px; font-size: 1.2em; }
+        #lista-sugerencias { position: absolute; width: 100%; background: white; border: 1px solid #ddd; border-radius: 0 0 12px 12px; z-index: 100; display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; }
+        .sugerencia-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #f9f9f9; display: flex; align-items: center; gap: 10px; font-size: 0.9em; }
+        .sugerencia-item:hover { background: #f0faff; font-weight: 700; color: var(--turquesa); }
 
         @media (max-width: 768px) {
             .container { margin: 10px auto; padding: 10px; }
@@ -199,7 +207,7 @@
 
                     <div class="form-group" id="contenedor-docs-legales" style="background: #fdfdfd; padding: 20px; border: 1px dashed var(--turquesa); border-radius: 12px; margin-top:20px;">
                         <label style="color:var(--turquesa); font-size:1.1em;">📄 Carga de Documentos Legales</label>
-                        <p style="font-size:0.8em; color:#666; margin-top:0;">Sube los soportes en formato Imagen o PDF. Son indispensables para tu aprobación.</p>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;">Sube los soportes en formato Imagen o PDF. Son indispensables para poder vender.</p>
                         
                         <div id="caja-doc-id">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">1. Documento de Identidad (Cédula/Pasaporte) *</label>
@@ -207,14 +215,26 @@
                             <input type="file" id="doc-id" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
+                        <div id="caja-doc-rut">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">2. RUT (Registro Único Tributario) *</label>
+                            <span class="helper-text">Indispensable para transferirte los pagos de la plataforma.</span>
+                            <input type="file" id="doc-rut" accept="image/jpeg, image/png, application/pdf">
+                        </div>
+
                         <div id="caja-doc-rnt" style="display: none;">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">2. Soporte RNT / Tarjeta Profesional *</label>
-                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT Físico / Digital *</label>
+                            <span class="helper-text">Sube el certificado actualizado. Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-rnt-file" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
+                        <div id="caja-doc-tarjeta" style="display: none;">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Tarjeta Profesional de Guía de Turismo *</label>
+                            <span class="helper-text">Foto o PDF de tu Tarjeta Profesional expedida por el MinCIT.</span>
+                            <input type="file" id="doc-tarjeta" accept="image/jpeg, image/png, application/pdf">
+                        </div>
+
                         <div id="caja-doc-camara" style="display: none;">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Cámara de Comercio (Obligatorio para Agencias) *</label>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">Cámara de Comercio (Obligatorio para Agencias) *</label>
                             <span class="helper-text">Vigencia no mayor a 30 días. Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-camara" accept="image/jpeg, image/png, application/pdf">
                         </div>
@@ -242,10 +262,10 @@
                         </div>
 
                         <div id="caja-doc-otros">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">4. Certificados Adicionales (Idiomas, Primeros Auxilios, etc.) - Opcional</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma que acredite un saber o competencia que fortalezca tu perfil.</p>
-                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
-                            <input type="file" id="doc-otros" accept="image/jpeg, image/png, application/pdf">
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Primeros Auxilios, Idiomas, etc.) - Opcional</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma que acredite un saber o competencia que fortalezca tu perfil. Puedes subir varios a la vez.</p>
+                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB por archivo.</span>
+                            <input type="file" id="doc-otros" accept="image/jpeg, image/png, application/pdf" multiple>
                         </div>
                     </div>
 
@@ -265,7 +285,7 @@
                                 <input type="file" id="doc-procuraduria" accept="application/pdf">
                             </div>
                             <div>
-                                <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio</label>
+                                <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio (Solo Anfitriones)</label>
                                 <small style="display:block; color:#666; margin-bottom:5px;">Sube una foto real de tu taller, cocina o lugar donde ocurre la magia para validar que es seguro.</small>
                                 <input type="file" id="doc-espacio" accept="image/jpeg, image/png">
                             </div>
@@ -301,7 +321,13 @@
 
                     <div class="form-group" id="caja-ubicacion">
                         <label id="lbl-ubicacion">Ubicación / Punto de Encuentro</label>
-                        <input type="text" id="tour-ubicacion" placeholder="Ej: Parque Principal de Barichara">
+                        <span class="helper-text">Escribe y selecciona la ciudad del menú desplegable.</span>
+                        <div class="input-icon-wrapper">
+                            <span class="input-icon">🔍</span>
+                            <input type="text" id="ubicacion-input" placeholder="Ej: Barichara..." autocomplete="off" required>
+                        </div>
+                        <div id="lista-sugerencias"></div>
+                        <input type="hidden" id="tour-ubicacion">
                     </div>
 
                     <div class="form-group">
@@ -310,7 +336,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label id="lbl-img">Imagen Principal (Avatar del Servicio o Ruta)</label>
+                        <label id="lbl-img">Foto Principal del Producto / Servicio</label>
                         <span class="helper-text">Formatos: JPG, PNG. Peso máx: 5MB.</span>
                         <input type="file" id="foto-principal" accept="image/jpeg, image/png" required>
                     </div>
@@ -461,7 +487,7 @@
                                 <input type="number" id="iti-costo" placeholder="Costo ej: 60000" style="width:30%; padding:8px;">
                                 <input type="text" id="iti-tip" placeholder="Tips o Links (Ej: Comprar en aerolinea.com)" style="width:70%; padding:8px;">
                             </div>
-                            <button type="button" onclick="agregarItinerarioEstructurado()" class="btn-add" style="margin-top:10px;">Agregar Parada</button>
+                            <button type="button" onclick="agregarItinerarioEstructurado()" class="btn-add" style="margin-top:10px;">Añadir al Itinerario</button>
                         </div>
                     </div>
 
@@ -532,12 +558,12 @@
                     </div>
 
                     <div class="doc-legal-preview" id="preview-legal">
-                        <h4>Deslinde de Responsabilidad<br><span style="font-size: 0.6em; color:#888;">(Vista Previa del Cliente)</span></h4>
+                        <h4>Aceptación de Riesgos y Sometimiento a Normas<br><span style="font-size: 0.6em; color:#888;">(Vista Previa del Formato Único para el Cliente)</span></h4>
                         <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa como una plataforma tecnológica de conexión y no asume responsabilidad directa sobre la ejecución de los servicios en terreno.</p>
                         <p style="font-size: 0.9em;">La responsabilidad operativa recae en <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>, salvo en el caso de los itinerarios digitales y rutas autoguiadas publicadas por "Viajeros", donde <b>la ejecución de la ruta es bajo cuenta y riesgo exclusivo de quien la realiza.</b></p>
                         <hr style="border: 0; border-bottom: 1px dashed #ccc; margin: 15px 0;">
                         <p><b>A. DECLARACIÓN DE RIESGOS Y SALUD:</b> El participante acepta conocer los riesgos inherentes de la actividad descrita y declara tener la condición física y de salud apta para completarla, eximiendo a la plataforma de responsabilidades por lesiones o incidentes derivados de su participación o del seguimiento de rutas autoguiadas.</p>
-                        <p><b>B. SOMETIMIENTO A NORMAS:</b> Para experiencias guiadas, el participante se compromete a acatar estrictamente las instrucciones de seguridad dictadas por el guía o anfitrión durante el desarrollo de la actividad.</p>
+                        <p><b>B. SOMETIMIENTO A NORMAS:</b> Para las experiencias, el participante se compromete a acatar estrictamente las instrucciones de seguridad dictadas por el guía o anfitrión durante el desarrollo de la actividad.</p>
                     </div>
 
                     <div class="checkbox-group" style="background: #e8f5e9; border-color: #c8e6c9; margin-top: 20px;">
@@ -557,8 +583,8 @@
                     <h3 id="titulo-paso6">Acuerdos de Operación y Finanzas</h3>
                     
                     <div class="text-legal" id="texto-legal-pago">
-                        <b>1. Condiciones de Liquidación</b><br>
-                        El pago siempre se realiza después de prestar el servicio. Todos los pagos de las reservas se realizan exclusivamente a través de la plataforma. Una vez procesados, se validan y se envían al proveedor. Este proceso de liquidación puede demorar entre 24 horas a 15 días o más en algunos casos, dependiendo de regulaciones, tiempos de validación bancaria y administrativa. Al registrar su servicio, el proveedor confirma que entiende y acepta estos tiempos de pago.
+                        <b>1. Condiciones de Liquidación y Transacciones</b><br>
+                        El pago siempre se realiza después de prestar el servicio. Todos los pagos de las reservas se realizan exclusivamente a través de la plataforma, incluyendo el procesamiento de <b>pagos internacionales</b>. Una vez procesados, se validan y se envían al proveedor. Este proceso de liquidación puede demorar entre 24 horas a 15 días o más en algunos casos, dependiendo de regulaciones, TRM, tiempos de validación bancaria y administrativa. Al registrar su servicio, el proveedor confirma que entiende y acepta los riesgos transaccionales y estos tiempos de pago.
                     </div>
 
                     <div class="form-group" style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc;" id="caja-seguros">
@@ -607,7 +633,7 @@
                     <div class="checkbox-group" style="background: #fff3e0; border-color: #ffcc80; margin-top:20px;">
                         <input type="checkbox" id="firma-digital" required>
                         <label for="firma-digital" style="color: #e65100;">
-                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad las <a href="#" target="_blank" style="color:var(--negro); text-decoration:underline;">Condiciones de Mot Mot</a>. Declaro que la información es veraz y asumo la responsibility civil y legal.
+                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad los <a href="terminos.html" target="_blank" style="color:var(--negro); text-decoration:underline; font-weight:bold;">Términos, Condiciones y Políticas de Privacidad de Mot Mot</a>. Autorizo el tratamiento de mis datos personales, declaro que la información es veraz, me comprometo a ofrecer calidad y asumo la responsabilidad civil y legal de mis servicios o itinerarios.
                         </label>
                     </div>
 
@@ -716,10 +742,14 @@
                 selectTipo.value = 'anfitrion_local';
                 selectCategoria.innerHTML = `
                     <option value="">Selecciona...</option>
+                    <option value="🥾 Caminata Urbana">🥾 Caminata Urbana</option>
+                    <option value="🥾 Senderismo (Rutas suaves)">🥾 Senderismo (Rutas suaves)</option>
+                    <option value="🧗 Trekking (Rutas exigentes)">🧗 Trekking (Rutas exigentes)</option>
                     <option value="Taller Artesanal">Taller Artesanal / Oficios</option>
                     <option value="Clase de Cocina">Clase de Cocina / Gastronomía</option>
                     <option value="Saberes del Campo">Saberes del Campo / Agricultura</option>
                     <option value="Experiencia Cultural">Experiencia Cultural Local</option>
+                    <option value="Turismo de Bienestar">Turismo de Bienestar</option>
                 `;
                 
                 document.getElementById('caja-iti-tips').style.display = 'none';
@@ -751,9 +781,12 @@
                 selectTipo.value = 'guia_turismo';
                 selectCategoria.innerHTML = `
                     <option value="">Selecciona...</option>
-                    <option value="Caminata / Trekking">Caminata / Trekking / Hiking</option>
-                    <option value="Aventura">Aventura Extrema (Rafting, Espeleología)</option>
-                    <option value="Naturaleza">Naturaleza y Contemplación</option>
+                    <option value="🥾 Caminata Urbana">🥾 Caminata Urbana</option>
+                    <option value="🥾 Senderismo (Rutas suaves)">🥾 Senderismo (Rutas suaves)</option>
+                    <option value="🧗 Trekking (Rutas exigentes)">🧗 Trekking (Rutas exigentes)</option>
+                    <option value="Turismo de Aventura">Turismo de Aventura Extrema (Rafting, Espeleología)</option>
+                    <option value="Turismo de Naturaleza">Turismo de Naturaleza y Contemplación</option>
+                    <option value="Turismo de Bienestar">Turismo de Bienestar</option>
                 `;
 
                 document.getElementById('caja-iti-tips').style.display = 'none';
@@ -772,7 +805,7 @@
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
                             <b>¿Quién eres?</b> Un estratega del viaje y experto en "el arte de viajar" que conoce los rincones que no aparecen en guías comerciales.<br><br>
-                            <b>Tu producto:</b> Información Maestra. Vendes un "mapa del tesoro" digital.<br><br>
+                            <b>Tu producto:</b> Información Maestra. Vendes un itinerario digital, guías y consejos.<br><br>
                             <b>Qué haces:</b> Entregas una hoja de ruta con links, ubicaciones exactas, contactos locales y datos específicos. No reservas hoteles ni acompañas, das la inteligencia logística para que el turista haga su propia ruta.
                         </p>
                     </div>`;
@@ -786,7 +819,7 @@
                 document.getElementById('tour-titulo').placeholder = "Ej: Fin de semana perfecto en Barichara";
                 document.getElementById('lbl-ubicacion').innerText = "¿A qué ciudad/pueblo fuiste?";
                 document.getElementById('lbl-desc').innerText = "Cuenta un resumen de tu experiencia (El gancho)";
-                document.getElementById('lbl-img').innerText = "Sube la mejor foto de tu viaje (Portada)";
+                document.getElementById('lbl-img').innerText = "Foto Principal del Producto / Servicio";
 
                 document.getElementById('titulo-paso4').innerText = "Arma tu Itinerario de Viaje";
                 document.getElementById('caja-incluye').style.display = 'none';
@@ -798,7 +831,7 @@
                 document.getElementById('desc-itinerario').innerText = "Ej: Día 1 - 8:00 AM - Salida al aeropuerto | Costo: 60000 | Tip: Tomen el bus D12 que es más rápido.";
 
                 document.getElementById('titulo-paso6').innerText = "Monetiza tu Itinerario";
-                document.getElementById('texto-legal-pago').innerHTML = `<b>Condiciones de Pago:</b> Si decides ponerle precio a tu itinerario, cada vez que un usuario lo desbloquee ganarás el 50% del valor. El pago se reflejará en tu billetera virtual de Mot Mot.`;
+                document.getElementById('texto-legal-pago').innerHTML = `<b>Condiciones de Liquidación y Transacciones:</b> El pago siempre se realiza después de prestar el servicio. Todos los pagos de las reservas se realizan exclusivamente a través de la plataforma, incluyendo el procesamiento de <b>pagos internacionales</b>. Una vez procesados, se validan y se envían al proveedor. Este proceso de liquidación puede demorar entre 24 horas a 15 días o más en algunos casos, dependiendo de regulaciones, TRM, tiempos de validación bancaria y administrativa. Al registrar su servicio, el proveedor confirma que entiende y acepta los riesgos transaccionales y estos tiempos de pago.`;
                 document.getElementById('caja-seguros').style.display = 'none';
                 document.querySelector('input[name="seguro"][value="propio"]').checked = true; 
                 document.getElementById('caja-reglas-cobro').style.display = 'none';
@@ -835,6 +868,35 @@
             }
         };
 
+        // Buscador Inteligente de Ubicación
+        const inputUbi = document.getElementById('ubicacion-input');
+        const sugerencias = document.getElementById('lista-sugerencias');
+        const hiddenUbi = document.getElementById('tour-ubicacion');
+
+        inputUbi.addEventListener('input', async (e) => {
+            const texto = e.target.value;
+            if (texto.length < 3) { sugerencias.style.display = 'none'; return; }
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${texto}&addressdetails=1&limit=5`);
+                const datos = await res.json();
+                sugerencias.innerHTML = "";
+                if (datos.length > 0) {
+                    sugerencias.style.display = 'block';
+                    datos.forEach(l => {
+                        const d = document.createElement('div');
+                        d.className = "sugerencia-item";
+                        const ciudad = l.address.town || l.address.city || l.address.village || "Lugar";
+                        const pais = l.address.country || "";
+                        const nombreLimpio = `${ciudad}, ${pais}`;
+                        d.innerHTML = `<span>📍</span> <b>${ciudad}</b> <span style="font-size:0.8em; color:#777;">(${pais})</span>`;
+                        d.onmousedown = () => { inputUbi.value = nombreLimpio; hiddenUbi.value = nombreLimpio; sugerencias.style.display = 'none'; };
+                        sugerencias.appendChild(d);
+                    });
+                }
+            } catch (err) { console.log(err); }
+        });
+        inputUbi.onblur = () => setTimeout(() => sugerencias.style.display = 'none', 200);
+
         // CIRUGÍA: Evaluar Cámara de Comercio independientemente
         window.evaluarCamaraComercio = () => {
             const selectTipo = document.getElementById('tipo-guia').value;
@@ -853,8 +915,12 @@
         window.verificarDocumentosLegales = (rol) => {
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
+            const docRut = document.getElementById('doc-rut');
+            const cajaDocRut = document.getElementById('caja-doc-rut');
             const cajaDocRnt = document.getElementById('caja-doc-rnt');
             const inputRntFile = document.getElementById('doc-rnt-file');
+            const cajaDocTarjeta = document.getElementById('caja-doc-tarjeta');
+            const inputTarjetaFile = document.getElementById('doc-tarjeta');
             const cajaRntNumero = document.getElementById('caja-rnt');
             const inputRntNumero = document.getElementById('num-rnt');
             const inputFechaRnt = document.getElementById('fecha-rnt');
@@ -865,12 +931,18 @@
             const cajaSelloConfianza = document.getElementById('caja-sello-confianza');
 
             if (rol === 'viajero') {
-                contenedorDocs.style.display = 'none';
+                contenedorDocs.style.display = 'block'; // Mostrar la caja legal para viajeros
+                cajaDocRut.style.display = 'block'; // Tienen que subir RUT
+                docRut.setAttribute('required', 'true');
+                docId.setAttribute('required', 'true'); // Tienen que subir CC
+                
                 cajaRntNumero.style.display = 'none';
                 inputRntNumero.removeAttribute('required');
                 inputFechaRnt.removeAttribute('required');
-                docId.removeAttribute('required');
+                cajaDocRnt.style.display = 'none';
                 inputRntFile.removeAttribute('required');
+                cajaDocTarjeta.style.display = 'none';
+                inputTarjetaFile.removeAttribute('required');
                 document.getElementById('check-consentimiento').removeAttribute('required');
                 
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
@@ -881,7 +953,12 @@
             } else if (rol === 'anfitrion') {
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
+                cajaDocRut.style.display = 'block'; 
+                docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
+                
+                cajaDocTarjeta.style.display = 'none';
+                inputTarjetaFile.removeAttribute('required');
                 
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
                 if(cajaDocAventura) cajaDocAventura.style.display = 'none';
@@ -889,17 +966,18 @@
                 if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'block';
                 if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'block';
                 
-                // Limpiar valores por defecto al cambiar a anfitrión
                 document.querySelector('input[name="chk_pernocta"][value="no"]').checked = true;
                 document.querySelector('input[name="chk_alimentos"][value="no"]').checked = true;
                 document.querySelector('input[name="chk_frontera"][value="no"]').checked = true;
                 
                 window.evaluarChecklist();
-                window.evaluarCamaraComercio(); // Por si acaso estaba en agencia
+                window.evaluarCamaraComercio(); 
 
             } else { // Si es Guía
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
+                cajaDocRut.style.display = 'block'; 
+                docRut.setAttribute('required', 'true');
                 document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
                 cajaRntNumero.style.display = 'flex';
@@ -909,13 +987,16 @@
                 
                 cajaDocRnt.style.display = 'block';
                 inputRntFile.setAttribute('required', 'true');
+
+                cajaDocTarjeta.style.display = 'block';
+                inputTarjetaFile.setAttribute('required', 'true');
                 
                 if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'block';
                 if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'block';
                 
                 window.toggleAventuraDocs();
-                window.evaluarCamaraComercio(); // Verifica si es guía (apaga) o agencia (prende)
+                window.evaluarCamaraComercio(); 
                 
                 const btnSiguiente1 = document.getElementById('btn-paso1-next');
                 btnSiguiente1.classList.remove('btn-disabled');
@@ -1154,7 +1235,6 @@
                     userName = data.nombre || "Usuario";
                     userRolGlobal = data.rol || "viajero";
                     
-                    // Asegurar que evaluarCamaraComercio se asigne al change *antes* de adaptar el formulario
                     document.getElementById('tipo-guia').addEventListener('change', () => {
                         window.adaptarFormulario(userRolGlobal);
                         window.evaluarCamaraComercio(); 
@@ -1183,22 +1263,38 @@
             btn.classList.add('btn-disabled');
 
             try {
-                let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
+                let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocTarjeta = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
                 let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
+
+                // TODOS suben RUT y CC
+                const inputId = document.getElementById('doc-id');
+                if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
+
+                const inputRut = document.getElementById('doc-rut');
+                if(inputRut && inputRut.files.length > 0) urlDocRut = await uploadCloudinary(inputRut.files[0]);
+
 
                 if (userRolGlobal === 'guia' || userRolGlobal === 'anfitrion') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
-                    const inputId = document.getElementById('doc-id');
-                    if(inputId && inputId.files.length > 0) urlDocId = await uploadCloudinary(inputId.files[0]);
                     
                     const inputRntFile = document.getElementById('doc-rnt-file');
                     if(inputRntFile && inputRntFile.files.length > 0) urlDocRnt = await uploadCloudinary(inputRntFile.files[0]);
                     
+                    const inputTarjeta = document.getElementById('doc-tarjeta');
+                    if(inputTarjeta && inputTarjeta.files.length > 0) urlDocTarjeta = await uploadCloudinary(inputTarjeta.files[0]);
+
                     const inputCamara = document.getElementById('doc-camara');
                     if(inputCamara && inputCamara.files.length > 0) urlDocCamara = await uploadCloudinary(inputCamara.files[0]);
 
+                    // Manejo de múltiples certificados opcionales
                     const inputOtros = document.getElementById('doc-otros');
-                    if(inputOtros && inputOtros.files.length > 0) urlDocOtros = await uploadCloudinary(inputOtros.files[0]);
+                    let urlsOtros = [];
+                    if(inputOtros && inputOtros.files.length > 0) {
+                        for(let i=0; i<inputOtros.files.length; i++) {
+                            urlsOtros.push(await uploadCloudinary(inputOtros.files[i]));
+                        }
+                    }
+                    urlDocOtros = urlsOtros.join(','); // Guardamos como texto separado por comas
 
                     const inputAlimentos = document.getElementById('doc-alimentos');
                     if(inputAlimentos && inputAlimentos.files.length > 0) urlDocAlimentos = await uploadCloudinary(inputAlimentos.files[0]);
@@ -1243,10 +1339,11 @@
 
                 let tipoProducto = (userRolGlobal === 'viajero') ? "itinerario_viajero" : "experiencia_pro";
 
-                // Capturar valores del checklist si existen
                 const chkPernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value || "no";
                 const chkAlimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value || "no";
                 const chkFrontera = document.querySelector('input[name="chk_frontera"]:checked')?.value || "no";
+
+                const ubicacionGuardar = document.getElementById('tour-ubicacion').value || DOMPurify.sanitize(document.getElementById('ubicacion-input').value);
 
                 await addDoc(collection(db, "solicitudes_amelia"), {
                     guiaId: userId,
@@ -1259,7 +1356,6 @@
                     rnt: rntVal,
                     vencimientoRnt: rntFech,
                     
-                    // Datos del checklist de Anfitrión
                     operacionLocal: {
                         pernocta: chkPernocta,
                         alimentos: chkAlimentos,
@@ -1270,6 +1366,7 @@
                         documentoIdentidad: urlDocId,
                         rut: urlDocRut,
                         soporteRnt: urlDocRnt,
+                        tarjetaProfesional: urlDocTarjeta,
                         camaraComercio: urlDocCamara,
                         otrosDocumentos: urlDocOtros,
                         manipulacionAlimentos: urlDocAlimentos,
@@ -1284,7 +1381,7 @@
                     tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",
                     tituloServicio: DOMPurify.sanitize(document.getElementById('tour-titulo').value),
                     categoria: DOMPurify.sanitize(document.getElementById('tour-categoria').value),
-                    ubicacion: DOMPurify.sanitize(document.getElementById('tour-ubicacion').value),
+                    ubicacion: ubicacionGuardar,
                     descripcion: DOMPurify.sanitize(document.getElementById('tour-desc').value),
                     imagenPrincipal: urlPrincipal,
                     
