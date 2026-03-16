@@ -76,7 +76,6 @@
         summary { font-weight: bold; color: #1565c0; outline: none; }
         details[open] summary { margin-bottom: 10px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
 
-        /* Estilos base de visibilidad para formularios */
         #caja-rnt, #caja-doc-rnt, #caja-doc-camara, #caja-doc-alimentos, #contenedor-docs-legales, #caja-checklist-anfitrion, #alerta-legal-frontera, #caja-sello-confianza { display: none; }
 
         .check-pregunta { background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
@@ -112,10 +111,10 @@
 
     <div class="container">
         <div class="card-form">
-            <h1 id="titulo-principal">Crear Experiencia Local 🧑‍🌾</h1>
+            <h1 id="titulo-principal">Cargando...</h1>
             
             <div class="info-box" id="caja-bienvenida" style="background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; margin-bottom: 30px;">
-                </div>
+            </div>
 
             <div class="stepper" id="stepper-ui">
                 <div class="step-indicator active" id="ind-1">1. Legal</div>
@@ -170,9 +169,8 @@
                                 <label><input type="radio" name="chk_frontera" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_frontera" value="no" onchange="evaluarChecklist()" checked> No</label>
                             </div>
-                            <div id="alerta-legal-frontera" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
-                                ⚠️ ALTO: En Colombia, si ofreces la cama y la experiencia en el mismo lugar, eres un Prestador de Servicios Turísticos (PST) con un portafolio mixto.<br><br>
-                                Si la "experiencia" incluye sacar al turista a caminar por el pueblo, hacer senderismo, o interpretar el patrimonio cultural o natural de la región, la ley (Ley 300 de 1996) exige que esa actividad específica sea liderada por alguien con Tarjeta Profesional de Guía de Turismo. Si te registras como agencia debes contar con un guía certificado y aceptas que conoces este requerimiento y te comprometes a cumplirlo.
+                            <div id="alerta-legal-frontera" style="background: #e3f2fd; color: #1565c0; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
+                                ℹ️ IMPORTANTE: En Colombia, si la "experiencia" incluye salir de la propiedad a interpretar el patrimonio en zonas públicas o naturales, la ley (Ley 300 de 1996) exige que esa actividad específica sea liderada por alguien con Tarjeta Profesional de Guía de Turismo. Al registrarte y avanzar, aceptas que conoces este requerimiento y te comprometes a cumplirlo en la operación.
                             </div>
                         </div>
                     </div>
@@ -240,15 +238,15 @@
                         </div>
 
                         <div id="caja-doc-otros">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Primeros Auxilios, Idiomas, etc.) - Opcional</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma (ej. Primeros Auxilios, WFR, Bilingüismo) que acredite competencias y fortalezca tu perfil. Puedes seleccionar varios archivos a la vez.</p>
+                            <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Idiomas, Primeros Auxilios, etc.) - Opcional</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma que acredite un saber o competencia que fortalezca tu perfil. Puedes seleccionar varios archivos a la vez.</p>
                             <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB por archivo.</span>
                             <input type="file" id="doc-otros" accept="image/jpeg, image/png, application/pdf" multiple>
                         </div>
                     </div>
 
                     <div id="caja-sello-confianza" style="background: #e3f2fd; padding: 25px; border-radius: 12px; border: 1px solid #90caf9; margin-top:20px; display:none;">
-                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot</h4>
+                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot (Voluntario)</h4>
                         <p style="font-size:0.85em; color:#444; line-height: 1.5; margin-bottom: 20px;">Sabemos que en nuestra tierra la palabra vale oro, pero para los viajeros que vienen de lejos, un respaldo extra ayuda mucho. Activa tu Sello de Confianza subiendo estos certificados. Es gratuito y te posicionará mejor en los resultados.</p>
                         
                         <div style="display:flex; flex-direction:column; gap:15px;">
@@ -299,6 +297,7 @@
                             <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Caminata Urbana', this)" title="Exploración a pie en entornos de ciudad">🥾 Caminata Urbana</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Senderismo (Rutas suaves)', this)" title="Caminatas de baja dificultad por senderos marcados">🥾 Senderismo (Rutas suaves)</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('🧗 Trekking (Rutas exigentes)', this)" title="Caminatas exigentes de varios días o terreno difícil">🧗 Trekking (Rutas exigentes)</span>
+                            
                             <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Sol y Playa', this)" title="El más popular, centrado en el descanso y actividades acuáticas">Turismo de Sol y Playa</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Cultural', this)" title="Enfocado en conocer historia, arte, tradiciones y monumentos">Turismo Cultural</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Naturaleza y Ecoturismo', this)" title="Viajes para disfrutar y conservar el medio ambiente">Turismo de Naturaleza y Ecoturismo</span>
@@ -311,11 +310,28 @@
                             <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Sostenible/Regenerativo', this)" title="Enfocado en minimizar impacto ambiental y mejorar el entorno">Turismo Sostenible/Regenerativo</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Oscuro', this)" title="Visita a lugares asociados a historia profunda">Turismo Oscuro</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Volunturismo', this)" title="Viajes combinados con voluntariado">Volunturismo</span>
+                            
                             <span class="tag-rapido" onclick="window.toggleTagCat('Taller Artesanal', this)" title="Talleres de oficios manuales y artesanía">Taller Artesanal / Oficios</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Clase de Cocina', this)" title="Aprender a cocinar platos locales">Clase de Cocina / Gastronomía</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Saberes del Campo', this)" title="Conocer sobre agricultura y vida rural">Saberes del Campo / Agricultura</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Alojamiento', this)" title="Alojamiento o Vivienda turística">Alojamiento</span>
                         </div>
+
+                        <details style="margin-bottom: 5px;">
+                            <summary>¿Qué significan estas categorías?</summary>
+                            <div style="color: #444; margin-top:5px; font-size: 0.9em; line-height: 1.4;">
+                                <b>Sol y Playa:</b> Actividades de descanso y recreación cerca del mar.<br>
+                                <b>Cultural:</b> Aprender sobre historia, arte, tradiciones y vida local.<br>
+                                <b>Naturaleza y Ecoturismo:</b> Disfrutar del medio ambiente, minimizando el impacto.<br>
+                                <b>Aventura:</b> Actividades físicas y de riesgo moderado a alto.<br>
+                                <b>Rural:</b> Inmersión en la vida del campo, granjas o pueblos pequeños.<br>
+                                <b>Gastronómico:</b> Experiencias centradas en probar o preparar comida y bebida local.<br>
+                                <b>Negocios y MICE:</b> Experiencias pensadas para grupos de empresas, ferias o convenciones.<br>
+                                <b>Salud y Bienestar:</b> Actividades de relajación, spas, yoga o retiros mentales.<br>
+                                <b>Sostenible/Regenerativo:</b> Experiencias que activamente mejoran el lugar que se visita.<br>
+                                <b>Volunturismo:</b> Viajes combinados con trabajo voluntario no remunerado.
+                            </div>
+                        </details>
                     </div>
 
                     <div class="dynamic-list-container" id="caja-intercambio" style="display: none; background: #e3f2fd; border-color: #bbdefb;">
@@ -332,7 +348,7 @@
                             <span class="tag-rapido" onclick="window.toggleTagCat('Cocinar', this)">🍳 Cocinar</span>
                         </div>
                         <div style="display:flex; gap:10px; margin-top:10px;">
-                            <input type="text" id="input-intercambio-nuevo" placeholder="Escribe otro interés">
+                            <input type="text" id="input-intercambio-nuevo" placeholder="Escribe otro interés (Ej: Leer poesía)">
                             <button type="button" onclick="agregarInteresGratis()" class="btn-add-mini" style="background:#1565c0;">➕</button>
                         </div>
                         
@@ -535,7 +551,7 @@
 
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso4()">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso4()">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-next" onclick="nextStep(4, 5)">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -830,15 +846,16 @@
 
             const alertaFrontera = document.getElementById('alerta-legal-frontera');
             const btnSiguiente1 = document.getElementById('btn-paso1-next');
+            
+            // CORRECCIÓN SOLICITADA: No bloquear el paso 1, solo advertir
             if(frontera === 'si') {
                 alertaFrontera.style.display = 'block';
-                btnSiguiente1.classList.add('btn-disabled');
-                btnSiguiente1.onclick = null;
             } else {
                 alertaFrontera.style.display = 'none';
-                btnSiguiente1.classList.remove('btn-disabled');
-                btnSiguiente1.onclick = () => avanzarDesdePaso1();
             }
+            // El botón siempre debe permitir avanzar
+            btnSiguiente1.classList.remove('btn-disabled');
+            btnSiguiente1.onclick = () => avanzarDesdePaso1();
         };
 
         window.verificarGastronomia = () => {
@@ -920,7 +937,7 @@
                             <h4 style="margin:0; font-size:1.1em; color:#1b5e20; text-transform:uppercase;">El Anfitrión (Conector Local - Gratuito)</h4>
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
-                            <b>¿Quién eres?</b> Eres la esencia de la comunidad. Un local apasionado que quiere conocer el mundo a través de los viajeros que llegan a su territorio. No buscas dinero, buscas intercambio cultural, practicar un idioma o simplemente conocer a alguien que trae historias de otros lugares.<br><br>
+                            <b>¿Quién eres?</b> Eres la esencia de la comunidad. Un local apasionado que quiere conocer el mundo a través de los viajeros que llegan a su territorio. No buscas dinero, buscas intercambio cultural, practicar un idioma o simplemente parchar con alguien que trae historias de otros lugares.<br><br>
                             <b>Tu "Producto":</b> Hospitalidad y Amistad. Ofreces tu tiempo y tu espacio de manera voluntaria. Puede ser una invitación a tomar un café, una charla sobre la historia de tu pueblo, o un lugar en tu casa para alguien que quiere conectar con la cultura local de forma auténtica.<br><br>
                             <b>⚠️ Regla de Oro:</b> Mot Mot no es una plataforma de alojamiento. El espacio que ofreces es un gesto de cortesía para facilitar la conexión humana. Si el viajero se queda en tu casa, es porque ambos quieren compartir la experiencia de convivir y aprender el uno del otro. Las publicaciones tipo "hotel o hostal gratuito" sin interés de interactuar no son el espíritu de esta comunidad.<br><br>
                             <b>🌟 ¿Quieres ser un Anfitrión de Confianza?</b> Aunque tu oferta sea gratuita, la seguridad es lo primero. Sube tu ID abajo para activar tu Sello de Identidad Verificada (Dato privado, no se muestra al público).
