@@ -43,7 +43,7 @@
         .step-indicator { flex: 1; text-align: center; padding-bottom: 10px; border-bottom: 4px solid #eee; transition: 0.3s; }
         .step-indicator.active { color: var(--naranja); border-bottom-color: var(--naranja); }
         .step-indicator.completed { color: var(--turquesa); border-bottom-color: var(--turquesa); }
-        .step-indicator.hidden { display: none; }
+        .step-indicator.hidden { display: none; } 
 
         .btn-nav { padding: 15px 30px; border: none; border-radius: 30px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 0.9em; text-transform: uppercase;}
         .btn-next { background: var(--negro); color: white; float: right; }
@@ -300,7 +300,7 @@
 
                     <div class="form-group">
                         <label id="lbl-nombre-paso2">Nombre Atractivo de tu Espacio o Experiencia</label>
-                        <input type="text" id="tour-titulo" placeholder="Ej: Intercambio de Idiomas" required>
+                        <input type="text" id="tour-titulo" placeholder="Ej: Taller de Cerámica Guane o Intercambio de Idiomas" required>
                     </div>
 
                     <div class="dynamic-list-container" id="caja-categorias">
@@ -349,8 +349,8 @@
                     </div>
 
                     <div class="dynamic-list-container" id="caja-intercambio" style="display: none; background: #e3f2fd; border-color: #bbdefb;">
-                        <label style="color: #1565c0;">¿Qué buscas con esta conexión? (Selecciona una o varias)</label>
-                        <p style="font-size:0.8em; color:#666; margin-top:0;">Esto le ayudará a los viajeros a saber qué pueden hacer contigo.</p>
+                        <label style="color: #1565c0;">¿Qué buscas con esta conexión? (Selecciona intereses)</label>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;">Si no está en la lista escribe otro interés y dale al ➕</p>
                         <div class="tags-rapidos" id="tags-intercambio" style="margin-bottom: 15px;">
                             <span class="tag-rapido" onclick="window.toggleTagCat('Mostrar mi ciudad/pueblo', this)">🏙️ Mostrar mi ciudad/pueblo</span>
                             <span class="tag-rapido" onclick="window.toggleTagCat('Tomar un café/cerveza', this)">☕ Tomar un café/cerveza</span>
@@ -366,7 +366,7 @@
                             <button type="button" onclick="agregarInteresGratis()" class="btn-add-mini" style="background:#1565c0;">➕</button>
                         </div>
                         
-                        <label style="color: #c62828; margin-top: 20px;">🛡️ Reglas para conocerte (Lo que NO quieres / Lo que NO te gusta)</label>
+                        <label style="color: #c62828; margin-top: 20px;">🛡️ Reglas de tu Parche (Lo que NO quieres / Lo que NO te gusta)</label>
                         <textarea id="tour-reglas-gratis" rows="3" placeholder="Ej: No me gusta el desorden, no permito drogas, no me gusta el ruido después de las 10 PM, no niños..."></textarea>
                     </div>
 
@@ -589,13 +589,14 @@
 
                     <div class="form-group" style="background: #fff3e0; padding: 15px; border-radius: 12px; border-color: #ffcc80;">
                         <label style="color: #d84315;">👥 ¿Para quién es perfecta tu experiencia / espacio?</label>
-                        <select id="restriccion-edad" style="margin-bottom: 15px;">
-                            <option value="todos">Para todos (Incluso Bebés y Niños)</option>
-                            <option value="familias_ninos_grandes">Familias con niños grandes (+12 años)</option>
+                        <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Selecciona el perfil de viajero que mejor se adapta a lo que ofreces.</p>
+                        <select id="restriccion-edad" style="margin-bottom: 5px;">
+                            <option value="todos">Para todos (Incluso Bebés y Niños pequeños)</option>
+                            <option value="familias_ninos">Ideal para Familias con niños</option>
+                            <option value="ninos_grandes">Para mayores de 12 años</option>
                             <option value="solo_adultos">Solo Adultos (+18 años)</option>
-                            <option value="parejas">Ideal para Parejas</option>
-                            <option value="grupos_amigos">Grupos de Amigos</option>
-                            <option value="viajeros_solitarios">Viajeros Solitarios</option>
+                            <option value="parejas">Perfecta para Parejas</option>
+                            <option value="tercera_edad">Apta / Adaptable para Tercera Edad</option>
                         </select>
                     </div>
 
@@ -893,7 +894,9 @@
             
             const checkboxFirma = document.getElementById('firma-digital');
 
+            // --- LÓGICA PARA ADAPTAR UI SEGÚN ANFITRIÓN --- //
             if(selectTipo === 'anfitrion_aficionado') {
+                // UI: Ajustar textos de bienvenida
                 tituloPri.innerText = "Conectar con la Comunidad 🤝";
                 cajaBienvenida.innerHTML = `
                     <div style="display:flex; flex-direction:column; gap:10px;">
@@ -909,20 +912,21 @@
                         </p>
                     </div>`;
 
-                contenedorDocs.style.display = 'block'; 
+                // UI: Ocultar todo lo legal innecesario y checklist
+                contenedorDocs.style.display = 'block'; // Mantenemos la caja para pedir la Cédula
                 document.getElementById('caja-doc-rut').style.display = 'none';
                 docRut.removeAttribute('required');
                 checkboxFirma.removeAttribute('required');
-                
-                // Ocultar Alimentos y Otros para Gratis
-                document.getElementById('caja-doc-alimentos').style.display = 'none';
-                document.getElementById('doc-alimentos').removeAttribute('required');
-                document.getElementById('caja-doc-otros').style.display = 'none';
                 
                 document.getElementById('lbl-docs-legales').innerText = "📄 Validación de Identidad (Sello Verificado)";
                 document.getElementById('desc-docs-legales').innerText = "Sube tu documento para seguridad de la comunidad.";
                 document.getElementById('lbl-doc-id').innerText = "Sube tu Cédula o Pasaporte (Privado) *";
                 docId.setAttribute('required', 'true');
+                
+                // Ocultar Alimentos y Otros para Gratis
+                document.getElementById('caja-doc-alimentos').style.display = 'none';
+                document.getElementById('doc-alimentos').removeAttribute('required');
+                document.getElementById('caja-doc-otros').style.display = 'none';
                 
                 cajaChecklistAnfitrion.style.display = 'none';
                 cajaSelloConfianza.style.display = 'block'; // Mostrar sellos para Gratis
@@ -936,12 +940,14 @@
                 cajaPreguntaAventura.style.display = 'none';
                 cajaDocAventura.style.display = 'none';
 
+                // Stepper Dinámico (Ocultar 3,4,5,6 y Mostrar 7)
                 document.getElementById('ind-3').classList.add('hidden');
                 document.getElementById('ind-4').classList.add('hidden');
                 document.getElementById('ind-5').classList.add('hidden');
                 document.getElementById('ind-6').classList.add('hidden');
                 document.getElementById('ind-7').classList.remove('hidden');
 
+                // Detalles UI (Ocultar precios y categorias formales)
                 document.getElementById('caja-tipo-oferta').style.display = 'none';
                 document.getElementById('caja-categorias').style.display = 'none';
                 document.getElementById('caja-intercambio').style.display = 'block';
@@ -952,6 +958,7 @@
                 document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
                 
             } else {
+                // Expertos, Alojamiento, Agencia: Mostrar todo normal
                 tituloPri.innerText = "Crear Experiencia Local 🧑‍🌾";
                 cajaBienvenida.innerHTML = `
                     <div style="display:flex; flex-direction:column; gap:10px;">
@@ -983,12 +990,14 @@
                 cajaSelloConfianza.style.display = 'block';
                 document.getElementById('lbl-sello-tit').innerText = "🛡️ Sello de Confianza Mot Mot (Voluntario)";
 
+                // Stepper Dinámico (Mostrar 3,4,5,6 y Ocultar 7)
                 document.getElementById('ind-3').classList.remove('hidden');
                 document.getElementById('ind-4').classList.remove('hidden');
                 document.getElementById('ind-5').classList.remove('hidden');
                 document.getElementById('ind-6').classList.remove('hidden');
                 document.getElementById('ind-7').classList.add('hidden');
 
+                // Detalles UI
                 document.getElementById('caja-tipo-oferta').style.display = 'block';
                 document.getElementById('caja-categorias').style.display = 'block';
                 document.getElementById('caja-intercambio').style.display = 'none';
@@ -1319,6 +1328,7 @@
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
                 let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
 
+                // Solo pide Rut y CC al inicio a los que cobran. Al gratis solo le pide el ID y ya está validado arriba.
                 if(selectTipo !== 'anfitrion_aficionado') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     
