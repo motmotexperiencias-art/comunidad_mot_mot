@@ -23,7 +23,7 @@
         
         .form-group { margin-bottom: 20px; position: relative;}
         label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9em; color: #333; }
-        input[type="text"], input[type="time"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
+        input[type="text"], input[type="email"], input[type="time"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; font-size: 1em; transition: 0.3s; }
         input[type="file"] { width: 100%; padding: 10px; border: 2px dashed #ccc; border-radius: 12px; font-family: 'Montserrat', sans-serif; background: #fafafa; transition: 0.3s; }
         input:focus, textarea:focus, select:focus { border-color: var(--turquesa); outline: none; }
         
@@ -63,12 +63,12 @@
         .tags-rapidos { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
         .tag-rapido { background: #e0f2f1; color: #2e7d32; padding: 5px 10px; border-radius: 15px; font-size: 0.75em; cursor: pointer; font-weight: bold; border: 1px solid #a5d6a7; transition:0.2s;}
         .tag-rapido:hover { background: #c8e6c9; }
+        .tag-rapido.selected { background: var(--turquesa); color: white; border-color: var(--turquesa); transform: scale(1.05); }
         .tag-rapido.peligro { background: #ffebee; color: #c62828; border-color: #ffcdd2; }
         .tag-rapido.peligro:hover { background: #ffcdd2; }
 
         .doc-legal-preview { background: #fffcf5; padding: 25px; border: 1px solid #e0e0e0; border-left: 5px solid var(--naranja); border-radius: 12px; margin-top: 20px; font-size: 0.85em; line-height: 1.6; color: #444; }
-        .doc-legal-preview h4 { text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
-        .doc-legal-preview b { color: var(--naranja); }
+        .doc-legal-preview h4 { margin-top: 0; text-transform: uppercase; font-size: 1.1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
         
         details { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #bbdefb; font-size: 0.85em; cursor: pointer; transition: 0.3s; }
         summary { font-weight: bold; color: #1565c0; outline: none; }
@@ -151,13 +151,8 @@
 
                     <div class="form-group" id="caja-tipo-perfil">
                         <label>Tu Perfil Registrado:</label>
-                        <select id="tipo-guia" required onchange="window.adaptarFormulario(userRolGlobal)">
+                        <select id="tipo-guia" required onchange="cambioDeRolManual()">
                         </select>
-                    </div>
-
-                    <div id="aviso-anfitrion" class="info-box" style="background: #fff3e0; color: #d84315; border-color: #ff9800; animation: fadeIn 0.4s ease;">
-                        <span style="font-size: 1.5em;">🛡️</span>
-                        <span><b>Escudo Legal:</b> Como Anfitrión Local no necesitas RNT, pero por ley <b>solo puedes vender talleres, cultura, o gastronomía dentro de tu propiedad</b>.</span>
                     </div>
 
                     <div id="caja-checklist-anfitrion" style="background: #f9f9f9; padding: 20px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 20px;">
@@ -189,11 +184,7 @@
                                 <label><input type="radio" name="chk_frontera" value="no" onchange="evaluarChecklist()" checked> No</label>
                             </div>
                             <div id="alerta-legal-frontera" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
-                                ⚠️ ALTO: En Colombia, si ofreces la cama y la experiencia en el mismo lugar, eres un Prestador de Servicios Turísticos (PST) con un portafolio mixto.
-
-Muchos anfitriones cometen el error de sacar solo el código de Vivienda Turística (5519) y asumen que eso cubre todo. Pero si cobras por la experiencia de forma estructurada, necesitas registrar la actividad adicional.
-
-Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía dentro del hospedaje se cubre con los códigos recreativos o educativos. Sin embargo, si la "experiencia" incluye sacar al turista a caminar por el pueblo, hacer senderismo, o interpretar el patrimonio cultural o natural de la región, la ley colombiana (Ley 300 de 1996 y sus actualizaciones) exige que esa actividad específica sea liderada por alguien con tarjeta profesional de Guía de Turismo. Si te registras como agencia debes contar con un guía certificado y aceptas que conoces este requerimiento y te comprometes a cumplirlo.
+                                ⚠️ ALTO: Si tu experiencia incluye sacar al turista a caminar por el pueblo, hacer senderismo, o interpretar el patrimonio cultural o natural de la región, la ley colombiana (Ley 300 de 1996) exige que esa actividad específica sea liderada por alguien con tarjeta profesional de Guía de Turismo. Por favor, asegúrate de cumplir con la normativa o ajusta tu actividad.
                             </div>
                         </div>
                     </div>
@@ -267,7 +258,7 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
 
                         <div id="caja-doc-otros">
                             <label style="font-size:0.85em; margin-top:15px; color:var(--turquesa);">🎓 Certificados Adicionales (Primeros Auxilios, Idiomas, etc.) - Opcional</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma que acredite un saber o competencia que fortalezca tu perfil. Puedes subir varios a la vez.</p>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Sube cualquier diploma (ej. Primeros Auxilios, WFR) que acredite competencias y fortalezca tu perfil. Puedes seleccionar varios archivos a la vez.</p>
                             <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB por archivo.</span>
                             <input type="file" id="doc-otros" accept="image/jpeg, image/png, application/pdf" multiple>
                         </div>
@@ -288,9 +279,9 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                                 <small style="display:block; color:#666; margin-bottom:5px;">Descarga el Certificado Ordinario en <a href="https://www.procuraduria.gov.co/Pages/Certificado-de-Antecedentes.aspx" target="_blank" style="color:var(--naranja); font-weight:bold;">SIRPRO</a>.</small>
                                 <input type="file" id="doc-procuraduria" accept="application/pdf">
                             </div>
-                            <div>
-                                <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio (Solo Anfitriones)</label>
-                                <small style="display:block; color:#666; margin-bottom:5px;">Sube una foto real de tu taller, cocina o lugar donde ocurre la magia para validar que es seguro.</small>
+                            <div id="caja-foto-espacio">
+                                <label style="font-size:0.85em; color:#1565c0;">3. Foto de Validación de Espacio (Opcional)</label>
+                                <small style="display:block; color:#666; margin-bottom:5px;">Sube una foto real de tu taller o lugar de operación para validar que es seguro y existe.</small>
                                 <input type="file" id="doc-espacio" accept="image/jpeg, image/png">
                             </div>
                         </div>
@@ -317,10 +308,28 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                         <input type="text" id="tour-titulo" placeholder="Ej: Cueva de la Vaca - Aventura Subterránea" required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Categoría Principal</label>
-                        <select id="tour-categoria" required onchange="verificarGastronomia(this.value)">
-                        </select>
+                    <div class="dynamic-list-container">
+                        <label>Categoría Principal y Tipos de Turismo *</label>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;">Selecciona las etiquetas que mejor describan tu experiencia (puedes elegir varias).</p>
+                        
+                        <div class="tags-rapidos" id="tags-categorias" style="margin-bottom: 15px;">
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Caminata Urbana', this)" title="Exploración a pie en entornos de ciudad">🥾 Caminata Urbana</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Senderismo (Rutas suaves)', this)" title="Caminatas de baja dificultad por senderos marcados">🥾 Senderismo (Rutas suaves)</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🧗 Trekking (Rutas exigentes)', this)" title="Caminatas exigentes de varios días o terreno difícil">🧗 Trekking (Rutas exigentes)</span>
+                            
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Sol y Playa', this)" title="El más popular, centrado en el descanso y actividades acuáticas">Turismo de Sol y Playa</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Cultural', this)" title="Enfocado en conocer historia, arte, tradiciones y monumentos">Turismo Cultural</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Naturaleza y Ecoturismo', this)" title="Viajes para disfrutar y conservar el medio ambiente">Turismo de Naturaleza y Ecoturismo</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Aventura', this)" title="Actividades físicas y de riesgo moderado a alto">Turismo de Aventura</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Rural', this)" title="Experiencias en entornos rurales, granjas y pueblos pequeños">Turismo Rural</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Gastronómico/Enológico', this)" title="Viajes enfocados en la gastronomía local y bebidas">Turismo Gastronómico/Enológico</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Negocios y MICE', this)" title="Viajes por motivos laborales, congresos, ferias">Turismo de Negocios y MICE</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Salud y Bienestar (Wellness)', this)" title="Búsqueda de tratamientos, spas o retiros">Turismo de Salud y Bienestar (Wellness)</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Religioso', this)" title="Visitas a lugares santos o de peregrinación">Turismo Religioso</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Sostenible/Regenerativo', this)" title="Enfocado en minimizar impacto ambiental y mejorar el entorno">Turismo Sostenible/Regenerativo</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Oscuro', this)" title="Visita a lugares asociados a historia profunda">Turismo Oscuro</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Volunturismo', this)" title="Viajes combinados con voluntariado">Volunturismo</span>
+                        </div>
                     </div>
 
                     <div class="form-group" id="caja-ubicacion">
@@ -542,6 +551,30 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                         </select>
                     </div>
 
+                    <div class="check-pregunta" style="background: #fff3e0; border-color: #ffcc80;">
+                        <label style="color: #d84315;">👶 ¿El participante es menor de edad (menor de 18 años)?</label>
+                        <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
+                            <label><input type="radio" name="chk_menor_edad" value="si" onchange="toggleCajaMenor()"> Sí</label>
+                            <label><input type="radio" name="chk_menor_edad" value="no" onchange="toggleCajaMenor()" checked> No</label>
+                        </div>
+                        
+                        <div id="caja-datos-menor" style="display:none; margin-top:15px; padding-top:15px; border-top:1px dashed #ffcc80;">
+                            <p style="font-size: 0.8em; color: #d84315; margin-bottom: 10px;"><b>Atención:</b> Esta sección debe ser completada OBLIGATORIAMENTE por el padre, madre o Tutor Legal del participante.</p>
+                            
+                            <label style="font-size: 0.85em; color: #333;">Nombre Completo del Padre/Madre/Tutor *</label>
+                            <input type="text" id="tutor-nombre" placeholder="Ej: Carlos Pérez" style="margin-bottom: 10px; padding:8px;">
+                            
+                            <label style="font-size: 0.85em; color: #333;">Tipo y Número de Documento del Tutor *</label>
+                            <input type="text" id="tutor-doc" placeholder="Ej: CC 123456789" style="margin-bottom: 10px; padding:8px;">
+
+                            <label style="font-size: 0.85em; color: #333;">Teléfono de Contacto del Tutor *</label>
+                            <input type="number" id="tutor-tel" placeholder="Ej: 3001234567" style="margin-bottom: 10px; padding:8px;">
+
+                            <label style="font-size: 0.85em; color: #333;">Correo Electrónico del Tutor *</label>
+                            <input type="email" id="tutor-email" placeholder="Ej: tutor@correo.com" style="margin-bottom: 10px; padding:8px;">
+                        </div>
+                    </div>
+
                     <div class="dynamic-list-container">
                         <label style="color:#c62828;">⚠️ Restricciones / No apto para:</label>
                         <div class="tags-rapidos">
@@ -561,22 +594,6 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                         <textarea id="tour-condiciones-ruta" rows="3" placeholder="Ej: Alta exposición a mosquitos, cruces de río, uso de herramientas afiladas..."></textarea>
                     </div>
 
-                    <div class="doc-legal-preview" id="preview-legal">
-                        <h4>Aceptación de Riesgos y Sometimiento a Normas<br><span style="font-size: 0.6em; color:#888;">(Vista Previa del Formato Único para el Cliente)</span></h4>
-                        <p style="font-size: 0.9em; margin-bottom: 5px;"><b>Mot Mot Experiencias</b> actúa como una plataforma tecnológica de conexión y no asume responsabilidad directa sobre la ejecución de los servicios en terreno.</p>
-                        <p style="font-size: 0.9em;">La responsabilidad operativa recae en <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>, salvo en el caso de los itinerarios digitales y rutas autoguiadas publicadas por "Viajeros", donde <b>la ejecución de la ruta es bajo cuenta y riesgo exclusivo de quien la realiza.</b></p>
-                        <hr style="border: 0; border-bottom: 1px dashed #ccc; margin: 15px 0;">
-                        <p><b>A. DECLARACIÓN DE RIESGOS Y SALUD:</b> El participante acepta conocer los riesgos inherentes de la actividad descrita y declara tener la condición física y de salud apta para completarla, eximiendo a la plataforma de responsabilidades por lesiones o incidentes derivados de su participación o del seguimiento de rutas autoguiadas.</p>
-                        <p><b>B. SOMETIMIENTO A NORMAS:</b> Para las experiencias, el participante se compromete a acatar estrictamente las instrucciones de seguridad dictadas por el guía o anfitrión durante el desarrollo de la actividad.</p>
-                    </div>
-
-                    <div class="checkbox-group" style="background: #e8f5e9; border-color: #c8e6c9; margin-top: 20px;">
-                        <input type="checkbox" id="check-consentimiento">
-                        <label for="check-consentimiento" style="color: #2e7d32;" id="label-consentimiento">
-                            <b>Acepto mi responsabilidad operativa:</b> Entiendo que Mot Mot es un intermediario de conexión. Me comprometo a exigir la firma de este Formato de Consentimiento (físico o digital) a cada persona antes de arrancar y asumo la responsabilidad sobre la seguridad en campo.
-                        </label>
-                    </div>
-
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="nextStep(5, 4)">⬅ Atrás</button>
                         <button type="button" class="btn-nav btn-next" onclick="nextStep(5, 6)">Siguiente ➔</button>
@@ -587,12 +604,12 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                     <h3 id="titulo-paso6">Acuerdos de Operación y Finanzas</h3>
                     
                     <div class="text-legal" id="texto-legal-pago">
-                        <b>1. Condiciones de Liquidación y Transacciones</b><br>
+                        <b>Condiciones de Liquidación y Transacciones</b><br>
                         El pago siempre se realiza después de prestar el servicio. Todos los pagos de las reservas se realizan exclusivamente a través de la plataforma, incluyendo el procesamiento de <b>pagos internacionales</b>. Una vez procesados, se validan y se envían al proveedor. Este proceso de liquidación puede demorar entre 24 horas a 15 días o más en algunos casos, dependiendo de regulaciones, TRM, tiempos de validación bancaria y administrativa. Al registrar su servicio, el proveedor confirma que entiende y acepta los riesgos transaccionales y estos tiempos de pago.
                     </div>
 
                     <div class="form-group" style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed #ccc;" id="caja-seguros">
-                        <label>🛡️ 2. Pólizas y Seguros de Asistencia (Obligatorio)</label>
+                        <label>🛡️ Pólizas y Seguros de Asistencia (Obligatorio)</label>
                         <div class="radio-group" style="flex-direction: column; gap: 5px;">
                             <label><input type="radio" name="seguro" value="propio" onchange="calcularFinanzas()"> Cuento con seguro propio (Asumo responsabilidad total).</label>
                             <label><input type="radio" name="seguro" value="plataforma" onchange="calcularFinanzas()"> Activar el seguro Mot Mot (Agrega automáticamente $5.000 COP al precio final por persona).</label>
@@ -634,10 +651,23 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                         </div>
                     </div>
 
-                    <div class="checkbox-group" style="background: #fff3e0; border-color: #ffcc80; margin-top:20px;">
+                    <div class="doc-legal-preview" id="preview-legal" style="margin-top: 30px;">
+                        <h4 style="color: var(--turquesa); border-bottom: 2px solid var(--turquesa);">Aceptación de Riesgos, Sometimiento a Normas y Tratamiento de Datos<br>
+                        <span style="font-size: 0.6em; color:#888;">(Formato Único de Consentimiento Informado - Ley 1581 de 2012)</span></h4>
+                        
+                        <p style="font-size: 0.85em;"><b>Mot Mot Experiencias</b> actúa como una plataforma tecnológica de conexión y no asume responsabilidad directa sobre la ejecución de los servicios en terreno. La responsabilidad operativa recae en <b style="color:var(--turquesa);">[El Creador de la Experiencia]</b>, salvo en el caso de los itinerarios digitales y rutas autoguiadas, donde <b>la ejecución de la ruta es bajo cuenta y riesgo exclusivo de quien la realiza.</b></p>
+                        
+                        <div style="font-size: 0.8em; color: #555; background: #fff; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                            <b>A. DECLARACIÓN DE RIESGOS Y SALUD:</b> El participante acepta conocer los riesgos inherentes de la actividad descrita y declara tener la condición física y de salud apta para completarla, eximiendo a la plataforma de responsabilidades por lesiones o incidentes derivados de su participación o del seguimiento de rutas autoguiadas. Asume la responsabilidad por los costos de atención médica, traslado o rescate que NO sean cubiertos por el seguro de asistencia.<br><br>
+                            <b>B. SOMETIMIENTO A NORMAS:</b> El participante se compromete a acatar estrictamente las instrucciones de seguridad dictadas por el guía o anfitrión durante el desarrollo de la actividad.<br><br>
+                            <b>C. TRATAMIENTO DE DATOS PERSONALES:</b> Autorizo el tratamiento de mis datos personales (incluidos datos sensibles sobre mi salud) para fines de gestión, seguridad y emergencia, conforme a la Política de Tratamiento de Datos de Mot Mot.
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group" style="background: #e8f5e9; border-color: #c8e6c9; margin-top: 20px;">
                         <input type="checkbox" id="firma-digital" required>
-                        <label for="firma-digital" style="color: #e65100;">
-                            <b>Firma Digital y Aceptación Final:</b> Acepto en su totalidad los <a href="terminos.html" target="_blank" style="color:var(--negro); text-decoration:underline; font-weight:bold;">Términos, Condiciones y Políticas de Privacidad de Mot Mot</a>. Autorizo el tratamiento de mis datos personales, declaro que la información es veraz, me comprometo a ofrecer calidad y asumo la responsabilidad civil y legal de mis servicios o itinerarios.
+                        <label for="firma-digital" style="color: #2e7d32; font-size: 0.9em;">
+                            <b>Firma Digital y Aceptación Final:</b> He leído y acepto en su totalidad los <a href="terminos.html" target="_blank" style="color:var(--naranja); text-decoration:underline; font-weight:bold;">Términos, Condiciones y Políticas de Privacidad</a> de Mot Mot Experiencias. Al marcar esta casilla, declaro que la información proporcionada es veraz, completa y asumo plena responsabilidad civil y legal por mis servicios, itinerarios o participación. Entiendo que la omisión o falsedad en información de salud puede comprometer la seguridad del grupo.
                         </label>
                     </div>
 
@@ -658,7 +688,42 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
         let precioFinalClienteGuardar = 0;
         
         let dbLists = {
-            incluye: [], noIncluye: [], queLlevar: [], itinerario: [], extras: [], recursos: [], restricciones: [] 
+            incluye: [], noIncluye: [], queLlevar: [], itinerario: [], extras: [], recursos: [], restricciones: [], categoriasBase: [] 
+        };
+
+        // Lógica Selección Múltiple de Categorías
+        window.toggleTagCat = (valor, element) => {
+            element.classList.toggle('selected');
+            if(dbLists.categoriasBase.includes(valor)) {
+                dbLists.categoriasBase.splice(dbLists.categoriasBase.indexOf(valor), 1);
+            } else {
+                dbLists.categoriasBase.push(valor);
+            }
+            window.verificarGastronomia();
+        };
+
+        // Lógica de Menor de Edad
+        window.toggleCajaMenor = () => {
+            const radioMenor = document.querySelector('input[name="chk_menor_edad"]:checked')?.value;
+            const cajaMenor = document.getElementById('caja-datos-menor');
+            const inNombre = document.getElementById('tutor-nombre');
+            const inDoc = document.getElementById('tutor-doc');
+            const inTel = document.getElementById('tutor-tel');
+            const inEmail = document.getElementById('tutor-email');
+
+            if(radioMenor === 'si') {
+                cajaMenor.style.display = 'block';
+                inNombre.setAttribute('required', 'true');
+                inDoc.setAttribute('required', 'true');
+                inTel.setAttribute('required', 'true');
+                inEmail.setAttribute('required', 'true');
+            } else {
+                cajaMenor.style.display = 'none';
+                inNombre.removeAttribute('required');
+                inDoc.removeAttribute('required');
+                inTel.removeAttribute('required');
+                inEmail.removeAttribute('required');
+            }
         };
 
         // LÓGICA DEL CHECKLIST DE ANFITRIÓN
@@ -668,7 +733,6 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
             const pernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value;
             const alimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value;
             const frontera = document.querySelector('input[name="chk_frontera"]:checked')?.value;
-            const categoria = document.getElementById('tour-categoria').value;
 
             // 1. Pernoctación exige RNT
             const cajaDocRnt = document.getElementById('caja-doc-rnt');
@@ -677,7 +741,7 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
             const inputRntNumero = document.getElementById('num-rnt');
             const inputFechaRnt = document.getElementById('fecha-rnt');
 
-            if(pernocta === 'si') {
+            if(pernocta === 'si' || document.getElementById('tipo-guia').value === 'alojamiento') {
                 cajaDocRnt.style.display = 'block';
                 inputRnt.setAttribute('required', 'true');
                 cajaRntNumero.style.display = 'flex';
@@ -695,7 +759,7 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
             // 2. Alimentos exige Certificado
             const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
             const inputAlimentos = document.getElementById('doc-alimentos');
-            if(alimentos === 'si' || categoria === 'Clase de Cocina' || categoria.includes('Gastronomía')) {
+            if(alimentos === 'si' || dbLists.categoriasBase.includes('Clase de Cocina') || dbLists.categoriasBase.includes('Turismo Gastronómico/Enológico')) {
                 cajaDocAlimentos.style.display = 'block';
                 inputAlimentos.setAttribute('required', 'true');
             } else {
@@ -721,7 +785,6 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
             const selectTipo = document.getElementById('tipo-guia');
             const titulo = document.getElementById('titulo-principal');
             const cajaBienvenida = document.getElementById('caja-bienvenida');
-            const selectCategoria = document.getElementById('tour-categoria');
             
             if (rol === 'anfitrion') {
                 titulo.innerText = "Crear Experiencia Local 🧑‍🌾";
@@ -735,26 +798,20 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
                             <b>¿Quién eres?</b> La persona local que abre las puertas de su mundo privado para compartir un oficio (artesano, campesino, cocinero).<br><br>
-                            <b>Tu producto:</b> Vendes la conexión con un saber y la tierra. Te reciben en su taller, finca o cocina para enseñarte algo práctico.<br><br>
+                            <b>Tu producto:</b> Hospitalidad Temática. Vendes la conexión con un saber y la tierra. Te reciben en su taller, finca o cocina para enseñarte algo práctico.<br><br>
                             <b>⚠️ Regla de Oro:</b> Mot Mot no es una plataforma de alojamiento. El hospedaje solo se permite si es una herramienta necesaria para vivir la experiencia (ej. pernoctar en la finca para el proceso del café). Publicaciones de "solo cama" no serán admitidas.<br><br>
                             <b>🌟 ¿Quieres ser un Anfitrión Destacado?</b><br>
                             Activa tu <b>Sello de Confianza</b> subiendo tus certificados básicos abajo. Es voluntario, gratuito y nos ayuda a que Mot Mot sea la comunidad más segura.
                         </p>
                     </div>`;
 
-                selectTipo.innerHTML = `<option value="anfitrion_local">Anfitrión Local / Experto (Talleres, Cultura, Gastronomía)</option>`;
-                selectTipo.value = 'anfitrion_local';
-                selectCategoria.innerHTML = `
-                    <option value="">Selecciona...</option>
-                    <option value="🥾 Caminata Urbana">🥾 Caminata Urbana</option>
-                    <option value="🥾 Senderismo (Rutas suaves)">🥾 Senderismo (Rutas suaves)</option>
-                    <option value="🧗 Trekking (Rutas exigentes)">🧗 Trekking (Rutas exigentes)</option>
-                    <option value="Taller Artesanal">Taller Artesanal / Oficios</option>
-                    <option value="Clase de Cocina">Clase de Cocina / Gastronomía</option>
-                    <option value="Saberes del Campo">Saberes del Campo / Agricultura</option>
-                    <option value="Experiencia Cultural">Experiencia Cultural Local</option>
-                    <option value="Turismo de Bienestar">Turismo de Bienestar</option>
+                selectTipo.innerHTML = `
+                    <option value="anfitrion_aficionado">👋 Anfitrión Local (Gratis - Solo conocer viajeros)</option>
+                    <option value="anfitrion_experto">🏺 Anfitrión Experto (Talleres, Cultura, Gastronomía)</option>
+                    <option value="alojamiento">🏡 Alojamiento / Vivienda Turística</option>
+                    <option value="agencia_operadora">🏢 Agencia Operadora / Op. de Aventura</option>
                 `;
+                selectTipo.value = 'anfitrion_experto';
                 
                 document.getElementById('caja-iti-tips').style.display = 'none';
                 document.getElementById('lbl-itinerario').innerText = "📍 Construye el Itinerario / Horario de la Actividad";
@@ -768,7 +825,7 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                     <div style="display:flex; flex-direction:column; gap:10px;">
                         <div style="display:flex; align-items:center; gap:10px;">
                             <span style="font-size: 2em;">🥾</span>
-                            <h4 style="margin:0; font-size:1.1em; color:#1b5e20; text-transform:uppercase;">El Guía / Agencia (Profesional del Terreno)</h4>
+                            <h4 style="margin:0; font-size:1.1em; color:#1b5e20; text-transform:uppercase;">El Guía Profesional del Terreno</h4>
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
                             <b>¿Quién eres?</b> El experto técnico y legal encargado de que la aventura sea segura, profunda y educativa.<br><br>
@@ -779,19 +836,9 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                     </div>`;
 
                 selectTipo.innerHTML = `
-                    <option value="guia_turismo">Guía de Turismo Profesional (Carnet MinCIT)</option>
-                    <option value="agencia_operadora">Agencia Operadora / Op. de Turismo de Aventura</option>
+                    <option value="guia_turismo">🚩 Guía de Turismo Profesional (Carnet MinCIT)</option>
                 `;
                 selectTipo.value = 'guia_turismo';
-                selectCategoria.innerHTML = `
-                    <option value="">Selecciona...</option>
-                    <option value="🥾 Caminata Urbana">🥾 Caminata Urbana</option>
-                    <option value="🥾 Senderismo (Rutas suaves)">🥾 Senderismo (Rutas suaves)</option>
-                    <option value="🧗 Trekking (Rutas exigentes)">🧗 Trekking (Rutas exigentes)</option>
-                    <option value="Turismo de Aventura">Turismo de Aventura Extrema (Rafting, Espeleología)</option>
-                    <option value="Turismo de Naturaleza">Turismo de Naturaleza y Contemplación</option>
-                    <option value="Turismo de Bienestar">Turismo de Bienestar</option>
-                `;
 
                 document.getElementById('caja-iti-tips').style.display = 'none';
                 document.getElementById('lbl-itinerario').innerText = "📍 Construye el Itinerario de la Ruta";
@@ -809,21 +856,20 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                         </div>
                         <p style="margin:0; font-size:0.95em; color:#2e7d32;">
                             <b>¿Quién eres?</b> Un estratega del viaje y experto en "el arte de viajar" que conoce los rincones que no aparecen en guías comerciales.<br><br>
-                            <b>Tu producto:</b> Información Maestra. Vendes un itinerario digital, guías y consejos.<br><br>
+                            <b>Tu producto:</b> Información Maestra. Vendes un itinerario digital, guías y consejos con información puntual y clara.<br><br>
                             <b>Qué haces:</b> Entregas una hoja de ruta con links, ubicaciones exactas, contactos locales y datos específicos. No reservas hoteles ni acompañas, das la inteligencia logística para que el turista haga su propia ruta.
                         </p>
                     </div>`;
 
                 selectTipo.innerHTML = `<option value="viajero_creador">Viajero Creador (Compartir Itinerarios)</option>`;
                 selectTipo.value = 'viajero_creador';
-                selectCategoria.innerHTML = `<option value="Itinerario Digital" selected>Itinerario Digital (Ruta Autoguiada / Tips)</option>`;
                 
                 document.getElementById('caja-tipo-oferta').style.display = 'none';
                 document.getElementById('lbl-nombre').innerText = "Ponle un título a tu Viaje";
                 document.getElementById('tour-titulo').placeholder = "Ej: Fin de semana perfecto en Barichara";
                 document.getElementById('lbl-ubicacion').innerText = "¿A qué ciudad/pueblo fuiste?";
                 document.getElementById('lbl-desc').innerText = "Cuenta un resumen de tu experiencia (El gancho)";
-                document.getElementById('lbl-img').innerText = "Foto Principal del Producto / Servicio";
+                document.getElementById('lbl-img').innerText = "Foto Principal de la Ruta / Itinerario";
 
                 document.getElementById('titulo-paso4').innerText = "Arma tu Itinerario de Viaje";
                 document.getElementById('caja-incluye').style.display = 'none';
@@ -834,8 +880,6 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                 document.getElementById('lbl-itinerario').innerText = "📍 Agrega los lugares, horas, costos y tus TIPS secretos.";
                 document.getElementById('desc-itinerario').innerText = "Ej: Día 1 - 8:00 AM - Salida al aeropuerto | Costo: 60000 | Tip: Tomen el bus D12 que es más rápido.";
 
-                document.getElementById('titulo-paso6').innerText = "Monetiza tu Itinerario";
-                document.getElementById('texto-legal-pago').innerHTML = `<b>Condiciones de Liquidación y Transacciones:</b> El pago siempre se realiza después de prestar el servicio. Todos los pagos de las reservas se realizan exclusivamente a través de la plataforma, incluyendo el procesamiento de <b>pagos internacionales</b>. Una vez procesados, se validan y se envían al proveedor. Este proceso de liquidación puede demorar entre 24 horas a 15 días o más en algunos casos, dependiendo de regulaciones, TRM, tiempos de validación bancaria y administrativa. Al registrar su servicio, el proveedor confirma que entiende y acepta los riesgos transaccionales y estos tiempos de pago.`;
                 document.getElementById('caja-seguros').style.display = 'none';
                 document.querySelector('input[name="seguro"][value="propio"]').checked = true; 
                 document.getElementById('caja-reglas-cobro').style.display = 'none';
@@ -846,29 +890,26 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                 document.getElementById('lbl-total-cliente').innerText = "PRECIO AL PÚBLICO:";
                 document.getElementById('regla-80').innerHTML = `<b>💡 Tip de Creador:</b> Los itinerarios entre $5.000 y $15.000 COP son los que más se venden.`;
                 
-                document.getElementById('preview-legal').style.display = 'none';
-                document.getElementById('label-consentimiento').innerHTML = "<b>Declaro que este itinerario es informativo y de mi autoría.</b> Entiendo que Mot Mot no se hace responsable por las personas que sigan esta ruta de forma independiente.";
-                document.getElementById('check-consentimiento').removeAttribute('required');
-
                 document.getElementById('ind-3').style.display = 'none';
-                document.getElementById('ind-5').style.display = 'none';
+                // El paso 5 se mantiene para Viajeros para el consentimiento
             }
 
             window.verificarDocumentosLegales(rol);
         };
 
-        window.toggleAventuraDocs = () => {
-            const radioAventura = document.querySelector('input[name="ofrece_aventura"]:checked');
-            if(!radioAventura) return;
-            const isSi = radioAventura.value === 'si';
-            const cajaDocAventura = document.getElementById('caja-doc-aventura');
-            const inputAventura = document.getElementById('doc-aventura');
-            if (isSi) {
-                cajaDocAventura.style.display = 'block';
-                inputAventura.setAttribute('required', 'true');
-            } else {
-                cajaDocAventura.style.display = 'none';
-                inputAventura.removeAttribute('required');
+        window.verificarGastronomia = () => {
+            if(userRolGlobal === 'anfitrion') {
+                window.evaluarChecklist();
+            } else if (userRolGlobal === 'guia' || userRolGlobal === 'agencia') {
+                const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
+                const inputAlimentos = document.getElementById('doc-alimentos');
+                if(dbLists.categoriasBase.includes('Clase de Cocina') || dbLists.categoriasBase.includes('Turismo Gastronómico/Enológico')) {
+                    cajaDocAlimentos.style.display = 'block';
+                    inputAlimentos.setAttribute('required', 'true');
+                } else {
+                    cajaDocAlimentos.style.display = 'none';
+                    inputAlimentos.removeAttribute('required');
+                }
             }
         };
 
@@ -917,6 +958,8 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
         };
 
         window.verificarDocumentosLegales = (rol) => {
+            const selectTipo = document.getElementById('tipo-guia').value;
+            
             const contenedorDocs = document.getElementById('contenedor-docs-legales');
             const docId = document.getElementById('doc-id');
             const docRut = document.getElementById('doc-rut');
@@ -947,7 +990,6 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                 inputRntFile.removeAttribute('required');
                 cajaDocTarjeta.style.display = 'none';
                 inputTarjetaFile.removeAttribute('required');
-                document.getElementById('check-consentimiento').removeAttribute('required');
                 
                 if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
                 if(cajaDocAventura) cajaDocAventura.style.display = 'none';
@@ -955,26 +997,59 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                 if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'none';
 
             } else if (rol === 'anfitrion') {
-                contenedorDocs.style.display = 'block';
-                docId.setAttribute('required', 'true');
-                cajaDocRut.style.display = 'block'; 
-                docRut.setAttribute('required', 'true');
-                document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
-                cajaDocTarjeta.style.display = 'none';
-                inputTarjetaFile.removeAttribute('required');
+                if(selectTipo === 'anfitrion_aficionado') {
+                    contenedorDocs.style.display = 'none';
+                    docId.removeAttribute('required');
+                    docRut.removeAttribute('required');
+                    
+                    if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
+                    if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'none';
+                    cajaRntNumero.style.display = 'none';
+                    inputRntNumero.removeAttribute('required');
+                    inputFechaRnt.removeAttribute('required');
+                    cajaDocRnt.style.display = 'none';
+                    inputRntFile.removeAttribute('required');
+                    
+                } else {
+                    contenedorDocs.style.display = 'block';
+                    docId.setAttribute('required', 'true');
+                    cajaDocRut.style.display = 'block'; 
+                    docRut.setAttribute('required', 'true');
+                    
+                    cajaDocTarjeta.style.display = 'none';
+                    inputTarjetaFile.removeAttribute('required');
+                    
+                    if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'block';
+                    if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'block';
+                    
+                    // Si es agencia operadora (bajo anfitrión), mostrar aventura
+                    if(selectTipo === 'agencia_operadora') {
+                        if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'block';
+                        window.toggleAventuraDocs();
+                        cajaRntNumero.style.display = 'flex';
+                        inputRntNumero.setAttribute('required', 'true');
+                        inputFechaRnt.setAttribute('required', 'true');
+                        inputRntNumero.placeholder = "Ej: 12345 (RNT Operador)";
+                        cajaDocRnt.style.display = 'block';
+                        inputRntFile.setAttribute('required', 'true');
+                        
+                        if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'none';
+                    } else {
+                        if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
+                        if(cajaDocAventura) cajaDocAventura.style.display = 'none';
+                        
+                        // Forzar RNT y Fecha para los demas anfitriones (Expertos/Alojamientos)
+                        cajaRntNumero.style.display = 'flex';
+                        inputRntNumero.setAttribute('required', 'true');
+                        inputFechaRnt.setAttribute('required', 'true');
+                        cajaDocRnt.style.display = 'block';
+                        inputRntFile.setAttribute('required', 'true');
+                        
+                        window.evaluarChecklist();
+                    }
+                }
                 
-                if(cajaPreguntaAventura) cajaPreguntaAventura.style.display = 'none';
-                if(cajaDocAventura) cajaDocAventura.style.display = 'none';
-                
-                if(cajaChecklistAnfitrion) cajaChecklistAnfitrion.style.display = 'block';
-                if(cajaSelloConfianza) cajaSelloConfianza.style.display = 'block';
-                
-                document.querySelector('input[name="chk_pernocta"][value="no"]').checked = true;
-                document.querySelector('input[name="chk_alimentos"][value="no"]').checked = true;
-                document.querySelector('input[name="chk_frontera"][value="no"]').checked = true;
-                
-                window.evaluarChecklist();
                 window.evaluarCamaraComercio(); 
 
             } else { // Si es Guía
@@ -982,7 +1057,6 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                 docId.setAttribute('required', 'true');
                 cajaDocRut.style.display = 'block'; 
                 docRut.setAttribute('required', 'true');
-                document.getElementById('check-consentimiento').setAttribute('required', 'true');
                 
                 cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
@@ -1007,12 +1081,6 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                 btnSiguiente1.onclick = () => nextStep(1, 2);
             }
         }
-
-        window.verificarGastronomia = () => {
-            if(userRolGlobal === 'anfitrion') {
-                window.evaluarChecklist();
-            }
-        };
 
         window.agregarSimple = (listaNom, inputId) => {
             const val = DOMPurify.sanitize(document.getElementById(inputId).value);
@@ -1214,6 +1282,16 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
         };
 
         window.avanzarDesdePaso2 = () => {
+            if(dbLists.categoriasBase.length === 0 && document.getElementById('tipo-guia').value !== 'viajero_creador') {
+                alert("Debes seleccionar al menos una Categoría / Tipo de Turismo.");
+                return;
+            }
+            const ubi = document.getElementById('tour-ubicacion').value || document.getElementById('ubicacion-input').value;
+            if(!ubi) {
+                alert("Debes seleccionar la Ubicación del menú desplegable.");
+                return;
+            }
+            
             if (userRolGlobal === 'viajero') nextStep(2, 4); 
             else nextStep(2, 3);
         };
@@ -1222,11 +1300,11 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
             else nextStep(4, 3);
         };
         window.avanzarDesdePaso4 = () => {
-            if (userRolGlobal === 'viajero') nextStep(4, 6); 
+            if (userRolGlobal === 'viajero') nextStep(4, 5); 
             else nextStep(4, 5);
         };
         window.retrocederDesdePaso6 = () => {
-            if (userRolGlobal === 'viajero') nextStep(6, 4); 
+            if (userRolGlobal === 'viajero') nextStep(6, 5); 
             else nextStep(6, 5);
         };
 
@@ -1252,14 +1330,8 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
         document.getElementById('form-guia').onsubmit = async (e) => {
             e.preventDefault();
             
-            if(userRolGlobal !== 'viajero') {
-                if(!document.getElementById('check-consentimiento').checked || !document.getElementById('firma-digital').checked) {
-                    alert("Debes aceptar los acuerdos legales al final."); return;
-                }
-            } else {
-                if(!document.getElementById('firma-digital').checked) {
-                    alert("Debes aceptar los acuerdos al final."); return;
-                }
+            if(!document.getElementById('firma-digital').checked) {
+                alert("Debes aceptar la firma digital y el acuerdo de términos y condiciones."); return;
             }
 
             const btn = document.getElementById('btn-submit');
@@ -1279,10 +1351,13 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
 
 
                 if (userRolGlobal === 'guia' || userRolGlobal === 'anfitrion') {
+                    const selectTipo = document.getElementById('tipo-guia').value;
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     
-                    const inputRntFile = document.getElementById('doc-rnt-file');
-                    if(inputRntFile && inputRntFile.files.length > 0) urlDocRnt = await uploadCloudinary(inputRntFile.files[0]);
+                    if(selectTipo !== 'anfitrion_aficionado') {
+                        const inputRntFile = document.getElementById('doc-rnt-file');
+                        if(inputRntFile && inputRntFile.files.length > 0) urlDocRnt = await uploadCloudinary(inputRntFile.files[0]);
+                    }
                     
                     const inputTarjeta = document.getElementById('doc-tarjeta');
                     if(inputTarjeta && inputTarjeta.files.length > 0) urlDocTarjeta = await uploadCloudinary(inputTarjeta.files[0]);
@@ -1343,9 +1418,22 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
 
                 let tipoProducto = (userRolGlobal === 'viajero') ? "itinerario_viajero" : "experiencia_pro";
 
+                // Capturar valores del checklist si existen
                 const chkPernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value || "no";
                 const chkAlimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value || "no";
                 const chkFrontera = document.querySelector('input[name="chk_frontera"]:checked')?.value || "no";
+                
+                // Capturar datos del menor
+                const esMenor = document.querySelector('input[name="chk_menor_edad"]:checked')?.value || "no";
+                let datosMenor = null;
+                if(esMenor === 'si') {
+                    datosMenor = {
+                        nombreTutor: DOMPurify.sanitize(document.getElementById('tutor-nombre').value),
+                        documentoTutor: DOMPurify.sanitize(document.getElementById('tutor-doc').value),
+                        telefonoTutor: DOMPurify.sanitize(document.getElementById('tutor-tel').value),
+                        emailTutor: DOMPurify.sanitize(document.getElementById('tutor-email').value)
+                    };
+                }
 
                 const ubicacionGuardar = document.getElementById('tour-ubicacion').value || DOMPurify.sanitize(document.getElementById('ubicacion-input').value);
 
@@ -1384,7 +1472,7 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                     
                     tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",
                     tituloServicio: DOMPurify.sanitize(document.getElementById('tour-titulo').value),
-                    categoria: DOMPurify.sanitize(document.getElementById('tour-categoria').value),
+                    categoriasMultiples: dbLists.categoriasBase, 
                     ubicacion: ubicacionGuardar,
                     descripcion: DOMPurify.sanitize(document.getElementById('tour-desc').value),
                     imagenPrincipal: urlPrincipal,
@@ -1404,10 +1492,13 @@ Un límite legal importante: Enseñar a pintar o dar un taller de gastronomía d
                     serviciosExtras: dbLists.extras,
                     galeriaVisual: urlsGaleria,
 
-                    nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? DOMPurify.sanitize(document.getElementById('tour-nivel-fisico').value) : "0",
-                    restriccionesMedicas: dbLists.restricciones,
-                    condicionesRuta: document.getElementById('tour-condiciones-ruta') ? DOMPurify.sanitize(document.getElementById('tour-condiciones-ruta').value) : "N/A",
-                    aceptaProtocoloSeguridad: document.getElementById('check-consentimiento') ? document.getElementById('check-consentimiento').checked : true,
+                    riesgosYSalud: {
+                        nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? DOMPurify.sanitize(document.getElementById('tour-nivel-fisico').value) : "0",
+                        restriccionesMedicas: dbLists.restricciones,
+                        condicionesRuta: document.getElementById('tour-condiciones-ruta') ? DOMPurify.sanitize(document.getElementById('tour-condiciones-ruta').value) : "N/A",
+                        esParticipanteMenor: esMenor,
+                        datosTutor: datosMenor
+                    },
                     
                     precioVentaBase: DOMPurify.sanitize(document.getElementById('tour-precio').value),
                     precioFinalCliente: precioFinalClienteGuardar, 
