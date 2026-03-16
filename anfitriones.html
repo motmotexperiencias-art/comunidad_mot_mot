@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Experiencia Local - Mot Mot</title>
+    <title>Postular Experiencia Pro - Mot Mot</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
@@ -43,6 +43,7 @@
         .step-indicator { flex: 1; text-align: center; padding-bottom: 10px; border-bottom: 4px solid #eee; transition: 0.3s; }
         .step-indicator.active { color: var(--naranja); border-bottom-color: var(--naranja); }
         .step-indicator.completed { color: var(--turquesa); border-bottom-color: var(--turquesa); }
+        .step-indicator.hidden { display: none; } /* NUEVO: Ocultar pasos dinámicamente */
 
         .btn-nav { padding: 15px 30px; border: none; border-radius: 30px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 0.9em; text-transform: uppercase;}
         .btn-next { background: var(--negro); color: white; float: right; }
@@ -68,7 +69,8 @@
         .tag-rapido.peligro:hover { background: #ffcdd2; }
 
         .doc-legal-preview { background: #fffcf5; padding: 25px; border: 1px solid #e0e0e0; border-left: 5px solid var(--naranja); border-radius: 12px; margin-top: 20px; font-size: 0.85em; line-height: 1.6; color: #444; }
-        .doc-legal-preview h4 { margin-top: 0; text-transform: uppercase; font-size: 1.1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
+        .doc-legal-preview h4 { text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1em; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: var(--negro);}
+        .doc-legal-preview b { color: var(--naranja); }
         
         details { background: #e3f2fd; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #bbdefb; font-size: 0.85em; cursor: pointer; transition: 0.3s; }
         summary { font-weight: bold; color: #1565c0; outline: none; }
@@ -135,6 +137,7 @@
                 <div class="step-indicator" id="ind-4">4. Contenido</div>
                 <div class="step-indicator" id="ind-5">5. Riesgos</div>
                 <div class="step-indicator" id="ind-6">6. Acuerdos</div>
+                <div class="step-indicator hidden" id="ind-7">3. Acuerdos (Intercambio)</div>
             </div>
 
             <form id="form-guia">
@@ -281,7 +284,7 @@
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(1, 2)" id="btn-paso1-next">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso1()" id="btn-paso1-next">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -297,36 +300,36 @@
                     </div>
 
                     <div class="form-group">
-                        <label id="lbl-nombre">Nombre Atractivo</label>
-                        <input type="text" id="tour-titulo" placeholder="Ej: Cueva de la Vaca - Aventura Subterránea o Taller de Cerámica" required>
+                        <label id="lbl-nombre">Nombre Atractivo de tu Espacio o Experiencia</label>
+                        <input type="text" id="tour-titulo" placeholder="Ej: Taller de Cerámica Guane o Intercambio de Idiomas" required>
                     </div>
 
-                    <div class="dynamic-list-container">
+                    <div class="dynamic-list-container" id="caja-categorias">
                         <label>Categoría Principal y Tipos de Turismo *</label>
                         <p style="font-size:0.8em; color:#666; margin-top:0;">Selecciona las etiquetas que mejor describan tu experiencia (puedes elegir varias).</p>
                         
                         <div class="tags-rapidos" id="tags-categorias" style="margin-bottom: 15px;">
-                            <span class="tag-rapido" onclick="toggleTagCat('🥾 Caminata Urbana', this)" title="Exploración a pie en entornos de ciudad">🥾 Caminata Urbana</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('🥾 Senderismo (Rutas suaves)', this)" title="Caminatas de baja dificultad por senderos marcados">🥾 Senderismo (Rutas suaves)</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('🧗 Trekking (Rutas exigentes)', this)" title="Caminatas exigentes de varios días o terreno difícil">🧗 Trekking (Rutas exigentes)</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Caminata Urbana', this)" title="Exploración a pie en entornos de ciudad">🥾 Caminata Urbana</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🥾 Senderismo (Rutas suaves)', this)" title="Caminatas de baja dificultad por senderos marcados">🥾 Senderismo (Rutas suaves)</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('🧗 Trekking (Rutas exigentes)', this)" title="Caminatas exigentes de varios días o terreno difícil">🧗 Trekking (Rutas exigentes)</span>
                             
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo de Sol y Playa', this)" title="El más popular, centrado en el descanso y actividades acuáticas">Turismo de Sol y Playa</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo Cultural', this)" title="Enfocado en conocer historia, arte, tradiciones y monumentos">Turismo Cultural</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo de Naturaleza y Ecoturismo', this)" title="Viajes para disfrutar y conservar el medio ambiente">Turismo de Naturaleza y Ecoturismo</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo de Aventura', this)" title="Actividades físicas y de riesgo moderado a alto">Turismo de Aventura</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo Rural', this)" title="Experiencias en entornos rurales, granjas y pueblos pequeños">Turismo Rural</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo Gastronómico/Enológico', this)" title="Viajes enfocados en la gastronomía local y bebidas">Turismo Gastronómico/Enológico</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo de Negocios y MICE', this)" title="Viajes por motivos laborales, congresos, ferias">Turismo de Negocios y MICE</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo de Salud y Bienestar (Wellness)', this)" title="Búsqueda de tratamientos, spas o retiros">Turismo de Salud y Bienestar (Wellness)</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo Religioso', this)" title="Visitas a lugares santos o de peregrinación">Turismo Religioso</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo Sostenible/Regenerativo', this)" title="Enfocado en minimizar impacto ambiental y mejorar el entorno">Turismo Sostenible/Regenerativo</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Turismo Oscuro', this)" title="Visita a lugares asociados a historia profunda">Turismo Oscuro</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Volunturismo', this)" title="Viajes combinados con voluntariado">Volunturismo</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Sol y Playa', this)" title="El más popular, centrado en el descanso y actividades acuáticas">Turismo de Sol y Playa</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Cultural', this)" title="Enfocado en conocer historia, arte, tradiciones y monumentos">Turismo Cultural</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Naturaleza y Ecoturismo', this)" title="Viajes para disfrutar y conservar el medio ambiente">Turismo de Naturaleza y Ecoturismo</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Aventura', this)" title="Actividades físicas y de riesgo moderado a alto">Turismo de Aventura</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Rural', this)" title="Experiencias en entornos rurales, granjas y pueblos pequeños">Turismo Rural</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Gastronómico/Enológico', this)" title="Viajes enfocados en la gastronomía local y bebidas">Turismo Gastronómico/Enológico</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Negocios y MICE', this)" title="Viajes por motivos laborales, congresos, ferias">Turismo de Negocios y MICE</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo de Salud y Bienestar (Wellness)', this)" title="Búsqueda de tratamientos, spas o retiros">Turismo de Salud y Bienestar (Wellness)</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Religioso', this)" title="Visitas a lugares santos o de peregrinación">Turismo Religioso</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Sostenible/Regenerativo', this)" title="Enfocado en minimizar impacto ambiental y mejorar el entorno">Turismo Sostenible/Regenerativo</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Turismo Oscuro', this)" title="Visita a lugares asociados a historia profunda">Turismo Oscuro</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Volunturismo', this)" title="Viajes combinados con voluntariado">Volunturismo</span>
                             
-                            <span class="tag-rapido" onclick="toggleTagCat('Taller Artesanal', this)" title="Talleres de oficios manuales y artesanía">Taller Artesanal / Oficios</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Clase de Cocina', this)" title="Aprender a cocinar platos locales">Clase de Cocina / Gastronomía</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Saberes del Campo', this)" title="Conocer sobre agricultura y vida rural">Saberes del Campo / Agricultura</span>
-                            <span class="tag-rapido" onclick="toggleTagCat('Alojamiento', this)" title="Alojamiento o Vivienda turística">Alojamiento</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Taller Artesanal', this)" title="Talleres de oficios manuales y artesanía">Taller Artesanal / Oficios</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Clase de Cocina', this)" title="Aprender a cocinar platos locales">Clase de Cocina / Gastronomía</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Saberes del Campo', this)" title="Conocer sobre agricultura y vida rural">Saberes del Campo / Agricultura</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Alojamiento', this)" title="Alojamiento o Vivienda turística">Alojamiento</span>
                         </div>
 
                         <details style="margin-bottom: 5px;">
@@ -346,8 +349,21 @@
                         </details>
                     </div>
 
+                    <div class="dynamic-list-container" id="caja-intercambio" style="display: none; background: #e3f2fd; border-color: #bbdefb;">
+                        <label style="color: #1565c0;">¿Qué buscas con esta conexión? (Selecciona una o varias)</label>
+                        <p style="font-size:0.8em; color:#666; margin-top:0;">Esto le ayudará a los viajeros a saber qué pueden hacer contigo.</p>
+                        <div class="tags-rapidos" style="margin-bottom: 15px;">
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Mostrar mi ciudad/pueblo', this)">🏙️ Mostrar mi ciudad/pueblo</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Tomar un café/cerveza', this)">☕ Tomar un café/cerveza</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Intercambio de Idiomas', this)">🗣️ Intercambio de Idiomas</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Hospedar en mi casa', this)">🏡 Hospedar en mi casa</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Hacer deporte juntos', this)">🚴 Hacer deporte juntos</span>
+                            <span class="tag-rapido" onclick="window.toggleTagCat('Compartir una comida', this)">🍲 Compartir una comida</span>
+                        </div>
+                    </div>
+
                     <div class="form-group" id="caja-ubicacion">
-                        <label id="lbl-ubicacion">Ubicación / Punto de Encuentro</label>
+                        <label id="lbl-ubicacion">Ubicación / Municipio</label>
                         <span class="helper-text">Escribe y selecciona la ciudad del menú desplegable.</span>
                         <div class="input-icon-wrapper">
                             <span class="input-icon">🔍</span>
@@ -358,19 +374,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label id="lbl-desc">Descripción General (Vendedora)</label>
-                        <textarea id="tour-desc" rows="5" placeholder="Texto detallado sobre lo que van a vivir..." required></textarea>
+                        <label id="lbl-desc">Descripción General (Cuéntale al mundo qué ofreces)</label>
+                        <textarea id="tour-desc" rows="5" placeholder="Texto detallado sobre lo que van a vivir o conocer..." required></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label id="lbl-img">Foto Principal del Producto / Servicio</label>
+                        <label id="lbl-img">Sube una foto tuya o de tu espacio</label>
                         <span class="helper-text">Formatos: JPG, PNG. Peso máx: 5MB.</span>
                         <input type="file" id="foto-principal" accept="image/jpeg, image/png" required>
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="nextStep(2, 1)">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="validarPaso2()">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-next" onclick="avanzarDesdePaso2()">Siguiente ➔</button>
                     </div>
                 </div>
 
@@ -427,20 +443,16 @@
 
                     <div class="dynamic-list-container" style="margin-top:20px;">
                         <label style="color:var(--turquesa);">🛠️ Agregar Recursos (Opcional - Evita Overbooking)</label>
-                        
                         <details>
                             <summary>❓ ¿Cómo funciona la casilla "Reserva de grupo completo"?</summary>
                             <div style="color: #444; margin-top:10px;">
                                 <b>NO LA MARQUES (Uso individual):</b> Déjala en blanco si el recurso se gasta por cada persona que asiste.<br>
-                                <i>Ejemplo:</i> Si ofreces 10 Bastones y reservan 4 personas, se descuentan 4.<br><br>
-                                <b>SÍ MÁRCALA (Uso compartido):</b> Selecciona la casilla si el recurso atiende a todo el grupo al mismo tiempo.<br>
-                                <i>Ejemplo:</i> Si el recurso es <b>1 Guía</b>. Si reservan 5 personas juntas, se descuenta solo 1 Guía.
+                                <b>SÍ MÁRCALA (Uso compartido):</b> Selecciona la casilla si el recurso atiende a todo el grupo al mismo tiempo.
                             </div>
                         </details>
-
                         <div id="lista-recursos-ui"></div>
                         <div style="background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top:10px;">
-                            <input type="text" id="res-nombre" placeholder="Nombre (Ej: Cupos en Taller, Carpas)" style="margin-bottom:10px; width:100%; box-sizing:border-box; padding:8px;">
+                            <input type="text" id="res-nombre" placeholder="Nombre (Ej: Cupos en Taller, Camas)" style="margin-bottom:10px; width:100%; box-sizing:border-box; padding:8px;">
                             <div style="display:flex; gap:10px; align-items: center;">
                                 <input type="number" id="res-cant" placeholder="Cant. total" style="width:40%; padding:8px;" min="1">
                                 <label style="font-size:0.8em; width:60%;"><input type="checkbox" id="res-grupo"> Usar para reserva de grupo completo</label>
@@ -476,7 +488,7 @@
                     <div class="dynamic-list-container" id="caja-no-incluye">
                         <label>❌ ¿Qué NO incluye?</label>
                         <div class="tags-rapidos" id="tags-noincluye">
-                            <span class="tag-rapido" onclick="addTagToList('Transporte', 'noIncluye')">+ Transporte</span>
+                            <span class="tag-rapido" onclick="addTagToList('Vuelos', 'noIncluye')">+ Vuelos</span>
                             <span class="tag-rapido" onclick="addTagToList('Propinas', 'noIncluye')">+ Propinas</span>
                             <span class="tag-rapido" onclick="addTagToList('Alimentación no mencionada', 'noIncluye')">+ Alimentación no mencionada</span>
                         </div>
@@ -509,6 +521,10 @@
                             <div style="display:flex; gap:10px;">
                                 <input type="time" id="iti-hora" style="width:30%; padding:8px;">
                                 <input type="text" id="iti-actividad" placeholder="Actividad (Ej: Llegada a la finca)" style="width:70%; padding:8px;">
+                            </div>
+                            <div style="display:flex; gap:10px; margin-top:10px;" id="caja-iti-tips">
+                                <input type="number" id="iti-costo" placeholder="Costo ej: 60000" style="width:30%; padding:8px;">
+                                <input type="text" id="iti-tip" placeholder="Tips o Links (Opcional)" style="width:70%; padding:8px;">
                             </div>
                             <button type="button" onclick="agregarItinerarioEstructurado()" class="btn-add" style="margin-top:10px;">Añadir Actividad</button>
                         </div>
@@ -600,7 +616,7 @@
                         <div class="tags-rapidos">
                             <span class="tag-rapido peligro" onclick="addTagToList('Embarazadas', 'restricciones')">🚫 Embarazadas</span>
                             <span class="tag-rapido peligro" onclick="addTagToList('Problemas Cardíacos', 'restricciones')">🚫 Prob. Cardíacos</span>
-                            <span class="tag-rapido peligro" onclick="addTagToList('Alergia al polvo', 'restricciones')">🚫 Alergias severas</span>
+                            <span class="tag-rapido peligro" onclick="addTagToList('Alergia al polen/polvo', 'restricciones')">🚫 Alergias severas</span>
                         </div>
                         <div id="lista-restricciones-ui"></div>
                         <div style="display:flex; gap:10px; margin-top:10px;">
@@ -638,7 +654,7 @@
 
                     <div class="form-group" style="margin-top:20px;">
                         <label id="lbl-precio">Precio de Venta Base (COP)</label>
-                        <input type="number" id="tour-precio" placeholder="Ej: 100000" min="0" required>
+                        <input type="number" id="tour-precio" placeholder="Ej: 100000" min="0">
                     </div>
 
                     <div class="form-group" style="margin-top: 20px;" id="caja-reglas-cobro">
@@ -654,19 +670,19 @@
                         <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 5px; margin-bottom: 5px;">
                             <span style="color: #888; font-size: 0.85em;">Tu precio base:</span> <span id="lbl-base" style="color: #666;">0 COP</span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 5px; margin-bottom: 5px;">
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 5px; margin-bottom: 5px;" id="linea-comision">
                             <span style="color: var(--naranja); font-size: 0.85em;">Comisión Mot Mot (20%):</span> <b id="lbl-comision" style="color: var(--naranja);">- 0 COP</b>
                         </div>
                         <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;" id="linea-seguro">
                             <span style="color: #1565c0; font-size: 0.85em;">Seguro de Asistencia:</span> <b id="lbl-seguro" style="color: #1565c0;">+ 0 COP</b>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="color: var(--negro); font-size: 0.9em; font-weight: 800;">PRECIO FINAL AL CLIENTE:</span> <b id="lbl-venta-final" style="color: var(--negro); font-size: 1.1em;">0 COP</b>
+                            <span style="color: var(--negro); font-size: 0.9em; font-weight: 800;" id="lbl-total-cliente">PRECIO FINAL AL CLIENTE:</span> <b id="lbl-venta-final" style="color: var(--negro); font-size: 1.1em;">0 COP</b>
                         </div>
-                        <div style="display: flex; justify-content: space-between;">
+                        <div style="display: flex; justify-content: space-between;" id="linea-neto">
                             <span style="color: #2e7d32; font-size: 1em; font-weight: 800;">TÚ RECIBES (Neto):</span> <b id="lbl-neto" style="color: #2e7d32; font-size: 1.2em;">0 COP</b>
                         </div>
-                        <div style="background: #fff3e0; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 0.8em; color: #d84315; border-left: 4px solid var(--naranja);">
+                        <div style="background: #fff3e0; padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 0.8em; color: #d84315; border-left: 4px solid var(--naranja);" id="regla-80">
                             <b>💡 Regla del 0.8:</b> Divide tu costo de operación entre 0.8 para saber qué precio base poner. (Ej: Si necesitas $80.000 netos, 80.000 / 0.8 = 100.000).
                         </div>
                     </div>
@@ -694,6 +710,47 @@
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="retrocederDesdePaso6()">⬅ Atrás</button>
                         <button type="submit" class="btn-enviar" id="btn-submit">✅ ENVIAR PARA APROBACIÓN</button>
+                    </div>
+                </div>
+
+                <div class="step" id="step-7">
+                    <h3 id="titulo-paso7">Acuerdos de Intercambio Local</h3>
+                    
+                    <div class="doc-legal-preview" style="margin-top: 10px; border-left: 5px solid #4CAF50;">
+                        <h4 style="color: #4CAF50; border-bottom: 2px solid #4CAF50;">Condiciones para Anfitriones Gratuitos</h4>
+                        <p style="font-size: 0.85em; margin-bottom: 15px;">Para mantener la seguridad y el espíritu de la comunidad, debes leer y aceptar las siguientes condiciones para publicar tu perfil como Anfitrión Aficionado.</p>
+
+                        <div class="checkbox-group" style="background: #fff; border: 1px solid #ddd; border-left: 4px solid #4CAF50; margin-top: 10px; flex-direction:column; gap:10px;">
+                            <div style="display:flex; align-items:flex-start; gap:10px;">
+                                <input type="checkbox" id="check-gratis-1">
+                                <label for="check-gratis-1" style="font-size:0.85em; color:#444;">
+                                    <b>El Escudo de Responsabilidad:</b> Declaro que ofrezco mi espacio y/o tiempo de manera 100% voluntaria y gratuita. Entiendo que la plataforma actúa únicamente como un intermediario tecnológico para facilitar el contacto. Por lo tanto, eximo a la plataforma y a sus creadores de toda responsabilidad civil, penal o administrativa por cualquier incidente, accidente, mala experiencia o daño (material o personal) que ocurra durante mi interacción con los viajeros, asumiendo yo el riesgo total de dichos encuentros.
+                                </label>
+                            </div>
+                            <div style="display:flex; align-items:flex-start; gap:10px;">
+                                <input type="checkbox" id="check-gratis-2">
+                                <label for="check-gratis-2" style="font-size:0.85em; color:#444;">
+                                    <b>La Barrera Comercial:</b> Entiendo y acepto que mi perfil de 'Anfitrión Gratuito' tiene fines estrictamente sociales y de intercambio cultural. Confirmo que no existe ninguna relación laboral ni comercial con la plataforma, y me comprometo a no exigir pagos en dinero a los viajeros por mi tiempo, compañía o alojamiento bajo este perfil.
+                                </label>
+                            </div>
+                            <div style="display:flex; align-items:flex-start; gap:10px;">
+                                <input type="checkbox" id="check-gratis-3">
+                                <label for="check-gratis-3" style="font-size:0.85em; color:#444;">
+                                    <b>Tratamiento de Datos:</b> Autorizo de manera previa, expresa e informada el tratamiento de mis datos personales de acuerdo con la Ley 1581 de 2012 y la Política de Privacidad de la plataforma. Entiendo que mi ubicación exacta y mis datos de contacto directo solo se compartirán con otro usuario cuando yo apruebe explícitamente la conexión.
+                                </label>
+                            </div>
+                            <div style="display:flex; align-items:flex-start; gap:10px;">
+                                <input type="checkbox" id="check-gratis-4">
+                                <label for="check-gratis-4" style="font-size:0.85em; color:#444;">
+                                    <b>Veracidad de la Información:</b> Garantizo bajo la gravedad de juramento que toda la información, fotografías personales, descripción de mi espacio y datos proporcionados en este registro son reales, propios y veraces.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="overflow: auto; margin-top: 30px;">
+                        <button type="button" class="btn-nav btn-prev" onclick="nextStep(7, 2)">⬅ Atrás</button>
+                        <button type="submit" class="btn-enviar" id="btn-submit-gratis">✅ PUBLICAR MI PERFIL LOCAL</button>
                     </div>
                 </div>
             </form>
@@ -749,7 +806,38 @@
             const alimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value;
             const frontera = document.querySelector('input[name="chk_frontera"]:checked')?.value;
 
-            // Bloquear si sale de frontera (Para anfitriones)
+            const cajaDocRnt = document.getElementById('caja-doc-rnt');
+            const inputRnt = document.getElementById('doc-rnt-file');
+            const cajaRntNumero = document.getElementById('caja-rnt');
+            const inputRntNumero = document.getElementById('num-rnt');
+            const inputFechaRnt = document.getElementById('fecha-rnt');
+            const selectTipo = document.getElementById('tipo-guia').value;
+
+            if(pernocta === 'si' || selectTipo === 'alojamiento') {
+                cajaDocRnt.style.display = 'block';
+                inputRnt.setAttribute('required', 'true');
+                cajaRntNumero.style.display = 'flex';
+                inputRntNumero.setAttribute('required', 'true');
+                inputFechaRnt.setAttribute('required', 'true');
+                inputRntNumero.placeholder = "Ej: 12345 (RNT de Vivienda)";
+            } else {
+                cajaDocRnt.style.display = 'none';
+                inputRnt.removeAttribute('required');
+                cajaRntNumero.style.display = 'none';
+                inputRntNumero.removeAttribute('required');
+                inputFechaRnt.removeAttribute('required');
+            }
+
+            const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
+            const inputAlimentos = document.getElementById('doc-alimentos');
+            if(alimentos === 'si' || dbLists.categoriasBase.includes('Clase de Cocina') || dbLists.categoriasBase.includes('Turismo Gastronómico/Enológico')) {
+                cajaDocAlimentos.style.display = 'block';
+                inputAlimentos.setAttribute('required', 'true');
+            } else {
+                cajaDocAlimentos.style.display = 'none';
+                inputAlimentos.removeAttribute('required');
+            }
+
             const alertaFrontera = document.getElementById('alerta-legal-frontera');
             const btnSiguiente1 = document.getElementById('btn-paso1-next');
             if(frontera === 'si') {
@@ -759,7 +847,7 @@
             } else {
                 alertaFrontera.style.display = 'none';
                 btnSiguiente1.classList.remove('btn-disabled');
-                btnSiguiente1.onclick = () => nextStep(1, 2);
+                btnSiguiente1.onclick = () => avanzarDesdePaso1();
             }
         };
 
@@ -829,12 +917,13 @@
             
             const checkboxFirma = document.getElementById('firma-digital');
 
+            // --- LÓGICA PARA ADAPTAR UI SEGÚN ANFITRIÓN --- //
             if(selectTipo === 'anfitrion_aficionado') {
-                // Aficionado: Ocultar todo lo legal y checklist
+                // UI: Ocultar todo lo legal y checklist
                 contenedorDocs.style.display = 'none';
                 docId.removeAttribute('required');
                 docRut.removeAttribute('required');
-                checkboxFirma.removeAttribute('required'); // No legal force
+                checkboxFirma.removeAttribute('required');
                 
                 cajaChecklistAnfitrion.style.display = 'none';
                 cajaSelloConfianza.style.display = 'none';
@@ -845,25 +934,49 @@
                 inputRntFile.removeAttribute('required');
                 cajaPreguntaAventura.style.display = 'none';
                 cajaDocAventura.style.display = 'none';
+
+                // Stepper Dinámico (Ocultar 3,4,5,6 y Mostrar 7)
+                document.getElementById('ind-3').classList.add('hidden');
+                document.getElementById('ind-4').classList.add('hidden');
+                document.getElementById('ind-5').classList.add('hidden');
+                document.getElementById('ind-6').classList.add('hidden');
+                document.getElementById('ind-7').classList.remove('hidden');
+
+                // Detalles UI (Ocultar precios y categorias formales)
+                document.getElementById('caja-tipo-oferta').style.display = 'none';
+                document.getElementById('caja-categorias').style.display = 'none';
+                document.getElementById('caja-intercambio').style.display = 'block';
+                document.getElementById('tour-precio').removeAttribute('required');
                 
-                // Activar boton siguiente libre
                 document.getElementById('btn-paso1-next').classList.remove('btn-disabled');
-                document.getElementById('btn-paso1-next').onclick = () => nextStep(1, 2);
+                document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
                 
             } else {
-                // Expertos, Alojamiento, Agencia: Mostrar todo
+                // Expertos, Alojamiento, Agencia: Mostrar todo normal
                 contenedorDocs.style.display = 'block';
                 docId.setAttribute('required', 'true');
                 docRut.setAttribute('required', 'true');
                 checkboxFirma.setAttribute('required', 'true');
                 
                 cajaSelloConfianza.style.display = 'block';
+
+                // Stepper Dinámico (Mostrar 3,4,5,6 y Ocultar 7)
+                document.getElementById('ind-3').classList.remove('hidden');
+                document.getElementById('ind-4').classList.remove('hidden');
+                document.getElementById('ind-5').classList.remove('hidden');
+                document.getElementById('ind-6').classList.remove('hidden');
+                document.getElementById('ind-7').classList.add('hidden');
+
+                // Detalles UI
+                document.getElementById('caja-tipo-oferta').style.display = 'block';
+                document.getElementById('caja-categorias').style.display = 'block';
+                document.getElementById('caja-intercambio').style.display = 'none';
+                document.getElementById('tour-precio').setAttribute('required', 'true');
                 
                 if(selectTipo === 'agencia_operadora') {
-                    // Agencia
                     cajaPreguntaAventura.style.display = 'block';
                     window.toggleAventuraDocs();
-                    cajaChecklistAnfitrion.style.display = 'none'; // Agencia no usa el checklist basico
+                    cajaChecklistAnfitrion.style.display = 'none';
                     
                     cajaRntNumero.style.display = 'flex';
                     inputRntNumero.setAttribute('required', 'true');
@@ -873,9 +986,8 @@
                     inputRntFile.setAttribute('required', 'true');
                     
                     document.getElementById('btn-paso1-next').classList.remove('btn-disabled');
-                    document.getElementById('btn-paso1-next').onclick = () => nextStep(1, 2);
+                    document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
                 } else {
-                    // Experto o Alojamiento
                     cajaPreguntaAventura.style.display = 'none';
                     cajaDocAventura.style.display = 'none';
                     cajaChecklistAnfitrion.style.display = 'block';
@@ -887,10 +999,9 @@
                     cajaDocRnt.style.display = 'block';
                     inputRntFile.setAttribute('required', 'true');
                     
-                    window.evaluarChecklist(); // Esto bloquea si salen de frontera
+                    window.evaluarChecklist();
                 }
             }
-            
             window.evaluarCamaraComercio();
             window.verificarGastronomia();
         };
@@ -951,6 +1062,9 @@
         window.agregarItinerarioEstructurado = () => {
             const hora = DOMPurify.sanitize(document.getElementById('iti-hora').value);
             const act = DOMPurify.sanitize(document.getElementById('iti-actividad').value);
+            const costo = document.getElementById('iti-costo') ? DOMPurify.sanitize(document.getElementById('iti-costo').value) : "";
+            const tip = document.getElementById('iti-tip') ? DOMPurify.sanitize(document.getElementById('iti-tip').value) : "";
+            
             if(!hora || !act) { alert("Completa la hora y la actividad."); return; }
             
             let horaSplit = hora.split(':');
@@ -960,11 +1074,17 @@
             h = h % 12; h = h ? h : 12; 
             let horaFormat = `${h}:${m} ${ampm}`;
 
-            const lineaCompleta = `${horaFormat} - ${act}`;
+            let txtCosto = costo ? ` | 💸 $${costo}` : "";
+            let txtTip = tip ? ` | 💡 ${tip}` : "";
+            
+            const lineaCompleta = `${horaFormat} - ${act}${txtCosto}${txtTip}`;
             dbLists.itinerario.push(lineaCompleta);
             
             document.getElementById('iti-hora').value = ""; 
             document.getElementById('iti-actividad').value = "";
+            if(document.getElementById('iti-costo')) document.getElementById('iti-costo').value = "";
+            if(document.getElementById('iti-tip')) document.getElementById('iti-tip').value = "";
+            
             renderItinerarioEstructurado();
         };
         window.borrarItinerarioEst = (i) => { dbLists.itinerario.splice(i, 1); renderItinerarioEstructurado(); };
@@ -1060,7 +1180,7 @@
         document.getElementById('tour-precio').addEventListener('input', calcularFinanzas);
 
         window.nextStep = (current, next) => {
-            if(next > current) {
+            if(next > current && current !== 7) {
                 const stepDiv = document.getElementById(`step-${current}`);
                 const inputs = Array.from(stepDiv.querySelectorAll('[required]')).filter(el => {
                     return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
@@ -1075,6 +1195,14 @@
                 });
                 if(!valid) { alert("Completa los campos obligatorios marcados de este paso."); return; }
             }
+
+            // Lógica de enrutamiento especial para Aficionado (Gratis)
+            const selectTipo = document.getElementById('tipo-guia').value;
+            if(selectTipo === 'anfitrion_aficionado') {
+                if(current === 2 && next > 2) next = 7; // De Detalles salta a Acuerdos Gratis
+                if(current === 7 && next < 7) next = 2; // De Acuerdos Gratis retrocede a Detalles
+            }
+
             document.getElementById(`step-${current}`).classList.remove('active');
             document.getElementById(`step-${next}`).classList.add('active');
             
@@ -1086,19 +1214,24 @@
             window.scrollTo(0, 0);
         };
 
-        window.validarPaso2 = () => {
+        window.avanzarDesdePaso1 = () => { nextStep(1, 2); };
+
+        window.avanzarDesdePaso2 = () => {
             if(dbLists.categoriasBase.length === 0) {
-                alert("Debes seleccionar al menos una Categoría / Tipo de Turismo."); return;
+                alert("Debes seleccionar al menos una Categoría o Interés."); return;
             }
             const ubi = document.getElementById('tour-ubicacion').value || document.getElementById('ubicacion-input').value;
             if(!ubi) {
                 alert("Debes seleccionar la Ubicación del menú desplegable."); return;
             }
-            nextStep(2, 3);
+            const selectTipo = document.getElementById('tipo-guia').value;
+            if(selectTipo === 'anfitrion_aficionado') {
+                nextStep(2, 7); // Salto directo para el gratuito
+            } else {
+                nextStep(2, 3); // Flujo normal
+            }
         };
 
-        window.retrocederDesdePaso4 = () => { nextStep(4, 3); };
-        window.avanzarDesdePaso4 = () => { nextStep(4, 5); };
         window.retrocederDesdePaso6 = () => { nextStep(6, 5); };
 
         onAuthStateChanged(auth, async (u) => {
@@ -1109,10 +1242,10 @@
                     const data = snap.data();
                     userName = data.nombre || "Usuario";
                     if(data.rol !== 'anfitrion') {
-                        alert("Acceso denegado: Este formulario es exclusivo para Anfitriones y Agencias Operadoras.");
+                        alert("Acceso denegado: Este formulario es exclusivo para Anfitriones Locales.");
                         window.location.replace('dashboard.html');
                     }
-                    window.verificarDocumentosLegales(); // Initialize UI
+                    window.verificarDocumentosLegales(); 
                 }
             } else window.location.replace('index.html');
         });
@@ -1121,11 +1254,23 @@
             e.preventDefault();
             const selectTipo = document.getElementById('tipo-guia').value;
             
-            if(selectTipo !== 'anfitrion_aficionado' && !document.getElementById('firma-digital').checked) {
-                alert("Debes aceptar la firma digital y el acuerdo de términos y condiciones."); return;
+            // Validación específica para Anfitrión Gratis
+            if(selectTipo === 'anfitrion_aficionado') {
+                const c1 = document.getElementById('check-gratis-1').checked;
+                const c2 = document.getElementById('check-gratis-2').checked;
+                const c3 = document.getElementById('check-gratis-3').checked;
+                const c4 = document.getElementById('check-gratis-4').checked;
+                if(!c1 || !c2 || !c3 || !c4) {
+                    alert("Debes leer y marcar todas las casillas de compromiso para publicar tu perfil gratuito.");
+                    return;
+                }
+            } else {
+                if(!document.getElementById('firma-digital').checked) {
+                    alert("Debes aceptar la firma digital y el acuerdo de términos y condiciones."); return;
+                }
             }
 
-            const btn = document.getElementById('btn-submit');
+            const btn = selectTipo === 'anfitrion_aficionado' ? document.getElementById('btn-submit-gratis') : document.getElementById('btn-submit');
             btn.innerText = "CARGANDO ARCHIVOS Y ENVIANDO... ⏳";
             btn.classList.add('btn-disabled');
 
@@ -1179,124 +1324,103 @@
                 const filePrincipal = document.getElementById('foto-principal').files[0];
                 let urlPrincipal = await uploadCloudinary(filePrincipal);
 
-                const filesGaleria = document.getElementById('fotos-galeria').files;
+                // Opcional para gratis
                 let urlsGaleria = [];
-                for(let i=0; i<filesGaleria.length; i++) {
-                    btn.innerText = `SUBIENDO GALERÍA: ${i+1} de ${filesGaleria.length}...`;
-                    urlsGaleria.push(await uploadCloudinary(filesGaleria[i]));
+                const filesGaleria = document.getElementById('fotos-galeria');
+                if(filesGaleria && filesGaleria.files.length > 0) {
+                    for(let i=0; i<filesGaleria.files.length; i++) {
+                        btn.innerText = `SUBIENDO GALERÍA: ${i+1} de ${filesGaleria.files.length}...`;
+                        urlsGaleria.push(await uploadCloudinary(filesGaleria.files[i]));
+                    }
                 }
 
                 btn.innerText = "GUARDANDO EN BÓVEDA MOT MOT...";
 
                 let rntVal = "", rntFech = "";
+                let chkPernocta = "no", chkAlimentos = "no", chkFrontera = "no";
+                let seguroMod = "ninguno", reglasCob = "ninguno";
+                let precioVta = 0, pFinal = 0, pNeto = 0;
+                
                 if(selectTipo !== 'anfitrion_aficionado') {
                     rntVal = DOMPurify.sanitize(document.getElementById('num-rnt').value);
                     rntFech = DOMPurify.sanitize(document.getElementById('fecha-rnt').value);
-                }
-
-                let seguroMod = "ninguno"; 
-                if(document.querySelector('input[name="seguro"]:checked')) {
-                    seguroMod = document.querySelector('input[name="seguro"]:checked').value;
-                }
-
-                const chkPernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value || "no";
-                const chkAlimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value || "no";
-                const chkFrontera = document.querySelector('input[name="chk_frontera"]:checked')?.value || "no";
-                
-                const esMenor = document.querySelector('input[name="chk_menor_edad"]:checked')?.value || "no";
-                let datosMenor = null;
-                if(esMenor === 'si') {
-                    datosMenor = {
-                        nombreTutor: DOMPurify.sanitize(document.getElementById('tutor-nombre').value),
-                        documentoTutor: DOMPurify.sanitize(document.getElementById('tutor-doc').value),
-                        telefonoTutor: DOMPurify.sanitize(document.getElementById('tutor-tel').value),
-                        emailTutor: DOMPurify.sanitize(document.getElementById('tutor-email').value)
-                    };
+                    chkPernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value || "no";
+                    chkAlimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value || "no";
+                    chkFrontera = document.querySelector('input[name="chk_frontera"]:checked')?.value || "no";
+                    if(document.querySelector('input[name="seguro"]:checked')) seguroMod = document.querySelector('input[name="seguro"]:checked').value;
+                    if(document.getElementById('reglas-cobro')) reglasCob = DOMPurify.sanitize(document.getElementById('reglas-cobro').value);
+                    precioVta = DOMPurify.sanitize(document.getElementById('tour-precio').value);
+                    pFinal = precioFinalClienteGuardar;
+                    pNeto = precioNetoGuardar;
                 }
 
                 const ubicacionGuardar = document.getElementById('tour-ubicacion').value || DOMPurify.sanitize(document.getElementById('ubicacion-input').value);
 
-                await addDoc(collection(db, "solicitudes_amelia"), {
+                const dataPayload = {
                     guiaId: userId,
                     guiaNombre: userName,
                     guiaEmail: userEmail,
                     rolCreador: 'anfitrion', 
-                    tipoProducto: 'experiencia_local',
-                    
+                    tipoProducto: selectTipo === 'anfitrion_aficionado' ? 'anfitrion_gratis' : 'experiencia_local',
                     tipoProfesional: selectTipo,
-                    rnt: rntVal,
-                    vencimientoRnt: rntFech,
-                    
-                    operacionLocal: {
-                        pernocta: chkPernocta,
-                        alimentos: chkAlimentos,
-                        saleDeFrontera: chkFrontera
-                    },
-
-                    documentosLegales: {
-                        documentoIdentidad: urlDocId,
-                        rut: urlDocRut,
-                        soporteRnt: urlDocRnt,
-                        camaraComercio: urlDocCamara,
-                        otrosDocumentos: urlDocOtros,
-                        manipulacionAlimentos: urlDocAlimentos,
-                        certificadosAventura: urlDocAventura,
-                        selloConfianza: {
-                            policia: urlSelloPolicia,
-                            procuraduria: urlSelloProcuraduria,
-                            fotoEspacio: urlSelloEspacio
-                        }
-                    },
-                    
-                    tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",
-                    tituloServicio: DOMPurify.sanitize(document.getElementById('tour-titulo').value),
-                    categoriasMultiples: dbLists.categoriasBase, 
                     ubicacion: ubicacionGuardar,
                     descripcion: DOMPurify.sanitize(document.getElementById('tour-desc').value),
                     imagenPrincipal: urlPrincipal,
-                    
-                    duracionValor: document.getElementById('tour-duracion-valor') ? DOMPurify.sanitize(document.getElementById('tour-duracion-valor').value) : "0",
-                    duracionUnidad: document.getElementById('tour-duracion-unidad') ? DOMPurify.sanitize(document.getElementById('tour-duracion-unidad').value) : "Horas",
-                    capacidadMinima: document.getElementById('capacidad-min') ? DOMPurify.sanitize(document.getElementById('capacidad-min').value) : "1",
-                    capacidadMaxima: document.getElementById('capacidad-max') ? DOMPurify.sanitize(document.getElementById('capacidad-max').value) : "10",
-                    margenTiempoReserva: document.getElementById('margen-reserva') ? DOMPurify.sanitize(document.getElementById('margen-reserva').value) : "Inmediato",
-                    margenCancelacion: document.getElementById('margen-cancelacion') ? DOMPurify.sanitize(document.getElementById('margen-cancelacion').value) : "Flexible_24h",
-                    recursos: dbLists.recursos,
-                    
-                    incluye: dbLists.incluye,
-                    noIncluye: dbLists.noIncluye,
-                    queLlevar: dbLists.queLlevar,
-                    itinerario: dbLists.itinerario,
-                    serviciosExtras: dbLists.extras,
-                    galeriaVisual: urlsGaleria,
-
-                    riesgosYSalud: {
-                        nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? DOMPurify.sanitize(document.getElementById('tour-nivel-fisico').value) : "0",
-                        restriccionesMedicas: dbLists.restricciones,
-                        condicionesRuta: document.getElementById('tour-condiciones-ruta') ? DOMPurify.sanitize(document.getElementById('tour-condiciones-ruta').value) : "N/A",
-                        esParticipanteMenor: esMenor,
-                        datosTutor: datosMenor
-                    },
-                    
-                    precioVentaBase: DOMPurify.sanitize(document.getElementById('tour-precio').value),
-                    precioFinalCliente: precioFinalClienteGuardar, 
-                    precioNetoProveedor: precioNetoGuardar, 
-                    reglasCobro: document.getElementById('reglas-cobro') ? DOMPurify.sanitize(document.getElementById('reglas-cobro').value) : "fijo_grupo",
-                    modalidadSeguro: seguroMod,
-                    firmaAcuerdosLegales: document.getElementById('firma-digital') ? document.getElementById('firma-digital').checked : true,
-                    
+                    categoriasMultiples: dbLists.categoriasBase, 
                     estado: "pendiente_aprobacion", 
                     fechaSolicitud: serverTimestamp()
-                });
+                };
 
-                alert("¡ÉXITO TOTAL! 🚀 Tu información está en nuestra bóveda. El equipo la revisará pronto.");
+                if(selectTipo !== 'anfitrion_aficionado') {
+                    Object.assign(dataPayload, {
+                        rnt: rntVal,
+                        vencimientoRnt: rntFech,
+                        operacionLocal: { pernocta: chkPernocta, alimentos: chkAlimentos, saleDeFrontera: chkFrontera },
+                        documentosLegales: {
+                            documentoIdentidad: urlDocId, rut: urlDocRut, soporteRnt: urlDocRnt, camaraComercio: urlDocCamara,
+                            otrosDocumentos: urlDocOtros, manipulacionAlimentos: urlDocAlimentos, certificadosAventura: urlDocAventura,
+                            selloConfianza: { policia: urlSelloPolicia, procuraduria: urlSelloProcuraduria, fotoEspacio: urlSelloEspacio }
+                        },
+                        tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",
+                        tituloServicio: DOMPurify.sanitize(document.getElementById('tour-titulo').value),
+                        duracionValor: document.getElementById('tour-duracion-valor') ? DOMPurify.sanitize(document.getElementById('tour-duracion-valor').value) : "0",
+                        duracionUnidad: document.getElementById('tour-duracion-unidad') ? DOMPurify.sanitize(document.getElementById('tour-duracion-unidad').value) : "Horas",
+                        capacidadMinima: document.getElementById('capacidad-min') ? DOMPurify.sanitize(document.getElementById('capacidad-min').value) : "1",
+                        capacidadMaxima: document.getElementById('capacidad-max') ? DOMPurify.sanitize(document.getElementById('capacidad-max').value) : "10",
+                        margenTiempoReserva: document.getElementById('margen-reserva') ? DOMPurify.sanitize(document.getElementById('margen-reserva').value) : "Inmediato",
+                        margenCancelacion: document.getElementById('margen-cancelacion') ? DOMPurify.sanitize(document.getElementById('margen-cancelacion').value) : "Flexible_24h",
+                        recursos: dbLists.recursos, incluye: dbLists.incluye, noIncluye: dbLists.noIncluye, queLlevar: dbLists.queLlevar,
+                        itinerario: dbLists.itinerario, serviciosExtras: dbLists.extras, galeriaVisual: urlsGaleria,
+                        riesgosYSalud: {
+                            nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? DOMPurify.sanitize(document.getElementById('tour-nivel-fisico').value) : "0",
+                            restriccionesMedicas: dbLists.restricciones,
+                            condicionesRuta: document.getElementById('tour-condiciones-ruta') ? DOMPurify.sanitize(document.getElementById('tour-condiciones-ruta').value) : "N/A"
+                        },
+                        precioVentaBase: precioVta, precioFinalCliente: pFinal, precioNetoProveedor: pNeto, reglasCobro: reglasCob, modalidadSeguro: seguroMod,
+                        firmaAcuerdosLegales: document.getElementById('firma-digital') ? document.getElementById('firma-digital').checked : true
+                    });
+                } else {
+                    Object.assign(dataPayload, {
+                        tituloServicio: DOMPurify.sanitize(document.getElementById('tour-titulo').value),
+                        acuerdosGratis: {
+                            escudoResponsabilidad: true,
+                            barreraComercial: true,
+                            tratamientoDatos: true,
+                            veracidadInfo: true
+                        }
+                    });
+                }
+
+                await addDoc(collection(db, "solicitudes_amelia"), dataPayload);
+
+                alert("¡ÉXITO TOTAL! 🚀 Tu perfil ha sido creado. El equipo lo revisará pronto.");
                 window.location.href = 'dashboard.html';
 
             } catch (error) {
                 console.error(error);
-                alert("Error de conexión al subir archivos. Verifica el tamaño de tus fotos/PDFs y tu internet.");
+                alert("Error de conexión. Verifica el tamaño de tus fotos/PDFs y tu internet.");
             } finally {
-                btn.innerText = "✅ ENVIAR PARA APROBACIÓN";
+                btn.innerText = selectTipo === 'anfitrion_aficionado' ? "✅ PUBLICAR MI PERFIL LOCAL" : "✅ ENVIAR PARA APROBACIÓN";
                 btn.classList.remove('btn-disabled');
             }
         };
