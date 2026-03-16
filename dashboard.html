@@ -16,14 +16,12 @@
         .btn-crear { background-color: var(--naranja); color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: 800; font-size: 0.85em; text-transform: uppercase; display: inline-block; }
         .search-section { background: white; padding: 25px; border-radius: 20px; margin-top: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
         
-        /* CORRECCIÓN 1: Flex-wrap para evitar que el botón salga del borde en móviles */
         .search-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .search-input { flex: 1; padding: 15px; border: 2px solid #eee; border-radius: 12px; font-family: 'Montserrat'; font-size: 1em; outline: none; transition:0.3s; min-width: 200px; box-sizing: border-box;}
         .search-input:focus { border-color: var(--turquesa); }
         .btn-buscar { background: var(--negro); color: white; border: none; padding: 15px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; transition:0.3s; font-family: 'Montserrat'; white-space: nowrap;}
         .btn-buscar:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
         
-        /* INYECCIÓN DE ESTILOS: El Interruptor Maestro */
         .switch-container { display: flex; background: #eee; border-radius: 30px; padding: 5px; margin-bottom: 25px; max-width: 500px; margin-left: auto; margin-right: auto;}
         .switch-btn { flex: 1; padding: 12px; border: none; background: transparent; border-radius: 25px; font-family: 'Montserrat'; font-weight: 800; font-size: 0.9em; color: #666; cursor: pointer; transition: 0.3s; text-transform: uppercase;}
         .switch-btn.activo { background: var(--negro); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
@@ -40,7 +38,6 @@
         .badge-mini.guia { background: #E0F7FA; color: #006064; }
         .intereses-mini { font-size: 0.65em; color: #999; margin-top: 10px; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
         
-        /* INYECCIÓN DE ESTILOS: Tarjetas Comerciales (Comercio Social) */
         .experiencia-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; position: relative; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid #eee;}
         .experiencia-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: var(--dorado);}
         .experiencia-img { width: 100%; height: 160px; object-fit: cover; }
@@ -109,7 +106,7 @@
                 <h3 data-i18n="p_anf_tit" style="margin: 0; font-size: 1.2em; color: var(--dorado); text-transform: uppercase;">Eres Anfitrión Local 🧑‍🌾</h3>
                 <p data-i18n="p_anf_sub" style="margin: 5px 0 0 0; font-size: 0.85em; color: #ccc;">¿Te gustaría enseñar un oficio, dar un taller o vender tu itinerario?</p>
             </div>
-            <a href="guias.html" data-i18n="p_anf_btn" class="btn-vender">👑 Publicar Experiencia</a>
+            <a href="anfitriones.html" data-i18n="p_anf_btn" class="btn-vender">👑 Publicar Experiencia</a>
         </div>
 
         <div id="panel-viajero" class="panel-guia" style="display:none;">
@@ -117,7 +114,7 @@
                 <h3 data-i18n="p_via_tit" style="margin: 0; font-size: 1.2em; color: var(--naranja); text-transform: uppercase;">Eres un Viajero 🎒</h3>
                 <p data-i18n="p_via_sub" style="margin: 5px 0 0 0; font-size: 0.85em; color: #ccc;">¿Quieres planear tu viaje, crear tu ruta y compartirla con la comunidad?</p>
             </div>
-            <a href="guias.html" data-i18n="p_via_btn" class="btn-vender" style="background:var(--naranja); color:white;">📍 Armar Mi Viaje</a>
+            <a href="viajeros.html" data-i18n="p_via_btn" class="btn-vender" style="background:var(--naranja); color:white;">📍 Armar Mi Viaje</a>
         </div>
 
         <div class="search-section">
@@ -268,7 +265,6 @@
             } else window.location.replace('index.html');
         });
 
-        // CIRUGÍA DE PRECISIÓN: Separación de las búsquedas para evitar el borrado en cadena
         async function search(termino) {
             const containerSoc = document.getElementById('contenedor-comunidad');
             const containerVen = document.getElementById('contenedor-experiencias');
@@ -281,7 +277,6 @@
             
             const terminoLower = termino.toLowerCase().trim();
 
-            // 1. CÁPSULA A: Buscar Personas (Totalmente aislada)
             try {
                 const qSoc = query(collection(db, "usuarios"));
                 const snapSoc = await getDocs(qSoc);
@@ -290,13 +285,12 @@
                     const d = doc.data(); d.uid = doc.id;
                     if(d.uid !== auth.currentUser.uid && d.ubicacion?.toLowerCase().includes(terminoLower)) cacheUsers.push(d);
                 });
-                renderResults(); // ¡Se dibuja la comunidad y ya no se borra!
+                renderResults();
             } catch (error) { 
                 console.error("Error cargando exploradores:", error); 
                 containerSoc.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Error buscando exploradores.</p>"; 
             }
 
-            // 2. CÁPSULA B: Buscar Experiencias (Aislada, si falla Firebase, falla sola)
             try {
                 const qVen = query(collection(db, "solicitudes_amelia"), where("estado", "==", "completado"));
                 const snapVen = await getDocs(qVen);
@@ -307,7 +301,7 @@
                 });
                 renderExperiencias();
             } catch (error) { 
-                console.error("Aviso: Permisos de Firebase bloquean las experiencias. Ajusta las reglas de 'solicitudes_amelia'.", error); 
+                console.error("Aviso: Permisos de Firebase bloquean las experiencias.", error); 
                 containerVen.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Aún no hay experiencias subidas en este destino.</p>";
             }
         }
