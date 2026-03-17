@@ -578,16 +578,32 @@
                         <label style="color: #d84315;">👥 ¿Para quién es perfecta tu experiencia / espacio?</label>
                         <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Selecciona el perfil de viajero que mejor se adapta a lo que ofreces.</p>
                         <select id="restriccion-edad" style="margin-bottom: 5px;" onchange="window.evaluarEstudiantes()">
-                            <option value="todos">Para todos (Incluso Bebés y Niños pequeños)</option>
-                            <option value="familias_ninos">Ideal para Familias con niños</option>
+                            <option value="todos">Para todos, (Incluso bebés, niños pequeños, personas de la tercera edad y 
+admite mascotas)</option>
+                            <option value="todos_sin_mascota">Para todos (Incluso bebés, niños pequeños o personas de la tercera edad) NO ADMITE MASCOTAS </option>
+                            <option value="dinamico">Para todas las edades con buen nivel físico </option>
+                            <option value="familias_ninos">Ideal para Familias con niños pequeños (-12 años) </option>
+                            <option value="movilidad reducida">Personas con baja movilidad o movilidad reducida</option>
                             <option value="ninos_grandes">Para familias con niños grandes (+12 años)</option>
+                            <option value="grupos_mascotas">Especialista en experiencias para mascotas</option>
                             <option value="solo_adultos">Solo Adultos (+18 años)</option>
                             <option value="parejas">Perfecta para Parejas</option>
-                            <option value="grupos_amigos">Grupos de Amigos</option>
-                            <option value="viajeros_solitarios">Viajeros Solitarios</option>
+                            <option value="grupos_amigos">Grupos de Amigos (+18)</option>
+                            <option value="grupos_infantes">Especialista en grupos de la primera infancia  (0 a 2 años)</option>
+                            <option value="grupos_niños_pequeños">Especialista en grupos de niños pequeños   (3 a 5 años)</option>
+                            <option value="grupos_niños_mediana_edad">Especialista en grupos de niños  mediana edad (6 a 11 años)</option>
+                            <option value="grupos_jovenes">Especialista en grupos de jovenes   (12 a 17 años)</option>
+                            <option value="grupos_multigeneracional">Especialista en grupos de niños y jovenes multigeneracional</option>
+                            <option value="viajeros_solitarios">Viajeros Solitarios (+18)</option>
                             <option value="tercera_edad">Apta / Adaptable para Tercera Edad</option>
                             <option value="estudiantes">Estudiantes / Grupos Escolares</option>
+                            <option value="grupos_visual">Especialista en experiencias para personas con discapacidad visual</option>
+                            <option value="grupos_auditiva">Especialista en experiencias para personas con discapacidad auditiva</option>
+                            <option value="grupos_motora">Especialista en experiencias para personas con discapacidad motora</option>
+                            <option value="grupos_otras">Especialista en experiencias para personas con otro o varios tipos de discapacidad</option>
+
                         </select>
+                        
 
                         <div id="caja-rango-estudiantes" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #ffcc80;">
                             <label style="font-size: 0.85em; color: #d84315;">📚 Especifica el nivel educativo principal:</label>
