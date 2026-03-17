@@ -112,22 +112,9 @@
 
     <div class="container">
         <div class="card-form">
-            <h1 id="titulo-principal">Crear Experiencia Local 🧑‍🌾</h1>
+            <h1 id="titulo-principal">Cargando...</h1>
             
             <div class="info-box" id="caja-bienvenida" style="background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; margin-bottom: 30px;">
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span style="font-size: 2em;">🏡</span>
-                        <h4 style="margin:0; font-size:1.1em; color:#1b5e20; text-transform:uppercase;">El Anfitrión (Guardián del Saber Local)</h4>
-                    </div>
-                    <p style="margin:0; font-size:0.95em; color:#2e7d32;">
-                        <b>¿Quién eres?</b> La persona local que abre las puertas de su mundo privado para compartir un oficio (artesano, campesino, cocinero) o una agencia que opera en el territorio.<br><br>
-                        <b>Tu producto:</b> Hospitalidad Temática. Vendes la conexión con un saber y la tierra. Te reciben en su taller, finca o cocina para enseñarte algo práctico.<br><br>
-                        <b>⚠️ Regla de Oro:</b> Mot Mot no es una plataforma de alojamiento. El hospedaje solo se permite si es una herramienta necesaria para vivir la experiencia (ej. pernoctar en la finca para el proceso del café). Publicaciones de "solo cama" no serán admitidas.<br><br>
-                        <b>🌟 ¿Quieres ser un Anfitrión Destacado?</b><br>
-                        Activa tu <b>Sello de Confianza</b> subiendo tus certificados básicos abajo. Es voluntario, gratuito y nos ayuda a que Mot Mot sea la comunidad más segura.
-                    </p>
-                </div>
             </div>
 
             <div class="stepper" id="stepper-ui">
@@ -150,7 +137,7 @@
                         <select id="tipo-guia" required onchange="verificarDocumentosLegales()">
                             <option value="anfitrion_aficionado">👋 Anfitrión Local (Gratis - Solo quiero conocer viajeros)</option>
                             <option value="anfitrion_experto" selected>🏺 Anfitrión Experto (Ofrezco Talleres, Cultura, Gastronomía)</option>
-                            <option value="alojamiento">🏡 Alojamiento Temático / Vivienda Turística</option>
+                            <option value="alojamiento">🏡 Hospedaje con Experiencia (No somos un hotel)</option>
                             <option value="agencia_operadora">🏢 Agencia Operadora / Operador de Aventura</option>
                         </select>
                     </div>
@@ -195,7 +182,7 @@
                             <input type="number" id="num-rnt" placeholder="Ej: 123456">
                         </div>
                         <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label>Fecha de Vencimiento *</label>
+                            <label>Fecha de Expedición o Actualización *</label>
                             <input type="date" id="fecha-rnt">
                         </div>
                     </div>
@@ -230,7 +217,7 @@
 
                         <div id="caja-pregunta-aventura" style="display:none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc;">
                             <label style="color:var(--negro); font-size:0.9em; font-weight: 800;">⛰️ ¿Ofreces actividades de Aventura?</label>
-                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Ej: Trekking, parapente, rafting, cuatrimotos, cabalgatas, etc.</p>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Ej: Trekking, parapente, rafting, cuatrimotos, cabalgatas, etc. <br><strong style="color:var(--naranja);">Recuerda: Si ofreces actividades de aventura, es obligatorio contar con los certificados correspondientes para garantizar la seguridad.</strong></p>
                             <div class="radio-group" style="background:transparent; border:none; padding:0; margin-top:5px;">
                                 <label><input type="radio" name="ofrece_aventura" value="si" onchange="toggleAventuraDocs()"> Sí</label>
                                 <label><input type="radio" name="ofrece_aventura" value="no" onchange="toggleAventuraDocs()" checked> No</label>
@@ -260,7 +247,7 @@
                     </div>
 
                     <div id="caja-sello-confianza" style="background: #e3f2fd; padding: 25px; border-radius: 12px; border: 1px solid #90caf9; margin-top:20px; display:none;">
-                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot (Voluntario)</h4>
+                        <h4 id="lbl-sello-tit" style="margin-top: 0; color: #1565c0; text-transform: uppercase;">🛡️ Sello de Confianza Mot Mot</h4>
                         <p style="font-size:0.85em; color:#444; line-height: 1.5; margin-bottom: 20px;">Sabemos que en nuestra tierra la palabra vale oro, pero para los viajeros que vienen de lejos, un respaldo extra ayuda mucho. Activa tu Sello de Confianza subiendo estos certificados. Es gratuito y te posicionará mejor en los resultados.</p>
                         
                         <div style="display:flex; flex-direction:column; gap:15px;">
@@ -789,13 +776,13 @@
             const inputFechaRnt = document.getElementById('fecha-rnt');
             const selectTipo = document.getElementById('tipo-guia').value;
 
-            if(pernocta === 'si' || selectTipo === 'alojamiento') {
+            if(pernocta === 'si' || selectTipo === 'alojamiento' || selectTipo === 'anfitrion_experto') {
                 cajaDocRnt.style.display = 'block';
                 inputRnt.setAttribute('required', 'true');
                 cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
                 inputFechaRnt.setAttribute('required', 'true');
-                inputRntNumero.placeholder = "Ej: 12345 (RNT de Vivienda)";
+                inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Vivienda o Alojamiento)" : "Ej: 12345 (RNT de Operador/Experto)";
             } else {
                 cajaDocRnt.style.display = 'none';
                 inputRnt.removeAttribute('required');
@@ -913,23 +900,23 @@
                     </div>`;
 
                 // UI: Ocultar todo lo legal innecesario y checklist
-                contenedorDocs.style.display = 'block'; // Mantenemos la caja para pedir la Cédula
+                contenedorDocs.style.display = 'block'; 
                 document.getElementById('caja-doc-rut').style.display = 'none';
                 docRut.removeAttribute('required');
                 checkboxFirma.removeAttribute('required');
-                
-                document.getElementById('lbl-docs-legales').innerText = "📄 Validación de Identidad (Sello Verificado)";
-                document.getElementById('desc-docs-legales').innerText = "Sube tu documento para seguridad de la comunidad.";
-                document.getElementById('lbl-doc-id').innerText = "Sube tu Cédula o Pasaporte (Privado) *";
-                docId.setAttribute('required', 'true');
                 
                 // Ocultar Alimentos y Otros para Gratis
                 document.getElementById('caja-doc-alimentos').style.display = 'none';
                 document.getElementById('doc-alimentos').removeAttribute('required');
                 document.getElementById('caja-doc-otros').style.display = 'none';
                 
+                document.getElementById('lbl-docs-legales').innerText = "📄 Validación de Identidad (Sello Verificado)";
+                document.getElementById('desc-docs-legales').innerText = "Sube tu documento para seguridad de la comunidad.";
+                document.getElementById('lbl-doc-id').innerText = "Sube tu Cédula o Pasaporte (Privado) *";
+                docId.setAttribute('required', 'true');
+                
                 cajaChecklistAnfitrion.style.display = 'none';
-                cajaSelloConfianza.style.display = 'block'; // Mostrar sellos para Gratis
+                cajaSelloConfianza.style.display = 'block'; 
                 document.getElementById('lbl-sello-tit').innerText = "🛡️ Sello de Confianza (Voluntario)";
                 
                 cajaRntNumero.style.display = 'none';
@@ -947,7 +934,7 @@
                 document.getElementById('ind-6').classList.add('hidden');
                 document.getElementById('ind-7').classList.remove('hidden');
 
-                // Detalles UI (Ocultar precios y categorias formales)
+                // Detalles UI
                 document.getElementById('caja-tipo-oferta').style.display = 'none';
                 document.getElementById('caja-categorias').style.display = 'none';
                 document.getElementById('caja-intercambio').style.display = 'block';
@@ -1019,14 +1006,14 @@
                     document.getElementById('btn-paso1-next').classList.remove('btn-disabled');
                     document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
                 } else {
-                    cajaPreguntaAventura.style.display = 'none';
-                    cajaDocAventura.style.display = 'none';
+                    cajaPreguntaAventura.style.display = 'block'; // Mostrar pregunta de aventura a Experto y Alojamiento
+                    window.toggleAventuraDocs();
                     cajaChecklistAnfitrion.style.display = 'block';
                     
                     cajaRntNumero.style.display = 'flex';
                     inputRntNumero.setAttribute('required', 'true');
                     inputFechaRnt.setAttribute('required', 'true');
-                    inputRntNumero.placeholder = "Ej: 12345 (RNT de Alojamiento o Gastronomía)";
+                    inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Vivienda o Alojamiento)" : "Ej: 12345 (RNT de Experto/Operador)";
                     cajaDocRnt.style.display = 'block';
                     inputRntFile.setAttribute('required', 'true');
                     
