@@ -43,7 +43,7 @@
         .step-indicator { flex: 1; text-align: center; padding-bottom: 10px; border-bottom: 4px solid #eee; transition: 0.3s; }
         .step-indicator.active { color: var(--naranja); border-bottom-color: var(--naranja); }
         .step-indicator.completed { color: var(--turquesa); border-bottom-color: var(--turquesa); }
-        .step-indicator.hidden { display: none; } 
+        .step-indicator.hidden { display: none; }
 
         .btn-nav { padding: 15px 30px; border: none; border-radius: 30px; font-weight: 800; cursor: pointer; transition: 0.3s; font-size: 0.9em; text-transform: uppercase;}
         .btn-next { background: var(--negro); color: white; float: right; }
@@ -137,7 +137,7 @@
                         <select id="tipo-guia" required onchange="verificarDocumentosLegales()">
                             <option value="anfitrion_aficionado">👋 Anfitrión Local (Gratis - Solo quiero conocer viajeros)</option>
                             <option value="anfitrion_experto" selected>🏺 Anfitrión Experto (Ofrezco Talleres, Cultura, Gastronomía)</option>
-                            <option value="alojamiento">🏡 Hospedaje con Experiencia (No somos solo un hotel)</option>
+                            <option value="alojamiento">🏡 Hospedaje con Experiencia (No somos un hotel)</option>
                             <option value="agencia_operadora">🏢 Agencia Operadora / Operador de Aventura</option>
                         </select>
                     </div>
@@ -577,14 +577,27 @@
                     <div class="form-group" style="background: #fff3e0; padding: 15px; border-radius: 12px; border-color: #ffcc80;">
                         <label style="color: #d84315;">👥 ¿Para quién es perfecta tu experiencia / espacio?</label>
                         <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Selecciona el perfil de viajero que mejor se adapta a lo que ofreces.</p>
-                        <select id="restriccion-edad" style="margin-bottom: 5px;">
+                        <select id="restriccion-edad" style="margin-bottom: 5px;" onchange="window.evaluarEstudiantes()">
                             <option value="todos">Para todos (Incluso Bebés y Niños pequeños)</option>
                             <option value="familias_ninos">Ideal para Familias con niños</option>
-                            <option value="ninos_grandes">Para mayores de 12 años</option>
+                            <option value="ninos_grandes">Para familias con niños grandes (+12 años)</option>
                             <option value="solo_adultos">Solo Adultos (+18 años)</option>
                             <option value="parejas">Perfecta para Parejas</option>
+                            <option value="grupos_amigos">Grupos de Amigos</option>
+                            <option value="viajeros_solitarios">Viajeros Solitarios</option>
                             <option value="tercera_edad">Apta / Adaptable para Tercera Edad</option>
+                            <option value="estudiantes">Estudiantes / Grupos Escolares</option>
                         </select>
+
+                        <div id="caja-rango-estudiantes" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #ffcc80;">
+                            <label style="font-size: 0.85em; color: #d84315;">📚 Especifica el nivel educativo principal:</label>
+                            <select id="rango-estudiantes" style="margin-top: 5px;">
+                                <option value="todas_edades">Todas las edades escolares</option>
+                                <option value="primaria">Primaria (Niños)</option>
+                                <option value="bachillerato">Bachillerato (Adolescentes)</option>
+                                <option value="universitarios">Universitarios</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="dynamic-list-container">
@@ -754,6 +767,17 @@
             window.verificarGastronomia();
         };
 
+        // NUEVA FUNCIÓN PARA EVALUAR ESTUDIANTES
+        window.evaluarEstudiantes = () => {
+            const perfilSel = document.getElementById('restriccion-edad').value;
+            const cajaRangos = document.getElementById('caja-rango-estudiantes');
+            if(perfilSel === 'estudiantes') {
+                cajaRangos.style.display = 'block';
+            } else {
+                cajaRangos.style.display = 'none';
+            }
+        };
+
         window.agregarInteresGratis = () => {
             const input = document.getElementById('input-intercambio-nuevo');
             const val = input.value.trim();
@@ -916,7 +940,7 @@
                 docId.setAttribute('required', 'true');
                 
                 cajaChecklistAnfitrion.style.display = 'none';
-                cajaSelloConfianza.style.display = 'block'; 
+                cajaSelloConfianza.style.display = 'block'; // Mostrar sellos para Gratis
                 document.getElementById('lbl-sello-tit').innerText = "🛡️ Sello de Confianza (Voluntario)";
                 
                 cajaRntNumero.style.display = 'none';
@@ -934,7 +958,7 @@
                 document.getElementById('ind-6').classList.add('hidden');
                 document.getElementById('ind-7').classList.remove('hidden');
 
-                // Detalles UI
+                // Detalles UI (Ocultar precios y categorias formales)
                 document.getElementById('caja-tipo-oferta').style.display = 'none';
                 document.getElementById('caja-categorias').style.display = 'none';
                 document.getElementById('caja-intercambio').style.display = 'block';
@@ -1445,7 +1469,8 @@
                             nivelFisicoExigido: document.getElementById('tour-nivel-fisico') ? DOMPurify.sanitize(document.getElementById('tour-nivel-fisico').value) : "0",
                             restriccionesMedicas: dbLists.restricciones,
                             condicionesRuta: document.getElementById('tour-condiciones-ruta') ? DOMPurify.sanitize(document.getElementById('tour-condiciones-ruta').value) : "N/A",
-                            perfilVisitante: document.getElementById('restriccion-edad') ? DOMPurify.sanitize(document.getElementById('restriccion-edad').value) : "todos"
+                            perfilVisitante: document.getElementById('restriccion-edad') ? DOMPurify.sanitize(document.getElementById('restriccion-edad').value) : "todos",
+                            rangoEstudiantes: document.getElementById('rango-estudiantes') && document.getElementById('restriccion-edad').value === 'estudiantes' ? DOMPurify.sanitize(document.getElementById('rango-estudiantes').value) : null
                         },
                         precioVentaBase: precioVta, precioFinalCliente: pFinal, precioNetoProveedor: pNeto, reglasCobro: reglasCob, modalidadSeguro: seguroMod,
                         firmaAcuerdosLegales: document.getElementById('firma-digital') ? document.getElementById('firma-digital').checked : true
