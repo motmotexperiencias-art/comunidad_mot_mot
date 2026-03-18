@@ -147,7 +147,7 @@
                         
                         <div class="check-pregunta">
                             <label>1. ¿Ofreces pernoctación (Dormir en casa/finca)?</label>
-                            <p>Si hospedas a la gente, la ley exige RNT de Vivienda Turística. Es obligatorio aunque sea una habitación en una casa de campo.</p>
+                            <p>Si hospedas a la gente, la ley exige RNT. <strong>Recuerda: No somos un hotel, ofrecemos Hospedaje con Experiencia.</strong> Es obligatorio registrarlo aunque sea una habitación en una casa de campo.</p>
                             <div class="radio-group" style="padding: 5px; background: transparent; border: none;">
                                 <label><input type="radio" name="chk_pernocta" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_pernocta" value="no" onchange="evaluarChecklist()" checked> No</label>
@@ -182,7 +182,7 @@
                             <input type="number" id="num-rnt" placeholder="Ej: 123456">
                         </div>
                         <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label>Fecha de ultima actualización *</label>
+                            <label>Fecha de última actualización o expedición *</label>
                             <input type="date" id="fecha-rnt">
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                         </div>
 
                         <div id="caja-doc-rnt" style="display: none;">
-                            <label style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT Físico / Digital *</label>
+                            <label id="lbl-doc-rnt" style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT Físico / Digital (De la actividad o experiencia turística que ofreces) *</label>
                             <span class="helper-text">Sube el certificado actualizado. Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-rnt-file" accept="image/jpeg, image/png, application/pdf">
                         </div>
@@ -578,20 +578,19 @@
                         <label style="color: #d84315;">👥 ¿Para quién es perfecta tu experiencia / espacio?</label>
                         <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Selecciona el perfil de viajero que mejor se adapta a lo que ofreces.</p>
                         <select id="restriccion-edad" style="margin-bottom: 5px;" onchange="window.evaluarEstudiantes()">
-                            <option value="todos">Para todos, (Incluso bebés, niños pequeños, personas de la tercera edad y 
-admite mascotas)</option>
+                            <option value="todos">Para todos, (Incluso bebés, niños pequeños, personas de la tercera edad y admite mascotas)</option>
                             <option value="todos_sin_mascota">Para todos (Incluso bebés, niños pequeños o personas de la tercera edad) NO ADMITE MASCOTAS </option>
                             <option value="dinamico">Para todas las edades con buen nivel físico </option>
                             <option value="familias_ninos">Ideal para Familias con niños pequeños (-12 años) </option>
-                            <option value="movilidad reducida">Personas con baja movilidad o movilidad reducida</option>
+                            <option value="movilidad_reducida">Personas con baja movilidad o movilidad reducida</option>
                             <option value="ninos_grandes">Para familias con niños grandes (+12 años)</option>
                             <option value="grupos_mascotas">Especialista en experiencias para mascotas</option>
                             <option value="solo_adultos">Solo Adultos (+18 años)</option>
                             <option value="parejas">Perfecta para Parejas</option>
                             <option value="grupos_amigos">Grupos de Amigos (+18)</option>
                             <option value="grupos_infantes">Especialista en grupos de la primera infancia  (0 a 2 años)</option>
-                            <option value="grupos_niños_pequeños">Especialista en grupos de niños pequeños   (3 a 5 años)</option>
-                            <option value="grupos_niños_mediana_edad">Especialista en grupos de niños  mediana edad (6 a 11 años)</option>
+                            <option value="grupos_ninos_pequenos">Especialista en grupos de niños pequeños   (3 a 5 años)</option>
+                            <option value="grupos_ninos_mediana">Especialista en grupos de niños  mediana edad (6 a 11 años)</option>
                             <option value="grupos_jovenes">Especialista en grupos de jovenes   (12 a 17 años)</option>
                             <option value="grupos_multigeneracional">Especialista en grupos de niños y jovenes multigeneracional</option>
                             <option value="viajeros_solitarios">Viajeros Solitarios (+18)</option>
@@ -601,9 +600,7 @@ admite mascotas)</option>
                             <option value="grupos_auditiva">Especialista en experiencias para personas con discapacidad auditiva</option>
                             <option value="grupos_motora">Especialista en experiencias para personas con discapacidad motora</option>
                             <option value="grupos_otras">Especialista en experiencias para personas con otro o varios tipos de discapacidad</option>
-
                         </select>
-                        
 
                         <div id="caja-rango-estudiantes" style="display:none; margin-top:10px; padding-top:10px; border-top:1px dashed #ffcc80;">
                             <label style="font-size: 0.85em; color: #d84315;">📚 Especifica el nivel educativo principal:</label>
@@ -816,13 +813,13 @@ admite mascotas)</option>
             const inputFechaRnt = document.getElementById('fecha-rnt');
             const selectTipo = document.getElementById('tipo-guia').value;
 
-            if(pernocta === 'si' || selectTipo === 'alojamiento' || selectTipo === 'anfitrion_experto') {
+            if(pernocta === 'si' || selectTipo === 'alojamiento' || selectTipo === 'anfitrion_experto' || selectTipo === 'agencia_operadora') {
                 cajaDocRnt.style.display = 'block';
                 inputRnt.setAttribute('required', 'true');
                 cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
                 inputFechaRnt.setAttribute('required', 'true');
-                inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Vivienda o Alojamiento)" : "Ej: 12345 (RNT de Operador/Experto)";
+                inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Hospedaje con Experiencia)" : "Ej: 12345 (RNT de la Experiencia o Actividad)";
             } else {
                 cajaDocRnt.style.display = 'none';
                 inputRnt.removeAttribute('required');
@@ -1053,7 +1050,7 @@ admite mascotas)</option>
                     cajaRntNumero.style.display = 'flex';
                     inputRntNumero.setAttribute('required', 'true');
                     inputFechaRnt.setAttribute('required', 'true');
-                    inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Vivienda o Alojamiento)" : "Ej: 12345 (RNT de Experto/Operador)";
+                    inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Hospedaje con Experiencia)" : "Ej: 12345 (RNT de la Experiencia o Actividad)";
                     cajaDocRnt.style.display = 'block';
                     inputRntFile.setAttribute('required', 'true');
                     
@@ -1355,7 +1352,6 @@ admite mascotas)</option>
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
                 let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
 
-                // Solo pide Rut y CC al inicio a los que cobran. Al gratis solo le pide el ID y ya está validado arriba.
                 if(selectTipo !== 'anfitrion_aficionado') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     
