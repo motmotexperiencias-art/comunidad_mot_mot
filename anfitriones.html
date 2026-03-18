@@ -181,12 +181,28 @@
 
                     <div id="caja-rnt" style="display: flex; gap: 15px; margin-bottom: 20px;">
                         <div class="form-group" style="flex: 2; margin-bottom: 0;">
-                            <label>Número de RNT (Registro Nacional de Turismo) *</label>
+                            <label id="lbl-num-rnt">Número de RNT (De la Actividad o Experiencia Turística) *</label>
                             <input type="number" id="num-rnt" placeholder="Ej: 123456">
                         </div>
                         <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label>Fecha de última actualización o expedición *</label>
+                            <label>Fecha de expedición/actualización *</label>
                             <input type="date" id="fecha-rnt">
+                        </div>
+                    </div>
+
+                    <div id="caja-rnt-hospedaje" style="display: none; gap: 15px; margin-bottom: 20px; background: #fffcf5; padding: 15px; border-left: 4px solid var(--naranja); border-radius: 8px;">
+                        <div style="width: 100%;">
+                            <p style="color:var(--naranja); font-weight:bold; margin-top:0; font-size:0.9em;">🏡 RNT DE HOSPEDAJE (Requerido por ofrecer pernoctación)</p>
+                            <div style="display: flex; gap: 15px;">
+                                <div class="form-group" style="flex: 2; margin-bottom: 0;">
+                                    <label>Número de RNT de Hospedaje *</label>
+                                    <input type="number" id="num-rnt-hospedaje" placeholder="Ej: 654321">
+                                </div>
+                                <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                    <label>Fecha de expedición *</label>
+                                    <input type="date" id="fecha-rnt-hospedaje">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -207,9 +223,16 @@
                         </div>
 
                         <div id="caja-doc-rnt" style="display: none;">
-                            <label id="lbl-doc-rnt" style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT Físico / Digital (De la actividad o experiencia turística que ofreces) *</label>
+                            <label id="lbl-doc-rnt" style="font-size:0.85em; margin-top:15px; color:var(--negro);">3. Soporte RNT Físico / Digital (De la actividad o experiencia turística) *</label>
                             <span class="helper-text">Sube el certificado actualizado. Formatos: JPG, PNG, PDF. Max 5MB.</span>
                             <input type="file" id="doc-rnt-file" accept="image/jpeg, image/png, application/pdf">
+                        </div>
+
+                        <div id="caja-doc-rnt-hospedaje" style="display: none; background: #fffcf5; padding: 10px; border-radius: 8px; border-left: 4px solid var(--naranja); margin-top: 15px;">
+                            <label style="font-size:0.85em; color:var(--naranja); font-weight:bold;">🏡 Soporte RNT Físico / Digital de Hospedaje *</label>
+                            <p style="font-size:0.7em; color:#666; margin:3px 0 8px 0;">Como ofreces alojamiento, es obligatorio adjuntar este documento.</p>
+                            <span class="helper-text">Formatos: JPG, PNG, PDF. Max 5MB.</span>
+                            <input type="file" id="doc-rnt-hospedaje-file" accept="image/jpeg, image/png, application/pdf">
                         </div>
 
                         <div id="caja-doc-camara" style="display: none;">
@@ -814,6 +837,14 @@
             const cajaRntNumero = document.getElementById('caja-rnt');
             const inputRntNumero = document.getElementById('num-rnt');
             const inputFechaRnt = document.getElementById('fecha-rnt');
+            
+            // ELEMENTOS NUEVOS RNT HOSPEDAJE
+            const cajaRntHospedaje = document.getElementById('caja-rnt-hospedaje');
+            const inputRntHospNum = document.getElementById('num-rnt-hospedaje');
+            const inputRntHospFech = document.getElementById('fecha-rnt-hospedaje');
+            const cajaDocRntHosp = document.getElementById('caja-doc-rnt-hospedaje');
+            const inputRntHospFile = document.getElementById('doc-rnt-hospedaje-file');
+            
             const selectTipo = document.getElementById('tipo-guia').value;
 
             // Alerta visual de pernoctación
@@ -822,25 +853,28 @@
                 alertaPernocta.style.display = (pernocta === 'si') ? 'block' : 'none';
             }
 
-            if(pernocta === 'si' || selectTipo === 'alojamiento' || selectTipo === 'anfitrion_experto' || selectTipo === 'agencia_operadora') {
+            // RNT PRINCIPAL (Se muestra para todos los que cobran)
+            if(selectTipo !== 'anfitrion_aficionado') {
                 cajaDocRnt.style.display = 'block';
                 inputRnt.setAttribute('required', 'true');
                 cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
                 inputFechaRnt.setAttribute('required', 'true');
-                
-                // Textos dinámicos del RNT
-                const esHospedaje = (selectTipo === 'alojamiento' || pernocta === 'si');
-                inputRntNumero.placeholder = esHospedaje ? "Ej: 12345 (RNT de Hospedaje con Experiencia)" : "Ej: 12345 (RNT de la Experiencia o Actividad Turística)";
-                const lblRnt = document.getElementById('lbl-doc-rnt');
-                if(lblRnt) lblRnt.innerText = esHospedaje ? "3. Soporte RNT Físico / Digital (RNT de Hospedaje) *" : "3. Soporte RNT Físico / Digital (De la actividad o experiencia turística que ofreces) *";
+            }
 
+            // RNT HOSPEDAJE SECUNDARIO (Se muestra solo si cobran Y ofrecen pernoctación)
+            if((selectTipo !== 'anfitrion_aficionado') && (pernocta === 'si')) {
+                if (cajaRntHospedaje) cajaRntHospedaje.style.display = 'flex';
+                if (inputRntHospNum) inputRntHospNum.setAttribute('required', 'true');
+                if (inputRntHospFech) inputRntHospFech.setAttribute('required', 'true');
+                if (cajaDocRntHosp) cajaDocRntHosp.style.display = 'block';
+                if (inputRntHospFile) inputRntHospFile.setAttribute('required', 'true');
             } else {
-                cajaDocRnt.style.display = 'none';
-                inputRnt.removeAttribute('required');
-                cajaRntNumero.style.display = 'none';
-                inputRntNumero.removeAttribute('required');
-                inputFechaRnt.removeAttribute('required');
+                if (cajaRntHospedaje) cajaRntHospedaje.style.display = 'none';
+                if (inputRntHospNum) inputRntHospNum.removeAttribute('required');
+                if (inputRntHospFech) inputRntHospFech.removeAttribute('required');
+                if (cajaDocRntHosp) cajaDocRntHosp.style.display = 'none';
+                if (inputRntHospFile) inputRntHospFile.removeAttribute('required');
             }
 
             const cajaDocAlimentos = document.getElementById('caja-doc-alimentos');
@@ -976,6 +1010,18 @@
                 inputFechaRnt.removeAttribute('required');
                 cajaDocRnt.style.display = 'none';
                 inputRntFile.removeAttribute('required');
+                
+                const cajaRntHospedaje = document.getElementById('caja-rnt-hospedaje');
+                const inputRntHospNum = document.getElementById('num-rnt-hospedaje');
+                const inputRntHospFech = document.getElementById('fecha-rnt-hospedaje');
+                const cajaDocRntHosp = document.getElementById('caja-doc-rnt-hospedaje');
+                const inputRntHospFile = document.getElementById('doc-rnt-hospedaje-file');
+                if (cajaRntHospedaje) cajaRntHospedaje.style.display = 'none';
+                if (inputRntHospNum) inputRntHospNum.removeAttribute('required');
+                if (inputRntHospFech) inputRntHospFech.removeAttribute('required');
+                if (cajaDocRntHosp) cajaDocRntHosp.style.display = 'none';
+                if (inputRntHospFile) inputRntHospFile.removeAttribute('required');
+
                 cajaPreguntaAventura.style.display = 'none';
                 cajaDocAventura.style.display = 'none';
 
@@ -1048,24 +1094,16 @@
                     window.toggleAventuraDocs();
                     cajaChecklistAnfitrion.style.display = 'none';
                     
-                    cajaRntNumero.style.display = 'flex';
-                    inputRntNumero.setAttribute('required', 'true');
-                    inputFechaRnt.setAttribute('required', 'true');
-                    inputRntNumero.placeholder = "Ej: 12345 (RNT de la Experiencia o Actividad Turística)";
-                    cajaDocRnt.style.display = 'block';
-                    inputRntFile.setAttribute('required', 'true');
-                    const lblRnt = document.getElementById('lbl-doc-rnt');
-                    if(lblRnt) lblRnt.innerText = "3. Soporte RNT Físico / Digital (De la actividad o experiencia turística que ofreces) *";
-                    
                     document.getElementById('btn-paso1-next').classList.remove('btn-disabled');
                     document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
                 } else {
                     cajaPreguntaAventura.style.display = 'block'; // Mostrar pregunta de aventura a Experto y Alojamiento
                     window.toggleAventuraDocs();
                     cajaChecklistAnfitrion.style.display = 'block';
-                    
-                    window.evaluarChecklist();
                 }
+                
+                // Ejecutamos evaluarChecklist para que setee los campos RNT de Actividad y Hospedaje correctamente
+                window.evaluarChecklist();
             }
             window.evaluarCamaraComercio();
             window.verificarGastronomia();
@@ -1337,6 +1375,7 @@
         document.getElementById('form-guia').onsubmit = async (e) => {
             e.preventDefault();
             const selectTipo = document.getElementById('tipo-guia').value;
+            const pernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value || "no";
             
             // Validación específica para Anfitrión Gratis
             if(selectTipo === 'anfitrion_aficionado') {
@@ -1361,6 +1400,7 @@
             try {
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
                 let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
+                let urlDocRntHospedaje = ""; // NUEVO PARA HOSPEDAJE
 
                 // Solo pide Rut y CC al inicio a los que cobran. Al gratis solo le pide el ID y ya está validado arriba.
                 if(selectTipo !== 'anfitrion_aficionado') {
@@ -1374,6 +1414,14 @@
 
                     const inputRntFile = document.getElementById('doc-rnt-file');
                     if(inputRntFile && inputRntFile.files.length > 0) urlDocRnt = await uploadCloudinary(inputRntFile.files[0]);
+                    
+                    // NUEVA LÓGICA RNT HOSPEDAJE
+                    if(pernocta === 'si') {
+                        const inputRntHospedajeFile = document.getElementById('doc-rnt-hospedaje-file');
+                        if(inputRntHospedajeFile && inputRntHospedajeFile.files.length > 0) {
+                            urlDocRntHospedaje = await uploadCloudinary(inputRntHospedajeFile.files[0]);
+                        }
+                    }
 
                     const inputCamara = document.getElementById('doc-camara');
                     if(inputCamara && inputCamara.files.length > 0) urlDocCamara = await uploadCloudinary(inputCamara.files[0]);
@@ -1434,14 +1482,20 @@
                 btn.innerText = "GUARDANDO EN BÓVEDA MOT MOT...";
 
                 let rntVal = "", rntFech = "";
-                let chkPernocta = "no", chkAlimentos = "no", chkFrontera = "no";
+                let rntHospVal = "", rntHospFech = ""; // NUEVO PARA HOSPEDAJE
+                let chkAlimentos = "no", chkFrontera = "no";
                 let seguroMod = "ninguno", reglasCob = "ninguno";
                 let precioVta = 0, pFinal = 0, pNeto = 0;
                 
                 if(selectTipo !== 'anfitrion_aficionado') {
                     rntVal = DOMPurify.sanitize(document.getElementById('num-rnt').value);
                     rntFech = DOMPurify.sanitize(document.getElementById('fecha-rnt').value);
-                    chkPernocta = document.querySelector('input[name="chk_pernocta"]:checked')?.value || "no";
+                    
+                    if(pernocta === 'si') {
+                        rntHospVal = document.getElementById('num-rnt-hospedaje') ? DOMPurify.sanitize(document.getElementById('num-rnt-hospedaje').value) : "";
+                        rntHospFech = document.getElementById('fecha-rnt-hospedaje') ? DOMPurify.sanitize(document.getElementById('fecha-rnt-hospedaje').value) : "";
+                    }
+
                     chkAlimentos = document.querySelector('input[name="chk_alimentos"]:checked')?.value || "no";
                     chkFrontera = document.querySelector('input[name="chk_frontera"]:checked')?.value || "no";
                     if(document.querySelector('input[name="seguro"]:checked')) seguroMod = document.querySelector('input[name="seguro"]:checked').value;
@@ -1472,10 +1526,17 @@
                     Object.assign(dataPayload, {
                         rnt: rntVal,
                         vencimientoRnt: rntFech,
-                        operacionLocal: { pernocta: chkPernocta, alimentos: chkAlimentos, saleDeFrontera: chkFrontera },
+                        operacionLocal: { 
+                            pernocta: pernocta, 
+                            alimentos: chkAlimentos, 
+                            saleDeFrontera: chkFrontera,
+                            rntHospedaje: rntHospVal,
+                            vencimientoRntHospedaje: rntHospFech 
+                        },
                         documentosLegales: {
                             documentoIdentidad: urlDocId, rut: urlDocRut, soporteRnt: urlDocRnt, camaraComercio: urlDocCamara,
                             otrosDocumentos: urlDocOtros, manipulacionAlimentos: urlDocAlimentos, certificadosAventura: urlDocAventura,
+                            soporteRntHospedaje: urlDocRntHospedaje,
                             selloConfianza: { policia: urlSelloPolicia, procuraduria: urlSelloProcuraduria, fotoEspacio: urlSelloEspacio }
                         },
                         tipoOfertaAmelia: document.getElementById('tipo-oferta') ? DOMPurify.sanitize(document.getElementById('tipo-oferta').value) : "servicio",
