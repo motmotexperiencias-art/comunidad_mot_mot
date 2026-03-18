@@ -30,6 +30,11 @@
         .checkbox-group, .radio-group { display: flex; gap: 15px; align-items: flex-start; background: #fffbf0; padding: 15px; border-radius: 12px; border: 1px solid #fde7a9; margin-top: 10px; }
         .checkbox-group input, .radio-group input { margin-top: 4px; transform: scale(1.2); cursor: pointer; }
         .checkbox-group label, .radio-group label { font-weight: 500; font-size: 0.85em; color: #555; margin: 0; cursor: pointer; line-height: 1.5; }
+        
+        /* Grid para Checkboxes múltiples */
+        .grid-checkboxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #fafafa; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
+        .grid-checkboxes label { font-weight: 500; font-size: 0.85em; display: flex; align-items: center; gap: 8px; cursor: pointer; margin:0;}
+        .grid-checkboxes input { cursor: pointer; transform: scale(1.1); }
 
         .info-box { background: #e0f7fa; padding: 15px; border-radius: 12px; font-size: 0.85em; color: #006064; margin-bottom: 20px; display: flex; gap: 10px; align-items: flex-start; border-left: 5px solid #006064; line-height: 1.5;}
         .helper-text { font-size: 0.75em; color: #666; margin-top: -5px; margin-bottom: 10px; display: block; font-style: italic;}
@@ -49,19 +54,37 @@
         .btn-enviar { width: 100%; padding: 20px; background: var(--naranja); color: white; border: none; border-radius: 50px; font-weight: 900; font-size: 1.1em; cursor: pointer; transition: 0.3s; margin-top: 20px; text-transform: uppercase; }
         .btn-nav:hover, .btn-enviar:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
-        .dynamic-list-container { background: #fafafa; padding: 15px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
-        .dynamic-item { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
         .btn-add { background: var(--turquesa); color: white; border: none; padding: 12px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; text-transform: uppercase; font-size: 0.8em;}
-        .btn-delete { background: #ffebee; color: #c62828; border: none; border-radius: 5px; cursor: pointer; padding: 5px 10px; font-weight: bold; margin-top: 10px;}
+        .btn-add-mini { background: var(--negro); color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 0.8em; margin-left: 10px;}
+        .btn-delete { color: #c62828; background: transparent; border: 1px solid #c62828; border-radius: 20px; cursor: pointer; padding: 5px 15px; font-weight: bold; font-size: 0.75em; transition: 0.2s;}
+        .btn-delete:hover { background: #ffebee; }
 
-        .tags-rapidos { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-        .tag-rapido { background: #e0f2f1; color: #2e7d32; padding: 5px 10px; border-radius: 15px; font-size: 0.75em; cursor: pointer; font-weight: bold; border: 1px solid #a5d6a7; transition:0.2s;}
+        .tags-rapidos { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .tag-rapido { background: #e0f2f1; color: #2e7d32; padding: 8px 15px; border-radius: 20px; font-size: 0.8em; cursor: pointer; font-weight: bold; border: 1px solid #a5d6a7; transition:0.2s; display: flex; align-items: center; gap: 5px;}
         .tag-rapido.selected { background: var(--turquesa); color: white; border-color: var(--turquesa); transform: scale(1.05); }
+        .tag-destino { background: var(--naranja); color: white; border-color: var(--naranja); cursor: default; }
+
+        /* Estilos de la Línea de Tiempo */
+        .timeline-container { border-left: 4px solid var(--turquesa); padding-left: 25px; margin-left: 15px; margin-top: 20px; }
+        .timeline-item { position: relative; margin-bottom: 30px; background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .timeline-item::before { content: ''; position: absolute; left: -36.5px; top: 20px; width: 15px; height: 15px; background: white; border: 4px solid var(--naranja); border-radius: 50%; z-index: 2; }
+        .timeline-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #ddd; padding-bottom: 10px; margin-bottom: 15px; }
+        .timeline-header input { border: none; font-size: 1.1em; font-weight: bold; color: var(--turquesa); padding: 5px 0; background: transparent; width: 70%;}
+        .timeline-header input:focus { border-bottom: 2px solid var(--turquesa); outline: none; }
+        .foto-preview { width: 100%; height: 120px; background: #f0f0f0; border-radius: 8px; border: 2px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #888; font-size: 0.8em; cursor: pointer; overflow: hidden; position: relative;}
+        .foto-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+        .calculadora-ganancia { background: #fffcf5; padding: 15px; border-radius: 12px; border: 1px solid #fde7a9; margin-top: 10px; text-align: center; font-size: 0.9em; }
 
         @media (max-width: 768px) {
             .card-form { padding: 20px 15px; }
             .btn-nav { width: 100%; float: none; display: block; margin-top: 10px; }
             .stepper { flex-wrap: wrap; font-size: 0.6em; }
+            .grid-checkboxes { grid-template-columns: 1fr; }
+            .timeline-container { margin-left: 5px; padding-left: 15px; }
+            .timeline-item::before { left: -24.5px; width: 10px; height: 10px; }
+            .timeline-header { flex-direction: column; align-items: flex-start; gap: 10px;}
+            .timeline-header input { width: 100%; }
         }
     </style>
 </head>
@@ -77,15 +100,15 @@
             <h1>Crear Mi Itinerario de Viaje 🎒</h1>
             
             <div class="info-box" style="background: #e8f5e9; color: #2e7d32; border-color: #2e7d32; margin-bottom: 30px;">
-                <p style="margin:0;"><b>El Viajero:</b> Entregas una hoja de ruta con links, ubicaciones exactas y tips. No acompañas, das la inteligencia logística para que el turista haga su ruta.</p>
+                <p style="margin:0;"><b>El Viajero Experto:</b> No guías físicamente. Entregas tu conocimiento maestro en una hoja de ruta con links, ubicaciones exactas, fotos y tips. Tú pones el precio y la inteligencia logística.</p>
             </div>
 
             <div class="stepper" id="stepper-ui">
                 <div class="step-indicator active" id="ind-1">1. Legal</div>
-                <div class="step-indicator" id="ind-2">2. Detalles</div>
-                <div class="step-indicator" id="ind-3">3. Contenido</div>
+                <div class="step-indicator" id="ind-2">2. Destinos</div>
+                <div class="step-indicator" id="ind-3">3. Ruta Mágica</div>
                 <div class="step-indicator" id="ind-4">4. Riesgos</div>
-                <div class="step-indicator" id="ind-5">5. Acuerdos</div>
+                <div class="step-indicator" id="ind-5">5. Precio</div>
             </div>
 
             <form id="form-guia">
@@ -110,48 +133,43 @@
                 </div>
 
                 <div class="step" id="step-2">
-                    <h3>Detalles Generales del Itinerario</h3>
+                    <h3>¿De qué trata esta ruta?</h3>
 
                     <div class="form-group">
-                        <label>Ponle un título a tu Viaje</label>
-                        <input type="text" id="tour-titulo" placeholder="Ej: Fin de semana perfecto en Barichara" required>
+                        <label>Ponle un título atractivo a tu Viaje</label>
+                        <input type="text" id="tour-titulo" placeholder="Ej: La ruta perfecta de 5 días por Boyacá" required>
                     </div>
 
                     <div class="form-group">
-                        <label>Etiquetas (Selecciona hasta 3) *</label>
-                        <div class="tags-rapidos" id="tags-categorias">
-                            <span class="tag-rapido" onclick="toggleTag(this)">🥾 Caminata Urbana</span>
-                            <span class="tag-rapido" onclick="toggleTag(this)">🧗 Senderismo</span>
-                            <span class="tag-rapido" onclick="toggleTag(this)">Turismo Cultural</span>
-                            <span class="tag-rapido" onclick="toggleTag(this)">Turismo Rural</span>
+                        <label>Agrega los Destinos / Ciudades de tu ruta 📍</label>
+                        <span class="helper-text">Escribe la ciudad/pueblo y dale a "+ Agregar". Puedes poner varios si es una ruta larga.</span>
+                        <div style="display:flex;">
+                            <input type="text" id="input-destino" placeholder="Ej: Villa de Leyva...">
+                            <button type="button" class="btn-add-mini" onclick="agregarDestinoTag()">+ Agregar</button>
                         </div>
+                        <div class="tags-rapidos" id="contenedor-destinos" style="margin-top: 15px;">
+                            </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Ubicación principal</label>
-                        <input type="text" id="ubicacion-input" placeholder="Ej: Barichara..." required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Resumen de tu experiencia (El gancho)</label>
-                        <textarea id="tour-desc" rows="4" placeholder="¿Por qué deben comprar este itinerario?" required></textarea>
+                        <label>Resumen de tu experiencia (El gancho para venderla)</label>
+                        <textarea id="tour-desc" rows="4" placeholder="Cuéntale al viajero por qué tu ruta es la mejor y qué va a vivir..." required></textarea>
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="prevStep(2, 1)">⬅ Atrás</button>
-                        <button type="button" class="btn-nav btn-next" onclick="nextStep(2, 3)">Siguiente ➔</button>
+                        <button type="button" class="btn-nav btn-next" onclick="prepararPaso3()">Siguiente ➔</button>
                     </div>
                 </div>
 
                 <div class="step" id="step-3">
-                    <h3>Arma tu Itinerario de Viaje</h3>
+                    <h3>Arma la Línea de Tiempo de tu Ruta</h3>
+                    <p style="font-size:0.85em; color:#555;">Basado en los destinos que elegiste, aquí está tu línea de tiempo. Llénala con información rica, fotos y links.</p>
 
-                    <div class="dynamic-list-container">
-                        <label>📍 Agrega los lugares y tus TIPS secretos.</label>
-                        <div id="lista-paradas">
-                            </div>
-                        <button type="button" class="btn-add" onclick="agregarParada()">+ Agregar un Lugar / Actividad</button>
-                    </div>
+                    <div class="timeline-container" id="timeline-paradas">
+                        </div>
+
+                    <button type="button" class="btn-add" style="margin-top:15px; margin-left:15px; width:calc(100% - 15px);" onclick="agregarParadaVacia()">+ Añadir otro lugar a la línea de tiempo</button>
 
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="prevStep(3, 2)">⬅ Atrás</button>
@@ -160,15 +178,26 @@
                 </div>
 
                 <div class="step" id="step-4">
-                    <h3>Nivel de Riesgo</h3>
+                    <h3>Claridad y Seguridad para el Viajero</h3>
+                    <p style="font-size:0.85em; color:#555;">Como el turista hará la ruta por su cuenta basándose en tu guía, es vital advertirle de los retos reales.</p>
 
                     <div class="form-group">
-                        <label>Nivel de Dificultad Física</label>
-                        <select id="nivel-riesgo">
-                            <option value="Bajo">Bajo (Para todos, caminar suave)</option>
-                            <option value="Medio">Medio (Requiere algo de estado físico)</option>
-                            <option value="Alto">Alto (Senderismo exigente, montañas)</option>
-                        </select>
+                        <label>Selecciona las advertencias clave de tu ruta:</label>
+                        <div class="grid-checkboxes">
+                            <label><input type="checkbox" value="Altitud"> 🏔️ Altitud elevada (Soroche)</label>
+                            <label><input type="checkbox" value="Clima Extremo"> ☀️❄️ Clima Extremo</label>
+                            <label><input type="checkbox" value="Mosquitos"> 🦟 Zona de muchos mosquitos</label>
+                            <label><input type="checkbox" value="Terreno Resbaladizo"> 🥾 Terreno resbaladizo/exigente</label>
+                            <label><input type="checkbox" value="No niños"> 🚫 No apto para niños pequeños</label>
+                            <label><input type="checkbox" value="Mascotas"> 🐕 No admiten mascotas en la ruta</label>
+                            <label><input type="checkbox" value="Señal"> 📵 Poca o nula señal de celular</label>
+                            <label><input type="checkbox" value="Efectivo"> 💵 Solo reciben efectivo local</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Describe el nivel físico requerido y consejos de seguridad</label>
+                        <textarea rows="4" placeholder="Ej: La caminata del día 2 requiere buen estado físico. Lleven botas de agarre y siempre viajen con luz de día por la vía principal..." required></textarea>
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
@@ -178,21 +207,29 @@
                 </div>
 
                 <div class="step" id="step-5">
-                    <h3>Finanzas y Acuerdos Legales</h3>
+                    <h3>Finanzas y Monetización</h3>
 
-                    <div class="form-group">
-                        <label>¿Cuánto cobrarás por este itinerario digital?</label>
-                        <input type="number" id="precio-itinerario" placeholder="Ej: 30000" required>
+                    <div class="info-box" style="background: #fff3e0; color: #e65100; border-color: #ff9800;">
+                        <p style="margin:0;">Mot Mot se encarga de publicar tu ruta, conseguir los clientes, cobrar con tarjeta/PSE y dar el soporte de la plataforma. <b>Tú, como creador de la inteligencia del viaje, te llevas el 50% de cada venta generada, sin hacer nada más.</b></p>
                     </div>
 
-                    <div class="checkbox-group">
+                    <div class="form-group">
+                        <label>¿En cuánto quieres vender el acceso a esta ruta digital? (COP)</label>
+                        <input type="number" id="precio-itinerario" placeholder="Ej: 30000" required oninput="calcularGanancia()">
+                    </div>
+
+                    <div class="calculadora-ganancia" id="box-ganancia" style="display:none;">
+                        Tus ganancias serán de: <strong style="color:var(--turquesa); font-size:1.2em;" id="resultado-ganancia">$0</strong> por cada persona que compre tu guía.
+                    </div>
+
+                    <div class="checkbox-group" style="margin-top:20px;">
                         <input type="checkbox" id="acepto-terminos" required>
-                        <label for="acepto-terminos">Juro que la información que brindo es real y autorizo a Mot Mot a curar y publicar este itinerario.</label>
+                        <label for="acepto-terminos">Juro que la información, fotos y tips que brindo son de mi autoría o tengo los derechos, y autorizo a Mot Mot a curar y comercializar este itinerario bajo el esquema 50/50.</label>
                     </div>
 
                     <div style="overflow: auto; margin-top: 30px;">
                         <button type="button" class="btn-nav btn-prev" onclick="prevStep(5, 4)">⬅ Atrás</button>
-                        <button type="button" class="btn-enviar" onclick="enviarFormulario()">Enviar a Curaduría 🚀</button>
+                        <button type="button" class="btn-enviar" onclick="enviarFormulario()">Enviar para Revisión 🚀</button>
                     </div>
                 </div>
 
@@ -201,20 +238,17 @@
     </div>
 
     <script>
-        // 1. Lógica para avanzar de paso
+        // 1. Lógica para avanzar/retroceder
         function nextStep(current, next) {
-            // Ocultar paso actual
             document.getElementById('step-' + current).classList.remove('active');
             document.getElementById('ind-' + current).classList.remove('active');
             document.getElementById('ind-' + current).classList.add('completed');
             
-            // Mostrar siguiente paso
             document.getElementById('step-' + next).classList.add('active');
             document.getElementById('ind-' + next).classList.add('active');
-            window.scrollTo(0, 0); // Sube la pantalla arriba
+            window.scrollTo(0, 0);
         }
 
-        // 2. Lógica para retroceder de paso
         function prevStep(current, prev) {
             document.getElementById('step-' + current).classList.remove('active');
             document.getElementById('ind-' + current).classList.remove('active');
@@ -225,63 +259,134 @@
             window.scrollTo(0, 0);
         }
 
-        // 3. Lógica para las Etiquetas
-        let etiquetasSeleccionadas = [];
-        function toggleTag(element) {
-            const tagText = element.innerText;
-            if(element.classList.contains('selected')) {
-                element.classList.remove('selected');
-                etiquetasSeleccionadas = etiquetasSeleccionadas.filter(t => t !== tagText);
-            } else {
-                if(etiquetasSeleccionadas.length >= 3) {
-                    alert('Solo puedes elegir hasta 3 etiquetas');
-                    return;
-                }
-                element.classList.add('selected');
-                etiquetasSeleccionadas.push(tagText);
+        // 2. Lógica de Múltiples Destinos (Paso 2)
+        let destinosArray = [];
+        function agregarDestinoTag() {
+            const input = document.getElementById('input-destino');
+            const valor = input.value.trim();
+            if(valor && !destinosArray.includes(valor)) {
+                destinosArray.push(valor);
+                renderDestinos();
+                input.value = '';
             }
         }
 
-        // 4. Lógica para agregar paradas al itinerario (Paso 3)
+        function renderDestinos() {
+            const contenedor = document.getElementById('contenedor-destinos');
+            contenedor.innerHTML = '';
+            destinosArray.forEach((dest, index) => {
+                contenedor.innerHTML += `
+                    <span class="tag-rapido tag-destino">
+                        📍 ${dest} 
+                        <span style="cursor:pointer; font-weight:900; margin-left:5px;" onclick="eliminarDestino(${index})">×</span>
+                    </span>
+                `;
+            });
+        }
+
+        function eliminarDestino(index) {
+            destinosArray.splice(index, 1);
+            renderDestinos();
+        }
+
+        // 3. Preparar Línea de tiempo al pasar al Paso 3
+        let timelineGenerada = false;
         let contadorParadas = 0;
-        function agregarParada() {
+
+        function prepararPaso3() {
+            if(destinosArray.length === 0) {
+                alert("Por favor, agrega al menos un destino en tu ruta.");
+                return;
+            }
+            
+            // Si es la primera vez que entra al paso 3, genera paradas por cada destino
+            if(!timelineGenerada) {
+                const contenedor = document.getElementById('timeline-paradas');
+                contenedor.innerHTML = '';
+                destinosArray.forEach(dest => {
+                    agregarParadaVacia(dest);
+                });
+                timelineGenerada = true;
+            }
+            nextStep(2, 3);
+        }
+
+        // 4. Agregar Paradas a la Línea de Tiempo
+        function agregarParadaVacia(nombrePredeterminado = "") {
             contadorParadas++;
-            const contenedor = document.getElementById('lista-paradas');
+            const contenedor = document.getElementById('timeline-paradas');
             const div = document.createElement('div');
-            div.className = 'dynamic-item';
+            div.className = 'timeline-item';
             div.id = `parada-${contadorParadas}`;
             
             div.innerHTML = `
-                <div class="form-group" style="margin-bottom:10px;">
-                    <label>Nombre del Lugar / Actividad</label>
-                    <input type="text" placeholder="Ej: Mirador de las Estrellas">
+                <div class="timeline-header">
+                    <input type="text" placeholder="Nombre del lugar o actividad..." value="${nombrePredeterminado}">
+                    <button type="button" class="btn-delete" onclick="eliminarParadaTimeline(${contadorParadas})">🗑️ Quitar</button>
                 </div>
-                <div class="form-group" style="margin-bottom:10px;">
-                    <label>Tu Tip Secreto o Info clave</label>
-                    <textarea rows="2" placeholder="Ej: Vayan a las 5 PM para ver el atardecer..."></textarea>
+                
+                <div style="display:grid; grid-template-columns: 1fr 2fr; gap:15px; margin-bottom:15px;">
+                    <div>
+                        <label style="font-size:0.8em;">Sube una Foto 📸</label>
+                        <div class="foto-preview" onclick="document.getElementById('foto-parada-${contadorParadas}').click()">
+                            <span>+ Tocar para subir</span>
+                        </div>
+                        <input type="file" id="foto-parada-${contadorParadas}" style="display:none;" accept="image/*" onchange="previewFoto(this, ${contadorParadas})">
+                    </div>
+                    <div>
+                        <label style="font-size:0.8em;">¿Qué hacer aquí? / Tip Experto 💡</label>
+                        <textarea rows="4" style="height:120px;" placeholder="Ej: Pidan el café de la casa. Vayan a las 5pm para ver el atardecer. Escondan sus cosas de valor..."></textarea>
+                    </div>
                 </div>
-                <button type="button" class="btn-delete" onclick="eliminarParada(${contadorParadas})">X Eliminar Parada</button>
+
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="font-size:0.8em;">Link útil (Google Maps, Instagram del lugar, etc) 🔗</label>
+                    <input type="url" placeholder="https://maps.google.com/...">
+                </div>
             `;
             contenedor.appendChild(div);
         }
 
-        function eliminarParada(id) {
+        function eliminarParadaTimeline(id) {
             const elemento = document.getElementById(`parada-${id}`);
             elemento.remove();
         }
 
-        // Simulación de envío (luego conectaremos Firebase)
+        // Vista previa de la foto en la línea de tiempo
+        function previewFoto(input, id) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewDiv = input.previousElementSibling;
+                    previewDiv.innerHTML = `<img src="${e.target.result}">`;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 5. Calculadora de Finanzas (50%)
+        function calcularGanancia() {
+            const precio = document.getElementById('precio-itinerario').value;
+            const box = document.getElementById('box-ganancia');
+            const resultado = document.getElementById('resultado-ganancia');
+            
+            if(precio > 0) {
+                const ganancia = precio * 0.5;
+                // Formatear a pesos colombianos
+                resultado.innerText = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(ganancia);
+                box.style.display = 'block';
+            } else {
+                box.style.display = 'none';
+            }
+        }
+
+        // Simulación Envío
         function enviarFormulario() {
             if(!document.getElementById('acepto-terminos').checked) {
                 alert("Debes aceptar los términos y condiciones.");
                 return;
             }
-            alert("¡Formulario de Viajero listo! Todo fluye perfectamente. El siguiente paso será conectar este botón a tu Firebase.");
-        }
-
-        // Agregar una parada vacía al iniciar para que no se vea pelado
-        window.onload = function() {
-            agregarParada();
+            alert("¡Formulario súper completo listo! Con línea de tiempo, fotos, links y riesgos. Siguiente paso: Conectar todo esto a la base de datos.");
         }
     </script>
 </body>
