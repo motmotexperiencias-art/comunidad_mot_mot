@@ -152,6 +152,9 @@
                                 <label><input type="radio" name="chk_pernocta" value="si" onchange="evaluarChecklist()"> Sí</label>
                                 <label><input type="radio" name="chk_pernocta" value="no" onchange="evaluarChecklist()" checked> No</label>
                             </div>
+                            <div id="alerta-legal-pernocta" style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85em; font-weight: bold; display: none;">
+                                ⚠️ ALTO: Para ofrecer servicio de hospedaje debes contar con RNT. Por favor, adjunta el RNT de tu hospedaje más abajo.
+                            </div>
                         </div>
 
                         <div class="check-pregunta">
@@ -813,13 +816,25 @@
             const inputFechaRnt = document.getElementById('fecha-rnt');
             const selectTipo = document.getElementById('tipo-guia').value;
 
+            // Alerta visual de pernoctación
+            const alertaPernocta = document.getElementById('alerta-legal-pernocta');
+            if(alertaPernocta) {
+                alertaPernocta.style.display = (pernocta === 'si') ? 'block' : 'none';
+            }
+
             if(pernocta === 'si' || selectTipo === 'alojamiento' || selectTipo === 'anfitrion_experto' || selectTipo === 'agencia_operadora') {
                 cajaDocRnt.style.display = 'block';
                 inputRnt.setAttribute('required', 'true');
                 cajaRntNumero.style.display = 'flex';
                 inputRntNumero.setAttribute('required', 'true');
                 inputFechaRnt.setAttribute('required', 'true');
-                inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Hospedaje con Experiencia)" : "Ej: 12345 (RNT de la Experiencia o Actividad)";
+                
+                // Textos dinámicos del RNT
+                const esHospedaje = (selectTipo === 'alojamiento' || pernocta === 'si');
+                inputRntNumero.placeholder = esHospedaje ? "Ej: 12345 (RNT de Hospedaje con Experiencia)" : "Ej: 12345 (RNT de la Experiencia o Actividad Turística)";
+                const lblRnt = document.getElementById('lbl-doc-rnt');
+                if(lblRnt) lblRnt.innerText = esHospedaje ? "3. Soporte RNT Físico / Digital (RNT de Hospedaje) *" : "3. Soporte RNT Físico / Digital (De la actividad o experiencia turística que ofreces) *";
+
             } else {
                 cajaDocRnt.style.display = 'none';
                 inputRnt.removeAttribute('required');
@@ -1036,9 +1051,11 @@
                     cajaRntNumero.style.display = 'flex';
                     inputRntNumero.setAttribute('required', 'true');
                     inputFechaRnt.setAttribute('required', 'true');
-                    inputRntNumero.placeholder = "Ej: 12345 (RNT de Operador)";
+                    inputRntNumero.placeholder = "Ej: 12345 (RNT de la Experiencia o Actividad Turística)";
                     cajaDocRnt.style.display = 'block';
                     inputRntFile.setAttribute('required', 'true');
+                    const lblRnt = document.getElementById('lbl-doc-rnt');
+                    if(lblRnt) lblRnt.innerText = "3. Soporte RNT Físico / Digital (De la actividad o experiencia turística que ofreces) *";
                     
                     document.getElementById('btn-paso1-next').classList.remove('btn-disabled');
                     document.getElementById('btn-paso1-next').onclick = () => avanzarDesdePaso1();
@@ -1046,13 +1063,6 @@
                     cajaPreguntaAventura.style.display = 'block'; // Mostrar pregunta de aventura a Experto y Alojamiento
                     window.toggleAventuraDocs();
                     cajaChecklistAnfitrion.style.display = 'block';
-                    
-                    cajaRntNumero.style.display = 'flex';
-                    inputRntNumero.setAttribute('required', 'true');
-                    inputFechaRnt.setAttribute('required', 'true');
-                    inputRntNumero.placeholder = selectTipo === 'alojamiento' ? "Ej: 12345 (RNT de Hospedaje con Experiencia)" : "Ej: 12345 (RNT de la Experiencia o Actividad)";
-                    cajaDocRnt.style.display = 'block';
-                    inputRntFile.setAttribute('required', 'true');
                     
                     window.evaluarChecklist();
                 }
@@ -1352,6 +1362,7 @@
                 let urlDocId = "", urlDocRut = "", urlDocRnt = "", urlDocCamara = "", urlDocOtros = "", urlDocAlimentos = "", urlDocAventura = "";
                 let urlSelloPolicia = "", urlSelloProcuraduria = "", urlSelloEspacio = "";
 
+                // Solo pide Rut y CC al inicio a los que cobran. Al gratis solo le pide el ID y ya está validado arriba.
                 if(selectTipo !== 'anfitrion_aficionado') {
                     btn.innerText = "SUBIENDO DOCUMENTOS LEGALES...";
                     
