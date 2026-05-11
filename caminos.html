@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Gran Ruta - Mot Mot Experiencias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #111111; --gris-fondo: #fcfcfc; --gris-borde: #e5e5e5; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--gris-fondo); margin: 0; padding: 0; color: var(--negro); }
+        
+        /* Navegación */
+        .nav-perfil { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gris-borde); position: sticky; top: 0; z-index: 100;}
+        .nav-logo { height: 35px; cursor: pointer; }
+        .nav-links a { text-decoration: none; color: var(--negro); font-weight: 800; text-transform: uppercase; margin-left: 20px; transition: 0.2s; font-size: 0.85em; letter-spacing: 1px;}
+        .nav-links a:hover { color: var(--naranja); }
+
+        /* Cabecera Hero - EL ESTANDARTE DE AUTORIDAD */
+        .hero-catalog { background: var(--negro); color: white; padding: 80px 20px 100px; text-align: center; position: relative;}
+        .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto;}
+        .hero-catalog h1 { font-size: 3.5em; font-weight: 900; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: -1px; color: var(--naranja);}
+        .hero-catalog p { font-size: 1.2em; color: #ccc; line-height: 1.6; margin: 0 0 40px 0; font-weight: 400;}
+
+        /* Panel Dinámico - EL CONCIERGE DE RUTA */
+        .logistica-panel { background: #1a1a1a; border: 1px solid #333; padding: 35px; border-radius: 4px; text-align: left; max-width: 700px; margin: -50px auto 50px; position: relative; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.2);}
+        .logistica-panel label { display: block; font-weight: 900; font-size: 1em; text-transform: uppercase; margin-bottom: 5px; color: #fff; letter-spacing: 1px; text-align: center;}
+        .logistica-panel p.sub-label { text-align: center; color: #888; font-size: 0.85em; margin-bottom: 25px; font-weight: 300;}
+        
+        .select-group { display: flex; gap: 15px; margin-bottom: 15px;}
+        .select-group select { flex: 1; padding: 15px; background: #222; border: 1px solid #444; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.9em; font-weight: 700; cursor: pointer; outline: none; border-radius: 0; appearance: none;}
+        .select-group optgroup { font-weight: 900; color: var(--turquesa); background: #111;}
+        
+        #resultado-logistica { display: none; background: transparent; padding: 20px 0 0 0; border-top: 1px dashed #444; font-size: 0.95em; line-height: 1.6; color: #ddd; animation: fadeIn 0.4s ease;}
+        #resultado-logistica strong { color: var(--naranja); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Contenedor Principal */
+        .container { max-width: 1200px; margin: 0 auto 50px; padding: 0 20px; }
+
+        /* Filtros por Tipo de Actividad */
+        .filtros-tipo { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap;}
+        .btn-filtro { background: transparent; border: 2px solid var(--negro); padding: 12px 25px; font-weight: 800; color: var(--negro); cursor: pointer; transition: 0.2s; text-transform: uppercase; font-size: 0.85em; letter-spacing: 1px;}
+        .btn-filtro:hover { background: var(--negro); color: white; }
+        .btn-filtro.activo { background: var(--naranja); border-color: var(--naranja); color: white; }
+
+        /* Grilla de Caminos */
+        .grid-caminos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+        
+        /* Tarjetas de Rutas */
+        .ruta-card { background: white; border: 1px solid var(--gris-borde); transition: 0.3s; position: relative; cursor: pointer; display: flex; flex-direction: column;}
+        .ruta-card:hover { border-color: var(--negro); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05);}
+        .ruta-img { width: 100%; height: 200px; object-fit: cover; transition: 0.3s;}
+        
+        .ruta-badge { position: absolute; top: 15px; right: 15px; background: var(--negro); color: white; padding: 5px 10px; font-weight: 800; font-size: 0.65em; text-transform: uppercase; letter-spacing: 1px;}
+        .ruta-badge.trekking { background: var(--naranja); }
+        .ruta-badge.hiking { background: var(--turquesa); }
+        
+        .ruta-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1;}
+        .ruta-origen { font-size: 0.75em; font-weight: 800; color: var(--naranja); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;}
+        .ruta-titulo { font-size: 1.2em; font-weight: 900; margin: 0 0 20px 0; color: var(--negro); line-height: 1.3; text-transform: uppercase;}
+        
+        .btn-entrar { margin-top: auto; background: transparent; color: var(--negro); border: 2px solid var(--negro); padding: 12px; width: 100%; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.2s; font-size: 0.8em; letter-spacing: 1px;}
+        .ruta-card:hover .btn-entrar { background: var(--negro); color: white; }
+
+        /* EL ENGAÑO ESTRATÉGICO: Territorios en Exploración */
+        .exploracion-section { background: var(--negro); color: white; padding: 80px 20px; text-align: center; margin-top: 80px;}
+        .exploracion-section h2 { font-size: 2.5em; font-weight: 900; margin: 0 0 10px 0; text-transform: uppercase; color: var(--turquesa);}
+        .exploracion-section p { color: #aaa; margin-bottom: 40px; font-size: 1.1em;}
+        .exploracion-grid { display: flex; justify-content: center; gap: 30px; max-width: 1000px; margin: 0 auto; flex-wrap: wrap;}
+        
+        .card-exploracion { background: #111; border: 1px solid #333; padding: 20px; border-radius: 4px; max-width: 320px; text-align: left; opacity: 0.8;}
+        .img-exploracion { width: 100%; height: 180px; object-fit: cover; filter: grayscale(100%); opacity: 0.6; margin-bottom: 15px; border-radius: 2px;}
+        .card-exploracion h4 { margin: 0 0 15px 0; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px;}
+        
+        .btn-avisame { display: block; width: 100%; background: transparent; color: var(--naranja); border: 1px solid var(--naranja); padding: 12px; font-weight: 800; text-transform: uppercase; font-size: 0.75em; cursor: pointer; transition: 0.2s; letter-spacing: 1px;}
+        .btn-avisame:hover { background: var(--naranja); color: var(--negro);}
+
+        @media (max-width: 768px) {
+            .hero-catalog h1 { font-size: 2.2em; }
+            .select-group { flex-direction: column; gap: 10px; }
+            .btn-filtro { width: 100%; text-align: center; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-perfil">
+        <img src="https://www.motmotexperiencias.com/wp-content/uploads/2023/08/cropped-Logo-foto-de-perfil-instagram.png" class="nav-logo" onclick="window.location.href='index.html'">
+        <div class="nav-links">
+            <a href="perfil.html">Mi Perfil</a>
+        </div>
+    </nav>
+
+    <header class="hero-catalog">
+        <div class="hero-content">
+            <h1>Especialistas en el Cañón del Chicamocha</h1>
+            <p>La Gran Ruta: Etapas maestras para dominar el segundo cañón más grande del mundo. Kilómetros de historia, altimetría exacta y control total del territorio.</p>
+        </div>
+    </header>
+
+    <div class="logistica-panel">
+        <label>📍 Concierge de Ruta: Diseñamos tu llegada</label>
+        <p class="sub-label">Cuéntanos desde dónde viajas para optimizar tu logística de transporte y evitar contratiempos.</p>
+        <div class="select-group">
+            <select id="ciudad-origen" onchange="calcularRuta()">
+                <option value="" disabled selected>1. ¿De dónde vienes?</option>
+                <optgroup label="Nacional">
+                    <option value="bogota">Bogotá D.C.</option>
+                    <option value="medellin">Medellín / Eje Cafetero</option>
+                    <option value="sur">Cali / Popayán / Pasto</option>
+                    <option value="costa">Cartagena / Santa Marta / Barranquilla</option>
+                </optgroup>
+                <optgroup label="Local / Regional">
+                    <option value="mompox">Mompox / Magdalena Medio</option>
+                    <option value="bucaramanga">Bucaramanga (Capital)</option>
+                    <option value="sangil">San Gil / Socorro</option>
+                </optgroup>
+                <optgroup label="Exterior">
+                    <option value="internacional">Fuera de Colombia</option>
+                </optgroup>
+            </select>
+
+            <select id="ciudad-destino" onchange="calcularRuta()">
+                <option value="" disabled selected>2. ¿A qué destino Mot Mot vas?</option>
+                <option value="barichara">Barichara / Guane / Villanueva</option>
+                <option value="zapatoca">Zapatoca</option>
+                <option value="chicamocha">Cañón del Chicamocha (Jordán/Los Santos)</option>
+                <option value="bucaramanga_dest">Bucaramanga</option>
+            </select>
+        </div>
+        <div id="resultado-logistica"></div>
+    </div>
+
+    <div class="container">
+        
+        <div class="filtros-tipo">
+            <button class="btn-filtro activo" onclick="filtrar('todas', this)">Todas las Rutas</button>
+            <button class="btn-filtro" onclick="filtrar('walking', this)">Walking</button>
+            <button class="btn-filtro" onclick="filtrar('hiking', this)">Hiking</button>
+            <button class="btn-filtro" onclick="filtrar('trekking', this)">Trekking</button>
+        </div>
+
+        <div class="grid-caminos" id="grid-rutas">
+            <div class="ruta-card" data-tipo="walking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge">Walking</div>
+                <img src="https://images.unsplash.com/photo-1518182170546-076616fdfaaf?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Free Walking Tour Barichara">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Barichara</span>
+                    <h3 class="ruta-titulo">Free Walking Tour Barichara</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="walking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge">Walking</div>
+                <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Walking Tour Barichara">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Barichara</span>
+                    <h3 class="ruta-titulo">Walking Tour Barichara</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="walking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge">Walking</div>
+                <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Free Walking Tour Bucaramanga">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Bucaramanga</span>
+                    <h3 class="ruta-titulo">Free Walking Tour Bucaramanga</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="walking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge">Walking</div>
+                <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Walking Tour Bucaramanga">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Bucaramanga</span>
+                    <h3 class="ruta-titulo">Walking Tour Bucaramanga</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="walking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge">Walking</div>
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Walking Tour Zapatoca">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Zapatoca</span>
+                    <h3 class="ruta-titulo">Walking Tour Zapatoca</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">Etapa 1</div>
+                <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour Zapatoca La Fuente">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Zapatoca ⇄ La Fuente</span>
+                    <h3 class="ruta-titulo">Hiking Tour Zapatoca a La Fuente</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">Etapa 2</div>
+                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour La Fuente Guane">
+                <div class="ruta-info">
+                    <span class="ruta-origen">La Fuente ⇄ Guane</span>
+                    <h3 class="ruta-titulo">Hiking Tour La Fuente a Guane</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">Etapa 3</div>
+                <img src="https://images.unsplash.com/photo-1605235456089-289f6d628eb5?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour Guane Barichara">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Guane ⇄ Barichara</span>
+                    <h3 class="ruta-titulo">Hiking Tour Guane a Barichara</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">Ancestral</div>
+                <img src="https://images.unsplash.com/photo-1518182170546-076616fdfaaf?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Camino Real Guane Barichara">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Guane ⇄ Barichara</span>
+                    <h3 class="ruta-titulo">Camino Real Ancestral</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">Etapa 4</div>
+                <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Barichara Villanueva">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Barichara ⇄ Villanueva</span>
+                    <h3 class="ruta-titulo">Barichara a Villanueva</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">Los Templados</div>
+                <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour Barichara Cabrera">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Barichara ⇄ Cabrera</span>
+                    <h3 class="ruta-titulo">Ruta Los Templados</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">La Peña</div>
+                <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Barichara Cabrera">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Barichara ⇄ Cabrera</span>
+                    <h3 class="ruta-titulo">Ruta La Peña</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="hiking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge hiking">Hiking</div>
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Zapatoca Guane">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Zapatoca ⇄ Guane</span>
+                    <h3 class="ruta-titulo">Hiking Zapatoca a Guane</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+
+            <div class="ruta-card" data-tipo="trekking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge trekking">Etapa 5</div>
+                <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Villanueva Jordán">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Villanueva ⇄ Jordán</span>
+                    <h3 class="ruta-titulo">Villanueva a Jordán</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="trekking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge trekking">Etapa 6</div>
+                <img src="https://images.unsplash.com/photo-1605235456089-289f6d628eb5?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Jordán Los Santos">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Jordán ⇄ Los Santos</span>
+                    <h3 class="ruta-titulo">Jordán a Los Santos</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+            <div class="ruta-card" data-tipo="trekking" onclick="abrirMotorExpedicion()">
+                <div class="ruta-badge trekking">Fase 1 (Etapas 1-6)</div>
+                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Travesía Majestuosa">
+                <div class="ruta-info">
+                    <span class="ruta-origen">Zapatoca ➔ Los Santos</span>
+                    <h3 class="ruta-titulo">Travesía Majestuosa Completa</h3>
+                    <button class="btn-entrar">Explorar Ruta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="exploracion-section">
+        <h2>Territorios en Exploración</h2>
+        <p>Nuevas rutas en fase de mapeo táctico y desarrollo. El dominio sigue creciendo.</p>
+        
+        <div class="exploracion-grid">
+            <div class="card-exploracion">
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=800" class="img-exploracion" alt="Ruta Alta Montaña">
+                <h4>Expedición Alta Montaña</h4>
+                <button class="btn-avisame" onclick="alert('Abriendo formulario para unirse a la lista de espera...')">Avísame cuando esté lista</button>
+            </div>
+            
+            <div class="card-exploracion">
+                <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=800" class="img-exploracion" alt="Pueblos Ocultos">
+                <h4>Ruta: Los Pueblos Ocultos</h4>
+                <button class="btn-avisame" onclick="alert('Abriendo formulario para unirse a la lista de espera...')">Avísame cuando esté lista</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // MATRIZ INTELIGENTE DE LOGÍSTICA
+        const logistica = {
+            'bogota': {
+                'barichara': '<strong>✈️ Vuelo + Bus:</strong> Vuelo a Bucaramanga (45m) + Bus a San Gil (2.5h) + Colectivo a Barichara.<br><strong>🚌 Solo Bus:</strong> Bus nocturno Terminal Salitre directo a San Gil (6-7h) + Colectivo a Barichara.',
+                'zapatoca': '<strong>✈️ Vuelo + Bus:</strong> Vuelo a Bucaramanga (45m) + Colectivo de Bucaramanga a Zapatoca (2h).<br><strong>🚌 Solo Bus:</strong> Bus a Bucaramanga (9h) + Colectivo a Zapatoca.',
+                'chicamocha': '<strong>🚌 Terrestre:</strong> Bus nocturno desde Bogotá hacia Bucaramanga, pidiendo parada en Pescadero o Los Santos dependiendo de tu etapa de inicio.',
+                'bucaramanga_dest': '<strong>✈️ Vuelo:</strong> Conexión directa diaria (45 min) a BGA.<br><strong>🚌 Terrestre:</strong> Bus directo (aprox. 9 horas).'
+            },
+            'medellin': {
+                'barichara': '<strong>✈️ Avión (Recomendado):</strong> Vuelo directo a Bucaramanga (BGA). Desde la terminal toma bus a San Gil (2.5h) y luego a Barichara.<br><strong>🚌 Bus:</strong> Ruta de unas 10 horas hasta Bucaramanga.',
+                'zapatoca': '<strong>✈️ Avión (Recomendado):</strong> Vuelo directo a Bucaramanga (BGA). Desde la ciudad tomas el transporte local a Zapatoca (2 horas).',
+                'chicamocha': '<strong>✈️ Vuelo:</strong> Vuela a Bucaramanga (BGA) y baja terrestre hacia la Mesa de Los Santos o Aratoca.',
+                'bucaramanga_dest': '<strong>✈️ Vuelo:</strong> Conexión directa diaria al Aeropuerto Palonegro (BGA).'
+            },
+            'sur': {
+                'barichara': '<strong>✈️ Vuelo con Escala:</strong> Vuela Cali/Pasto -> Bogotá -> Bucaramanga (BGA). Luego terrestre hacia San Gil y Barichara.',
+                'zapatoca': '<strong>✈️ Vuelo con Escala:</strong> Vuela Cali/Pasto -> Bogotá -> Bucaramanga (BGA). Luego terrestre hacia Zapatoca (2h).',
+                'chicamocha': '<strong>✈️ Vuelo con Escala:</strong> Vuela a Bucaramanga (BGA) vía Bogotá, y coordina transporte hacia el Cañón.',
+                'bucaramanga_dest': '<strong>✈️ Vuelo:</strong> Necesitarás hacer escala en Bogotá o Medellín para llegar a BGA.'
+            },
+            'costa': {
+                'barichara': '<strong>✈️ Vuelo:</strong> Vuelo directo Cartagena/Marta a Bucaramanga (BGA). Luego bus hacia el sur (San Gil/Barichara). ¡Ahorra energía para caminar!',
+                'zapatoca': '<strong>✈️ Vuelo:</strong> Vuelo directo a Bucaramanga (BGA) + Colectivo local de 2h a Zapatoca.',
+                'chicamocha': '<strong>✈️ Vuelo:</strong> Llega a Bucaramanga (BGA) y dirígete al sur hacia la entrada del Cañón.',
+                'bucaramanga_dest': '<strong>✈️ Vuelo:</strong> Vuelos directos disponibles desde la Costa Atlántica a BGA.'
+            },
+            'mompox': {
+                'barichara': '<strong>🚌 Ruta Terrestre:</strong> Salida a la Troncal del Magdalena, conecta con San Alberto y sube a Bucaramanga. Desde allí, bus a San Gil y Barichara.',
+                'zapatoca': '<strong>🚌 Ruta Terrestre:</strong> Por la Troncal hacia Bucaramanga o Girón, y luego vía a Zapatoca.',
+                'chicamocha': '<strong>🚌 Ruta Terrestre:</strong> Llega a Bucaramanga y baja hacia Pescadero/Los Santos.',
+                'bucaramanga_dest': '<strong>🚌 Ruta Terrestre:</strong> Aprox 6-8 horas dependiendo del estado de la vía del Magdalena Medio.'
+            },
+            'bucaramanga': {
+                'barichara': '<strong>🚌 Colectivo/Bus:</strong> Ve a "Papi Quiero Piña" o la Terminal. Toma bus a San Gil (2.5h) y empalma con el bus de Barichara (45m).',
+                'zapatoca': '<strong>🚌 Colectivo Directo:</strong> Desde la terminal o paraderos locales en Floridablanca, hay transporte directo a Zapatoca (aprox. 2 horas).',
+                'chicamocha': '<strong>🚌 Transporte:</strong> Dependiendo del inicio, puedes tomar vía a Pescadero o subir a la Mesa de Los Santos (Teleférico).',
+                'bucaramanga_dest': '📍 ¡Ya estás en el punto de partida! Prepárate para el tour local.'
+            },
+            'sangil': {
+                'barichara': '<strong>🚌 Terminalito:</strong> Salen colectivos a Barichara / Villanueva cada 30 minutos. El trayecto dura unos 45 mins.',
+                'zapatoca': '<strong>🚙 Terrestre:</strong> Vía San Vicente de Chucurí o regresando por Bucaramanga (Ruta más asfaltada).',
+                'chicamocha': '<strong>🚌 Hacia el Norte:</strong> Toma cualquier bus rumbo a Bucaramanga y pide parada en Aratoca o Pescadero.',
+                'bucaramanga_dest': '<strong>🚌 Bus:</strong> Buses constantes hacia Bucaramanga (Aprox. 2.5 horas).'
+            },
+            'internacional': {
+                'barichara': '<strong>✈️ Conexión:</strong> Vuelo a Bogotá (BOG) + Vuelo a Bucaramanga (BGA). Desde allí, transfer terrestre a Barichara.',
+                'zapatoca': '<strong>✈️ Conexión:</strong> Vuelo a Bogotá (BOG) + Vuelo a Bucaramanga (BGA). Luego transfer local a Zapatoca.',
+                'chicamocha': '<strong>✈️ Conexión:</strong> Entra por Bogotá o Medellín y haz conexión al Aeropuerto de Bucaramanga (BGA).',
+                'bucaramanga_dest': '<strong>✈️ Conexión:</strong> Vuelo a Colombia (BOG/MDE/PTY) y conexión final al Aeropuerto Palonegro (BGA).'
+            }
+        };
+
+        function calcularRuta() {
+            const origen = document.getElementById('ciudad-origen').value;
+            const destino = document.getElementById('ciudad-destino').value;
+            const cajaResultado = document.getElementById('resultado-logistica');
+
+            if(origen && destino) {
+                const mensaje = logistica[origen][destino] || "Ruta en validación. Contáctanos para detalles exactos.";
+                cajaResultado.innerHTML = "<strong>Hoja de Ruta Recomendada:</strong><br><br>" + mensaje;
+                cajaResultado.style.display = 'block';
+            } else {
+                cajaResultado.style.display = 'none';
+            }
+        }
+
+        // Lógica actualizada para filtrar por TIPO DE ACTIVIDAD
+        function filtrar(tipo, botonPulsado) {
+            document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
+            botonPulsado.classList.add('activo');
+
+            const tarjetas = document.querySelectorAll('.ruta-card');
+            tarjetas.forEach(tarjeta => {
+                if (tipo === 'todas' || tarjeta.getAttribute('data-tipo') === tipo) {
+                    tarjeta.style.display = 'flex';
+                } else {
+                    tarjeta.style.display = 'none';
+                }
+            });
+        }
+
+        function abrirMotorExpedicion() {
+            alert("Siguiente paso: Cargar el mapa inmersivo de la expedición en su página individual.");
+        }
+    </script>
+</body>
+</html>
