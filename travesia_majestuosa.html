@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MOT MOT - Travesía Majestuosa</title>
-    <!-- Bibliotecas externas -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -17,7 +16,8 @@
         :root { 
             --orange: #DE4F32; 
             --teal: #87C5C8; 
-            --dark: #020617; 
+            --dark: #020617;
+            --scroll-bob: 0px; 
         }
         
         body { 
@@ -40,7 +40,7 @@
         
         /* Sección Mapa: Estable y Responsivo */
         .map-section { 
-            height: 45vh; /* Un poco más de altura en móvil para ver bien el mapa */
+            height: 45vh;
             width: 100%; 
             position: relative; 
             background: #EBE5D9; 
@@ -62,6 +62,7 @@
         }
         .content-section::-webkit-scrollbar { display: none; }
 
+        /* Las tarjetas obligan al scroll a engancharse aquí (snap) */
         .stage-card { 
             scroll-snap-align: start; 
             min-height: 55vh; 
@@ -72,6 +73,13 @@
             position: relative;
         }
         @media (min-width: 1024px) { .stage-card { min-height: 100vh; padding: 10% 12%; } }
+
+        /* Modal de Guía (Scroll independiente) */
+        .guide-scroll {
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--orange) rgba(255,255,255,0.1);
+        }
 
         /* Efectos Visuales del SVG */
         .active-glow { filter: drop-shadow(0 0 6px rgba(222, 79, 50, 0.7)); }
@@ -86,6 +94,15 @@
         .fade-up { transition: all 0.8s ease-out; }
         .is-hidden { opacity: 0; transform: translateY(30px); filter: blur(5px); }
         .is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+        
+        /* Select personalizado para las rutas */
+        .route-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
     </style>
 </head>
 <body>
@@ -94,71 +111,91 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        /* Datos precisos del mapa ajustados a la Imagen 3 */
-        const routeData = [
+        /* DATOS BASE DE LOS NODOS (Sin acumulados, las distancias son por segmento) */
+        const baseNodes = [
             { 
-                id: 'zapatoca', level: 1, title: "Zapatoca", subtitle: "Ciudad Levítica", 
-                alt: 1787, dist: "0km", diff: "Media-Alta", path: "Lengerke",
-                desc: "Donde el tiempo se detiene a 1.787 msnm.",
-                fullText: "Caminamos por la historia. Los senderos tallados por Lengerke nos guían en este primer contacto con la piedra santandereana.",
-                mapX: 35, mapY: 25, chartX: 0, anchor: "middle", labelY: -5, labelX: 0,
-                segmentPath: ""
+                id: 'zapatoca', title: "Zapatoca", subtitle: "Ciudad Levítica", 
+                alt: 1787, segmentDist: 0, diff: "Media-Alta", path: "Lengerke",
+                desc: "El Legado de Lengerke y el Bosque Andino.",
+                fullText: "La aventura comienza a 1.787 msnm en esta ciudad de tapia pisada. Caminamos por la historia en senderos tallados por Lengerke, atravesando un bosque andino que ofrece una transición suave hacia las condiciones más áridas del cañón.",
+                mapX: 38, mapY: 20, anchor: "middle", labelY: -5, labelX: 0
             },
             { 
-                id: 'la-fuente', level: 2, title: "La Fuente", subtitle: "Desvío Río Suárez", 
-                alt: 1270, dist: "20km", diff: "Media", path: "Comunitario",
-                desc: "Descenso técnico hacia el rumor del agua.",
-                fullText: "El Puente de Ruedas marca el punto más bajo antes de subir nuevamente. La humedad del río cambia el aroma del aire.",
-                mapX: 30, mapY: 55, chartX: 16, anchor: "end", labelX: -3, labelY: 0,
-                segmentPath: "M 35 25 Q 32 40, 30 55"
+                id: 'la-fuente', title: "La Fuente", subtitle: "Desvío Río Suárez", 
+                alt: 1270, segmentDist: 20.0, diff: "Media", path: "Comunitario",
+                desc: "El descenso técnico hacia el bosque seco tropical.",
+                fullText: "Dejamos la altura para adentrarnos en un clima más cálido. Nos preparamos para el gran descenso hacia la profundidad del Río Suárez, un tramo agreste que culmina donde la comunidad conserva prácticas agrícolas tradicionales.",
+                mapX: 20, mapY: 58, anchor: "end", labelX: -4, labelY: 1.5
             },
             { 
-                id: 'guane', level: 3, title: "Guane", subtitle: "Refugio Ancestral", 
-                alt: 885, dist: "33.8km", diff: "Baja", path: "Piedra",
-                desc: "Tierra de fósiles y silencio indígena.",
-                fullText: "Cada piedra aquí cuenta una historia de millones de años. Guane nos recibe con su plaza colonial intacta.",
-                mapX: 45, mapY: 70, chartX: 33, anchor: "end", labelX: -3, labelY: 2,
-                segmentPath: "M 30 55 Q 35 65, 45 70"
+                id: 'guane', title: "Guane", subtitle: "Refugio Ancestral", 
+                alt: 885, segmentDist: 13.8, diff: "Alta", path: "Piedra",
+                desc: "Tierra de fósiles tras superar la furia del río.",
+                fullText: "Tras cruzar el histórico Puente Lengerke sobre el paso de ruedas del Río Suárez (450 msnm) y enfrentar un fuerte ascenso, Guane nos recibe con su plaza colonial intacta, el eco de los ancestros y un merecido sabajón.",
+                mapX: 42, mapY: 72, anchor: "end", labelX: -4, labelY: 2
             },
             { 
-                id: 'barichara', level: 4, title: "Barichara", subtitle: "Pueblo de Piedra", 
-                alt: 1336, diff: "Baja", path: "Vía Real",
+                id: 'barichara', title: "Barichara", subtitle: "Pueblo de Piedra", 
+                alt: 1336, segmentDist: 6.2, diff: "Baja", path: "Vía Real",
                 desc: "El corazón amarillo de la travesía.",
-                fullText: "Arquitectura que respira. Barichara es el refugio necesario antes de enfrentar la profundidad del cañón.",
-                mapX: 55, mapY: 85, chartX: 50, anchor: "middle", labelY: 6, labelX: 0,
-                segmentPath: "M 45 70 Q 50 80, 55 85"
+                fullText: "Este tramo de 6.2 km es el Camino de Piedra Nacional. Arquitectura que respira. Barichara es el refugio necesario, logístico y reconfortante antes de enfrentar la implacable profundidad del cañón.",
+                mapX: 52, mapY: 85, anchor: "middle", labelY: 7, labelX: 0
             },
             { 
-                id: 'villanueva', level: 5, title: "Villanueva", subtitle: "Ruta del Ocre", 
-                alt: 1450, diff: "Alta", path: "Real Recuperado",
-                desc: "Cafetales y minas bajo el sol santandereano.",
-                fullText: "La tierra cambia a colores intensos. Es la última zona de frescura antes del descenso crítico.",
-                mapX: 70, mapY: 70, chartX: 66, anchor: "middle", labelY: 6, labelX: 0,
-                segmentPath: "M 55 85 Q 65 80, 70 70"
+                id: 'villanueva', title: "Villanueva", subtitle: "Ruta del Ocre", 
+                alt: 1450, segmentDist: 9.0, diff: "Baja", path: "Real Recuperado",
+                desc: "Siguiendo los pasos del Libertador entre cafetales.",
+                fullText: "La tierra cambia a colores intensos en este Camino Real de 9 km por donde transitó Simón Bolívar. Es la última zona de frescura y amabilidad local antes del descenso crítico.",
+                mapX: 68, mapY: 72, anchor: "start", labelY: 6, labelX: 3
             },
             { 
-                id: 'jordan', level: 6, title: "Jordán", subtitle: "Fondo del Abismo", 
-                alt: 425, diff: "Extrema", path: "Técnico",
-                desc: "El pueblo que el mundo olvidó.",
-                fullText: "Aquí el Chicamocha impone su ley. 35°C y el silencio más profundo de Colombia.",
-                mapX: 85, mapY: 55, chartX: 83, anchor: "middle", labelX: 0, labelY: 6,
-                segmentPath: "M 70 70 Q 78 65, 85 55"
+                id: 'jordan', title: "Jordán", subtitle: "Fondo del Abismo", 
+                alt: 425, segmentDist: 15.8, diff: "Extrema", path: "Técnico",
+                desc: "El descenso al corazón del abismo.",
+                fullText: "15.8 km de espectacular descenso. Aquí el Chicamocha impone su ley. 35°C y el silencio más profundo de Colombia en el 'pueblo fantasma'. El calor es asfixiante, pero el paisaje es sublime.",
+                mapX: 85, mapY: 55, anchor: "middle", labelX: 0, labelY: 7
             },
             { 
-                id: 'los-santos', level: 7, title: "Los Santos", subtitle: "El Gran Muro", 
-                alt: 1310, diff: "Alta", path: "El Muro",
-                desc: "La conquista vertical del Geoparque.",
-                fullText: "1.000 metros de ascenso directo. Coronar la Mesa de Los Santos es el premio final a la resistencia.",
-                mapX: 80, mapY: 40, chartX: 100, anchor: "middle", labelX: 0, labelY: -4,
-                segmentPath: "M 85 55 Q 88 45, 80 40"
+                id: 'los-santos', title: "Los Santos", subtitle: "El Gran Muro", 
+                alt: 1310, segmentDist: 5.7, diff: "Alta", path: "El Muro",
+                desc: "La conquista vertical final del Geoparque.",
+                fullText: "5.7 km de ascenso directo en zigzag. 1.000 metros de desnivel. Coronar la Mesa de Los Santos es el premio final a la resistencia de esta épica aventura, marcando la inmersión total en Santander.",
+                mapX: 75, mapY: 35, anchor: "middle", labelX: 0, labelY: -5
             }
         ];
 
+        /* DICCIONARIO DE TRAZOS SVG (Permite rutas inversas automáticamente) */
+        const pathSegments = {
+            'zapatoca-la-fuente': 'M 38 20 Q 30 40, 20 58',
+            'la-fuente-zapatoca': 'M 20 58 Q 30 40, 38 20',
+            'la-fuente-guane': 'M 20 58 C 30 40, 35 60, 42 72',
+            'guane-la-fuente': 'M 42 72 C 35 60, 30 40, 20 58',
+            'guane-barichara': 'M 42 72 Q 45 80, 52 85',
+            'barichara-guane': 'M 52 85 Q 45 80, 42 72',
+            'barichara-villanueva': 'M 52 85 Q 60 82, 68 72',
+            'villanueva-barichara': 'M 68 72 Q 60 82, 52 85',
+            'villanueva-jordan': 'M 68 72 Q 78 68, 85 55',
+            'jordan-villanueva': 'M 85 55 Q 78 68, 68 72',
+            'jordan-los-santos': 'M 85 55 Q 85 45, 75 35',
+            'los-santos-jordan': 'M 75 35 Q 85 45, 85 55'
+        };
+
         const App = () => {
-            const [activeIndex, setActiveIndex] = useState(0);
+            const [routeOption, setRouteOption] = useState('full-fwd');
+            const [activeIndex, setActiveIndex] = useState(0); // 0 es la Intro
             const [showModal, setShowModal] = useState(null);
+            const [showGuide, setShowGuide] = useState(false);
             const scrollRef = useRef(null);
 
+            // Resetea el scroll cuando se cambia de ruta
+            useEffect(() => {
+                setActiveIndex(0);
+                if (scrollRef.current) {
+                    scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, [routeOption]);
+
+            // Observador de Scroll para las tarjetas
             useEffect(() => {
                 const observer = new IntersectionObserver(
                     (entries) => {
@@ -167,167 +204,431 @@
                                 setActiveIndex(parseInt(entry.target.dataset.index));
                             }
                         });
-                    }, { threshold: 0.6, rootMargin: "-10% 0px -10% 0px" }
+                    }, { threshold: 0.5, rootMargin: "-10% 0px -10% 0px" }
                 );
+                
+                // Observamos todas las tarjetas (Intro, Etapas y Booking)
                 document.querySelectorAll('.stage-card').forEach(card => observer.observe(card));
                 return () => observer.disconnect();
-            }, []);
+            }, [routeOption]); // Volver a bindear si la ruta cambia
 
             useEffect(() => {
                 lucide.createIcons();
-            }, [activeIndex, showModal]);
+            }, [activeIndex, showModal, showGuide, routeOption]);
 
-            const activeNode = routeData[activeIndex];
+            // GENERADOR DINÁMICO DE LA RUTA
+            const getCurrentRoute = () => {
+                let seq = [];
+                if (routeOption === 'full-fwd') seq = baseNodes.slice();
+                if (routeOption === 'full-rev') seq = baseNodes.slice().reverse();
+                if (routeOption === 'half-zap-bar') seq = baseNodes.slice(0, 4);
+                if (routeOption === 'half-bar-zap') seq = baseNodes.slice(0, 4).reverse();
+                if (routeOption === 'half-bar-san') seq = baseNodes.slice(3, 7);
+                if (routeOption === 'half-san-bar') seq = baseNodes.slice(3, 7).reverse();
+
+                let cum = 0;
+                return seq.map((node, i) => {
+                    if (i > 0) {
+                        const origIndex1 = baseNodes.findIndex(n => n.id === seq[i-1].id);
+                        const origIndex2 = baseNodes.findIndex(n => n.id === node.id);
+                        const isForward = origIndex1 < origIndex2;
+                        const dist = isForward ? baseNodes[origIndex2].segmentDist : baseNodes[origIndex1].segmentDist;
+                        cum += dist;
+                    }
+                    let path = "";
+                    if (i > 0) path = pathSegments[`${seq[i-1].id}-${node.id}`] || "";
+                    
+                    return {
+                        ...node,
+                        cumDistNum: cum,
+                        dist: cum.toFixed(1) + " km",
+                        displayLevel: i + 1,
+                        segmentPath: path
+                    };
+                });
+            };
+
+            const currentRoute = getCurrentRoute();
+            
+            // activeNodeIndex se encarga de que la cámara del mapa no se salga del array al ver la Intro (0) o el Booking (N+1)
+            const activeNodeIndex = Math.min(Math.max(0, activeIndex - 1), currentRoute.length - 1);
+            const activeMapNode = currentRoute[activeNodeIndex];
+
+            // Paneo de cámara
+            const panX = (50 - activeMapNode.mapX) * 0.15;
+            const panY = (50 - activeMapNode.mapY) * 0.15;
+
+            // Manejo del efecto caminata (Bobbing)
+            const handleScroll = (e) => {
+                const scrollTop = e.target.scrollTop;
+                const bobbing = Math.sin(scrollTop * 0.04) * 1.5; 
+                document.documentElement.style.setProperty('--scroll-bob', `${bobbing}px`);
+            };
+
+            // GENERADOR DINÁMICO DE LA GRÁFICA DE ALTIMETRÍA
+            const generateChartPoints = (route) => {
+                const totalDist = route[route.length - 1].cumDistNum;
+                if (totalDist === 0) return "";
+                let path = `M 0 20 `;
+                
+                route.forEach((node, i) => {
+                    const x = (node.cumDistNum / totalDist) * 100;
+                    const y = 20 - ((node.alt - 400) / 1400) * 19;
+
+                    // Inyección de la profunda caída del Río Suárez
+                    if (i > 0) {
+                        const prev = route[i-1];
+                        if ((prev.id === 'la-fuente' && node.id === 'guane') || (prev.id === 'guane' && node.id === 'la-fuente')) {
+                            const prevX = (prev.cumDistNum / totalDist) * 100;
+                            const dipX = prevX + (x - prevX) * 0.4; // Caída más cerca de La Fuente
+                            const dipY = 20 - ((450 - 400) / 1400) * 19; // Altura de 450m
+                            path += `L ${dipX.toFixed(1)} ${dipY.toFixed(1)} `;
+                        }
+                    }
+                    path += `L ${x.toFixed(1)} ${y.toFixed(1)} `;
+                });
+                path += `L 100 20 Z`;
+                return path;
+            };
+
+            const chartPath = generateChartPoints(currentRoute);
+            const totalDistanceNum = currentRoute[currentRoute.length - 1].cumDistNum;
+            const activeChartX = totalDistanceNum === 0 ? 0 : (activeMapNode.cumDistNum / totalDistanceNum) * 100;
 
             return (
                 <div className="main-container">
                     
-                    {/* IZQUIERDA: MAPA ESTABLE (Sin transformaciones raras) */}
+                    {/* IZQUIERDA: MAPA CON MOVIMIENTO DE CÁMARA */}
                     <div className="map-section shadow-[20px_0_40px_rgba(0,0,0,0.3)]">
                         <div className="absolute top-6 left-6 z-30">
                             <h1 className="font-trek text-[#DE4F32] text-2xl tracking-tighter">MOT MOT</h1>
                             <div className="h-0.5 w-12 bg-slate-800 mt-1"></div>
                         </div>
 
-                        {/* ViewBox ampliado a "-10 -10 120 120" para que no se corten las letras en los bordes */}
                         <svg viewBox="-10 -10 120 120" className="w-full h-full z-10 absolute inset-0 pt-8 pb-4">
-                            
-                            {/* 1. Líneas base tenues */}
-                            {routeData.map((node, i) => (
-                                <path key={`bg-${i}`} d={node.segmentPath} fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeDasharray="1 1" />
-                            ))}
+                            <g style={{ 
+                                transform: `translate(${panX}px, calc(${panY}px + var(--scroll-bob))) scale(1.05)`, 
+                                transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                transformOrigin: 'center'
+                            }}>
+                                {/* 1. Líneas Base (Opacas) de la ruta SELECCIONADA */}
+                                {currentRoute.map((node, i) => (
+                                    <path key={`bg-${i}`} d={node.segmentPath} fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeDasharray="1 1.5" />
+                                ))}
 
-                            {/* 2. Líneas activas animadas (Dibujo progresivo arreglado) */}
-                            {routeData.map((node, i) => (
-                                <path 
-                                    key={`active-${i}`} 
-                                    d={node.segmentPath} 
-                                    fill="none" 
-                                    stroke="#DE4F32" 
-                                    strokeWidth="1.2" 
-                                    className="path-draw"
-                                    style={{ 
-                                        opacity: i <= activeIndex ? 1 : 0, 
-                                        strokeDashoffset: i <= activeIndex ? '0' : '150' 
-                                    }}
-                                />
-                            ))}
+                                {/* 2. Líneas Activas Animadas */}
+                                {currentRoute.map((node, i) => {
+                                    // Las líneas se dibujan si el usuario ha scrolleado más allá de esa etapa
+                                    const isDrawn = i <= activeNodeIndex && activeIndex > 0;
+                                    return (
+                                        <path 
+                                            key={`active-${i}`} 
+                                            d={node.segmentPath} 
+                                            fill="none" 
+                                            stroke="#DE4F32" 
+                                            strokeWidth="1.2" 
+                                            className="path-draw"
+                                            style={{ 
+                                                opacity: isDrawn ? 1 : 0, 
+                                                strokeDashoffset: isDrawn ? '0' : '150' 
+                                            }}
+                                        />
+                                    );
+                                })}
 
-                            {/* 3. Nodos y Nombres */}
-                            {routeData.map((node, i) => (
-                                <g key={node.id}>
-                                    <circle 
-                                        cx={node.mapX} cy={node.mapY} 
-                                        r={i === activeIndex ? "2.5" : "1.2"} 
-                                        fill={i <= activeIndex ? "#DE4F32" : "#94a3b8"} 
-                                        className={`transition-all duration-700 ${i === activeIndex ? 'active-glow' : ''}`}
-                                    />
-                                    {i === activeIndex && (
-                                        <circle cx={node.mapX} cy={node.mapY} r="4" fill="#DE4F32" className="animate-ping opacity-30" />
-                                    )}
-                                    <text 
-                                        x={node.mapX + node.labelX} 
-                                        y={node.mapY + node.labelY} 
-                                        textAnchor={node.anchor}
-                                        className={`text-[3.5px] font-black uppercase tracking-tighter transition-all duration-700 ${i === activeIndex ? 'fill-slate-900 scale-100 opacity-100' : 'fill-slate-400 scale-95 opacity-50'}`}
-                                    >
-                                        {node.title}
-                                    </text>
-                                </g>
-                            ))}
+                                {/* 3. Nodos y Textos Protegidos */}
+                                {currentRoute.map((node, i) => {
+                                    const isNodeActive = i <= activeNodeIndex && activeIndex > 0;
+                                    const isCurrentNode = i === activeNodeIndex && activeIndex > 0;
+                                    
+                                    return (
+                                        <g key={node.id}>
+                                            <circle 
+                                                cx={node.mapX} cy={node.mapY} 
+                                                r={isCurrentNode ? "2.5" : "1.2"} 
+                                                fill={isNodeActive ? "#DE4F32" : "#94a3b8"} 
+                                                className={`transition-all duration-700 ${isCurrentNode ? 'active-glow' : ''}`}
+                                            />
+                                            {isCurrentNode && (
+                                                <circle cx={node.mapX} cy={node.mapY} r="4" fill="#DE4F32" className="animate-ping opacity-30" />
+                                            )}
+                                            <text 
+                                                x={node.mapX + node.labelX} 
+                                                y={node.mapY + node.labelY} 
+                                                textAnchor={node.anchor}
+                                                className={`text-[3.5px] font-black uppercase tracking-tighter transition-all duration-700 ${isCurrentNode ? 'fill-slate-900 scale-100 opacity-100' : 'fill-slate-500 scale-95 opacity-70'}`}
+                                                style={{ textShadow: '0px 0px 3px rgba(235, 229, 217, 1), 0px 0px 5px rgba(235, 229, 217, 1)' }}
+                                            >
+                                                {node.title}
+                                            </text>
+                                        </g>
+                                    );
+                                })}
+                            </g>
                         </svg>
 
-                        {/* ALTIMETRÍA Y HUD */}
-                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 bg-gradient-to-t from-white via-white/95 to-transparent z-40">
+                        {/* ALTIMETRÍA Y HUD DINÁMICO */}
+                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 bg-gradient-to-t from-[#EBE5D9] via-[#EBE5D9]/90 to-transparent z-40">
                             <div className="flex justify-between items-end mb-2">
                                 <div>
-                                    <p className="text-[10px] font-trek text-slate-400 mb-1 uppercase">Altitud Actual</p>
-                                    <span className="text-3xl md:text-4xl font-black text-slate-900">{activeNode.alt}</span>
+                                    <p className="text-[10px] font-trek text-slate-500 mb-1 uppercase">Altitud Actual</p>
+                                    <span className="text-3xl md:text-4xl font-black text-slate-900">{activeMapNode.alt}</span>
                                     <span className="text-xs md:text-sm ml-1 text-slate-600 font-normal">msnm</span>
                                 </div>
-                                <div className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[7px] md:text-[9px] font-black uppercase tracking-wider transition-colors duration-500 ${activeNode.alt < 600 ? 'bg-red-100 text-red-600 border border-red-200 shadow-sm animate-pulse' : 'bg-teal-50 text-teal-700 border border-teal-100'}`}>
-                                    {activeNode.alt < 600 ? '⚠️ Zona Térmica Crítica' : 'Clima de Montaña'}
+                                <div className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[7px] md:text-[9px] font-black uppercase tracking-wider transition-colors duration-500 ${activeMapNode.alt < 600 ? 'bg-red-100 text-red-600 border border-red-200 shadow-sm animate-pulse' : 'bg-teal-50 text-teal-700 border border-teal-100'}`}>
+                                    {activeMapNode.alt < 600 ? '⚠️ Zona Térmica Crítica' : 'Clima de Montaña'}
                                 </div>
                             </div>
                             
-                            <div className="h-8 md:h-12 w-full relative">
+                            <div className="h-10 md:h-14 w-full relative">
                                 <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full opacity-30 drop-shadow-md">
-                                    <path d="M 0 20 L 0 1 L 16 6 L 25 15 L 33 10 L 50 5 L 66 4 L 83 15 L 100 5 L 100 20 Z" fill="#DE4F32" />
-                                    <line x1={activeNode.chartX} y1="0" x2={activeNode.chartX} y2="20" stroke="#DE4F32" strokeWidth="0.8" strokeDasharray="1.5" className="transition-all duration-700 ease-in-out" />
-                                    <circle cx={activeNode.chartX} cy="0" r="1.5" fill="#DE4F32" className="transition-all duration-700 ease-in-out" />
+                                    <path d={chartPath} fill="#DE4F32" />
+                                    <line x1={activeChartX} y1="0" x2={activeChartX} y2="20" stroke="#DE4F32" strokeWidth="0.8" strokeDasharray="1.5" className="transition-all duration-700 ease-in-out" />
+                                    <circle cx={activeChartX} cy={20 - ((activeMapNode.alt - 400) / 1400) * 19} r="1.5" fill="#DE4F32" className="transition-all duration-700 ease-in-out" />
                                 </svg>
                             </div>
                         </div>
                     </div>
 
                     {/* DERECHA: CONTENIDO NARRATIVO */}
-                    <div className="content-section" ref={scrollRef}>
-                        {routeData.map((node, i) => (
-                            <section key={node.id} data-index={i} className="stage-card">
-                                <div className={`fade-up ${i === activeIndex ? 'is-visible' : 'is-hidden'}`}>
-                                    
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <span className="text-[#DE4F32] font-trek text-xs tracking-[0.4em]">0{node.level}</span>
-                                        <div className="h-px w-full bg-white/10"></div>
-                                    </div>
-                                    
-                                    {/* Ajuste de tamaño de texto para móviles (text-4xl en lugar de text-5xl) */}
-                                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-none tracking-tighter mb-4 break-words">
-                                        {node.title}
-                                    </h2>
-                                    <p className="text-[#87C5C8] font-bold text-xs sm:text-sm uppercase tracking-[0.2em] mb-8">{node.subtitle}</p>
-                                    
-                                    <div className="flex gap-8 mb-10 overflow-x-auto pb-2">
-                                        <div className="flex-shrink-0">
-                                            <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Dificultad</p>
-                                            <p className="text-base sm:text-lg font-bold text-[#DE4F32]">{node.diff}</p>
-                                        </div>
-                                        <div className="flex-shrink-0">
-                                            <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Suelo</p>
-                                            <p className="text-base sm:text-lg font-bold">{node.path}</p>
-                                        </div>
-                                    </div>
+                    <div className="content-section" ref={scrollRef} onScroll={handleScroll}>
+                        
+                        {/* TARJETA CERO: INTRODUCCIÓN Y SELECCIÓN DE RUTA */}
+                        <section data-index={0} className="stage-card">
+                            <div className={`fade-up ${activeIndex === 0 ? 'is-visible' : 'is-hidden'}`}>
+                                <h3 className="text-[#DE4F32] font-trek text-xs tracking-[0.4em] mb-4">DESCUBRE</h3>
+                                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase leading-none tracking-tighter mb-4 break-words text-white">
+                                    LA TRAVESÍA MAJESTUOSA
+                                </h2>
+                                <p className="text-[#87C5C8] font-bold text-xs sm:text-sm uppercase tracking-[0.2em] mb-8">Gran Cañón del Chicamocha</p>
+                                
+                                <p className="text-lg sm:text-xl text-slate-300 leading-relaxed font-light mb-8">
+                                    Bienvenido a una de las rutas de senderismo más imponentes de Sudamérica. Selecciona tu aventura a través de los caminos ancestrales de Lengerke, navegando desde cumbres andinas hasta el profundo bosque seco tropical.
+                                </p>
 
-                                    <p className="text-lg sm:text-xl md:text-2xl text-slate-300 leading-relaxed font-light mb-10 italic">
-                                        "{node.desc}"
-                                    </p>
+                                {/* SELECTOR ESTILIZADO DE RUTA */}
+                                <div className="bg-white/5 p-5 rounded-2xl border border-white/10 shadow-lg backdrop-blur-sm relative">
+                                    <label className="text-[10px] text-slate-400 uppercase font-black tracking-widest block mb-3">Configura tu Experiencia:</label>
+                                    <div className="relative">
+                                        <select
+                                            className="w-full bg-[#020617] text-white border border-white/20 p-4 rounded-xl font-bold text-sm outline-none focus:border-[#DE4F32] transition-colors route-select cursor-pointer shadow-inner"
+                                            value={routeOption}
+                                            onChange={(e) => setRouteOption(e.target.value)}
+                                        >
+                                            <option value="full-fwd">Travesía Completa (Zapatoca → Los Santos)</option>
+                                            <option value="full-rev">Travesía Completa (Los Santos → Zapatoca)</option>
+                                            <option value="half-zap-bar">Media Travesía (Zapatoca → Barichara)</option>
+                                            <option value="half-bar-zap">Media Travesía (Barichara → Zapatoca)</option>
+                                            <option value="half-bar-san">Media Travesía (Barichara → Los Santos)</option>
+                                            <option value="half-san-bar">Media Travesía (Los Santos → Barichara)</option>
+                                        </select>
+                                    </div>
+                                    <p className="text-[#DE4F32] font-trek text-[9px] tracking-widest mt-4 text-center">HAZ SCROLL PARA INICIAR EL RECORRIDO ↓</p>
+                                </div>
+                            </div>
+                        </section>
 
+                        {/* TARJETAS DE ETAPAS (Dinámicas) */}
+                        {currentRoute.map((node, i) => {
+                            const domIndex = i + 1; // Para que calcen con activeIndex
+                            return (
+                                <section key={`${routeOption}-${node.id}`} data-index={domIndex} className="stage-card">
+                                    <div className={`fade-up ${activeIndex === domIndex ? 'is-visible' : 'is-hidden'}`}>
+                                        
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <span className="text-[#DE4F32] font-trek text-xs tracking-[0.4em]">ETAPA {node.displayLevel}</span>
+                                            <div className="h-px w-full bg-white/10"></div>
+                                        </div>
+                                        
+                                        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-none tracking-tighter mb-4 break-words">
+                                            {node.title}
+                                        </h2>
+                                        <p className="text-[#87C5C8] font-bold text-xs sm:text-sm uppercase tracking-[0.2em] mb-8">{node.subtitle}</p>
+                                        
+                                        <div className="flex gap-6 sm:gap-8 mb-10 overflow-x-auto pb-2">
+                                            <div className="flex-shrink-0">
+                                                <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Distancia Acum.</p>
+                                                <p className="text-base sm:text-lg font-bold text-white">{node.dist}</p>
+                                            </div>
+                                            <div className="flex-shrink-0">
+                                                <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Dificultad</p>
+                                                <p className="text-base sm:text-lg font-bold text-[#DE4F32]">{node.diff}</p>
+                                            </div>
+                                            <div className="flex-shrink-0">
+                                                <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Suelo</p>
+                                                <p className="text-base sm:text-lg font-bold text-white">{node.path}</p>
+                                            </div>
+                                        </div>
+
+                                        <p className="text-lg sm:text-xl md:text-2xl text-slate-300 leading-relaxed font-light mb-10 italic">
+                                            "{node.desc}"
+                                        </p>
+
+                                        <button 
+                                            onClick={() => setShowModal(node)}
+                                            className="group flex items-center gap-4 border border-white/20 px-6 py-3 sm:px-8 sm:py-4 rounded-full hover:bg-white hover:text-black transition-all w-max"
+                                        >
+                                            <span className="text-[10px] font-trek tracking-widest">VER DETALLES</span>
+                                            <i data-lucide="arrow-right" className="w-4 h-4 group-hover:translate-x-2 transition-transform"></i>
+                                        </button>
+                                    </div>
+                                </section>
+                            );
+                        })}
+                        
+                        {/* SECCIÓN DE CIERRE Y BOTONES (Fix del Snap y altura al 100vh) */}
+                        <section data-index={currentRoute.length + 1} className="stage-card min-h-[100vh] flex flex-col items-center justify-center gap-6 text-center">
+                            <div className={`fade-up ${activeIndex === currentRoute.length + 1 ? 'is-visible' : 'is-hidden'} w-full flex flex-col items-center`}>
+                                <div className="h-px w-24 bg-white/20 mb-4"></div>
+                                <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-white">¿Listo para el desafío?</h3>
+                                <p className="text-slate-400 text-sm md:text-base max-w-md mx-auto">
+                                    Has explorado virtualmente la <strong>{routeOption.includes('half') ? 'Media Travesía' : 'Travesía Majestuosa'}</strong>. Ahora es momento de vivir la experiencia real en el imponente paisaje santandereano.
+                                </p>
+                                
+                                <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8 w-full">
                                     <button 
-                                        onClick={() => setShowModal(node)}
-                                        className="group flex items-center gap-4 border border-white/20 px-6 py-3 sm:px-8 sm:py-4 rounded-full hover:bg-white hover:text-black transition-all w-max"
+                                        onClick={() => setShowGuide(true)}
+                                        className="group bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3 w-full sm:w-auto"
                                     >
-                                        <span className="text-[10px] font-trek tracking-widest">VER DETALLES</span>
-                                        <i data-lucide="arrow-right" className="w-4 h-4 group-hover:translate-x-2 transition-transform"></i>
+                                        <i data-lucide="book-open" className="w-4 h-4"></i>
+                                        <span className="font-trek text-[9px] md:text-[10px]">PORTAFOLIO TÉCNICO</span>
+                                    </button>
+                                    
+                                    {/* Botón de Reserva conectado visualmente */}
+                                    <button className="group bg-[#DE4F32] text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-[#DE4F32] transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_rgba(222,79,50,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] scale-100 hover:scale-105 w-full sm:w-auto">
+                                        <span className="font-trek text-[9px] md:text-[10px]">RESERVAR EN AMELIA</span>
+                                        <i data-lucide="calendar-check" className="w-4 h-4 group-hover:rotate-12 transition-transform"></i>
                                     </button>
                                 </div>
-                            </section>
-                        ))}
-                        <div className="h-[20vh] flex items-center justify-center">
-                            <p className="text-slate-600 font-trek text-[10px] tracking-widest uppercase">MOT MOT - Fin de Ruta</p>
-                        </div>
+                            </div>
+                        </section>
                     </div>
 
-                    {/* MODAL DE FICHA TÉCNICA */}
+                    {/* MODAL DE FICHA TÉCNICA (Por Etapa) */}
                     {showModal && (
                         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl" onClick={() => setShowModal(null)}>
                             <div className="bg-slate-900 border border-white/10 w-full max-w-2xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 relative shadow-2xl" onClick={e => e.stopPropagation()}>
-                                
                                 <button onClick={() => setShowModal(null)} className="absolute top-4 right-4 sm:top-8 sm:right-8 text-slate-500 hover:text-white transition-colors">
                                     <i data-lucide="x" className="w-6 h-6 sm:w-8 sm:h-8"></i>
                                 </button>
-                                
-                                <h3 className="text-[#DE4F32] font-trek text-[10px] mb-4 tracking-[0.3em]">ANÁLISIS TÉCNICO</h3>
+                                <h3 className="text-[#DE4F32] font-trek text-[10px] mb-4 tracking-[0.3em]">ANÁLISIS DE RUTA</h3>
                                 <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase mb-6 sm:mb-8 pr-10">{showModal.title}</h2>
                                 <p className="text-slate-300 text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 italic">"{showModal.fullText}"</p>
-                                
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="bg-white/5 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-white/5">
-                                        <p className="text-[#87C5C8] text-[10px] font-trek mb-2 tracking-widest">CLIMA</p>
-                                        <p className="text-xs sm:text-sm text-slate-400">Variación térmica extrema según altitud ({showModal.alt} msnm). Hidratación constante requerida.</p>
+                                        <p className="text-[#87C5C8] text-[10px] font-trek mb-2 tracking-widest">KILOMETRAJE ACUMULADO</p>
+                                        <p className="text-xs sm:text-sm text-slate-400 font-bold">{showModal.dist}</p>
+                                        <p className="text-xs sm:text-sm text-slate-400 mt-2">Variación térmica extrema según altitud ({showModal.alt} msnm). Hidratación constante requerida.</p>
                                     </div>
                                     <div className="bg-[#DE4F32] p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex flex-col justify-between shadow-lg">
                                         <p className="text-white text-[10px] font-trek tracking-widest">EQUIPO</p>
-                                        <p className="text-white font-bold text-xs sm:text-sm">Botas Pro + Bastones</p>
+                                        <p className="text-white font-bold text-xs sm:text-sm">Botas Pro + Bastones recomendados</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* MODAL COMPLETO: PORTAFOLIO Y GUÍA TÉCNICA */}
+                    {showGuide && (
+                        <div className="fixed inset-0 z-[200] flex justify-end bg-slate-950/80 backdrop-blur-sm" onClick={() => setShowGuide(false)}>
+                            <div className="bg-[#020617] border-l border-white/10 w-full lg:w-2/3 h-full guide-scroll p-6 sm:p-12 md:p-20 relative shadow-2xl transition-transform" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setShowGuide(false)} className="sticky top-0 float-right bg-slate-800 text-slate-300 hover:text-white p-3 rounded-full transition-colors z-10">
+                                    <i data-lucide="x" className="w-5 h-5"></i>
+                                </button>
+                                
+                                <div className="max-w-4xl mx-auto mt-10 pb-20">
+                                    <h3 className="text-[#DE4F32] font-trek text-xs mb-4 tracking-[0.3em]">DOCUMENTO OFICIAL</h3>
+                                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-10">Portafolio Estratégico y Análisis de Calidad</h2>
+                                    
+                                    <div className="prose prose-invert prose-slate max-w-none text-slate-300">
+                                        <p className="text-lg md:text-xl leading-relaxed text-slate-200 font-light mb-8">
+                                            La Travesía Majestuosa del Destino Chicamocha. La región de Santander alberga uno de los fenómenos geográficos y culturales más potentes de la geografía suramericana: el Cañón del Chicamocha. Reconocido como el segundo cañón más profundo de Latinoamérica (2,000 metros) y una extensión de 227 kilómetros.
+                                        </p>
+
+                                        <h4 className="text-2xl font-bold text-white mt-12 mb-4">Marco Geológico y Ecosistémico</h4>
+                                        <p className="mb-6">
+                                            La magnificencia del Cañón del Chicamocha se fundamenta en su diversidad ecosistémica, que varía drásticamente según la altitud, oscilando entre los 400 y los 2,200 msnm. Es el enclave andino seco más extenso de Colombia, con formaciones rocosas que revelan un pasado marino de hace aproximadamente 46 millones de años. Esta riqueza ha impulsado la candidatura ante la UNESCO para ser reconocido como <strong>Geoparque Mundial en 2027</strong>.
+                                        </p>
+
+                                        <h4 className="text-2xl font-bold text-white mt-12 mb-6">Cuadro Técnico de Operación</h4>
+                                        <div className="overflow-x-auto mb-10">
+                                            <table className="w-full text-left text-sm border-collapse">
+                                                <thead>
+                                                    <tr className="border-b border-slate-700 text-[#87C5C8] font-trek text-[10px] tracking-widest">
+                                                        <th className="p-3">Etapa</th>
+                                                        <th className="p-3">Origen - Destino</th>
+                                                        <th className="p-3">Distancia</th>
+                                                        <th className="p-3">Tiempo</th>
+                                                        <th className="p-3">Dificultad</th>
+                                                        <th className="p-3">Altimetría (Máx-Mín)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-800">
+                                                    <tr className="hover:bg-white/5 transition-colors">
+                                                        <td className="p-3 text-[#DE4F32] font-bold">1</td>
+                                                        <td className="p-3 font-semibold text-white">Zapatoca - La Fuente</td>
+                                                        <td className="p-3">20 km</td>
+                                                        <td className="p-3">6.5 - 7 h</td>
+                                                        <td className="p-3">Media-Alta</td>
+                                                        <td className="p-3">1,670 m - 1,270 m</td>
+                                                    </tr>
+                                                    <tr className="hover:bg-white/5 transition-colors">
+                                                        <td className="p-3 text-[#DE4F32] font-bold">2</td>
+                                                        <td className="p-3 font-semibold text-white">La Fuente - Guane</td>
+                                                        <td className="p-3">13.8 km</td>
+                                                        <td className="p-3">5 h</td>
+                                                        <td className="p-3">Media</td>
+                                                        <td className="p-3">1,340 m - 594 m</td>
+                                                    </tr>
+                                                    <tr className="hover:bg-white/5 transition-colors">
+                                                        <td className="p-3 text-[#DE4F32] font-bold">3</td>
+                                                        <td className="p-3 font-semibold text-white">Guane - Barichara</td>
+                                                        <td className="p-3">6.2 km</td>
+                                                        <td className="p-3">2 h</td>
+                                                        <td className="p-3">Baja</td>
+                                                        <td className="p-3">1,334 m - 1,019 m</td>
+                                                    </tr>
+                                                    <tr className="hover:bg-white/5 transition-colors">
+                                                        <td className="p-3 text-[#DE4F32] font-bold">4</td>
+                                                        <td className="p-3 font-semibold text-white">Barichara - Villanueva</td>
+                                                        <td className="p-3">9 km</td>
+                                                        <td className="p-3">3 h</td>
+                                                        <td className="p-3">Baja</td>
+                                                        <td className="p-3">1,670 m - 1,270 m</td>
+                                                    </tr>
+                                                    <tr className="hover:bg-white/5 transition-colors">
+                                                        <td className="p-3 text-[#DE4F32] font-bold">5</td>
+                                                        <td className="p-3 font-semibold text-white">Villanueva - Jordán</td>
+                                                        <td className="p-3">15.8 km</td>
+                                                        <td className="p-3">4.5 - 6 h</td>
+                                                        <td className="p-3">Alta</td>
+                                                        <td className="p-3">1,658 m - 441 m</td>
+                                                    </tr>
+                                                    <tr className="hover:bg-white/5 transition-colors">
+                                                        <td className="p-3 text-[#DE4F32] font-bold">6</td>
+                                                        <td className="p-3 font-semibold text-white">Jordán - Los Santos</td>
+                                                        <td className="p-3">5.7 km</td>
+                                                        <td className="p-3">4 - 5 h</td>
+                                                        <td className="p-3">Alta</td>
+                                                        <td className="p-3">1,284 m - 441 m</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <h4 className="text-2xl font-bold text-white mt-12 mb-4">Gestión de Riesgos y Recomendaciones</h4>
+                                        <ul className="list-disc pl-5 space-y-3 mb-8">
+                                            <li><strong className="text-white">Horarios de Inicio:</strong> Las caminatas deben comenzar antes de las 08:00 a.m. El descenso a Jordán debe iniciar al amanecer (06:00 a.m.) para evitar picos de 35°C.</li>
+                                            <li><strong className="text-white">Hidratación Crítica:</strong> Mínimo 2 litros de agua por persona por etapa con sales minerales o electrolitos.</li>
+                                            <li><strong className="text-white">Equipo Técnico:</strong> Botas de Trekking de caña alta (suela Vibram), ropa de secado rápido (sin algodón), y el uso altamente recomendado de bastones de trekking.</li>
+                                            <li><strong className="text-white">Protocolo de Primeros Auxilios:</strong> Botiquín personal básico (curitas, analgésicos). Se recomienda aplicar vaselina en los pies para evitar fricción.</li>
+                                        </ul>
+
+                                        <div className="bg-[#DE4F32]/10 border border-[#DE4F32]/30 p-6 rounded-2xl mt-10">
+                                            <h4 className="text-[#DE4F32] font-bold mb-2">Carta del Caminante y Ética del Sendero</h4>
+                                            <p className="text-sm">Todo lo que el caminante ingresa al cañón debe salir con él. Está prohibida la recolección de fósiles o flora. Respetar la propiedad privada, cerrar portones y mantenerse en la ruta señalizada es vital para el impacto socioeconómico positivo en la región.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

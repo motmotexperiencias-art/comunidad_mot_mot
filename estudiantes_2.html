@@ -1,0 +1,497 @@
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinerario Mot Mot - Barichara & Guane</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        motOrange: '#F0542D', 
+                        motTeal: '#98CED3',   
+                        darkSlate: '#1e293b',
+                        lightSlate: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc; 
+            color: #334155;
+            overflow-x: hidden;
+        }
+        
+        /* Barra de progreso de lectura */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background-color: #F0542D;
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Clases para animaciones al hacer scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Línea de tiempo vertical */
+        .timeline-container {
+            position: relative;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            height: 100%;
+            width: 2px;
+            background: #e2e8f0;
+        }
+        @media (min-width: 768px) {
+            .timeline-container::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #F0542D;
+            transform: translateX(-50%);
+            border: 4px solid #f8fafc;
+            box-shadow: 0 0 0 2px #e2e8f0;
+            z-index: 10;
+        }
+        @media (min-width: 768px) {
+            .timeline-dot {
+                left: 50%;
+            }
+            .timeline-content.left {
+                width: 45%;
+                margin-right: auto;
+                padding-right: 2rem;
+                text-align: right;
+            }
+            .timeline-content.right {
+                width: 45%;
+                margin-left: auto;
+                padding-left: 2rem;
+            }
+        }
+        @media (max-width: 767px) {
+            .timeline-content {
+                padding-left: 3rem;
+            }
+        }
+
+        /* Estilo sobrio de tarjetas */
+        .sober-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-progress"></div>
+
+    <!-- HEADER SOBRIO -->
+    <header class="bg-darkSlate text-white min-h-[85vh] flex flex-col justify-center items-center text-center px-6 relative reveal active">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-motTeal font-bold tracking-[0.3em] uppercase text-sm mb-6">Mot Mot Experiencias</h2>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">Barichara <br>& Guane</h1>
+            <p class="text-slate-300 text-lg md:text-xl font-light mb-12 italic max-w-2xl mx-auto">
+                "¡Hola! 👋 Te compartimos el itinerario oficial para nuestra jornada. Prepárense para vivir unos días llenos de historia, saberes ancestrales y paisajes inolvidables. ✨"
+            </p>
+        </div>
+        
+        <!-- Indicador animado para hacer scroll -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-70">
+            <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Desliza para descubrir</span>
+            <i class="fas fa-chevron-down text-2xl text-motOrange animate-bounce mt-2"></i>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-16">
+        
+        <!-- INFORMACIÓN GENERAL -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
+            <div class="sober-card p-8 reveal">
+                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2 border-b border-slate-100 pb-2">
+                    <i class="fas fa-building text-motOrange"></i> Proveedor
+                </h3>
+                <div class="space-y-2 text-sm">
+                    <p class="font-black text-lg text-slate-800">Mot Mot Experiencias</p>
+                    <p><span class="font-bold text-slate-500">NIT:</span> 1.098.659.756-6</p>
+                    <p><span class="font-bold text-slate-500">Representante:</span> Liliana Paola Rozo Martínez</p>
+                    <p><span class="font-bold text-slate-500">Dirección:</span> Carrera 7 4-65 Centro, Barichara</p>
+                    <p><span class="font-bold text-slate-500">Teléfono:</span> 3132501446</p>
+                    <p><span class="font-bold text-slate-500">Correo:</span> motmotexperiencias@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="sober-card p-8 reveal bg-slate-50 border-none">
+                <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2 border-b border-slate-200 pb-2">
+                    <i class="fas fa-user-tie text-motTeal"></i> Comprador
+                </h3>
+                <div class="space-y-2">
+                    <p class="font-black text-2xl text-slate-800">Colegio Luis Lopez de Mesa</p>
+                    <p class="text-motOrange font-bold mt-2"><i class="far fa-calendar-alt"></i> Fecha del servicio: 16 y 17 de julio 2026</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ITINERARIO INTERACTIVO -->
+        <section class="mb-24">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-800">Itinerario Detallado</h2>
+                <div class="w-16 h-1 bg-motOrange mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="timeline-container">
+                <!-- DÍA 1 HEADER -->
+                <div class="text-center mb-12 reveal relative z-10 bg-lightSlate py-2">
+                    <span class="bg-darkSlate text-white px-6 py-2 rounded-full font-bold text-sm tracking-widest uppercase shadow-md">
+                        Día 1 - Inmersión y Descubrimiento
+                    </span>
+                </div>
+
+                <!-- Timeline Items -->
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <span class="text-motOrange font-black text-sm">4:00 a.m</span>
+                        <h4 class="font-bold text-lg text-slate-800">Salida 🚌</h4>
+                        <p class="text-slate-600 text-sm">Iniciamos nuestra aventura desde el corregimiento Centro en Barrancabermeja. ¡Acomódense y disfruten del viaje!</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <span class="text-motOrange font-black text-sm">10:00 - 11:00 a.m aprox.</span>
+                        <h4 class="font-bold text-lg text-slate-800">Llegada a Barichara 🏘️</h4>
+                        <p class="text-slate-600 text-sm mt-1">¡Bienvenidos al Pueblo Más Lindo de Colombia! Empezamos a respirar su aire mágico y patrimonial.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <span class="text-motOrange font-black text-sm">11:00 a.m - 12:30 p.m</span>
+                        <h4 class="font-bold text-lg text-slate-800">Organización en el hotel 🏨</h4>
+                        <p class="text-slate-600 text-sm mt-1 bg-white p-3 rounded-lg border border-slate-200">Dejamos las maletas y podemos utilizar las hermosas instalaciones, piscina y zona de baños para refrescarnos. <i>(Nota: el check-in oficial se realiza a partir de las 3:00 pm, por tal razón la entrega de habitaciones la haremos al final de nuestra tarde)</i>.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <span class="text-motOrange font-black text-sm">1:00 p.m a 2:00 p.m</span>
+                        <h4 class="font-bold text-lg text-slate-800">Almuerzo de Bienvenida 🍲</h4>
+                        <p class="text-slate-600 text-sm mt-1">Un merecido descanso para recargar energías con la mejor gastronomía local.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <span class="text-motOrange font-black text-sm">3:00 p.m</span>
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 mt-2 shadow-sm">
+                            <h4 class="font-bold text-lg text-slate-800 border-b border-slate-100 pb-2 mb-2">City Tour Histórico ⛪</h4>
+                            <p class="text-slate-600 text-sm mb-3">Un mágico recorrido a pie por iglesias centenarias, miradores de ensueño y calles icónicas, acompañados por nuestros expertos guías locales.</p>
+                            <h4 class="font-bold text-lg text-slate-800 border-b border-slate-100 pb-2 mb-2 mt-4">Arte y Tradición: Taller de Papel 📜</h4>
+                            <p class="text-slate-600 text-sm">Visita guiada experiencial a una fundación liderada por 16 mujeres quienes nos enseñaran de cerca el delicado y hermoso arte del papel hecho a mano utilizando fibra de fique.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <span class="text-motOrange font-black text-sm">7:00 p.m</span>
+                        <h4 class="font-bold text-lg text-slate-800">Cena Grupal 🍽️</h4>
+                        <p class="text-slate-600 text-sm mt-1">Nos reunimos para compartir los mejores momentos de nuestro primer día.</p>
+                    </div>
+                </div>
+
+                <!-- DÍA 2 HEADER -->
+                <div class="text-center mb-12 mt-20 reveal relative z-10 bg-lightSlate py-2">
+                    <span class="bg-motTeal text-darkSlate px-6 py-2 rounded-full font-bold text-sm tracking-widest uppercase shadow-md">
+                        Día 2 - Naturaleza y Cultura
+                    </span>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <span class="text-motTeal font-black text-sm">7:00 a.m - 8:00 a.m</span>
+                        <h4 class="font-bold text-lg text-slate-800">Desayuno Nutritivo ☕🍳</h4>
+                        <p class="text-slate-600 text-sm mt-1">Empezamos la mañana con toda la energía desde la comodidad de nuestro hotel.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <h4 class="font-bold text-lg text-slate-800">Senderismo Histórico 🥾🍃</h4>
+                        <p class="text-slate-600 text-sm">Caminar por el Camino Real entre Barichara y Guane es como recorrer un museo al aire libre, pero con mucha más acción. Esta antigua ruta de 6,2 km tiene su origen en los indígenas Guane y fue reconstruida en el siglo XIX. Durante las 2 o 2,5 horas que dura la caminata, no solo van a aprender de historia paso a paso, sino que tendrán unas vistas espectaculares del cañón del Suárez para tomar las mejores fotos. ¡Un recorrido ecológico que todo buen viajero tiene que hacer al menos una vez!.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <h4 class="font-bold text-lg text-slate-800">Saberes Ancestrales 🌿🧵</h4>
+                        <p class="text-slate-600 text-sm bg-white p-3 rounded-lg border border-slate-200 mt-2">Visita exclusiva, en medio del camino a Guane, a la casa de la artesana Janeth: una experiencia íntima donde conoceremos la transformación de la fibra de plátano y su profundo impacto en el territorio.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content right">
+                        <h4 class="font-bold text-lg text-slate-800">Cultura e Historia en Guane 🏺</h4>
+                        <ul class="text-slate-600 text-sm list-disc list-inside mt-2 space-y-1">
+                            <li>Entrada al Museo Paleontológico y arqueológico: ¿Sabías que hace millones de años esta tierra era un inmenso océano prehistórico? En este museo no solo te lo cuentan, ¡lo vas a tener frente a tus ojos! Prepárate para ver más de 10.000 fósiles, restos de dinosaurios y troncos gigantes convertidos en piedra. Además, nos meteremos en la mente de los guerreros Guane descubriendo sus figuras de jaguares, para terminar frente a frente con un misterioso sepulcro real del año 1658. ¡Un viaje en el tiempo que te dejará sin palabras!</li>
+                            <li>Recorrido cultural e histórico por el pueblo, su hermoso mirador y su intacta esencia colonial.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content left">
+                        <h4 class="font-bold text-lg text-slate-800">Retorno y Relajación 💦</h4>
+                        <ul class="text-slate-600 text-sm space-y-3 mt-3">
+                            <li class="flex items-start gap-2"><i class="fas fa-bus text-motOrange mt-1"></i> <strong>Viaje con estilo:</strong> Terminada la travesía por Guane, nos espera una Chiva para un regreso con toda la energía. Es el momento de recuperar fuerzas, sentir la brisa en la cara y vivir la tradición de rodar por nuestras carreteras con el mejor estilo de la región. ¡Acomódate en los bancos de madera para disfrutar de las mejores vistas panorámicas de las montañas mientras volvemos al pueblo!.</li>
+                            <li class="flex items-start gap-2"><i class="fas fa-swimming-pool text-motTeal mt-1"></i> <strong>A recargar pilas:</strong> Tras el esfuerzo, llega la recompensa: un almuerzo delicioso seguido de una tarde de relax en una piscina de lujo. Disfruta de la increíble arquitectura colonial y el sol santandereano en el mejor ambiente para descansar y capturar grandes momentos.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot" style="background-color: #1e293b; border-color: #f8fafc;"></div>
+                    <div class="timeline-content right">
+                        <h4 class="font-bold text-lg text-slate-800">Regreso a Casa 🚐</h4>
+                        <p class="text-slate-600 text-sm">Con el corazón lleno de recuerdos y hermosos paisajes, iniciamos nuestro regreso a Barrancabermeja.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 text-slate-500 italic reveal">
+                "¡Prepárense para una aventura emocionante! Si tienen alguna duda, no duden en contactarnos."
+            </div>
+        </section>
+
+        <!-- INCLUYE Y NO INCLUYE -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 reveal">
+            <div class="sober-card p-8 border-t-4 border-t-emerald-600 shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100 opacity-50 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                <h3 class="font-black text-2xl mb-6 text-slate-800 flex items-center gap-3">
+                    <i class="fas fa-check-circle text-emerald-500"></i> Tu Paquete Incluye
+                </h3>
+                <ul class="space-y-4 text-sm text-slate-600">
+                    <li class="flex items-start gap-3"><i class="fas fa-hotel text-emerald-500 text-lg"></i> <span><strong>Alojamiento:</strong> Dos días y una noche en un encantador hotel boutique, categoría de 4 estrellas, se encuentra estratégicamente situado en el pueblo. Es muy valorado por su hermosa arquitectura de época colonial, así como por sus instalaciones de spa y piscina descubierta.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-shield-alt text-emerald-500 text-lg"></i> <span><strong>Seguridad:</strong> Seguros de asistencia médica durante toda la experiencia.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-utensils text-emerald-500 text-lg"></i> <span><strong>Alimentación:</strong> 2 Almuerzos, 1 desayuno, 1 cena (por persona).</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-map-marked-alt text-emerald-500 text-lg"></i> <span><strong>City Tour:</strong> Recorrido a pie cultural e histórico por Barichara, acompañados de tres guías locales.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-scroll text-emerald-500 text-lg"></i> <span><strong>Taller de Papel:</strong> Entrada y experiencia inmersiva en el arte del fique.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-hiking text-emerald-500 text-lg"></i> <span><strong>Senderismo:</strong> Ruta Barichara - Guane con acompañamiento de tres guías locales.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-leaf text-emerald-500 text-lg"></i> <span><strong>Saberes Ancestrales:</strong> Experiencia artesanal con fibra de plátano (habitante rural de Guane) y manilla de recuerdo.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-landmark text-emerald-500 text-lg"></i> <span><strong>Museo:</strong> Entrada al Museo Paleontológico y Arqueológico de Guane.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-camera text-emerald-500 text-lg"></i> <span><strong>Cultura:</strong> Recorrido cultural e histórico por Guane, mirador y su esencia colonial.</span></li>
+                    <li class="flex items-start gap-3 bg-motOrange/10 p-2 rounded-lg"><i class="fas fa-star text-motOrange text-lg animate-pulse"></i> <span><strong>Aventura en Chiva:</strong> Regreso a Barichara viviendo la colorida experiencia en una CHIVA icónica del municipio.</span></li>
+                    <li class="flex items-start gap-3 bg-motTeal/10 p-2 rounded-lg"><i class="fas fa-swimming-pool text-motTeal text-lg"></i> <span><strong>Relajación Total:</strong> Tarde de sol y piscina en las increíbles instalaciones del hotel.</span></li>
+                </ul>
+
+                <div class="mt-8 p-5 bg-slate-50 border border-slate-200 rounded-xl shadow-sm">
+                    <h4 class="font-black text-slate-800 text-sm flex items-center gap-2 mb-2"><i class="fas fa-bus text-motOrange"></i> Transporte Intermunicipal (Opcional)</h4>
+                    <p class="text-slate-600 text-xs leading-relaxed">El <strong>Bus de servicio preferencial</strong> (Centro/corregimiento - Barrancabermeja - Barichara y su respectivo regreso) está incluido <u>exclusivamente</u> al adquirir la Opción 1 de nuestro paquete turístico.</p>
+                </div>
+            </div>
+
+            <div class="sober-card p-8 border-t-4 border-t-red-500">
+                <h3 class="font-black text-xl mb-6 text-slate-800 flex items-center gap-3">
+                    <i class="fas fa-info-circle text-red-500"></i> NO INCLUYE
+                </h3>
+                <ul class="space-y-4 text-sm text-slate-600">
+                    <li class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-1"></i> <span>Desayuno durante la ruta de viaje (Barrancabermeja - Barichara).</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-1"></i> <span>Guías durante el transporte en Bus (Barrancabermeja - Barichara - Barrancabermeja).</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-1"></i> <span>Comidas no especificadas en el paquete.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-1"></i> <span>Servicios o entrada no especificados en el paquete.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-1"></i> <span>Demás no especificados en el paquete.</span></li>
+                    <li class="flex items-start gap-3"><i class="fas fa-times text-red-400 mt-1"></i> <span>Transporte de apoyo no especificado en el paquete.</span></li>
+                </ul>
+                <div class="mt-8 p-4 bg-red-50 text-red-800 text-xs rounded-lg font-bold flex items-center gap-3">
+                    <i class="fas fa-exclamation-triangle text-xl"></i>
+                    Recuerda: Tener en cuenta las recomendaciones enviadas por la empresa antes del viaje.
+                </div>
+            </div>
+        </section>
+
+        <!-- VALORES POR PERSONA (DOS OPCIONES) -->
+        <section class="mb-20 reveal">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-800">Inversión del Paquete</h2>
+                <div class="w-16 h-1 bg-motTeal mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- OPCIÓN 1: CON TRANSPORTE -->
+                <div class="bg-darkSlate text-white rounded-2xl p-10 text-center shadow-lg relative overflow-hidden border-2 border-motOrange">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-motOrange opacity-10 rounded-full blur-2xl -mr-10 -mt-10"></div>
+                    
+                    <h3 class="text-motOrange font-bold uppercase tracking-widest text-sm mb-2">Opción 1: Todo Incluido</h3>
+                    <p class="text-slate-300 text-sm mb-8">Con transporte B/bermeja - Barichara - B/bermeja</p>
+
+                    <div class="inline-block bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm w-full">
+                        <p class="text-xs text-slate-400 mb-1">Valor por persona (Grupo de 38 pax)</p>
+                        <h2 class="text-4xl md:text-5xl font-black text-white">$600.000</h2>
+                    </div>
+                </div>
+
+                <!-- OPCIÓN 2: SIN TRANSPORTE -->
+                <div class="bg-white rounded-2xl p-10 text-center shadow-lg relative overflow-hidden border border-slate-200">
+                    <div class="absolute bottom-0 left-0 w-40 h-40 bg-motTeal opacity-10 rounded-full blur-2xl -ml-10 -mb-10"></div>
+                    
+                    <h3 class="text-motTeal font-bold uppercase tracking-widest text-sm mb-2">Opción 2: Plan Vivencial</h3>
+                    <p class="text-slate-500 text-sm mb-8">Sin transporte intermunicipal incluido</p>
+
+                    <div class="inline-block bg-slate-50 border border-slate-100 rounded-2xl p-6 w-full">
+                        <p class="text-xs text-slate-500 mb-1">Valor por persona (Grupo de 38 pax)</p>
+                        <h2 class="text-4xl md:text-5xl font-black text-slate-800">$410.000</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORMAS DE PAGO -->
+        <section class="reveal">
+            <div class="text-center mb-10">
+                <h3 class="text-2xl font-black text-slate-800">Condiciones y Formas de Pago</h3>
+                <p class="text-motOrange font-bold mt-2 bg-motOrange/10 inline-block px-4 py-2 rounded-lg text-sm">
+                    Para reservar la experiencia se deberá abonar un 50% del valor total.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="sober-card p-8 flex items-start gap-6 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 text-xl shrink-0">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-slate-800 mb-3">Transferencia Bancaria</h4>
+                        <div class="text-sm text-slate-600 space-y-1">
+                            <p><span class="font-bold text-slate-400">Banco:</span> Caja Social</p>
+                            <p><span class="font-bold text-slate-400">Titular:</span> Liliana Paola Rozo Martínez</p>
+                            <p><span class="font-bold text-slate-400">C.C:</span> 1.098.659.756 Bucaramanga</p>
+                            <p><span class="font-bold text-slate-400">Tipo:</span> Cuenta de ahorros</p>
+                            <div class="flex items-center gap-3 mt-3 bg-slate-50 p-2 rounded-lg border border-slate-200">
+                                <span class="font-mono font-bold text-slate-800">24044105189</span>
+                                <button onclick="copyToClipboard('24044105189')" class="text-motOrange hover:text-slate-800 ml-auto" title="Copiar número">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sober-card p-8 flex items-start gap-6 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 text-xl shrink-0">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="w-full">
+                        <h4 class="font-black text-slate-800 mb-3">Bolsillos Digitales</h4>
+                        <div class="text-sm text-slate-600 space-y-1">
+                            <p class="font-bold text-slate-500 mb-2">Daviplata / Nequi</p>
+                            <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-200">
+                                <span class="font-mono font-bold text-slate-800">3185452803</span>
+                                <button onclick="copyToClipboard('3185452803')" class="text-motOrange hover:text-slate-800 ml-auto" title="Copiar número">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-24 text-center border-t border-slate-200 pt-12 reveal">
+            <h4 class="text-xl font-black text-slate-800">Liliana Paola Rozo Martínez</h4>
+            <p class="text-slate-500 text-sm">C.C 1.098.659.756 / Bucaramanga</p>
+            <p class="text-motOrange font-bold uppercase tracking-widest text-[10px] mt-2">Gerente - Mot Mot Experiencias</p>
+            
+            <p class="mt-8 text-xs text-slate-400 font-bold tracking-[0.2em] uppercase">Cordialmente</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Función para barra de progreso de scroll
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        };
+
+        // Función para efecto Reveal (Aparición al bajar)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Distancia antes de aparecer
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Llamada inicial
+
+        // Función para copiar números de cuenta
+        function copyToClipboard(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("¡Número copiado al portapapeles: " + text + "!");
+        }
+    </script>
+</body>
+</html>
