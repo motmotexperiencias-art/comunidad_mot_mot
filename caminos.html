@@ -2,339 +2,218 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Gran Ruta - Mot Mot Experiencias</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mot Mot - Cañón del Chicamocha</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
-        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #111111; --gris-fondo: #fcfcfc; --gris-borde: #e5e5e5; }
-        body { font-family: 'Montserrat', sans-serif; background-color: var(--gris-fondo); margin: 0; padding: 0; color: var(--negro); }
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
         
-        /* Navegación */
-        .nav-perfil { background: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gris-borde); position: sticky; top: 0; z-index: 100;}
-        .nav-logo { height: 35px; cursor: pointer; }
-        .nav-links a { text-decoration: none; color: var(--negro); font-weight: 800; text-transform: uppercase; margin-left: 20px; transition: 0.2s; font-size: 0.85em; letter-spacing: 1px;}
-        .nav-links a:hover { color: var(--naranja); }
+        :root { 
+            --orange: #DE4F32; 
+            --teal: #87C5C8; 
+            --dark: #0f172a;
+            --darker: #020617;
+        }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--dark); 
+            color: white; 
+            margin: 0; 
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-        /* Cabecera Hero */
-        .hero-catalog { background: var(--negro); color: white; padding: 80px 20px 100px; text-align: center; position: relative;}
-        .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto;}
-        .hero-catalog h1 { font-size: 3.5em; font-weight: 900; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: -1px; color: var(--naranja);}
-        .hero-catalog p { font-size: 1.2em; color: #ccc; line-height: 1.6; margin: 0 0 40px 0; font-weight: 400;}
+        .font-trek { font-family: 'Syncopate', sans-serif; }
+        
+        /* HERO Y FONDOS */
+        .hero-section {
+            background-image: linear-gradient(to bottom, rgba(2,6,23,0.3), rgba(2,6,23,0.9)), url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/diseno-sin-titulo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+        }
 
-        /* Panel Dinámico Simplificado */
-        .logistica-panel { background: #1a1a1a; border: 1px solid #333; padding: 35px; border-radius: 4px; text-align: left; max-width: 700px; margin: -50px auto 50px; position: relative; z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.2);}
-        .logistica-panel label { display: block; font-weight: 900; font-size: 1em; text-transform: uppercase; margin-bottom: 5px; color: #fff; letter-spacing: 1px; text-align: center;}
-        .logistica-panel p.sub-label { text-align: center; color: #888; font-size: 0.85em; margin-bottom: 25px; font-weight: 300;}
-        
-        .select-group { display: flex; justify-content: center; margin-bottom: 15px;}
-        .select-group select { width: 100%; max-width: 400px; padding: 15px; background: #222; border: 1px solid #444; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.9em; font-weight: 700; cursor: pointer; outline: none; border-radius: 0; appearance: none;}
-        
-        #resultado-logistica { display: none; background: transparent; padding: 20px 0 0 0; border-top: 1px dashed #444; font-size: 0.95em; line-height: 1.6; color: #ddd; animation: fadeIn 0.4s ease; text-align: center;}
-        #resultado-logistica strong { color: var(--naranja); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        /* ANIMACIONES SCROLL MINIMALISTAS */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        /* Contenedor Principal */
-        .container { max-width: 1200px; margin: 0 auto 50px; padding: 0 20px; }
+        /* Hover de tarjeta de producto */
+        .product-card:hover .product-img { transform: scale(1.05); }
 
-        /* Filtros por Tipo de Actividad */
-        .filtros-tipo { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap;}
-        .btn-filtro { background: transparent; border: 2px solid var(--negro); padding: 12px 25px; font-weight: 800; color: var(--negro); cursor: pointer; transition: 0.2s; text-transform: uppercase; font-size: 0.85em; letter-spacing: 1px;}
-        .btn-filtro:hover { background: var(--negro); color: white; }
-        .btn-filtro.activo { background: var(--naranja); border-color: var(--naranja); color: white; }
-
-        /* Grilla de Caminos */
-        .grid-caminos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
-        
-        /* Tarjetas de Rutas */
-        .ruta-card { background: white; border: 1px solid var(--gris-borde); transition: 0.3s; position: relative; cursor: pointer; display: flex; flex-direction: column;}
-        .ruta-card:hover { border-color: var(--negro); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05);}
-        .ruta-img { width: 100%; height: 200px; object-fit: cover; transition: 0.3s;}
-        
-        .ruta-badge { position: absolute; top: 15px; right: 15px; background: var(--negro); color: white; padding: 5px 10px; font-weight: 800; font-size: 0.65em; text-transform: uppercase; letter-spacing: 1px;}
-        .ruta-badge.trekking { background: var(--naranja); }
-        .ruta-badge.hiking { background: var(--turquesa); }
-        
-        .ruta-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1;}
-        .ruta-origen { font-size: 0.75em; font-weight: 800; color: var(--naranja); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;}
-        .ruta-titulo { font-size: 1.2em; font-weight: 900; margin: 0 0 20px 0; color: var(--negro); line-height: 1.3; text-transform: uppercase;}
-        
-        .btn-entrar { margin-top: auto; background: transparent; color: var(--negro); border: 2px solid var(--negro); padding: 12px; width: 100%; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.2s; font-size: 0.8em; letter-spacing: 1px;}
-        .ruta-card:hover .btn-entrar { background: var(--negro); color: white; }
-
-        /* Territorios en Exploración */
-        .exploracion-section { background: var(--negro); color: white; padding: 80px 20px; text-align: center; margin-top: 80px;}
-        .exploracion-section h2 { font-size: 2.5em; font-weight: 900; margin: 0 0 10px 0; text-transform: uppercase; color: var(--turquesa);}
-        .exploracion-section p { color: #aaa; margin-bottom: 40px; font-size: 1.1em;}
-        .exploracion-grid { display: flex; justify-content: center; gap: 30px; max-width: 1000px; margin: 0 auto; flex-wrap: wrap;}
-        
-        .card-exploracion { background: #111; border: 1px solid #333; padding: 20px; border-radius: 4px; max-width: 320px; text-align: left; opacity: 0.8;}
-        .img-exploracion { width: 100%; height: 180px; object-fit: cover; filter: grayscale(100%); opacity: 0.6; margin-bottom: 15px; border-radius: 2px;}
-        .card-exploracion h4 { margin: 0 0 15px 0; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1px;}
-        
-        .btn-avisame { display: block; width: 100%; background: transparent; color: var(--naranja); border: 1px solid var(--naranja); padding: 12px; font-weight: 800; text-transform: uppercase; font-size: 0.75em; cursor: pointer; transition: 0.2s; letter-spacing: 1px;}
-        .btn-avisame:hover { background: var(--naranja); color: var(--negro);}
-
-        @media (max-width: 768px) {
-            .hero-catalog h1 { font-size: 2.2em; }
-            .select-group { flex-direction: column; align-items: center; }
-            .btn-filtro { width: 100%; text-align: center; }
-            .nav-links { display: none; }
+        /* Estilo para los puntitos del camino */
+        .trail-dots {
+            stroke-dasharray: 0 16;
+            stroke-linecap: round;
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <nav class="nav-perfil">
-        <img src="https://www.motmotexperiencias.com/wp-content/uploads/2023/08/cropped-Logo-foto-de-perfil-instagram.png" class="nav-logo" onclick="window.location.href='index.html'">
-        <div class="nav-links">
-            <a href="perfil.html">Mi Perfil</a>
+    <nav class="absolute top-0 w-full z-50 p-6 md:p-12 flex justify-between items-center">
+        <div>
+            <h1 class="font-trek text-[#DE4F32] text-2xl md:text-3xl tracking-tighter">MOT MOT</h1>
+            <div class="h-0.5 w-12 bg-white/20 mt-1"></div>
+        </div>
+        <div class="hidden md:flex gap-8 font-bold text-xs tracking-widest uppercase text-white">
+            <a href="#intro-ruta" class="hover:text-[#DE4F32] transition-colors">El Cañón</a>
+            <a href="#experiencias" class="hover:text-[#DE4F32] transition-colors">Descubre La Ruta</a>
         </div>
     </nav>
 
-    <header class="hero-catalog">
-        <div class="hero-content">
-            <h1>Especialistas en el Cañón del Chicamocha</h1>
-            <p>La Gran Ruta: Etapas maestras para dominar el segundo cañón más grande del mundo. Kilómetros de historia, altimetría exacta y control total del territorio.</p>
+    <header class="hero-section flex flex-col justify-center items-center text-center px-6 relative">
+        <div class="max-w-4xl z-10 mt-10">
+            <p class="text-[#87C5C8] font-trek text-xs md:text-sm tracking-[0.5em] mb-4 uppercase">Destino Exclusivo</p>
+            <h2 class="text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-[0.9] tracking-tighter mb-6 text-white">
+                EL ABISMO VIVO
+            </h2>
+            <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#DE4F32] to-transparent mx-auto mb-6"></div>
+            <p class="text-slate-300 font-light text-base sm:text-lg md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                La gran ruta del Cañón del Chicamocha. Bosque seco tropical, historia andina y geología pura.
+            </p>
+            <a href="#intro-ruta" class="inline-flex items-center gap-4 bg-transparent border border-[#DE4F32] text-[#DE4F32] hover:bg-[#DE4F32] hover:text-white px-8 py-4 rounded-full text-[10px] sm:text-xs font-trek tracking-widest transition-all">
+                INICIAR DESCENSO <i data-lucide="arrow-down" class="w-4 h-4"></i>
+            </a>
         </div>
     </header>
 
-    <div class="logistica-panel">
-        <label>📍 Concierge de Ruta: ¿A dónde te diriges?</label>
-        <p class="sub-label">Sin importar de dónde vengas, tu aventura inicia en nuestros hubs. Te indicamos el último paso para llegar.</p>
-        <div class="select-group">
-            <select id="ciudad-destino" onchange="calcularRuta()">
-                <option value="" disabled selected>Selecciona tu destino Mot Mot...</option>
-                <option value="barichara">Barichara / Guane / Villanueva</option>
-                <option value="zapatoca">Zapatoca</option>
-                <option value="chicamocha">Cañón del Chicamocha (Jordán / Los Santos)</option>
-                <option value="bucaramanga_dest">Bucaramanga (Ciudad)</option>
-            </select>
-        </div>
-        <div id="resultado-logistica"></div>
-    </div>
-
-    <div class="container">
+    <section id="intro-ruta" class="py-24 md:py-48 px-6 bg-[#020617] relative flex flex-col items-center justify-center text-center overflow-hidden">
         
-        <div class="filtros-tipo">
-            <button class="btn-filtro activo" onclick="filtrar('todas', this)">Todas las Rutas</button>
-            <button class="btn-filtro" onclick="filtrar('walking', this)">Walking</button>
-            <button class="btn-filtro" onclick="filtrar('hiking', this)">Hiking</button>
-            <button class="btn-filtro" onclick="filtrar('trekking', this)">Trekking</button>
-        </div>
-
-        <div class="grid-caminos" id="grid-rutas">
+        <svg preserveAspectRatio="none" viewBox="0 0 100 1000" class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40 md:opacity-60">
+            <defs>
+                <mask id="path-mask">
+                    <path id="mask-path" d="M 50 0 C 65 250, 35 500, 50 750 C 65 900, 35 1000, 50 1000" fill="none" stroke="white" stroke-width="15" stroke-linecap="round" />
+                </mask>
+            </defs>
             
-            <!-- WALKING TOURS -> Conectados a walking.html -->
-            <div class="ruta-card" data-tipo="walking" onclick="window.location.href='walking.html'">
-                <div class="ruta-badge">Walking</div>
-                <img src="https://images.unsplash.com/photo-1518182170546-076616fdfaaf?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Free Walking Tour Barichara">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Barichara</span>
-                    <h3 class="ruta-titulo">Free Walking Tour Barichara</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="walking" onclick="window.location.href='walking.html'">
-                <div class="ruta-badge">Walking</div>
-                <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Walking Tour Barichara">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Barichara</span>
-                    <h3 class="ruta-titulo">Walking Tour Barichara</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="walking" onclick="window.location.href='walking.html'">
-                <div class="ruta-badge">Walking</div>
-                <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Free Walking Tour Bucaramanga">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Bucaramanga</span>
-                    <h3 class="ruta-titulo">Free Walking Tour Bucaramanga</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="walking" onclick="window.location.href='walking.html'">
-                <div class="ruta-badge">Walking</div>
-                <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Walking Tour Bucaramanga">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Bucaramanga</span>
-                    <h3 class="ruta-titulo">Walking Tour Bucaramanga</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="walking" onclick="window.location.href='walking.html'">
-                <div class="ruta-badge">Walking</div>
-                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Walking Tour Zapatoca">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Zapatoca</span>
-                    <h3 class="ruta-titulo">Walking Tour Zapatoca</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-
-            <!-- HIKING TOURS -> Conectados a hiking.html -->
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">Etapa 1</div>
-                <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour Zapatoca La Fuente">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Zapatoca ⇄ La Fuente</span>
-                    <h3 class="ruta-titulo">Hiking Tour Zapatoca a La Fuente</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">Etapa 2</div>
-                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour La Fuente Guane">
-                <div class="ruta-info">
-                    <span class="ruta-origen">La Fuente ⇄ Guane</span>
-                    <h3 class="ruta-titulo">Hiking Tour La Fuente a Guane</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">Etapa 3</div>
-                <img src="https://images.unsplash.com/photo-1605235456089-289f6d628eb5?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour Guane Barichara">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Guane ⇄ Barichara</span>
-                    <h3 class="ruta-titulo">Hiking Tour Guane a Barichara</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">Ancestral</div>
-                <img src="https://images.unsplash.com/photo-1518182170546-076616fdfaaf?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Camino Real Guane Barichara">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Guane ⇄ Barichara</span>
-                    <h3 class="ruta-titulo">Camino Real Ancestral</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">Etapa 4</div>
-                <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Barichara Villanueva">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Barichara ⇄ Villanueva</span>
-                    <h3 class="ruta-titulo">Barichara a Villanueva</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">Los Templados</div>
-                <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Tour Barichara Cabrera">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Barichara ⇄ Cabrera</span>
-                    <h3 class="ruta-titulo">Ruta Los Templados</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">La Peña</div>
-                <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Barichara Cabrera">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Barichara ⇄ Cabrera</span>
-                    <h3 class="ruta-titulo">Ruta La Peña</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="hiking" onclick="window.location.href='hiking.html'">
-                <div class="ruta-badge hiking">Hiking</div>
-                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Hiking Zapatoca Guane">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Zapatoca ⇄ Guane</span>
-                    <h3 class="ruta-titulo">Hiking Zapatoca a Guane</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-
-            <!-- TREKKING TOURS -> Conectados a travesia_majestuosa.html -->
-            <div class="ruta-card" data-tipo="trekking" onclick="window.location.href='travesia_majestuosa.html'">
-                <div class="ruta-badge trekking">Etapa 5</div>
-                <img src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Villanueva Jordán">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Villanueva ⇄ Jordán</span>
-                    <h3 class="ruta-titulo">Villanueva a Jordán</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-            <div class="ruta-card" data-tipo="trekking" onclick="window.location.href='travesia_majestuosa.html'">
-                <div class="ruta-badge trekking">Etapa 6</div>
-                <img src="https://images.unsplash.com/photo-1605235456089-289f6d628eb5?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Jordán Los Santos">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Jordán ⇄ Los Santos</span>
-                    <h3 class="ruta-titulo">Jordán a Los Santos</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-
-            <div class="ruta-card" data-tipo="trekking" onclick="window.location.href='travesia_majestuosa.html'">
-                <div class="ruta-badge trekking">Fase 1 (Etapas 1-6)</div>
-                <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=800" class="ruta-img" alt="Travesía Majestuosa">
-                <div class="ruta-info">
-                    <span class="ruta-origen">Zapatoca ➔ Los Santos</span>
-                    <h3 class="ruta-titulo">Travesía Majestuosa Completa</h3>
-                    <button class="btn-entrar">Explorar Ruta</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="exploracion-section">
-        <h2>Territorios en Exploración</h2>
-        <p>Nuevas rutas en fase de mapeo táctico y desarrollo. El dominio sigue creciendo.</p>
-        
-        <div class="exploracion-grid">
-            <div class="card-exploracion">
-                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=800" class="img-exploracion" alt="Ruta Alta Montaña">
-                <h4>Expedición Alta Montaña</h4>
-                <button class="btn-avisame" onclick="alert('Abriendo formulario para unirse a la lista de espera...')">Avísame cuando esté lista</button>
-            </div>
+            <path d="M 50 0 C 65 250, 35 500, 50 750 C 65 900, 35 1000, 50 1000" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3" class="trail-dots" />
             
-            <div class="card-exploracion">
-                <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&q=80&w=800" class="img-exploracion" alt="Pueblos Ocultos">
-                <h4>Ruta: Los Pueblos Ocultos</h4>
-                <button class="btn-avisame" onclick="alert('Abriendo formulario para unirse a la lista de espera...')">Avísame cuando esté lista</button>
+            <path d="M 50 0 C 65 250, 35 500, 50 750 C 65 900, 35 1000, 50 1000" fill="none" stroke="#DE4F32" stroke-width="3" class="trail-dots" mask="url(#path-mask)" />
+        </svg>
+
+        <div class="max-w-3xl mx-auto space-y-32 md:space-y-48 relative z-10 py-12">
+            
+            <div class="reveal-text">
+                <p class="text-[#87C5C8] font-trek text-[9px] md:text-[10px] tracking-[0.4em] mb-4">EL LEGADO DE LOS ANDES</p>
+                <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white leading-tight">
+                    No es solo un punto <br><span class="text-[#DE4F32]">en el mapa.</span>
+                </h3>
             </div>
+
+            <div class="reveal-text px-4">
+                <p class="text-slate-400 font-light text-base md:text-2xl leading-relaxed max-w-lg mx-auto">
+                    Es una vasta red de senderos reales y caminos de herradura que entrelazan los pueblos más fascinantes de Santander.
+                </p>
+            </div>
+
+            <div class="reveal-text px-4">
+                <h3 class="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white mb-6">
+                    Paso a paso.<br class="block md:hidden"> Pueblo a pueblo.
+                </h3>
+                <p class="text-slate-500 font-light text-sm md:text-xl leading-relaxed mb-12 max-w-md mx-auto">
+                    Desde la frescura del bosque andino hasta las profundidades áridas del cañón más imponente de Colombia.
+                </p>
+                <div class="w-px h-16 bg-gradient-to-b from-[#DE4F32] to-transparent mx-auto"></div>
+            </div>
+
         </div>
-    </div>
+    </section>
+
+    <section id="experiencias" class="pt-12 pb-24 px-4 sm:px-6 md:px-12 bg-[#020617] relative">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center mb-16">
+                <p class="text-[#87C5C8] font-trek text-[9px] tracking-[0.3em] uppercase mb-4">Conquista el Territorio</p>
+                <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">Descubre La Ruta</h2>
+            </div>
+
+            <div class="product-card relative rounded-3xl overflow-hidden cursor-pointer group border border-white/10 shadow-2xl" onclick="window.location.href='travesia_majestuosa.html'">
+                
+                <div class="absolute inset-0 z-0">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0008.jpg" class="product-img w-full h-full object-cover object-center transition-transform duration-1000" alt="Trekking Gran Ruta">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent"></div>
+                </div>
+
+                <div class="relative z-10 p-6 md:p-12 flex flex-col justify-end h-full min-h-[480px] md:min-h-[500px]">
+                    
+                    <span class="absolute top-6 left-6 md:top-8 md:left-8 bg-[#DE4F32] text-white text-[8px] sm:text-[9px] font-trek px-4 py-2 rounded-full shadow-[0_0_15px_rgba(222,79,50,0.4)]">TREKKING / LA TRAVESÍA</span>
+
+                    <div class="mt-auto max-w-2xl pt-10">
+                        <h3 class="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-white mb-3 leading-[0.9]">
+                            Descubre <br>La Gran Ruta
+                        </h3>
+                        <p class="text-slate-200 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-6">
+                            Nuestra expedición insignia. Conecta toda la red de caminos desde los bosques andinos hasta las profundidades del abismo en un reto físico y mental transformador.
+                        </p>
+                        
+                        <button class="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/30 text-white backdrop-blur-sm group-hover:bg-[#DE4F32] group-hover:border-[#DE4F32] transition-all">
+                            <i data-lucide="arrow-right" class="w-5 h-5 md:w-6 md:h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
 
     <script>
-        // MATRIZ DE LOGÍSTICA SIMPLIFICADA
-        const logistica = {
-            'barichara': '<strong>Desde Bucaramanga (Bus o Avión):</strong> En la Terminal de Transporte, toma un bus hacia San Gil (2.5h). Desde la "Terminalita" de San Gil, un colectivo te deja directo en Barichara en 45 minutos.<br><br><strong>Desde Bogotá (Bus):</strong> Puedes tomar un bus nocturno directo a San Gil (6-7h) y empalmar con el colectivo.',
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Animación de aparición de textos (Fade Up)
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.3 });
             
-            'zapatoca': '<strong>Desde Bucaramanga (Bus o Avión):</strong> Toma un colectivo directo desde la Terminal de Transporte o los paraderos en Floridablanca. El trayecto de subida a la montaña dura aproximadamente 2 horas.',
+            document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
             
-            'chicamocha': '<strong>Desde Bucaramanga (Bus o Avión):</strong> Si inicias por Jordán, toma un bus intermunicipal vía Bogotá y pide parada en el peaje de Pescadero o en Aratoca. Si inicias por Los Santos, toma el bus directo a la Mesa de Los Santos o el Teleférico.',
+            // 2. Animación Minimalista del Camino al hacer Scroll
+            const maskPath = document.getElementById('mask-path');
+            const introSection = document.getElementById('intro-ruta');
             
-            'bucaramanga_dest': '<strong>¡Llegaste a nuestro Hub!</strong> Puedes llegar al Aeropuerto Internacional Palonegro (BGA) con conexión desde las principales ciudades, o vía terrestre a la Terminal de Transportes. Estás listo para comenzar.'
-        };
-
-        function calcularRuta() {
-            const destino = document.getElementById('ciudad-destino').value;
-            const cajaResultado = document.getElementById('resultado-logistica');
-
-            if(destino) {
-                const mensaje = logistica[destino] || "Ruta en validación. Contáctanos para detalles exactos.";
-                cajaResultado.innerHTML = "<strong>Instrucciones de Llegada:</strong><br><br>" + mensaje;
-                cajaResultado.style.display = 'block';
-            } else {
-                cajaResultado.style.display = 'none';
+            if (maskPath && introSection) {
+                const pathLength = maskPath.getTotalLength();
+                // Configuramos el path oculto al principio
+                maskPath.style.strokeDasharray = pathLength;
+                maskPath.style.strokeDashoffset = pathLength;
+                
+                window.addEventListener('scroll', () => {
+                    const rect = introSection.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    
+                    // Calculamos el progreso del scroll a través de la sección
+                    // Empieza cuando el top de la sección pasa el medio de la pantalla
+                    const startPoint = windowHeight * 0.8; 
+                    const scrollDistance = startPoint - rect.top;
+                    const totalScrollable = rect.height;
+                    
+                    let percentage = scrollDistance / totalScrollable;
+                    
+                    // Limitamos entre 0 y 1
+                    percentage = Math.max(0, Math.min(1, percentage));
+                    
+                    // Actualizamos la máscara para revelar los puntos naranjas
+                    maskPath.style.strokeDashoffset = pathLength - (percentage * pathLength);
+                });
             }
-        }
 
-        // Lógica para filtrar por TIPO DE ACTIVIDAD
-        function filtrar(tipo, botonPulsado) {
-            document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('activo'));
-            botonPulsado.classList.add('activo');
-
-            const tarjetas = document.querySelectorAll('.ruta-card');
-            tarjetas.forEach(tarjeta => {
-                if (tipo === 'todas' || tarjeta.getAttribute('data-tipo') === tipo) {
-                    tarjeta.style.display = 'flex';
-                } else {
-                    tarjeta.style.display = 'none';
-                }
-            });
-        }
+            // 3. Inicializar iconos
+            lucide.createIcons();
+        });
     </script>
+
 </body>
 </html>
