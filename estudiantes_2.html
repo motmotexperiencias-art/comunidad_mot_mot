@@ -1,598 +1,390 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>Mot Mot Experiencias | Itinerario Vivencial</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mot Mot Experiencias | Misión Barichara Vivencial</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
-
-:root{
---primary:#F05A2A;
---secondary:#98CED3;
---dark:#0F172A;
---text:#334155;
---bg:#F8FAFC;
---card:#FFFFFF;
-}
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-font-family:'Inter',sans-serif;
-background:var(--bg);
-color:var(--text);
-overflow-x:hidden;
-}
-
-/* SCROLL BAR */
-
-#progress{
-position:fixed;
-top:0;
-left:0;
-height:4px;
-width:0%;
-background:linear-gradient(90deg,var(--primary),#ff885e);
-z-index:99999;
-}
-
-/* HERO */
-
-.hero{
-position:relative;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:70px 20px 90px;
-overflow:hidden;
-background:
-linear-gradient(135deg,#0f172a 0%,#172554 100%);
-}
-
-/* FIGURAS ABSTRACTAS */
-
-.hero::before{
-content:'';
-position:absolute;
-width:520px;
-height:520px;
-background:radial-gradient(circle,var(--secondary),transparent 70%);
-top:-180px;
-right:-120px;
-opacity:.18;
-animation:float1 8s ease-in-out infinite;
-}
-
-.hero::after{
-content:'';
-position:absolute;
-width:420px;
-height:420px;
-background:radial-gradient(circle,var(--primary),transparent 70%);
-bottom:-180px;
-left:-100px;
-opacity:.18;
-animation:float2 8s ease-in-out infinite;
-}
-
-.shape{
-position:absolute;
-border-radius:999px;
-filter:blur(2px);
-opacity:.12;
-}
-
-.shape1{
-width:120px;
-height:120px;
-background:var(--secondary);
-top:18%;
-left:10%;
-animation:rotate 15s linear infinite;
-}
-
-.shape2{
-width:80px;
-height:80px;
-background:var(--primary);
-bottom:25%;
-right:15%;
-animation:rotate 12s linear infinite reverse;
-}
-
-.shape3{
-width:160px;
-height:160px;
-border:2px dashed rgba(255,255,255,.15);
-top:55%;
-left:5%;
-animation:rotate 30s linear infinite;
-}
-
-.hero-content{
-position:relative;
-z-index:10;
-max-width:1050px;
-width:100%;
-text-align:center;
-color:white;
-}
-
-.badge{
-display:inline-flex;
-align-items:center;
-gap:10px;
-padding:12px 20px;
-border-radius:999px;
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.1);
-backdrop-filter:blur(12px);
-font-size:12px;
-font-weight:800;
-letter-spacing:2px;
-text-transform:uppercase;
-margin-bottom:28px;
-}
-
-.hero h1{
-font-size:clamp(3rem,8vw,6rem);
-font-weight:900;
-line-height:.95;
-margin-bottom:24px;
-}
-
-.hero p{
-max-width:760px;
-margin:auto;
-font-size:clamp(1rem,2vw,1.2rem);
-line-height:1.9;
-color:#dbeafe;
-}
-
-.hero-mini{
-margin-top:45px;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:12px;
-}
-
-.hero-pill{
-padding:12px 18px;
-border-radius:999px;
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.1);
-font-size:14px;
-font-weight:700;
-backdrop-filter:blur(10px);
-}
-
-.scroll{
-margin-top:55px;
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:10px;
-animation:bounce 2s infinite;
-}
-
-.scroll span{
-font-size:12px;
-letter-spacing:3px;
-font-weight:800;
-text-transform:uppercase;
-color:#cbd5e1;
-}
-
-.scroll i{
-font-size:24px;
-color:var(--primary);
-}
-
-/* CONTAINER */
-
-.container{
-max-width:1150px;
-margin:auto;
-padding:0 18px;
-}
-
-/* INFO */
-
-.info-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-margin-top:-70px;
-position:relative;
-z-index:20;
-}
-
-@media(max-width:850px){
-
-.info-grid{
-grid-template-columns:1fr;
-margin-top:-50px;
-}
-
-}
-
-/* CARD */
-
-.card{
-background:var(--card);
-border-radius:28px;
-padding:28px;
-box-shadow:0 12px 30px rgba(15,23,42,.06);
-border:1px solid #e2e8f0;
-}
-
-.card-label{
-font-size:12px;
-font-weight:900;
-letter-spacing:2px;
-text-transform:uppercase;
-color:#94a3b8;
-margin-bottom:18px;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.card p{
-line-height:1.9;
-font-size:15px;
-word-break:break-word;
-}
-
-/* SECTION */
-
-.section{
-padding:90px 0;
-}
-
-.section-title{
-text-align:center;
-margin-bottom:55px;
-}
-
-.section-title h2{
-font-size:clamp(2rem,5vw,3.5rem);
-font-weight:900;
-color:var(--dark);
-line-height:1;
-margin-bottom:12px;
-}
-
-.section-title p{
-max-width:700px;
-margin:auto;
-line-height:1.8;
-color:#64748b;
-}
-
-/* TIMELINE */
-
-.timeline{
-position:relative;
-padding-left:26px;
-}
-
-.timeline::before{
-content:'';
-position:absolute;
-left:8px;
-top:0;
-bottom:0;
-width:3px;
-background:linear-gradient(to bottom,var(--primary),var(--secondary));
-border-radius:999px;
-}
-
-.day{
-margin-bottom:70px;
-}
-
-.day-header{
-position:sticky;
-top:15px;
-z-index:10;
-margin-bottom:30px;
-}
-
-.day-header span{
-display:inline-block;
-background:var(--dark);
-color:white;
-padding:14px 22px;
-border-radius:999px;
-font-weight:800;
-font-size:14px;
-box-shadow:0 10px 25px rgba(0,0,0,.12);
-}
-
-.timeline-item{
-position:relative;
-margin-bottom:22px;
-opacity:0;
-transform:translateY(45px);
-transition:1s;
-}
-
-.timeline-item.active{
-opacity:1;
-transform:translateY(0);
-}
-
-.dot{
-position:absolute;
-left:-25px;
-top:28px;
-width:16px;
-height:16px;
-border-radius:50%;
-background:var(--primary);
-border:4px solid white;
-box-shadow:0 0 0 4px rgba(240,90,42,.15);
-}
-
-.timeline-card{
-background:white;
-padding:24px;
-border-radius:26px;
-border:1px solid #e2e8f0;
-box-shadow:0 8px 22px rgba(15,23,42,.05);
-}
-
-.time{
-font-size:13px;
-font-weight:900;
-letter-spacing:1px;
-color:var(--primary);
-margin-bottom:10px;
-text-transform:uppercase;
-}
-
-.timeline-card h3{
-font-size:1.2rem;
-font-weight:800;
-line-height:1.4;
-margin-bottom:10px;
-color:var(--dark);
-}
-
-.timeline-card p{
-font-size:15px;
-line-height:1.8;
-color:#475569;
-}
-
-/* FEATURES */
-
-.features{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:25px;
-}
-
-@media(max-width:900px){
-
-.features{
-grid-template-columns:1fr;
-}
-
-}
-
-.feature-box{
-background:white;
-padding:30px;
-border-radius:30px;
-box-shadow:0 10px 28px rgba(0,0,0,.05);
-border:1px solid #e2e8f0;
-}
-
-.feature-box h3{
-font-size:1.5rem;
-font-weight:900;
-margin-bottom:24px;
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-.feature-list{
-display:flex;
-flex-direction:column;
-gap:15px;
-}
-
-.feature-item{
-display:flex;
-gap:12px;
-align-items:flex-start;
-font-size:15px;
-line-height:1.7;
-}
-
-/* PRICE */
-
-.price{
-margin-top:40px;
-padding:45px 25px;
-border-radius:35px;
-background:
-linear-gradient(135deg,#0f172a,#1e293b);
-color:white;
-text-align:center;
-position:relative;
-overflow:hidden;
-}
-
-.price::before{
-content:'';
-position:absolute;
-width:350px;
-height:350px;
-background:radial-gradient(circle,var(--secondary),transparent 70%);
-top:-160px;
-right:-120px;
-opacity:.15;
-}
-
-.price-tag{
-font-size:clamp(2.5rem,7vw,5rem);
-font-weight:900;
-line-height:1;
-margin:15px 0;
-}
-
-.price-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:16px;
-margin-top:35px;
-}
-
-@media(max-width:850px){
-
-.price-grid{
-grid-template-columns:1fr;
-}
-
-}
-
-.price-mini{
-background:rgba(255,255,255,.08);
-padding:22px;
-border-radius:22px;
-backdrop-filter:blur(10px);
-}
-
-.price-mini h4{
-font-size:2rem;
-font-weight:900;
-margin-top:8px;
-}
-
-/* PAYMENT */
-
-.payment{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-margin-top:35px;
-}
-
-@media(max-width:850px){
-
-.payment{
-grid-template-columns:1fr;
-}
-
-}
-
-.copy-box{
-margin-top:18px;
-padding:14px;
-background:#f8fafc;
-border-radius:16px;
-border:1px solid #e2e8f0;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-flex-wrap:wrap;
-font-weight:800;
-}
-
-.copy-btn{
-border:none;
-background:var(--primary);
-color:white;
-padding:10px 16px;
-border-radius:12px;
-font-weight:700;
-cursor:pointer;
-transition:.3s;
-}
-
-.copy-btn:hover{
-transform:scale(1.03);
-}
-
-/* FOOTER */
-
-.footer{
-padding:70px 20px;
-text-align:center;
-}
-
-.footer h3{
-font-size:1.3rem;
-font-weight:900;
-color:var(--dark);
-margin-bottom:8px;
-}
-
-.footer p{
-color:#64748b;
-line-height:1.8;
-}
-
-/* REVEAL */
-
-.reveal{
-opacity:0;
-transform:translateY(40px);
-transition:1s;
-}
-
-.reveal.active{
-opacity:1;
-transform:translateY(0);
-}
-
-/* ANIMACIONES */
-
-@keyframes bounce{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(10px);}
-}
-
-@keyframes rotate{
-from{transform:rotate(0deg);}
-to{transform:rotate(360deg);}
-}
-
-@keyframes float1{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(20px);}
-}
-
-@keyframes float2{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-20px);}
-}
-
+    :root {
+        --azul: #0C1B4D;
+        --azul-hover: #162A72;
+        --celeste: #9AD7DD;
+        --naranja: #F05A28;
+        --blanco: #ffffff;
+        --gris: #475569;
+        --fondo: #f8fafc;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: var(--fondo);
+        color: #0f172a;
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6, .font-poppins {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* BARRA DE PROGRESO */
+    #progress {
+        position: fixed;
+        top: 0; left: 0; height: 6px; width: 0%;
+        background: linear-gradient(90deg, var(--naranja), var(--celeste));
+        z-index: 9999;
+        border-radius: 0 3px 3px 0;
+    }
+
+    /* HERO SECTION (Sin foto, puro color de marca y dinamismo) */
+    .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        background: radial-gradient(circle at top right, var(--azul-hover), var(--azul) 70%);
+        color: var(--blanco);
+        overflow: hidden;
+    }
+
+    /* Elementos flotantes decorativos en el fondo */
+    .hero::before {
+        content: ''; position: absolute; width: 400px; height: 400px;
+        background: var(--celeste); opacity: 0.15; border-radius: 50%;
+        left: -100px; top: -100px; filter: blur(40px);
+    }
+    .hero::after {
+        content: ''; position: absolute; width: 300px; height: 300px;
+        background: var(--naranja); opacity: 0.15; border-radius: 50%;
+        right: -50px; bottom: -50px; filter: blur(40px);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 900px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* LOGO PRINCIPAL SIN BORDES NI FONDOS */
+    .logo-main {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        margin: 0 auto 30px auto;
+        display: block;
+        object-fit: contain;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        backdrop-filter: blur(5px);
+    }
+
+    .hero h1 {
+        font-size: clamp(3rem, 8vw, 5.5rem);
+        line-height: 1.1;
+        font-weight: 900;
+        margin-bottom: 20px;
+    }
+
+    .hero h1 span { color: var(--celeste); }
+
+    .hero p {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        line-height: 1.8;
+        color: #e2e8f0;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .scroll-down {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        animation: bounce 2s infinite;
+        color: var(--celeste);
+    }
+
+    /* CONTENEDOR GENERAL */
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 80px 20px;
+    }
+
+    /* TARJETAS DE INFORMACIÓN */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: -100px;
+        position: relative;
+        z-index: 20;
+    }
+
+    .info-card {
+        background: var(--blanco);
+        border-radius: 24px;
+        padding: 35px;
+        box-shadow: 0 15px 40px rgba(12, 27, 77, 0.08);
+        border: 1px solid #e2e8f0;
+    }
+
+    .info-label {
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--naranja);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-value {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--gris);
+    }
+
+    .info-value b { color: var(--azul); font-size: 17px; display: block; margin-bottom: 8px;}
+
+    /* TÍTULOS DE SECCIÓN */
+    .section-title { text-align: center; margin-bottom: 60px; }
+    .section-title h2 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; color: var(--azul); line-height: 1.2; }
+    .section-title p { color: var(--gris); font-size: 1.1rem; margin-top: 10px; }
+
+    /* TIMELINE CON EL CAMINANTE */
+    .timeline {
+        position: relative;
+        padding-left: 40px;
+    }
+
+    /* La línea del camino */
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: dashed 4px #cbd5e1;
+        border-left: 4px dashed #cbd5e1;
+    }
+
+    .day-title {
+        margin: 60px 0 30px;
+        position: sticky;
+        top: 20px;
+        z-index: 10;
+    }
+
+    .day-title span {
+        background: var(--azul);
+        color: var(--blanco);
+        padding: 12px 25px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 900;
+        box-shadow: 0 10px 20px rgba(12, 27, 77, 0.2);
+    }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    /* Icono del Caminante en lugar del punto aburrido */
+    .timeline-walker {
+        position: absolute;
+        left: -48px; /* Ajustado para centrar con la línea */
+        top: 15px;
+        width: 60px;
+        height: 60px;
+        background: var(--fondo);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 5;
+        border: 4px solid var(--naranja);
+        box-shadow: 0 0 0 4px white;
+    }
+
+    .timeline-walker img {
+        width: 35px;
+        height: auto;
+    }
+
+    .timeline-card {
+        background: var(--blanco);
+        border-radius: 20px;
+        padding: 25px 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        border: 1px solid #f1f5f9;
+        margin-left: 20px;
+        transition: transform 0.3s;
+    }
+
+    .timeline-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+
+    .timeline-time {
+        font-size: 14px;
+        font-weight: 900;
+        color: var(--naranja);
+        margin-bottom: 8px;
+        display: inline-block;
+        background: rgba(240, 90, 40, 0.1);
+        padding: 4px 12px;
+        border-radius: 8px;
+    }
+
+    .timeline-card h3 { font-size: 1.25rem; font-weight: 800; color: var(--azul); margin-bottom: 8px; }
+    .timeline-card p { font-size: 15px; color: var(--gris); line-height: 1.7; }
+
+    /* INCLUYE Y NO INCLUYE */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-box {
+        background: var(--blanco);
+        padding: 40px;
+        border-radius: 24px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+    }
+
+    .feature-box h3 {
+        font-size: 1.6rem; font-weight: 900; margin-bottom: 25px;
+        display: flex; align-items: center; gap: 12px;
+    }
+
+    .feature-list { display: flex; flex-direction: column; gap: 16px; }
+    
+    .feature-item {
+        display: flex; align-items: flex-start; gap: 12px;
+        font-size: 15px; color: var(--gris); line-height: 1.6;
+    }
+
+    .feature-item i { margin-top: 4px; font-size: 18px; }
+
+    /* TARJETA DE PRECIO */
+    .price-card {
+        margin-top: 80px;
+        background: linear-gradient(135deg, var(--azul), var(--azul-hover));
+        color: var(--blanco);
+        padding: 60px 40px;
+        border-radius: 32px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(12, 27, 77, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .price-card::before {
+        content: ''; position: absolute; width: 300px; height: 300px;
+        background: var(--celeste); opacity: 0.1; border-radius: 50%;
+        top: -100px; right: -100px;
+    }
+
+    .price-card h2 { font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900; margin: 15px 0; color: var(--celeste); }
+
+    .price-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    .stat-box {
+        background: rgba(255,255,255,0.1);
+        padding: 25px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+    }
+
+    .stat-box p { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 8px;}
+    .stat-box h3 { font-size: 2.2rem; font-weight: 900; }
+
+    /* PAGOS */
+    .payment-box {
+        background: var(--fondo);
+        border: 2px solid #e2e8f0;
+        padding: 15px 20px;
+        border-radius: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        font-weight: 800;
+        color: var(--azul);
+        font-size: 1.1rem;
+    }
+
+    .copy-btn {
+        background: var(--naranja); color: white; border: none;
+        padding: 10px 20px; border-radius: 10px; font-weight: 700; cursor: pointer;
+        transition: 0.3s;
+    }
+    .copy-btn:hover { background: var(--azul); }
+
+    /* FOOTER */
+    .footer {
+        background: var(--azul);
+        color: var(--blanco);
+        text-align: center;
+        padding: 60px 20px;
+        margin-top: 80px;
+    }
+
+    .footer h3 { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; }
+    .footer p { color: var(--celeste); font-size: 1.1rem; margin-bottom: 15px; }
+    .footer .gerente { color: var(--naranja); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 14px;}
+
+    /* ANIMACIONES BÁSICAS */
+    .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .timeline { padding-left: 20px; }
+        .timeline::before { left: 0; }
+        .timeline-walker { left: -28px; width: 45px; height: 45px; border-width: 3px;}
+        .timeline-walker img { width: 22px; }
+        .timeline-card { margin-left: 10px; padding: 20px; }
+        .hero { padding-top: 80px; }
+    }
 </style>
 </head>
 
@@ -600,781 +392,328 @@ to{transform:rotate(360deg);}
 
 <div id="progress"></div>
 
-<!-- HERO -->
-
 <section class="hero">
-
-<div class="shape shape1"></div>
-<div class="shape shape2"></div>
-<div class="shape shape3"></div>
-
-<div class="hero-content">
-
-<div class="badge">
-<i class="fa-solid fa-route"></i>
-Mot Mot Experiencias
-</div>
-
-<h1>
-Itinerario<br>
-Vivencial
-</h1>
-
-<p>
-Tres días de senderismo, cultura, patrimonio, artesanías y experiencias auténticas en Barichara y Guane junto al Colegio Luis López de Mesa.
-</p>
-
-<div class="hero-mini">
-
-<div class="hero-pill">
-🥾 Senderismo cultural
-</div>
-
-<div class="hero-pill">
-🎨 Saberes ancestrales
-</div>
-
-<div class="hero-pill">
-🏘️ Patrimonio e historia
-</div>
-
-<div class="hero-pill">
-🧺 Experiencias artesanales
-</div>
-
-</div>
-
-<div class="scroll">
-<span>Desliza</span>
-<i class="fa-solid fa-chevron-down"></i>
-</div>
-
-</div>
-
+    <div class="hero-content">
+        <!-- AQUÍ ESTÁ EL LOGO PRINCIPAL: Sin fondos, bordes ni cortes -->
+        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/cropped-logo-foto-de-perfil-instagram-1.png" alt="Mot Mot Experiencias Logo" class="logo-main reveal">
+        
+        <div class="badge reveal"><i class="fa-solid fa-map-location-dot"></i> Experiencia Escolar</div>
+        
+        <h1 class="reveal">Misión<br><span>Barichara</span></h1>
+        
+        <p class="reveal">Tres días de senderismo, patrimonio, cultura, artesanías y experiencias auténticas en Barichara y Guane junto al Colegio Luis López de Mesa.</p>
+        
+        <div class="scroll-down reveal">
+            <span class="font-poppins">Descubre el Itinerario</span>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </div>
 </section>
 
 <div class="container">
-
-<!-- INFO -->
-
-<div class="info-grid reveal">
-
-<div class="card">
-
-<div class="card-label">
-<i class="fa-solid fa-building"></i>
-Información del proveedor
-</div>
-
-<p>
-<b>Mot Mot Experiencias</b><br>
-NIT: 1.098.659.756-6<br>
-Representante legal: Liliana Paola Rozo Martínez<br>
-Dirección: Carrera 7 #4-65 Centro, Barichara<br>
-Teléfono: 3132501446<br>
-Correo: motmotexperiencias@gmail.com
-</p>
-
-</div>
-
-<div class="card">
-
-<div class="card-label">
-<i class="fa-solid fa-users"></i>
-Información del grupo
-</div>
-
-<p>
-<b>Colegio Luis López de Mesa</b><br>
-Fecha del servicio:<br>
-16 al 18 de julio de 2026<br><br>
-
-Prepárense para vivir unos días llenos de historia, caminos ancestrales, talleres artesanales y experiencias inolvidables en Barichara y Guane.
-</p>
-
-</div>
-
-</div>
-
-<!-- ITINERARIO -->
-
-<section class="section">
-
-<div class="section-title reveal">
-
-<h2>Itinerario oficial</h2>
-
-<p>
-Una experiencia diseñada para aprender caminando, conectar con el territorio y vivir la cultura local desde adentro.
-</p>
-
-</div>
-
-<div class="timeline">
-
-<!-- DIA 1 -->
-
-<div class="day">
-
-<div class="day-header reveal">
-<span>16 JULIO · Llegada y bienvenida a Barichara</span>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-<div class="time">4:00 a.m</div>
-
-<h3>Salida desde Barrancabermeja 🚌</h3>
-
-<p>
-Inicio de nuestra aventura desde el corregimiento Centro rumbo al municipio de Barichara, Santander.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">10:00 - 11:00 a.m aprox</div>
-
-<h3>Llegada a Barichara 🏘️</h3>
-
-<p>
-Llegada al pueblo patrimonial y primer encuentro con la experiencia vivencial.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">11:00 a.m - 12:30 p.m</div>
-
-<h3>Organización en el hotel 🏨</h3>
-
-<p>
-Dejamos las maletas y utilizamos las instalaciones mientras llega la hora oficial del check in, el cual se realizará al finalizar la jornada.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">1:00 p.m - 2:00 p.m</div>
-
-<h3>Almuerzo grupal 🍲</h3>
-
-<p>
-Espacio para descansar, compartir y prepararnos para las actividades culturales de la tarde.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">3:00 p.m</div>
-
-<h3>City Tour Histórico + Taller de Papel ⛪📜</h3>
-
-<p>
-Recorrido cultural por iglesias, miradores y calles icónicas de Barichara acompañado por guías locales. Posteriormente viviremos una experiencia artesanal para conocer el proceso del papel hecho a mano con fibra de fique.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">7:00 p.m</div>
-
-<h3>Cena y descanso 🍽️</h3>
-
-<p>
-Finalizamos la jornada compartiendo en grupo y descansando en el hotel.
-</p>
-
-</div>
-</div>
-
-</div>
-
-<!-- DIA 2 -->
-
-<div class="day">
-
-<div class="day-header reveal">
-<span>17 JULIO · Senderismo histórico y cultura viva</span>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">7:00 a.m - 8:00 a.m</div>
-
-<h3>Desayuno en el hotel ☕</h3>
-
-<p>
-Inicio de jornada con desayuno y preparación para la caminata histórica.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<h3>Senderismo Barichara - Guane 🥾</h3>
-
-<p>
-Caminata por el Camino Real acompañados por dos guías locales, reconociendo historia, patrimonio y territorio.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<h3>Saberes ancestrales y fibra de plátano 🌿</h3>
-
-<p>
-Visita a la casa de la artesana Janeth donde conoceremos la transformación de la fibra de plátano y su relación con la economía y cultura local.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<h3>Museo Paleontológico y recorrido cultural 🏺</h3>
-
-<p>
-Entrada al museo y recorrido histórico por Guane, sus calles coloniales, mirador y esencia patrimonial.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<h3>Regreso en Chiva + tarde libre 🚍💦</h3>
-
-<p>
-Regreso a Barichara en Chiva icónica del municipio, almuerzo y tarde libre para disfrutar de la piscina del hotel.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<h3>Descanso en el hotel 🌙</h3>
-
-<p>
-Tiempo libre y descanso para finalizar la experiencia del día.
-</p>
-
-</div>
-</div>
-
-</div>
-
-<!-- DIA 3 -->
-
-<div class="day">
-
-<div class="day-header reveal">
-<span>18 JULIO · Artesanías y regreso</span>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">7:00 a.m - 8:00 a.m</div>
-
-<h3>Desayuno 🍳</h3>
-
-<p>
-Preparación para la experiencia artesanal del último día.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">8:00 a.m - 8:30 a.m</div>
-
-<h3>Traslado en Chiva 🚍</h3>
-
-<p>
-Salida hacia la Vereda El Caucho, Barichara, donde se encuentra el taller tradicional de cestería.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">8:30 a.m - 12:00 p.m</div>
-
-<h3>Taller de Cestería con Bejuco 🧺</h3>
-
-<p>
-Experiencia artesanal vivencial junto a maestros locales que preservan el oficio ancestral de la cestería en bejuco.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">12:00 p.m - 12:30 p.m</div>
-
-<h3>Regreso a Barichara 🚍</h3>
-
-<p>
-Regreso en Chiva al municipio para continuar con las actividades finales del itinerario.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">12:30 p.m - 1:30 p.m</div>
-
-<h3>Almuerzo grupal 🍽️</h3>
-
-<p>
-Espacio de cierre para compartir la experiencia vivida durante el recorrido.
-</p>
-
-</div>
-</div>
-
-<div class="timeline-item reveal">
-<div class="dot"></div>
-
-<div class="timeline-card">
-
-<div class="time">1:30 p.m - 2:00 p.m</div>
-
-<h3>Check out y regreso 🧳</h3>
-
-<p>
-Salida del hotel e inicio del regreso hacia Barrancabermeja.
-</p>
-
-</div>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- INCLUYE -->
-
-<section class="section">
-
-<div class="section-title reveal">
-
-<h2>¿Qué incluye?</h2>
-
-<p>
-Todo lo necesario para vivir la experiencia de manera cómoda, segura y acompañada.
-</p>
-
-</div>
-
-<div class="features">
-
-<div class="feature-box reveal">
-
-<h3 style="color:#16a34a;">
-<i class="fa-solid fa-circle-check"></i>
-Incluye
-</h3>
-
-<div class="feature-list">
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>3 días y 2 noches en hotel de Barichara</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>Seguros de asistencia médica por 3 días</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>3 almuerzos, 2 desayunos y 1 cena por persona</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>City Tour histórico y cultural</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>Entrada y experiencia en taller de papel</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>Senderismo Barichara - Guane con guías locales</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>Experiencia artesanal con fibra de plátano</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>Entrada al Museo Paleontológico y Arqueológico</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>Recorridos culturales en Barichara y Guane</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-check" style="color:#16a34a;"></i>
-<span>Experiencia de cestería con bejuco</span>
-</div>
-
-</div>
-
-</div>
-
-<div class="feature-box reveal">
-
-<h3 style="color:#dc2626;">
-<i class="fa-solid fa-circle-xmark"></i>
-No incluye
-</h3>
-
-<div class="feature-list">
-
-<div class="feature-item">
-<i class="fa-solid fa-xmark" style="color:#dc2626;"></i>
-<span>Transporte Barrancabermeja - Barichara - Barrancabermeja</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-xmark" style="color:#dc2626;"></i>
-<span>Comidas no especificadas dentro del paquete</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-xmark" style="color:#dc2626;"></i>
-<span>Desayuno durante el trayecto</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-xmark" style="color:#dc2626;"></i>
-<span>Guías durante el transporte en bus</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-xmark" style="color:#dc2626;"></i>
-<span>Servicios o entradas no especificadas</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-xmark" style="color:#dc2626;"></i>
-<span>Transporte de apoyo adicional</span>
-</div>
-
-<div class="feature-item">
-<i class="fa-solid fa-triangle-exclamation" style="color:var(--primary);"></i>
-<span>Revisar recomendaciones y términos enviados por la empresa.</span>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- PRECIO -->
-
-<section class="section reveal">
-
-<div class="price">
-
-<p style="letter-spacing:3px;font-size:12px;font-weight:800;text-transform:uppercase;color:var(--secondary);">
-Paquete Barichara - Guane Vivencial
-</p>
-
-<div class="price-tag">
-$680.000
-</div>
-
-<p style="font-size:18px;color:#cbd5e1;">
-Valor por persona
-</p>
-
-<div class="price-grid">
-
-<div class="price-mini">
-
-<p>Número de personas</p>
-
-<h4>38</h4>
-
-</div>
-
-<div class="price-mini">
-
-<p>Valor total</p>
-
-<h4>$25.840.000</h4>
-
-</div>
-
-<div class="price-mini">
-
-<p>Reserva</p>
-
-<h4>50%</h4>
-
-<p>$340.000 por persona</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- PAGOS -->
-
-<section class="section">
-
-<div class="section-title reveal">
-
-<h2>Formas de pago</h2>
-
-<p>
-Para reservar la experiencia se debe realizar el abono correspondiente.
-</p>
-
-</div>
-
-<div class="payment">
-
-<div class="card reveal">
-
-<div class="card-label">
-🏦 Transferencia bancaria
-</div>
-
-<p>
-<b>Titular:</b> Liliana Paola Rozo Martínez<br>
-<b>C.C:</b> 1.098.659.756 Bucaramanga<br>
-<b>Banco:</b> Caja Social
-</p>
-
-<div class="copy-box">
-
-<span>Cuenta de ahorros: 24044105189</span>
-
-<button class="copy-btn" onclick="copyText('24044105189')">
-Copiar
-</button>
-
-</div>
-
-</div>
-
-<div class="card reveal">
-
-<div class="card-label">
-📱 Bolsillos digitales
-</div>
-
-<p>
-<b>Daviplata / Nequi</b>
-</p>
-
-<div class="copy-box">
-
-<span>3185452803</span>
-
-<button class="copy-btn" onclick="copyText('3185452803')">
-Copiar
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-<!-- FOOTER -->
-
+    <!-- TARJETAS DE INFORMACIÓN -->
+    <div class="info-grid">
+        <div class="info-card reveal">
+            <div class="info-label"><i class="fa-solid fa-building"></i> Información del Proveedor</div>
+            <div class="info-value">
+                <b>Mot Mot Experiencias</b>
+                NIT: 1.098.659.756-6<br>
+                Representante legal: Liliana Paola Rozo Martínez<br>
+                Dirección: Carrera 7 #4-65 Centro, Barichara<br>
+                Teléfono: 3132501446<br>
+                Correo: motmotexperiencias@gmail.com
+            </div>
+        </div>
+
+        <div class="info-card reveal">
+            <div class="info-label"><i class="fa-solid fa-users"></i> Información del Comprador</div>
+            <div class="info-value">
+                <b>Colegio Luis López de Mesa</b>
+                Fechas del servicio:<br>
+                <span style="color: var(--naranja); font-weight: bold;">16 al 18 de julio de 2026</span><br><br>
+                ¡Hola! Te compartimos el itinerario oficial para nuestra jornada. ¡Prepárense para vivir unos días inolvidables!
+            </div>
+        </div>
+    </div>
+
+    <!-- ITINERARIO -->
+    <section style="margin-top: 100px;">
+        <div class="section-title reveal">
+            <h2>El Itinerario</h2>
+            <p>Sigue la ruta del caminante para conocer nuestra aventura.</p>
+        </div>
+
+        <div class="timeline">
+            <!-- DÍA 1 -->
+            <div class="day-title reveal"><span>16 DE JULIO · Llegada y Cultura</span></div>
+
+            <div class="timeline-item reveal">
+                <!-- AQUÍ USAMOS EL LOGO DEL CAMINANTE COMO PUNTO -->
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">4:00 a.m</span>
+                    <h3>Salida desde Centro Barrancabermeja</h3>
+                    <p>Iniciamos nuestra aventura rumbo a Barichara desde el corregimiento Centro.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">10:00 a.m - 11:00 a.m aprox</span>
+                    <h3>Llegada a Barichara</h3>
+                    <p>Llegada al municipio más lindo de Colombia.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">11:00 a.m - 12:30 p.m</span>
+                    <h3>Organización en el hotel</h3>
+                    <p>Dejamos las maletas y podemos utilizar las instalaciones (el check-in se realiza a partir de las 3 pm, por tal razón lo realizaremos al final del día).</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">1:00 p.m - 2:00 p.m</span>
+                    <h3>Almuerzo</h3>
+                    <p>Espacio para almorzar y recargar energías.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">3:00 p.m</span>
+                    <h3>City Tour Histórico y Taller de papel</h3>
+                    <p>Recorrido por iglesias, miradores y calles icónicas con guías locales. Luego, visita guiada con experiencia para conocer el arte del papel hecho a mano con fibra de fique.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">7:00 p.m</span>
+                    <h3>Cena y Descanso</h3>
+                    <p>Cena grupal y descanso en el hotel.</p>
+                </div>
+            </div>
+
+            <!-- DÍA 2 -->
+            <div class="day-title reveal"><span>17 DE JULIO · Senderismo y Saberes</span></div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">7:00 a.m - 8:00 a.m</span>
+                    <h3>Desayuno en el hotel</h3>
+                    <p>Comenzamos la mañana con energía.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">Mañana</span>
+                    <h3>Senderismo y Saberes Ancestrales</h3>
+                    <p>Senderismo histórico y cultural por el camino patrimonial y real Barichara-Guane. Visita a la casa de la artesana Janeth para conocer la transformación de la fibra de plátano.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">Mediodía</span>
+                    <h3>Museo y Recorrido en Guane</h3>
+                    <p>Entrada al Museo Paleontológico y arqueológico. Recorrido cultural e histórico por el pueblo, mirador y su esencia colonial.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">Tarde</span>
+                    <h3>Regreso en Chiva y Piscina</h3>
+                    <p>Regreso a Barichara en CHIVA icónica. Almuerzo en Barichara y tarde libre para disfrutar de la piscina en el hotel, finalizando con el descanso.</p>
+                </div>
+            </div>
+
+            <!-- DÍA 3 -->
+            <div class="day-title reveal"><span>18 DE JULIO · Cestería y Retorno</span></div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">7:00 a.m - 8:00 a.m</span>
+                    <h3>Desayuno en el hotel</h3>
+                    <p>Último desayuno en Barichara.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">8:00 a.m - 12:00 p.m</span>
+                    <h3>Transporte y Taller de Cestería</h3>
+                    <p>Transporte en Chiva hacia Vereda el caucho. Experiencia artesanal que preserva el oficio ancestral de la cestería en bejuco, dirigida por maestros locales.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal">
+                <div class="timeline-walker"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" alt="Punto Caminante"></div>
+                <div class="timeline-card">
+                    <span class="timeline-time">12:00 p.m - 2:00 p.m</span>
+                    <h3>Regreso, Almuerzo y Check Out</h3>
+                    <p>Regreso en Chiva, almuerzo en Barichara. Salida y Check out del hotel a la 1:30 pm (las maletas se dejan antes en recepción). Regreso a Barrancabermeja.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INCLUYE Y NO INCLUYE -->
+    <section style="margin-top: 100px;">
+        <div class="section-title reveal">
+            <h2>Detalles del Paquete</h2>
+            <p>Revisa cuidadosamente lo que compone nuestra experiencia.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-box reveal" style="border-top: 6px solid #16a34a;">
+                <h3 style="color:#16a34a;"><i class="fa-solid fa-circle-check"></i> INCLUYE</h3>
+                <div class="feature-list">
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Tres días, dos noches en Hotel de Barichara</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Seguros de asistencia médica por 3 días y seguro hotelero</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>3 Almuerzos, 2 desayunos, 1 cena (por persona)</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>City Tour histórico y cultural con guías locales</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Entrada y experiencia en el Taller de Papel</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Senderismo Barichara - Guane con guías locales</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Experiencia artesanal y manilla de fibra de plátano</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Entrada al Museo Paleontológico y Arqueológico de Guane</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Recorrido cultural e histórico por Guane y Chiva de regreso</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Experiencia de Cestería con Bejuco y canasto hecho por participante</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Chiva de transporte hacia y desde el Taller de Cestería</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check" style="color:#16a34a;"></i> <span>Piscina en el hotel y compañía durante las actividades</span></div>
+                </div>
+            </div>
+
+            <div class="feature-box reveal" style="border-top: 6px solid #dc2626;">
+                <h3 style="color:#dc2626;"><i class="fa-solid fa-circle-xmark"></i> NO INCLUYE</h3>
+                <div class="feature-list">
+                    <div class="feature-item"><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> <span>Transporte Centro/corregimiento - Barrancabermeja - Barichara y viceversa</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> <span>Comidas no especificadas en el paquete</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> <span>Desayuno durante la ruta de ida</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> <span>Guías durante el transporte en Bus</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> <span>Servicios, entradas o apoyos de transporte no especificados</span></div>
+                    <div class="feature-item"><i class="fa-solid fa-xmark" style="color:#dc2626;"></i> <span>Tener en cuenta recomendaciones (Términos y Condiciones enviados por la empresa)</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRECIO Y RESERVA -->
+    <section class="reveal">
+        <div class="price-card">
+            <p style="font-size: 14px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;">Concepto: Paquete Barichara - Guane Vivencial</p>
+            <h2>$680.000</h2>
+            <p style="font-size: 1.2rem; font-weight: 500;">Valor por persona</p>
+
+            <div class="price-stats">
+                <div class="stat-box">
+                    <p>Número de personas</p>
+                    <h3>38</h3>
+                </div>
+                <div class="stat-box">
+                    <p>Valor total</p>
+                    <h3>$25.840.000</h3>
+                </div>
+                <div class="stat-box">
+                    <p>Abono Reserva (50%)</p>
+                    <h3 style="color: var(--naranja);">$340.000</h3>
+                    <p style="text-transform: none; margin-top: 5px;">por persona</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMAS DE PAGO -->
+    <section style="margin-top: 80px;">
+        <div class="section-title reveal">
+            <h2>Formas de Pago</h2>
+            <p>Para reservar la experiencia se deberá abonar el 50%.</p>
+        </div>
+
+        <div class="info-grid" style="margin-top: 0;">
+            <div class="info-card reveal">
+                <h3 style="font-size: 1.5rem; font-weight: 900; color: var(--azul); margin-bottom: 20px;"><i class="fa-solid fa-building-columns text-naranja"></i> Banco Caja Social</h3>
+                <div style="color: var(--gris); line-height: 1.8;">
+                    <b>Titular:</b> Liliana Paola Rozo Martínez<br>
+                    <b>C.C:</b> 1.098.659.756 Bucaramanga<br>
+                    <b>Cuenta de ahorros No:</b>
+                </div>
+                <div class="payment-box">
+                    <span id="cuenta">24044105189</span>
+                    <button class="copy-btn" onclick="copiarTexto('cuenta')">Copiar</button>
+                </div>
+            </div>
+
+            <div class="info-card reveal">
+                <h3 style="font-size: 1.5rem; font-weight: 900; color: var(--azul); margin-bottom: 20px;"><i class="fa-solid fa-mobile-screen text-naranja"></i> Bolsillos Digitales</h3>
+                <div style="color: var(--gris); line-height: 1.8;">
+                    <b>Billetera:</b> Daviplata / Nequi<br>
+                    Puedes hacer tu transferencia directamente a este número:
+                </div>
+                <div class="payment-box" style="margin-top: 32px;">
+                    <span id="nequi">3185452803</span>
+                    <button class="copy-btn" onclick="copiarTexto('nequi')">Copiar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- PIE DE PÁGINA -->
 <footer class="footer reveal">
-
-<h3>
-Liliana Paola Rozo Martínez
-</h3>
-
-<p>
-C.C 1.098.659.756 · Bucaramanga
-</p>
-
-<p style="margin-top:10px;font-weight:800;color:var(--primary);">
-Gerente · Mot Mot Experiencias
-</p>
-
+    <h3>Liliana Paola Rozo Martínez</h3>
+    <p>C.C 1.098.659.756 / Bucaramanga</p>
+    <div class="gerente">Gerente · Mot Mot Experiencias</div>
 </footer>
 
 <script>
+    // Barra de progreso de lectura superior
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progress').style.width = scrolled + '%';
+    });
 
-/* PROGRESS */
+    // Animación de aparición (Scroll Reveal)
+    function reveal() {
+        const reveals = document.querySelectorAll('.reveal');
+        for (let i = 0; i < reveals.length; i++) {
+            const windowHeight = window.innerHeight;
+            const elementTop = reveals[i].getBoundingClientRect().top;
+            const visible = 100;
+            if (elementTop < windowHeight - visible) {
+                reveals[i].classList.add('active');
+            }
+        }
+    }
+    window.addEventListener('scroll', reveal);
+    reveal(); // Ejecutar al cargar la página
 
-window.addEventListener('scroll',()=>{
-
-const winScroll =
-document.body.scrollTop ||
-document.documentElement.scrollTop;
-
-const height =
-document.documentElement.scrollHeight -
-document.documentElement.clientHeight;
-
-const scrolled =
-(winScroll / height) * 100;
-
-document.getElementById("progress").style.width =
-scrolled + "%";
-
-});
-
-/* REVEAL */
-
-function reveal(){
-
-const reveals =
-document.querySelectorAll('.reveal');
-
-reveals.forEach(el=>{
-
-const windowHeight = window.innerHeight;
-const elementTop = el.getBoundingClientRect().top;
-const visible = 90;
-
-if(elementTop < windowHeight - visible){
-el.classList.add('active');
-}
-
-});
-
-}
-
-window.addEventListener('scroll',reveal);
-
-reveal();
-
-/* TIMELINE */
-
-const timelineItems =
-document.querySelectorAll('.timeline-item');
-
-const observer =
-new IntersectionObserver(entries=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-entry.target.classList.add('active');
-}
-
-});
-
-},{
-threshold:.12
-});
-
-timelineItems.forEach(item=>{
-observer.observe(item);
-});
-
-/* COPY */
-
-function copyText(text){
-
-navigator.clipboard.writeText(text);
-
-alert("Copiado: " + text);
-
-}
-
+    // Función para copiar texto (Cuentas bancarias)
+    function copiarTexto(id) {
+        const texto = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(texto).then(() => {
+            alert('¡Copiado al portapapeles: ' + texto + '!');
+        });
+    }
 </script>
 
 </body>
 </html>
-```
