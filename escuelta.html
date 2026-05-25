@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARECAMINOS - Asociación Refugio Escuela de Caminantes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --naranja: #E65127; 
+            --turquesa: #80C4C8; 
+            --negro: #1a1a1a; 
+            --blanco: #ffffff; 
+            --gris-claro: #f4f4f4;
+            --gris-oscuro: #555555;
+        }
+        
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--gris-claro); 
+            color: var(--negro); 
+            line-height: 1.6;
+        }
+
+        /* Barra de Navegación */
+        header {
+            background-color: var(--negro);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--turquesa);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo-text {
+             Albir: var(--blanco);
+            color: var(--blanco);
+            font-weight: 900;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .logo-text span { color: var(--naranja); }
+        .btn-volver {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            border: 2px solid var(--naranja);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .btn-volver:hover {
+            background-color: var(--naranja);
+            color: var(--blanco);
+        }
+
+        /* Hero Emocional */
+        .page-hero {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1525186402429-b4ff38bedec6?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: var(--blanco);
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .page-hero h1 {
+            font-size: 3em;
+            font-weight: 900;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+        .page-hero .subtitle {
+            font-size: 1.2em;
+            color: var(--turquesa);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+        }
+
+        /* Contenedor Principal */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        /* Secciones de Contenido */
+        .manifesto-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .manifesto-card {
+            background: var(--blanco);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border-bottom: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .manifesto-card:hover {
+            transform: translateY(-5px);
+            border-bottom-color: var(--naranja);
+        }
+        
+        .manifesto-card .icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .manifesto-card h2 {
+            font-size: 1.3em;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--negro);
+            margin: 0 0 15px 0;
+            letter-spacing: 1px;
+        }
+
+        .manifesto-card p {
+            font-size: 0.95em;
+            color: var(--gris-oscuro);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Bloque del Plan Único de Aporte */
+        .plan-section {
+            background: var(--blanco);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 5px solid var(--turquesa);
+            margin-top: 20px;
+        }
+
+        .plan-badge {
+            background-color: #fff5f2;
+            color: var(--naranja);
+            padding: 8px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .plan-section h3 {
+            font-size: 2em;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0 0 15px 0;
+            color: var(--negro);
+        }
+
+        .plan-section p {
+            font-size: 1.1em;
+            color: var(--gris-oscuro);
+            max-width: 700px;
+            margin: 0 auto 35px auto;
+            line-height: 1.7;
+        }
+
+        /* Botón de Acción */
+        .btn-action {
+            background: var(--naranja);
+            color: var(--blanco);
+            border: none;
+            padding: 18px 40px;
+            border-radius: 35px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(230,81,39,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            background: #cc411b;
+            box-shadow: 0 15px 30px rgba(230,81,39,0.4);
+        }
+
+        /* Footer Institucional */
+        footer {
+            background-color: var(--negro);
+            color: #666;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.85em;
+            border-top: 1px solid #2c2c2c;
+            margin-top: 50px;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .manifesto-grid { grid-template-columns: 1fr; gap: 20px; }
+            .page-hero h1 { font-size: 2em; }
+            .plan-section { padding: 30px 20px; }
+            .plan-section h3 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <div class="logo-text">ARE<span>CAMINOS</span></div>
+        <a href="index.html" class="btn-volver">← Volver</a>
+    </header>
+
+    <!-- Hero Seccional -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Caminar con Propósito</h1>
+            <div class="subtitle">Asociación Refugio Escuela de Caminantes</div>
+        </div>
+    </section>
+
+    <!-- Cuerpo con Enfoque Social -->
+    <main class="container">
+        
+        <!-- Cuadrícula Qué, Por qué, Qué buscamos -->
+        <div class="manifesto-grid">
+            <div class="manifesto-card">
+                <span class="icon">🥾</span>
+                <h2>¿Qué hacemos?</h2>
+                <p>Promovemos la cultura del senderismo técnico y responsable en el Cañón del Chicamocha. Administramos un refugio de montaña que sirve como estación de paso y base para la formación ambiental.</p>
+            </div>
+            
+            <div class="manifesto-card">
+                <span class="icon">🌱</span>
+                <h2>¿Por qué trabajamos?</h2>
+                <p>Para mitigar el impacto humano en ecosistemas estratégicos a través de la ética "No Deje Rastro", transformando el turismo convencional en un motor de restauración ecológica y orgullo territorial.</p>
+            </div>
+            
+            <div class="manifesto-card">
+                <span class="icon">🤝</span>
+                <h2>¿Qué buscamos?</h2>
+                <p>Generar bienestar social y sostenibilidad económica para las comunidades locales de Jordán. Buscamos integrar la economía popular solidaria directamente en las cadenas de valor del turismo regenerativo.</p>
+            </div>
+        </div>
+
+        <!-- Plan Único de Vinculación y Aporte -->
+        <div class="plan-section">
+            <span class="plan-badge">Nuestro Modelo de Impacto</span>
+            <h3>Hacer Senderismo y Aportar a la Comunidad</h3>
+            <p>
+                No somos una empresa de turismo tradicional, somos una comunidad. Al recorrer las rutas ancestrales con nosotros y alojarte en nuestro refugio en la vereda Las Lajas, tus cuotas de servicio se convierten en un aporte directo para el mantenimiento de caminos antiguos, la reforestación del cañón y el sustento de las familias locales.
+            </p>
+            <a href="registro.html" class="btn-action">Vincularme y Apoyar el Proyecto ➜</a>
+        </div>
+
+    </main>
+
+    <!-- Footer Mínimo -->
+    <footer>
+        <p>&copy; 2026 ARECAMINOS - Asociación Refugio Escuela de Caminantes del Chicamocha.</p>
+        <p style="font-size: 0.8em; margin-top: 5px; color: #444;">Jordán, Santander, Colombia. Aliado de la red Mot Mot Experiencias.</p>
+    </footer>
+
+</body>
+</html>
