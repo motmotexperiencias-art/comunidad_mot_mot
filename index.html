@@ -2,263 +2,123 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mot Mot - Caminatas y Experiencias</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mot Mot - Cañón del Chicamocha</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
-        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #1a1a1a; --blanco: #ffffff; --gris-claro: #f4f4f4; }
-        body { font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; background-color: var(--gris-claro); color: var(--negro); }
-        nav { position: absolute; top: 25px; width: 100%; padding: 0 30px; box-sizing: border-box; display: flex; justify-content: flex-end; align-items: center; z-index: 1000; }
-        .nav-login { color: white; text-decoration: none; font-weight: 700; font-size: 0.9em; letter-spacing: 1px; text-transform: uppercase; padding: 10px 25px; border: 2px solid rgba(255,255,255,0.4); border-radius: 30px; background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); transition: all 0.3s ease; }
-        .nav-login:hover { background: white; color: var(--naranja); border-color: white; }
-        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: flex-start; color: white; overflow: hidden; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://images.unsplash.com/photo-1525186402429-b4ff38bedec6?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center right; z-index: -2; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%); z-index: -1; }
-        .hero-content { max-width: 650px; padding: 40px; text-align: left; margin-left: 5%; }
-        h1 { font-size: 3.8em; font-weight: 900; line-height: 1.1; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); text-transform: uppercase; }
-        .highlight { color: var(--naranja); }
-        p.description { font-size: 1.3em; line-height: 1.5; margin-bottom: 30px; font-weight: 400; color: #eee; }
-        .mot-signature { font-size: 0.9em; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--turquesa); border-left: 3px solid var(--naranja); padding-left: 15px; margin-top: 10px; }
-        .cards-section { position: relative; margin-top: -80px; padding: 0 20px 60px 20px; z-index: 10; }
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
         
-        .cards-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        :root { 
+            --naranja: #E65127; 
+            --turquesa: #80C4C8; 
+            --oscuro: #0d1117;
+            --blanco: #ffffff;
+        }
         
-        .rol-card { background: white; padding: 30px 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: transform 0.3s; cursor: pointer; border-bottom: 4px solid transparent; }
-        .rol-card:hover { transform: translateY(-8px); border-bottom: 4px solid var(--naranja); }
-        .card-icon { font-size: 2.5em; display: block; margin-bottom: 15px; }
-        .card-title { font-size: 1.3em; font-weight: 800; margin: 0 0 10px 0; text-transform: uppercase; }
-        .card-text { font-size: 0.95em; color: #555; line-height: 1.5; margin-bottom: 20px; }
-        .card-action { font-weight: 800; color: var(--naranja); text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; display: flex; align-items: center; }
-        @media (max-width: 768px) { .hero-bg { background-position: 70% 20%; } .hero { align-items: flex-end; } .hero-content { width: 100%; margin: 0; padding: 20px 20px 90px 20px; } h1 { font-size: 2.2em; } .cards-section { margin-top: -60px; } .cards-container { grid-template-columns: 1fr; } }
+        body { 
+            margin:0; 
+            font-family:'Montserrat',sans-serif; 
+            background:#f5f5f5; 
+            overflow-x:hidden;
+        }
 
-        /* =========================================
-           ESTILOS: FOOTER Y MODALES LEGALES
-           ========================================= */
-        .footer-motmot { background-color: var(--negro); color: var(--blanco); padding: 50px 20px 30px 20px; text-align: center; font-size: 0.9em; margin-top: 20px; border-top: 4px solid var(--turquesa); }
-        .footer-sostenibilidad { max-width: 800px; margin: 0 auto 30px auto; }
-        .footer-sostenibilidad h4 { color: var(--turquesa); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 800; }
-        
-        .footer-botones { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; max-width: 1000px; margin: 0 auto 20px auto; }
-        .btn-footer { background: transparent; color: var(--blanco); border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.8em; text-transform: uppercase; transition: all 0.3s ease; }
-        .btn-footer:hover { background: rgba(255,255,255,0.1); border-color: var(--blanco); }
-        .btn-footer.naranja { color: var(--naranja); border-color: var(--naranja); }
-        .btn-footer.naranja:hover { background: var(--naranja); color: var(--blanco); border-color: var(--naranja); }
-        .btn-footer.alerta { border-color: #d9534f; color: #d9534f; }
-        .btn-footer.alerta:hover { background: #d9534f; color: white; }
+        /* HERO */
+        .hero { position:relative; width:100%; height:100vh; overflow:hidden; display:flex; align-items:flex-end; color:white; }
+        .hero-bg { position:absolute; inset:0; background-image:url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/hero.png'); background-size:cover; background-position:76% center; transform:scale(1.02); }
+        .hero-overlay { position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.62) 28%, rgba(0,0,0,0.12) 60%, rgba(0,0,0,0.02) 100%); }
 
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
-        .modal-content { background-color: var(--blanco); color: var(--negro); margin: auto; padding: 40px; border-radius: 15px; width: 100%; max-width: 800px; max-height: 85vh; overflow-y: auto; text-align: left; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
-        .cerrar-modal { color: var(--negro); float: right; font-size: 35px; font-weight: bold; cursor: pointer; line-height: 1; transition: color 0.3s; margin-top: -10px; }
-        .cerrar-modal:hover { color: var(--naranja); }
-        .modal-body h2 { color: var(--naranja); margin-top: 0; text-transform: uppercase; font-weight: 900; }
-        .modal-body h3 { color: var(--turquesa); margin-top: 25px; font-weight: 700; text-transform: uppercase; font-size: 1.1em; }
-        .modal-body p, .modal-body li { font-size: 0.95em; line-height: 1.6; color: #444; margin-bottom: 15px; }
-        .modal-body ul { padding-left: 20px; }
+        /* TOP */
+        .topbar { position:absolute; top:18px; left:18px; right:18px; z-index:20; display:flex; justify-content:space-between; align-items:center; }
+        .logo-top { display:flex; align-items:center; gap:12px; }
+        .logo-top img { width:52px; height:52px; object-fit:contain; }
+        
+        .login-btn { background:rgba(255,255,255,0.10); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.12); color:white; padding:10px 16px; border-radius:16px; text-decoration:none; font-weight:700; font-size:0.78rem; transition:0.3s; }
+        .login-btn:hover { background:rgba(255,255,255,0.18); }
+
+        /* CONTENIDO */
+        .hero-content { position:relative; z-index:5; width:100%; padding:0 24px 132px 24px; box-sizing:border-box; }
+        .mot-signature { font-size:0.76rem; font-weight:800; letter-spacing:2.2px; text-transform:uppercase; color:white; border-left:2px solid var(--naranja); padding-left:12px; margin-bottom:18px; }
+        .hero h1 { font-size:4.7rem; line-height:0.90; margin:0; font-weight:900; letter-spacing:-2px; text-transform:uppercase; max-width:680px; }
+        .hero h1 span { color:var(--naranja); }
+        .hero p { max-width:520px; font-size:1.02rem; line-height:1.6; margin-top:22px; color:rgba(255,255,255,0.88); }
+
+        /* NAV APP */
+        .bottom-app-nav { position:absolute; left:50%; transform:translateX(-50%); bottom:18px; width:92%; max-width:700px; z-index:30; }
+        .bottom-nav-container { display:grid; grid-template-columns:repeat(3,1fr); background:rgba(14,16,20,0.72); backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,0.08); border-radius:24px; overflow:hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+        .bottom-item { position:relative; text-align:center; padding:15px 8px 13px; cursor:pointer; transition:0.25s; }
+        .bottom-item:hover { background:rgba(255,255,255,0.05); }
+        .bottom-item:not(:last-child)::after { content:''; position:absolute; right:0; top:22%; width:1px; height:56%; background:rgba(255,255,255,0.08); }
+
+        /* ICONOS Y TITULOS */
+        .bottom-icon { width:42px; height:42px; margin:0 auto 8px auto; display:flex; align-items:center; justify-content:center; border-radius:14px; background:rgba(255,255,255,0.05); color:white; }
+        .bottom-title { font-size:0.84rem; font-weight:800; color:white; }
+        .bottom-sub { margin-top:3px; font-size:0.67rem; color:rgba(255,255,255,0.58); }
+
+        @media(max-width:768px){
+            .hero-content { padding:0 18px 120px 18px; }
+            .hero h1 { font-size:2.55rem; line-height:0.93; max-width:280px; }
+            .hero p { max-width:280px; font-size:0.88rem; margin-top:16px; }
+            .logo-top img { width:42px; height:42px; }
+            .bottom-app-nav { width:94%; bottom:12px; }
+            .bottom-icon { width:34px; height:34px; border-radius:11px; margin-bottom:6px; }
+            .bottom-title { font-size:0.64rem; }
+            .bottom-sub { display:none; }
+        }
     </style>
 </head>
 <body>
-    <nav><a href="login.html" class="nav-login">Ingresar</a></nav>
-    <header class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>CAMINATAS<br>Y EXPERIENCIAS<br><span class="highlight">REALES.</span></h1>
-            <p class="description">Conectamos <strong>anfitriones, viajeros y guías</strong>.<br>Descubre caminos auténticos con nuestra comunidad.</p>
-            <div class="mot-signature">Muévete • Observa • Transfórmate</div>
+
+<header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="logo-top">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/cropped-logo-foto-de-perfil-instagram-1.png">
         </div>
-    </header>
-    <section class="cards-section">
-        <div class="cards-container">
-            
-            <div class="rol-card" onclick="window.location.href='caminos.html'">
-                <span class="card-icon">🥾</span>
-                <h3 class="card-title">Caminos</h3>
-                <p class="card-text">La mejor forma de conocer un destino es caminando. Descubre las rutas que están esperando por ti.</p>
-                <div class="card-action">Explorar ➜</div>
+        <a href="https://www.motmotexperiencias.com/registro.html" class="login-btn">Ingresar</a>
+    </div>
+
+    <!-- TEXTO -->
+    <div class="hero-content">
+        <div class="mot-signature">Muévete • Observa • Transfórmate</div>
+        <h1>CAMINATAS<br>Y EXPERIENCIAS<br><span>REALES.</span></h1>
+        <p>Conectamos <strong>anfitriones, viajeros y guías</strong>. Descubre caminos auténticos con nuestra comunidad.</p>
+    </div>
+
+    <!-- MENU -->
+    <div class="bottom-app-nav">
+        <div class="bottom-nav-container">
+            <!-- CAMINOS (Icono de Ruta) -->
+            <div class="bottom-item" onclick="window.location.href='https://www.motmotexperiencias.com/caminos.html'">
+                <div class="bottom-icon"><i data-lucide="route" class="w-5 h-5"></i></div>
+                <div class="bottom-title">Caminos</div>
+                <div class="bottom-sub">Explorar rutas</div>
             </div>
-
-            <div class="rol-card" onclick="seleccionarPerfil('viajero')">
-                <span class="card-icon">🎒</span>
-                <h3 class="card-title">Viajeros</h3>
-                <p class="card-text">Busco descubrir caminos auténticos, conectar con locales o vender itinerarios de mis caminatas y experiencias.</p>
-                <div class="card-action">Entrar ➜</div>
+            <!-- COMUNIDAD (Icono de Usuarios) -->
+            <div class="bottom-item" onclick="window.location.href='https://www.motmotexperiencias.com/registro.html'">
+                <div class="bottom-icon"><i data-lucide="users" class="w-5 h-5"></i></div>
+                <div class="bottom-title">Comunidad</div>
+                <div class="bottom-sub">Viajeros y guías</div>
             </div>
-            
-            <div class="rol-card" onclick="seleccionarPerfil('anfitrion')">
-                <span class="card-icon">🏠</span>
-                <h3 class="card-title">Anfitriones</h3>
-                <p class="card-text">Quiero conocer caminantes que vienen a mi ciudad, recibir voluntarios e intercambios, compartir mi destino o enseñar un saber.</p>
-                <div class="card-action">Crear Perfil ➜</div>
-            </div>
-            
-            <div class="rol-card" onclick="seleccionarPerfil('guia')">
-                <span class="card-icon">🧭</span>
-                <h3 class="card-title">Guías</h3>
-                <p class="card-text">Ofrezco tours profesionales y expediciones de pago certificadas enfocadas en walking, hiking y trekking.</p>
-                <div class="card-action">Ofertar ➜</div>
-            </div>
-
-        </div>
-    </section>
-
-    <footer class="footer-motmot">
-        <div class="footer-sostenibilidad">
-            <h4>Enlaces de Interés</h4>
-        </div>
-        
-        <div class="footer-botones">
-            <button class="btn-footer naranja" onclick="abrirModal('modal-asociacion')">Asociación Refugio Escuela</button>
-            
-            <button class="btn-footer" onclick="abrirModal('modal-sostenibilidad')">Política de Sostenibilidad</button>
-            <button class="btn-footer alerta" onclick="abrirModal('modal-escnna')">Prevención ESCNNA</button>
-            <button class="btn-footer" onclick="abrirModal('modal-tyc')">Términos y Condiciones</button>
-            <button class="btn-footer" onclick="abrirModal('modal-datos')">Tratamiento de Datos</button>
-            <button class="btn-footer" onclick="abrirModal('modal-pqrs')">PQRS</button>
-        </div>
-        <div style="color: #666; font-size: 0.8em; margin-top: 20px;">
-            &copy; 2026 Mot Mot Experiencias. Todos los derechos reservados. Colombia.
-        </div>
-    </footer>
-
-    <div id="modal-asociacion" class="modal">
-        <div class="modal-content">
-            <span class="cerrar-modal" onclick="cerrarModal('modal-asociacion')">&times;</span>
-            <div class="modal-body">
-                <h2>Asociación Refugio Escuela de Caminantes</h2>
-                <p>Ubicada en el imponente <strong>Cañón del Chicamocha</strong>, somos una Unidad Productiva Asociativa de la economía popular y solidaria. Nuestro objeto principal es fomentar, promover y desarrollar la cultura del senderismo y el excursionismo técnico y responsable.</p>
-                
-                <h3>🥾 Senderismo y Conservación</h3>
-                <p>Aplicamos de manera estricta la ética ambiental "No Deje Rastro" para mitigar el impacto humano en el Cañón del Chicamocha y otros ecosistemas estratégicos.</p>
-                
-                <h3>📚 Educación y Capacitación</h3>
-                <p>Diseñamos e impartimos programas de educación informal orientados a la profesionalización de técnicas de marcha, orientación, gestión integral del riesgo y primeros auxilios en zonas remotas.</p>
-                
-                <h3>🏡 Sede e Infraestructura</h3>
-                <p>Operamos nuestra sede social y de entrenamiento bajo el modelo técnico de refugio de montaña y estación de paso (gîte d’étape). Funciona como punto de apoyo logístico para investigadores, brigadas de emergencia y organismos de socorro.</p>
-                
-                <h3>🤝 Economía Popular</h3>
-                <p>Desarrollamos actividades comerciales conexas (alojamiento, logística, suministros técnicos y artesanías locales) para garantizar la autosuficiencia operativa, el mantenimiento de los senderos y la integración de nuestros asociados en el turismo regenerativo.</p>
-
-                <div style="text-align: center; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-                    <button class="btn-footer naranja" style="background: var(--naranja); color: white;" onclick="window.location.href='escuela.html'">Entrar a la página de la Escuela ➜</button>
-                </div>
+            <!-- PERFIL (Icono de Usuario) -->
+            <div class="bottom-item" onclick="window.location.href='https://www.motmotexperiencias.com/registro.html'">
+                <div class="bottom-icon"><i data-lucide="user" class="w-5 h-5"></i></div>
+                <div class="bottom-title">Perfil</div>
+                <div class="bottom-sub">Ingresar</div>
             </div>
         </div>
     </div>
+</header>
 
-    <div id="modal-sostenibilidad" class="modal">
-        <div class="modal-content">
-            <span class="cerrar-modal" onclick="cerrarModal('modal-sostenibilidad')">&times;</span>
-            <div class="modal-body">
-                <h2>Política de Sostenibilidad</h2>
-                <p>En <strong>Mot Mot Experiencias</strong>, el camino nos transforma. Estamos firmemente comprometidos con la conservación del patrimonio natural y cultural, promoviendo prácticas de turismo responsable, el apoyo a la economía local y el cuidado ambiental en cada paso que damos.</p>
-            </div>
-        </div>
-    </div>
+<script>
+    // Inicializar iconos de Lucide
+    lucide.createIcons();
+</script>
 
-    <div id="modal-tyc" class="modal">
-        <div class="modal-content">
-            <span class="cerrar-modal" onclick="cerrarModal('modal-tyc')">&times;</span>
-            <div class="modal-body">
-                <h2>Términos y Condiciones Generales</h2>
-                <p><em>Versión: 01 | Código: PO-02 | Fecha de actualización: 13-11-2025</em></p>
-                <p>De conformidad con las disposiciones legales contenidas en la Ley de Turismo y sus reglamentos, el presente documento establece los "Términos y Condiciones" que regulan la prestación de los servicios turísticos ofrecidos por MOT MOT EXPERIENCIAS, en adelante denominado el "OPERADOR", y el "CLIENTE".</p>
-                <p>La aceptación de estos Términos y Condiciones se considera formalizada al momento en que el CLIENTE realiza el pago de cualquier servicio.</p>
-                
-                <h3>1. Objeto del Contrato</h3>
-                <p>El presente documento tiene como objeto detallar las normas que rigen la relación entre el OPERADOR y el CLIENTE, estableciendo los derechos y responsabilidades de ambas partes, desde el momento de la reserva hasta la culminación del servicio.</p>
-                
-                <h3>2.1 Proceso de Reserva y Abono</h3>
-                <p>El CLIENTE deberá solicitar la reserva de los servicios a través de los canales de comunicación oficiales del OPERADOR. Para confirmar la reserva, el CLIENTE se obliga a realizar un abono mínimo del 50% del valor total de los servicios. Sin este abono, la reserva no se considerará confirmada...</p>
-                <p>El pago del 100% del valor total de los servicios deberá ser completado a más tardar antes de la prestación de los mismos.</p>
-                
-                <h3>2.2 Validación de Pago</h3>
-                <p>La compra de cualquier producto sólo será efectiva en el momento en que el OPERADOR valide el pago realizado... Si el CLIENTE se equivoca al realizar el envío del dinero, asumirá la total responsabilidad por dicho error.</p>
-                
-                <h3>2.3 Derecho de Retracto (Art. 47 de la Ley 1480 de 2011)</h3>
-                <p>El CLIENTE tiene un derecho de retracto según lo establecido en el Artículo 47 de la Ley 1480 de 2011. Deberá manifestar su intención por escrito a motmotexperiencias@gmail.com. El plazo es de cinco (5) días hábiles...</p>
-
-                <h3>3. Políticas de Cancelación y Penalidades</h3>
-                <ul>
-                    <li><strong>Entre 20 y 10 días:</strong> Penalidad del 15%. Reembolso del 85%.</li>
-                    <li><strong>Entre 9 y 7 días:</strong> Penalidad del 50%. Reembolso del 50%.</li>
-                    <li><strong>Entre 6 y 4 días:</strong> Penalidad del 75%. Reembolso del 25%.</li>
-                    <li><strong>Menos de 4 días o No-Show:</strong> Penalidad del 100%.</li>
-                </ul>
-                <p>Se fija una Tasa Administrativa equivalente al 15% del valor total del plan, de carácter no reembolsable.</p>
-
-                <h3>4. Causas de Fuerza Mayor</h3>
-                <p>El OPERADOR no se hace responsable por el incumplimiento total o parcial de los servicios contratados cuando sea consecuencia de eventos de fuerza mayor o circunstancias imprevisibles (factores naturales o sociales).</p>
-
-                <h3>5. Obligaciones y Derechos</h3>
-                <p>El CLIENTE se compromete a cumplir horarios, seguir instrucciones, cuidar pertenencias y mantener conducta adecuada. El OPERADOR se compromete a prestar el servicio, brindar información veraz, garantizar seguridad y manejar los datos adecuadamente.</p>
-                
-                <h3>7. Legislación y Resolución de Conflictos</h3>
-                <p>El presente contrato se regirá por las leyes de la República de Colombia. Las partes buscarán una solución de común acuerdo y, de no lograrse, se someterá a conciliación en un centro jurídico avalado.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-escnna" class="modal">
-        <div class="modal-content">
-            <span class="cerrar-modal" onclick="cerrarModal('modal-escnna')">&times;</span>
-            <div class="modal-body">
-                <h2>Prevención ESCNNA</h2>
-                <h3>Ley 679 de 2001</h3>
-                <p>En <strong>Mot Mot Experiencias</strong> estamos firmemente comprometidos con la protección de la infancia y la adolescencia.</p>
-                <p>De acuerdo con lo establecido en la <strong>Ley 679 de 2001 y la Ley 1336 de 2009</strong> del Gobierno Nacional de Colombia, advertimos a todos nuestros clientes, viajeros y colaboradores que la Explotación Sexual Comercial de Niños, Niñas y Adolescentes (ESCNNA) es un delito grave que se castiga con penas de privación de la libertad.</p>
-                <p>Cualquier indicio de este tipo de actividades durante nuestras caminatas o experiencias será reportado inmediatamente a las autoridades competentes. Fomentamos un turismo sano, responsable y de profundo respeto por nuestras comunidades.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-datos" class="modal">
-        <div class="modal-content">
-            <span class="cerrar-modal" onclick="cerrarModal('modal-datos')">&times;</span>
-            <div class="modal-body">
-                <h2>Política de Tratamiento de Datos</h2>
-                <h3>Ley 1581 de 2012</h3>
-                <p>Dando cumplimiento a la Ley 1581 de 2012 de Protección de Datos Personales (Habeas Data) en Colombia, le informamos que los datos suministrados a <strong>Mot Mot Experiencias</strong> serán recolectados, almacenados y utilizados exclusivamente para la gestión de reservas, envíos de información sobre nuestros servicios turísticos y fines estadísticos internos.</p>
-                <p>Usted tiene el derecho de conocer, actualizar, rectificar o solicitar la eliminación de sus datos en cualquier momento enviando un correo a <strong>motmotexperiencias@gmail.com</strong>.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-pqrs" class="modal">
-        <div class="modal-content">
-            <span class="cerrar-modal" onclick="cerrarModal('modal-pqrs')">&times;</span>
-            <div class="modal-body">
-                <h2>Atención de PQRS</h2>
-                <h3>Peticiones, Quejas, Reclamos y Sugerencias</h3>
-                <p>Tu opinión es vital para ayudarnos a mejorar cada día nuestros caminos y experiencias. Si deseas radicar una Petición, Queja, Reclamo o Sugerencia, por favor comunícate a nuestros canales oficiales:</p>
-                <ul>
-                    <li><strong>Correo electrónico:</strong> motmotexperiencias@gmail.com</li>
-                    <li><strong>Asunto:</strong> PQRS - [Tu Nombre o Número de Reserva]</li>
-                </ul>
-                <p>Nos comprometemos a brindar una respuesta oportuna en un plazo no mayor a quince (15) días hábiles, de acuerdo con la normativa vigente en Colombia aplicable a operadores turísticos.</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Función original de Mot Mot
-        function seleccionarPerfil(t){localStorage.setItem('motmot_rol',t);window.location.href='registro.html';}
-        
-        // Funciones para manejar las ventanas emergentes (Modales)
-        function abrirModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
-        function cerrarModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        // Cierra el modal si el usuario hace clic fuera de la caja de contenido
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = "none";
-            }
-        }
-    </script>
-    <script type="module" src="firebase-config.js"></script>
 </body>
 </html>

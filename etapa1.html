@@ -2,336 +2,122 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MOT MOT - Hiking Zapatoca a La Fuente</title>
-    <!-- Bibliotecas externas -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zapatoca - Mot Mot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;700;900&display=swap');
+        :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #0f172a; --oscuro: #1a1a1a; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--negro); color: white; margin: 0; padding-bottom: 100px; }
         
-        :root { 
-            --orange: #DE4F32; 
-            --teal: #87C5C8; 
-            --dark: #020617; 
-        }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; }
         
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--dark); 
-            color: white; 
-            margin: 0; 
-            overflow: hidden; 
-        }
+        /* Switcher estilo Mot Mot */
+        .switch-container { display: flex; background: rgba(0,0,0,0.3); border-radius: 50px; padding: 5px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; }
+        .switch-btn { flex: 1; padding: 15px; border: none; background: transparent; color: #888; font-weight: 900; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: 0.3s; }
+        .switch-btn.activo { background: var(--naranja); color: white; }
 
-        .font-trek { font-family: 'Syncopate', sans-serif; }
+        .usuario-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid transparent; transition: 0.3s; }
+        .usuario-card:hover { border-color: var(--turquesa); background: rgba(255,255,255,0.1); }
         
-        /* Layout Principal */
-        .main-container { 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-        }
-        @media (min-width: 1024px) { .main-container { flex-direction: row; } }
-        
-        /* Sección Mapa: Estable y Responsivo */
-        .map-section { 
-            height: 45vh; 
-            width: 100%; 
-            position: relative; 
-            background: #EBE5D9; 
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-        @media (min-width: 1024px) { 
-            .map-section { height: 100vh; width: 50%; border-right: 1px solid rgba(255,255,255,0.1); } 
-        }
-        
-        /* Área de Contenido */
-        .content-section { 
-            flex-grow: 1; 
-            overflow-y: auto; 
-            scroll-snap-type: y mandatory; 
-            background: var(--dark);
-            scrollbar-width: none;
-            scroll-behavior: smooth;
-        }
-        .content-section::-webkit-scrollbar { display: none; }
-
-        .stage-card { 
-            scroll-snap-align: start; 
-            min-height: 55vh; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            padding: 2rem;
-            position: relative;
-        }
-        @media (min-width: 1024px) { .stage-card { min-height: 100vh; padding: 10% 12%; } }
-
-        /* Efectos Visuales del SVG */
-        .active-glow { filter: drop-shadow(0 0 6px rgba(222, 79, 50, 0.7)); }
-        
-        /* Animación de dibujo de la ruta arreglada */
-        .path-draw {
-            stroke-dasharray: 150;
-            transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
-        }
-
-        /* Tus Animaciones Fade-Up */
-        .fade-up { transition: all 0.8s ease-out; }
-        .is-hidden { opacity: 0; transform: translateY(30px); filter: blur(5px); }
-        .is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+        .experiencia-card { background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .experiencia-card:hover { border-color: var(--naranja); transform: translateY(-5px); }
     </style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+    <!-- HERO DE DESTINO -->
+    <div style="height: 50vh; background: linear-gradient(rgba(15,23,42,0.2), rgba(15,23,42,1)), url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0008.jpg') center/cover;">
+        <div class="max-w-5xl mx-auto pt-20 px-6">
+            <span class="bg-[var(--naranja)] text-white px-3 py-1 rounded-full text-[10px] font-black uppercase">Destino • Etapa 01</span>
+            <h1 class="text-6xl font-black uppercase tracking-tighter mt-4">Zapatoca</h1>
+            <p class="text-[var(--turquesa)] font-bold uppercase tracking-widest mt-2">Clima de Seda</p>
+        </div>
+    </div>
 
-        /* Datos precisos adaptados para el producto Hiking Zapatoca - La Fuente (20km) */
-        const routeData = [
-            { 
-                id: 'zapatoca', level: 1, title: "Zapatoca", subtitle: "Ciudad Levítica", 
-                alt: 1787, diff: "Baja", path: "Tapia Pisada",
-                desc: "El punto de partida ideal a 1.787 msnm.",
-                fullText: "Fundada en 1743, Zapatoca conserva una arquitectura colonial intacta. Aquí establecemos las bases de nuestra narrativa histórica y preparamos al grupo para la inmersión.",
-                mapX: 20, mapY: 20, chartX: 0, anchor: "middle", labelY: -6, labelX: 0,
-                segmentPath: ""
-            },
-            { 
-                id: 'cueva-nitro', level: 2, title: "Cueva del Nitro", subtitle: "Mundo Subterráneo", 
-                alt: 1700, diff: "Baja", path: "Roca Natural",
-                desc: "Una formación subterránea iluminada, única en el país.",
-                fullText: "Antes de adentrarnos en los densos bosques, hacemos una parada estratégica para explorar el interior de la montaña y maravillarnos con las formaciones minerales.",
-                mapX: 35, mapY: 30, chartX: 20, anchor: "start", labelX: 4, labelY: 2,
-                segmentPath: "M 20 20 Q 28 25, 35 30"
-            },
-            { 
-                id: 'bosque-andino', level: 3, title: "Camino Lengerke", subtitle: "Bosque Andino", 
-                alt: 1550, diff: "Media", path: "Empedrado Real",
-                desc: "Caminando sobre el legado de Geo Von Lengerke.",
-                fullText: "A finales del siglo XIX, este ingeniero alemán pavimentó esta red de caminos para dinamizar el comercio de quina y café. Nos rodea la exuberancia fresca del bosque andino.",
-                mapX: 50, mapY: 45, chartX: 40, anchor: "end", labelX: -4, labelY: 2,
-                segmentPath: "M 35 30 Q 42 40, 50 45"
-            },
-            { 
-                id: 'mirador-guane', level: 4, title: "Mirador Guane", subtitle: "Ventana Geológica", 
-                alt: 1400, diff: "Media", path: "Tierra Adentro",
-                desc: "Una vista panorámica inigualable del horizonte santandereano.",
-                fullText: "Desde este punto alto, el caminante puede contemplar la inmensidad del territorio y entender visualmente la transición hacia el imponente Cañón del Río Suárez.",
-                mapX: 65, mapY: 50, chartX: 60, anchor: "start", labelY: -4, labelX: 2,
-                segmentPath: "M 50 45 Q 58 48, 65 50"
-            },
-            { 
-                id: 'canon-suarez', level: 5, title: "Descenso Agreste", subtitle: "Cañón del Suárez", 
-                alt: 1350, diff: "Media-Alta", path: "Sendero Árido",
-                desc: "Transición visual hacia las condiciones áridas del cañón.",
-                fullText: "A medida que descendemos, el paisaje cambia drásticamente. Abandonamos la frescura andina para descubrir tierras agrestes marcadas por la fuerza del río Suárez.",
-                mapX: 75, mapY: 65, chartX: 80, anchor: "middle", labelY: 6, labelX: -2,
-                segmentPath: "M 65 50 Q 70 60, 75 65"
-            },
-            { 
-                id: 'la-fuente', level: 6, title: "La Fuente", subtitle: "Llegada Pintoresca", 
-                alt: 1270, diff: "Media", path: "Camino Rural",
-                desc: "Fin de ruta en un entorno de prácticas agrícolas tradicionales.",
-                fullText: "Tras 20 kilómetros de historia y naturaleza, el corregimiento de La Fuente nos recibe. Un pueblo pintoresco perfecto para cerrar este primer día de aclimatación.",
-                mapX: 85, mapY: 85, chartX: 100, anchor: "end", labelX: -4, labelY: 0,
-                segmentPath: "M 75 65 Q 80 75, 85 85"
-            }
-        ];
+    <!-- CONTENEDOR DASHBOARD INTEGRADO -->
+    <main class="max-w-5xl mx-auto px-6 -mt-20">
+        <div class="glass p-6 md:p-10">
+            
+            <div class="switch-container">
+                <button class="switch-btn activo" id="btn-social" onclick="switchModo('social')">👥 Comunidad</button>
+                <button class="switch-btn" id="btn-ventas" onclick="switchModo('ventas')">🏔️ Experiencias</button>
+            </div>
 
-        const App = () => {
-            const [activeIndex, setActiveIndex] = useState(0);
-            const [showModal, setShowModal] = useState(null);
-            const scrollRef = useRef(null);
+            <!-- BUSCADOR -->
+            <div class="flex gap-4 mb-8">
+                <input type="text" id="input-buscar" value="Zapatoca" class="flex-1 bg-black/30 border border-white/10 rounded-xl p-4 text-white" readonly>
+                <button class="bg-[var(--turquesa)] text-black font-black px-8 rounded-xl uppercase hover:bg-white transition-colors">Refrescar</button>
+            </div>
 
-            useEffect(() => {
-                const observer = new IntersectionObserver(
-                    (entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                setActiveIndex(parseInt(entry.target.dataset.index));
-                            }
-                        });
-                    }, { threshold: 0.6, rootMargin: "-10% 0px -10% 0px" }
-                );
-                document.querySelectorAll('.stage-card').forEach(card => observer.observe(card));
-                return () => observer.disconnect();
-            }, []);
+            <!-- RESULTADOS SOCIAL -->
+            <div id="resultados-social" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Se inyecta vía JS -->
+            </div>
 
-            useEffect(() => {
-                lucide.createIcons();
-            }, [activeIndex, showModal]);
+            <!-- RESULTADOS EXPERIENCIAS -->
+            <div id="resultados-ventas" class="grid grid-cols-1 md:grid-cols-3 gap-6" style="display: none;">
+                <!-- Se inyecta vía JS -->
+            </div>
+        </div>
+    </main>
 
-            const activeNode = routeData[activeIndex];
+    <script type="module">
+        import { db, collection, query, getDocs, where } from './firebase-config.js';
 
-            return (
-                <div className="main-container">
-                    
-                    {/* IZQUIERDA: MAPA ESTABLE (Ajustado para ruta corta) */}
-                    <div className="map-section shadow-[20px_0_40px_rgba(0,0,0,0.3)]">
-                        <div className="absolute top-6 left-6 z-30">
-                            <h1 className="font-trek text-[#DE4F32] text-2xl tracking-tighter">MOT MOT</h1>
-                            <p className="text-[9px] text-slate-800 font-black uppercase tracking-widest leading-none mt-1">Hiking Experience</p>
-                        </div>
-
-                        <svg viewBox="-10 -10 120 120" className="w-full h-full z-10 absolute inset-0 pt-8 pb-4">
-                            
-                            {/* 1. Líneas base tenues */}
-                            {routeData.map((node, i) => (
-                                <path key={`bg-${i}`} d={node.segmentPath} fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeDasharray="1 1" />
-                            ))}
-
-                            {/* 2. Líneas activas animadas */}
-                            {routeData.map((node, i) => (
-                                <path 
-                                    key={`active-${i}`} 
-                                    d={node.segmentPath} 
-                                    fill="none" 
-                                    stroke="#DE4F32" 
-                                    strokeWidth="1.2" 
-                                    className="path-draw"
-                                    style={{ 
-                                        opacity: i <= activeIndex ? 1 : 0, 
-                                        strokeDashoffset: i <= activeIndex ? '0' : '150' 
-                                    }}
-                                />
-                            ))}
-
-                            {/* 3. Nodos y Nombres */}
-                            {routeData.map((node, i) => (
-                                <g key={node.id}>
-                                    <circle 
-                                        cx={node.mapX} cy={node.mapY} 
-                                        r={i === activeIndex ? "3" : "1.5"} 
-                                        fill={i <= activeIndex ? "#DE4F32" : "#94a3b8"} 
-                                        className={`transition-all duration-700 ${i === activeIndex ? 'active-glow' : ''}`}
-                                    />
-                                    {i === activeIndex && (
-                                        <circle cx={node.mapX} cy={node.mapY} r="5" fill="#DE4F32" className="animate-ping opacity-30" />
-                                    )}
-                                    <text 
-                                        x={node.mapX + node.labelX} 
-                                        y={node.mapY + node.labelY} 
-                                        textAnchor={node.anchor}
-                                        className={`text-[3.5px] font-black uppercase tracking-tighter transition-all duration-700 ${i === activeIndex ? 'fill-slate-900 scale-100 opacity-100' : 'fill-slate-500 scale-95 opacity-60'}`}
-                                    >
-                                        {node.title}
-                                    </text>
-                                </g>
-                            ))}
-                        </svg>
-
-                        {/* ALTIMETRÍA Y HUD */}
-                        <div className="absolute bottom-0 left-0 w-full p-4 md:p-6 bg-gradient-to-t from-white via-white/95 to-transparent z-40">
-                            <div className="flex justify-between items-end mb-2">
-                                <div>
-                                    <p className="text-[10px] font-trek text-slate-400 mb-1 uppercase">Altitud Actual</p>
-                                    <span className="text-3xl md:text-4xl font-black text-slate-900">{activeNode.alt}</span>
-                                    <span className="text-xs md:text-sm ml-1 text-slate-600 font-normal">msnm</span>
-                                </div>
-                                <div className={`px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[7px] md:text-[9px] font-black uppercase tracking-wider transition-colors duration-500 ${activeNode.alt < 1500 ? 'bg-orange-50 text-orange-700 border border-orange-200' : 'bg-teal-50 text-teal-700 border border-teal-100'}`}>
-                                    {activeNode.alt < 1500 ? 'Transición Cañón' : 'Bosque Andino'}
-                                </div>
-                            </div>
-                            
-                            <div className="h-8 md:h-12 w-full relative">
-                                <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full opacity-30 drop-shadow-md">
-                                    {/* Perfil de descenso suave: de 1787m a 1270m */}
-                                    <path d="M 0 20 L 0 5 L 20 8 L 40 10 L 60 12 L 80 14 L 100 17 L 100 20 Z" fill="#DE4F32" />
-                                    <line x1={activeNode.chartX} y1="0" x2={activeNode.chartX} y2="20" stroke="#DE4F32" strokeWidth="0.8" strokeDasharray="1.5" className="transition-all duration-700 ease-in-out" />
-                                    <circle cx={activeNode.chartX} cy="0" r="1.5" fill="#DE4F32" className="transition-all duration-700 ease-in-out" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* DERECHA: CONTENIDO NARRATIVO */}
-                    <div className="content-section" ref={scrollRef}>
-                        {routeData.map((node, i) => (
-                            <section key={node.id} data-index={i} className="stage-card">
-                                <div className={`fade-up ${i === activeIndex ? 'is-visible' : 'is-hidden'}`}>
-                                    
-                                    <div className="flex items-center gap-4 mb-4">
-                                        <span className="text-[#DE4F32] font-trek text-xs tracking-[0.4em]">Hito {node.level}</span>
-                                        <div className="h-px w-full bg-white/10"></div>
-                                    </div>
-                                    
-                                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-none tracking-tighter mb-4 break-words">
-                                        {node.title}
-                                    </h2>
-                                    <p className="text-[#87C5C8] font-bold text-xs sm:text-sm uppercase tracking-[0.2em] mb-8">{node.subtitle}</p>
-                                    
-                                    <div className="flex gap-8 mb-10 overflow-x-auto pb-2">
-                                        <div className="flex-shrink-0">
-                                            <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Dificultad</p>
-                                            <p className="text-base sm:text-lg font-bold text-[#DE4F32]">{node.diff}</p>
-                                        </div>
-                                        <div className="flex-shrink-0">
-                                            <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Suelo</p>
-                                            <p className="text-base sm:text-lg font-bold">{node.path}</p>
-                                        </div>
-                                    </div>
-
-                                    <p className="text-lg sm:text-xl md:text-2xl text-slate-300 leading-relaxed font-light mb-10 italic">
-                                        "{node.desc}"
-                                    </p>
-
-                                    <button 
-                                        onClick={() => setShowModal(node)}
-                                        className="group flex items-center gap-4 border border-white/20 px-6 py-3 sm:px-8 sm:py-4 rounded-full hover:bg-white hover:text-black transition-all w-max"
-                                    >
-                                        <span className="text-[10px] font-trek tracking-widest">LEER NARRATIVA</span>
-                                        <i data-lucide="arrow-right" className="w-4 h-4 group-hover:translate-x-2 transition-transform"></i>
-                                    </button>
-                                </div>
-                            </section>
-                        ))}
-                        <div className="h-[20vh] flex items-center justify-center">
-                            <button className="bg-[#DE4F32] text-white px-10 py-5 rounded-full font-trek text-[10px] tracking-widest hover:scale-105 transition-transform shadow-xl">
-                                RESERVAR HIKING (20KM)
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* MODAL DE NARRATIVA Y EQUIPO */}
-                    {showModal && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl" onClick={() => setShowModal(null)}>
-                            <div className="bg-slate-900 border border-white/10 w-full max-w-2xl rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-8 md:p-12 relative shadow-2xl" onClick={e => e.stopPropagation()}>
-                                
-                                <button onClick={() => setShowModal(null)} className="absolute top-4 right-4 sm:top-8 sm:right-8 text-slate-500 hover:text-white transition-colors">
-                                    <i data-lucide="x" className="w-6 h-6 sm:w-8 sm:h-8"></i>
-                                </button>
-                                
-                                <h3 className="text-[#DE4F32] font-trek text-[10px] mb-4 tracking-[0.3em]">HISTORIA & ENTORNO</h3>
-                                <h2 className="text-3xl sm:text-4xl md:text-6xl font-black uppercase mb-6 sm:mb-8 pr-10">{showModal.title}</h2>
-                                <p className="text-slate-300 text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 font-light">"{showModal.fullText}"</p>
-                                
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div className="bg-white/5 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-white/5">
-                                        <p className="text-[#87C5C8] text-[10px] font-trek mb-2 tracking-widest">ENTORNO</p>
-                                        <p className="text-xs sm:text-sm text-slate-400">Transición natural de altitud ({showModal.alt} msnm). Ideal para aclimatación y fotografía.</p>
-                                    </div>
-                                    <div className="bg-[#DE4F32] p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex flex-col justify-between shadow-lg">
-                                        <p className="text-white text-[10px] font-trek tracking-widest">RECOMENDADO</p>
-                                        <p className="text-white font-bold text-xs sm:text-sm">Ropa fresca + Buen agarre</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
+        // Lógica de carga similar a tu dashboard
+        window.switchModo = (modo) => {
+            document.getElementById('btn-social').classList.toggle('activo', modo === 'social');
+            document.getElementById('btn-ventas').classList.toggle('activo', modo === 'ventas');
+            document.getElementById('resultados-social').style.display = modo === 'social' ? 'grid' : 'none';
+            document.getElementById('resultados-ventas').style.display = modo === 'ventas' ? 'grid' : 'none';
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        async function cargarDatos() {
+            const term = "zapatoca";
+            
+            // Cargar Usuarios
+            const qUsers = await getDocs(collection(db, "usuarios"));
+            const containerSoc = document.getElementById('resultados-social');
+            containerSoc.innerHTML = "";
+            
+            qUsers.forEach(doc => {
+                const u = doc.data();
+                if(u.ubicacion?.toLowerCase().includes(term)) {
+                    containerSoc.innerHTML += `
+                        <div class="usuario-card">
+                            <img src="${u.foto || 'https://ui-avatars.com/api/?name='+u.nombre}" class="w-16 h-16 rounded-full mb-3">
+                            <h4 class="font-bold text-sm">${u.nombre?.split(' ')[0]}</h4>
+                            <span class="text-[9px] uppercase bg-white/10 px-2 py-1 rounded">${u.rol}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            // Cargar Experiencias
+            const qExp = await getDocs(query(collection(db, "solicitudes_amelia"), where("estado", "==", "completado")));
+            const containerVen = document.getElementById('resultados-ventas');
+            containerVen.innerHTML = "";
+            
+            qExp.forEach(doc => {
+                const e = doc.data();
+                if(e.ubicacion?.toLowerCase().includes(term)) {
+                    containerVen.innerHTML += `
+                        <div class="experiencia-card">
+                            <img src="${e.imagenPrincipal}" class="experiencia-img">
+                            <div class="p-4">
+                                <h4 class="font-black text-sm uppercase">${e.tituloServicio}</h4>
+                                <p class="text-[10px] text-gray-400 mt-2">${e.guiaNombre}</p>
+                                <a href="${e.linkAmelia}" class="block mt-4 bg-[var(--naranja)] text-center py-2 rounded-lg font-bold text-xs uppercase">Reservar</a>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        window.onload = cargarDatos;
     </script>
 </body>
 </html>
