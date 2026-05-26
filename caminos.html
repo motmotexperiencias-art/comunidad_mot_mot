@@ -2,202 +2,94 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mot Mot - Explorador de Territorios</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
-        
-        :root { 
-            --orange: #DE4F32; 
-            --teal: #87C5C8; 
-            --dark: #0f172a;
-            --darker: #020617;
-        }
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--dark); 
-            color: white; 
-            margin: 0; 
-            overflow-x: hidden;
-        }
-
-        .font-trek { font-family: 'Syncopate', sans-serif; }
-        
-        .glass { 
-            background: rgba(255,255,255,0.03); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255,255,255,0.05); 
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .glass:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: var(--orange);
-            transform: translateY(-5px);
-        }
-
-        .breadcrumb-item { cursor: pointer; transition: color 0.3s; }
-        .breadcrumb-item:hover { color: var(--orange); }
-
-        /* Transiciones de secciones */
-        .view-section { display: none; animation: fadeIn 0.5s ease-out forwards; }
-        .view-section.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .locked { opacity: 0.4; filter: grayscale(1); cursor: not-allowed !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
+        :root { --naranja: #DE4F32; --turquesa: #87C5C8; --dark: #0f172a; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--dark); color: white; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body class="p-6 md:p-12">
 
-    <header class="max-w-6xl mx-auto mb-10">
-        <div class="flex justify-between items-start mb-8">
-            <div>
-                <h1 class="font-trek text-[var(--orange)] text-2xl tracking-tighter">MOT MOT</h1>
-                <p class="text-[9px] uppercase tracking-[0.4em] text-slate-500 mt-1">Comunidad de Caminantes</p>
-            </div>
-            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" class="h-10 opacity-50">
-        </div>
-
-        <nav id="breadcrumbs" class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-500 font-black mb-4">
-            <span class="breadcrumb-item text-white" onclick="showView('v-pais')">Mundo</span> 
-            <span class="b-region hidden"> <i data-lucide="chevron-right" class="w-3 h-3 inline mx-1"></i> <span class="breadcrumb-item" onclick="showView('v-region')">Colombia</span></span>
-            <span class="b-destino hidden"> <i data-lucide="chevron-right" class="w-3 h-3 inline mx-1"></i> <span class="breadcrumb-item" onclick="showView('v-destino')">Andes Orientales</span></span>
-            <span class="b-etapas hidden"> <i data-lucide="chevron-right" class="w-3 h-3 inline mx-1"></i> <span class="text-[var(--teal)]">Destino Chicamocha</span></span>
+    <!-- CABECERA JERÁRQUICA -->
+    <header class="max-w-6xl mx-auto mb-12">
+        <!-- BREADCRUMBS (La Escalera) -->
+        <nav class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-500 font-black mb-6">
+            <span class="text-white">Colombia</span> 
+            <i data-lucide="chevron-right" class="w-3 h-3 text-[var(--naranja)]"></i> 
+            <span class="text-white">Andes Orientales</span>
+            <i data-lucide="chevron-right" class="w-3 h-3 text-[var(--naranja)]"></i> 
+            <span class="text-[var(--turquesa)]">Destino Chicamocha</span>
         </nav>
 
-        <h2 id="view-title" class="text-4xl md:text-6xl font-black uppercase tracking-tighter">Explora el <span class="text-[var(--orange)]">Territorio</span></h2>
+        <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">La Travesía</h1>
+        <p class="text-gray-400 max-w-lg">Hemos certificado la ruta más impresionante de los Andes. Selecciona tu etapa y comienza a caminar.</p>
     </header>
 
-    <main class="max-w-6xl mx-auto">
+    <!-- GRID DE ETAPAS -->
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- PRODUCTO INSIGNIA (Siempre visible) -->
+        <div class="glass p-8 rounded-3xl border-2 border-[var(--naranja)] relative overflow-hidden mb-12 cursor-pointer group" onclick="window.location.href='travesia_majestuosa.html'">
+            <div class="absolute top-4 right-4 bg-[var(--naranja)] text-[10px] font-black px-4 py-1 rounded-full uppercase">Producto Insignia</div>
+            <h2 class="text-3xl font-black uppercase">Travesía Majestuosa Chicamocha</h2>
+            <p class="text-[var(--turquesa)] text-sm font-bold mt-2">La ruta completa que conecta los 6 destinos principales.</p>
+        </div>
 
-        <section id="v-pais" class="view-section active">
-            <p class="text-slate-400 mb-8 uppercase text-xs tracking-widest font-bold">Selecciona una Nación</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass p-10 rounded-[2.5rem] cursor-pointer relative overflow-hidden group" onclick="goToRegion()">
-                    <div class="absolute inset-0 bg-gradient-to-br from-[var(--orange)] to-transparent opacity-0 group-hover:opacity-10 transition-opacity"></div>
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h3 class="text-4xl font-black uppercase italic">Colombia</h3>
-                            <p class="text-[var(--teal)] font-bold mt-2 uppercase text-xs tracking-widest">El corazón de los Andes</p>
-                        </div>
-                        <i data-lucide="globe-2" class="w-12 h-12 text-slate-700"></i>
-                    </div>
-                </div>
-                <div class="glass p-10 rounded-[2.5rem] locked relative">
-                    <h3 class="text-4xl font-black uppercase italic text-slate-600">Perú</h3>
-                    <p class="text-slate-700 font-bold mt-2 uppercase text-[9px]">Próximamente certificado</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="v-region" class="view-section">
-            <p class="text-slate-400 mb-8 uppercase text-xs tracking-widest font-bold">Colombia / Selecciona Región</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass p-8 rounded-[2rem] cursor-pointer group" onclick="goToDestino()">
-                    <h3 class="text-2xl font-black uppercase">Andes Orientales</h3>
-                    <p class="text-[var(--orange)] text-[10px] font-bold mt-2">SANTANDER / BOYACÁ</p>
-                </div>
-                <div class="glass p-8 rounded-[2rem] locked">
-                    <h3 class="text-2xl font-black uppercase">Región Caribe</h3>
-                    <p class="text-slate-600 text-[10px] font-bold mt-2">SIERRA NEVADA</p>
-                </div>
-                <div class="glass p-8 rounded-[2rem] locked">
-                    <h3 class="text-2xl font-black uppercase">Eje Cafetero</h3>
-                    <p class="text-slate-600 text-[10px] font-bold mt-2">LOS NEVADOS</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="v-destino" class="view-section">
-            <p class="text-slate-400 mb-8 uppercase text-xs tracking-widest font-bold">Andes Orientales / Destinos Certificados</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass p-8 rounded-[2.5rem] cursor-pointer relative overflow-hidden group" onclick="goToEtapas()">
-                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20210716_060329.jpg" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-110 transition-transform">
-                    <div class="relative z-10">
-                        <h3 class="text-3xl font-black uppercase leading-none">Destino<br>Chicamocha</h3>
-                        <p class="text-[var(--teal)] font-bold mt-4 uppercase text-[10px]">La red de caminos reales</p>
-                    </div>
-                </div>
-                <div class="glass p-8 rounded-[2.5rem] locked border-dashed">
-                    <h3 class="text-3xl font-black uppercase leading-none text-slate-700">Páramo de<br>Santurbán</h3>
-                    <p class="text-slate-700 font-bold mt-4 uppercase text-[10px]">En proceso de certificación</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="v-etapas" class="view-section">
-            <div class="glass p-8 rounded-[2.5rem] border-2 border-[var(--orange)] relative overflow-hidden mb-8 cursor-pointer group" onclick="window.location.href='travesia_majestuosa.html'">
-                <div class="absolute top-4 right-4 bg-[var(--orange)] text-[10px] font-black px-4 py-1 rounded-full uppercase">Full Trekking</div>
-                <h2 class="text-3xl font-black uppercase">Travesía Majestuosa</h2>
-                <p class="text-[var(--teal)] text-sm font-bold mt-2 uppercase tracking-widest">70.5 KM / 6 Destinos Conectados</p>
+        <!-- GRID DE ETAPAS INDIVIDUALES -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Etapa 01 -->
+            <div class="glass p-6 rounded-3xl hover:border-[var(--turquesa)] transition-all cursor-pointer" onclick="window.location.href='etapa1.html'">
+                <span class="text-[10px] font-black text-gray-500 uppercase">Etapa 01</span>
+                <h3 class="text-xl font-black uppercase mt-1">Zapatoca</h3>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa1.html'">
-                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 01</span>
-                    <h4 class="text-xl font-black uppercase">Zapatoca</h4>
-                </div>
-                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa2.html'">
-                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 02</span>
-                    <h4 class="text-xl font-black uppercase">La Fuente</h4>
-                </div>
-                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa3.html'">
-                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 03</span>
-                    <h4 class="text-xl font-black uppercase">Guane</h4>
-                </div>
-                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa4.html'">
-                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 04</span>
-                    <h4 class="text-xl font-black uppercase">Barichara</h4>
-                </div>
-                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa5.html'">
-                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 05</span>
-                    <h4 class="text-xl font-black uppercase">Villanueva</h4>
-                </div>
-                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa6.html'">
-                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 06</span>
-                    <h4 class="text-xl font-black uppercase">Jordán</h4>
-                </div>
+            <!-- Etapa 02 -->
+            <div class="glass p-6 rounded-3xl hover:border-[var(--turquesa)] transition-all cursor-pointer" onclick="window.location.href='etapa2.html'">
+                <span class="text-[10px] font-black text-gray-500 uppercase">Etapa 02</span>
+                <h3 class="text-xl font-black uppercase mt-1">La Fuente</h3>
             </div>
-        </section>
 
-    </main>
+            <!-- Etapa 03 -->
+            <div class="glass p-6 rounded-3xl hover:border-[var(--turquesa)] transition-all cursor-pointer" onclick="window.location.href='etapa3.html'">
+                <span class="text-[10px] font-black text-gray-500 uppercase">Etapa 03</span>
+                <h3 class="text-xl font-black uppercase mt-1">Guane</h3>
+            </div>
+
+            <!-- Etapa 04 -->
+            <div class="glass p-6 rounded-3xl hover:border-[var(--turquesa)] transition-all cursor-pointer" onclick="window.location.href='etapa4.html'">
+                <span class="text-[10px] font-black text-gray-500 uppercase">Etapa 04</span>
+                <h3 class="text-xl font-black uppercase mt-1">Barichara</h3>
+            </div>
+
+            <!-- Etapa 05 -->
+            <div class="glass p-6 rounded-3xl hover:border-[var(--turquesa)] transition-all cursor-pointer" onclick="window.location.href='etapa5.html'">
+                <span class="text-[10px] font-black text-gray-500 uppercase">Etapa 05</span>
+                <h3 class="text-xl font-black uppercase mt-1">Villanueva</h3>
+            </div>
+
+            <!-- Etapa 06 -->
+            <div class="glass p-6 rounded-3xl hover:border-[var(--turquesa)] transition-all cursor-pointer" onclick="window.location.href='etapa6.html'">
+                <span class="text-[10px] font-black text-gray-500 uppercase">Etapa 06</span>
+                <h3 class="text-xl font-black uppercase mt-1">Jordán</h3>
+            </div>
+
+            <!-- TARJETA DE ILUSIÓN DE CRECIMIENTO -->
+            <div class="glass p-6 rounded-3xl border border-dashed border-white/20 opacity-50">
+                <span class="text-[10px] font-black text-gray-500 uppercase">Próximamente</span>
+                <h3 class="text-xl font-black uppercase mt-1 text-gray-400">Sierra Nevada</h3>
+                <p class="text-[10px] uppercase font-bold text-[var(--naranja)] mt-2">En proceso de certificación</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
-
-        function showView(viewId) {
-            // Ocultar todas las vistas
-            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            // Activar la seleccionada
-            document.getElementById(viewId).classList.add('active');
-
-            // Lógica de Breadcrumbs (Migas de pan)
-            document.querySelector('.b-region').classList.toggle('hidden', viewId === 'v-pais');
-            document.querySelector('.b-destino').classList.toggle('hidden', viewId === 'v-pais' || viewId === 'v-region');
-            document.querySelector('.b-etapas').classList.toggle('hidden', viewId !== 'v-etapas');
-
-            // Cambiar Título dinámico
-            const titles = {
-                'v-pais': 'Explora el <span class="text-[var(--orange)]">Territorio</span>',
-                'v-region': 'Nuestras <span class="text-[var(--orange)]">Regiones</span>',
-                'v-destino': 'Destinos <span class="text-[var(--orange)]">Certificados</span>',
-                'v-etapas': 'La <span class="text-[var(--orange)]">Travesía</span>'
-            };
-            document.getElementById('view-title').innerHTML = titles[viewId];
-        }
-
-        // Funciones de navegación directa
-        function goToRegion() { showView('v-region'); }
-        function goToDestino() { showView('v-destino'); }
-        function goToEtapas() { showView('v-etapas'); }
-
     </script>
 </body>
 </html>

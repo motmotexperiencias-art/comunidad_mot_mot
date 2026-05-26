@@ -1,123 +1,970 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mot Mot - Cañón del Chicamocha</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Mot Mot Experiencias</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
+
+:root{
+    --naranja:#E65127;
+    --turquesa:#80C4C8;
+    --oscuro:#0d1117;
+    --blanco:#ffffff;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    overflow-x:hidden;
+    font-family:'Montserrat',sans-serif;
+    background:#000;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    position:relative;
+    width:100%;
+    height:100dvh;
+    min-height:100svh;
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    color:white;
+}
+
+/* FOTO */
+
+.hero-bg{
+    position:absolute;
+    inset:0;
+    background-image:url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/hero.png');
+    background-size:cover;
+    background-position:78% center;
+    transform:scale(1.02);
+}
+
+/* OSCURECER */
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+        to top,
+        rgba(0,0,0,0.96) 0%,
+        rgba(0,0,0,0.74) 24%,
+        rgba(0,0,0,0.22) 56%,
+        rgba(0,0,0,0.04) 100%
+    );
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+    position:absolute;
+    top:18px;
+    left:18px;
+    right:18px;
+    z-index:80;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo-top img{
+    width:58px;
+    height:58px;
+    object-fit:contain;
+}
+
+/* LOGIN */
+
+.login-btn{
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.10);
+
+    color:white;
+    text-decoration:none;
+
+    padding:11px 18px;
+    border-radius:16px;
+
+    font-size:0.78rem;
+    font-weight:700;
+
+    transition:0.25s;
+}
+
+.login-btn:hover{
+    background:rgba(255,255,255,0.18);
+}
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.hero-content{
+    position:relative;
+    z-index:10;
+
+    width:100%;
+    max-width:1200px;
+
+    padding:
+    0
+    24px
+    calc(env(safe-area-inset-bottom,0px) + 165px)
+    24px;
+}
+
+/* FIRMA */
+
+.mot-signature{
+    display:inline-block;
+
+    font-size:0.78rem;
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    color:white;
+
+    border-left:2px solid var(--naranja);
+
+    padding-left:12px;
+    margin-bottom:18px;
+}
+
+/* TITULO */
+
+.hero h1{
+    margin:0;
+
+    font-size:4.7rem;
+    line-height:0.92;
+
+    font-weight:900;
+    letter-spacing:-2px;
+    text-transform:uppercase;
+
+    max-width:700px;
+}
+
+.hero h1 span{
+    color:var(--naranja);
+}
+
+/* TEXTO */
+
+.hero p{
+    margin-top:22px;
+
+    max-width:560px;
+
+    font-size:1.05rem;
+    line-height:1.6;
+
+    color:rgba(255,255,255,0.88);
+}
+
+/* =========================
+   MENU APP
+========================= */
+
+.bottom-app-nav{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    width:100%;
+
+    padding:
+    0
+    14px
+    calc(env(safe-area-inset-bottom,0px) + 14px)
+    14px;
+
+    z-index:100;
+}
+
+.bottom-nav-container{
+
+    width:100%;
+    max-width:720px;
+
+    margin:0 auto;
+
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+
+    background:rgba(12,14,18,0.80);
+
+    backdrop-filter:blur(22px);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    border-radius:26px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.45);
+}
+
+.bottom-item{
+    position:relative;
+
+    min-width:0;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:16px 8px 15px;
+
+    cursor:pointer;
+
+    transition:0.25s;
+}
+
+.bottom-item:hover{
+    background:rgba(255,255,255,0.05);
+}
+
+.bottom-item:not(:last-child)::after{
+    content:'';
+
+    position:absolute;
+
+    right:0;
+    top:20%;
+
+    width:1px;
+    height:60%;
+
+    background:rgba(255,255,255,0.08);
+}
+
+/* ICONOS */
+
+.bottom-icon{
+
+    width:42px;
+    height:42px;
+
+    margin-bottom:8px;
+
+    border-radius:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,0.05);
+
+    color:white;
+}
+
+.bottom-title{
+    font-size:0.86rem;
+    font-weight:800;
+    color:white;
+
+    white-space:nowrap;
+}
+
+.bottom-sub{
+    margin-top:3px;
+
+    font-size:0.68rem;
+
+    color:rgba(255,255,255,0.58);
+
+    white-space:nowrap;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    background:#0b0f14;
+    color:white;
+    padding:70px 24px 40px;
+    border-top:1px solid rgba(255,255,255,0.06);
+}
+
+.footer-container{
+    max-width:1200px;
+    margin:0 auto;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:35px;
+}
+
+.footer h3{
+    font-size:0.9rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:18px;
+    color:var(--turquesa);
+}
+
+.footer p,
+.footer a{
+    font-size:0.92rem;
+    line-height:1.7;
+    color:rgba(255,255,255,0.72);
+    text-decoration:none;
+}
+
+.footer a:hover{
+    color:white;
+}
+
+.footer-bottom{
+    margin-top:40px;
+    padding-top:25px;
+    border-top:1px solid rgba(255,255,255,0.06);
+    text-align:center;
+    font-size:0.8rem;
+    color:rgba(255,255,255,0.45);
+}
+
+/* =========================
+   COOKIES (CORREGIDO PARA QUE SEA FLOTANTE Y BONITO)
+========================= */
+
+.cookies{
+    position:fixed;
+    bottom: 24px; /* Flota abajo */
+    left: 0;
+    right: 0;
+    z-index:9999;
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    display:flex;
+    justify-content:center;
+    padding: 0 20px;
     
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
-        
-        :root { 
-            --naranja: #E65127; 
-            --turquesa: #80C4C8; 
-            --oscuro: #0d1117;
-            --blanco: #ffffff;
-        }
-        
-        body { 
-            margin:0; 
-            font-family:'Montserrat',sans-serif; 
-            background:#f5f5f5; 
-            overflow-x:hidden;
-        }
+    pointer-events: none; /* Permite dar click al resto de la app si lo ignoran */
+}
 
-        /* HERO */
-        .hero { position:relative; width:100%; height:100vh; overflow:hidden; display:flex; align-items:flex-end; color:white; }
-        .hero-bg { position:absolute; inset:0; background-image:url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/hero.png'); background-size:cover; background-position:76% center; transform:scale(1.02); }
-        .hero-overlay { position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.62) 28%, rgba(0,0,0,0.12) 60%, rgba(0,0,0,0.02) 100%); }
+.cookies-box{
+    width:100%;
+    max-width:760px;
+    background:#121820;
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:28px;
+    padding:26px;
+    color:white;
+    box-shadow:0 20px 50px rgba(0,0,0,0.45);
+    
+    pointer-events: auto; /* Reactiva el click solo en la cajita */
+    
+    /* Animación de entrada */
+    transform: translateY(150%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-        /* TOP */
-        .topbar { position:absolute; top:18px; left:18px; right:18px; z-index:20; display:flex; justify-content:space-between; align-items:center; }
-        .logo-top { display:flex; align-items:center; gap:12px; }
-        .logo-top img { width:52px; height:52px; object-fit:contain; }
-        
-        .login-btn { background:rgba(255,255,255,0.10); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.12); color:white; padding:10px 16px; border-radius:16px; text-decoration:none; font-weight:700; font-size:0.78rem; transition:0.3s; }
-        .login-btn:hover { background:rgba(255,255,255,0.18); }
+.cookies-box.show {
+    transform: translateY(0);
+}
 
-        /* CONTENIDO */
-        .hero-content { position:relative; z-index:5; width:100%; padding:0 24px 132px 24px; box-sizing:border-box; }
-        .mot-signature { font-size:0.76rem; font-weight:800; letter-spacing:2.2px; text-transform:uppercase; color:white; border-left:2px solid var(--naranja); padding-left:12px; margin-bottom:18px; }
-        .hero h1 { font-size:4.7rem; line-height:0.90; margin:0; font-weight:900; letter-spacing:-2px; text-transform:uppercase; max-width:680px; }
-        .hero h1 span { color:var(--naranja); }
-        .hero p { max-width:520px; font-size:1.02rem; line-height:1.6; margin-top:22px; color:rgba(255,255,255,0.88); }
+.cookies-box h2{
+    margin-top:0;
+    font-size:1.2rem;
+    font-weight:900;
+}
 
-        /* NAV APP */
-        .bottom-app-nav { position:absolute; left:50%; transform:translateX(-50%); bottom:18px; width:92%; max-width:700px; z-index:30; }
-        .bottom-nav-container { display:grid; grid-template-columns:repeat(3,1fr); background:rgba(14,16,20,0.72); backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,0.08); border-radius:24px; overflow:hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
-        .bottom-item { position:relative; text-align:center; padding:15px 8px 13px; cursor:pointer; transition:0.25s; }
-        .bottom-item:hover { background:rgba(255,255,255,0.05); }
-        .bottom-item:not(:last-child)::after { content:''; position:absolute; right:0; top:22%; width:1px; height:56%; background:rgba(255,255,255,0.08); }
+.cookies-box p{
+    color:rgba(255,255,255,0.74);
+    line-height:1.7;
+    font-size:0.92rem;
+}
 
-        /* ICONOS Y TITULOS */
-        .bottom-icon { width:42px; height:42px; margin:0 auto 8px auto; display:flex; align-items:center; justify-content:center; border-radius:14px; background:rgba(255,255,255,0.05); color:white; }
-        .bottom-title { font-size:0.84rem; font-weight:800; color:white; }
-        .bottom-sub { margin-top:3px; font-size:0.67rem; color:rgba(255,255,255,0.58); }
+.cookies-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
 
-        @media(max-width:768px){
-            .hero-content { padding:0 18px 120px 18px; }
-            .hero h1 { font-size:2.55rem; line-height:0.93; max-width:280px; }
-            .hero p { max-width:280px; font-size:0.88rem; margin-top:16px; }
-            .logo-top img { width:42px; height:42px; }
-            .bottom-app-nav { width:94%; bottom:12px; }
-            .bottom-icon { width:34px; height:34px; border-radius:11px; margin-bottom:6px; }
-            .bottom-title { font-size:0.64rem; }
-            .bottom-sub { display:none; }
-        }
-    </style>
+.btn-cookie{
+    border:none;
+    cursor:pointer;
+    padding:13px 20px;
+    border-radius:16px;
+    font-weight:800;
+    font-size:0.82rem;
+    transition:0.25s;
+}
+
+.btn-accept{
+    background:var(--naranja);
+    color:white;
+}
+
+.btn-ghost{
+    background:rgba(255,255,255,0.06);
+    color:white;
+}
+
+.btn-ghost:hover {
+    background:rgba(255,255,255,0.12);
+}
+
+/* =========================
+   MODAL COMUNIDAD (CORREGIDO CON ANIMACIÓN SUAVE)
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:999;
+    
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    
+    background:rgba(0,0,0,0.72);
+    backdrop-filter:blur(8px);
+    padding:20px;
+    
+    /* Animación */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content{
+    width:100%;
+    max-width:720px;
+    background:#121820;
+    border-radius:28px;
+    padding:34px;
+    color:white;
+    position:relative;
+    border:1px solid rgba(255,255,255,0.08);
+    
+    /* Animación del cuadro */
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.close-modal{
+    position:absolute;
+    right:18px;
+    top:18px;
+    cursor:pointer;
+    opacity:0.7;
+    transition: 0.2s;
+}
+
+.close-modal:hover {
+    opacity: 1;
+}
+
+.modal-content h2{
+    margin-top:0;
+    font-size:2rem;
+    font-weight:900;
+}
+
+.modal-content p{
+    line-height:1.8;
+    color:rgba(255,255,255,0.78);
+}
+
+.modal-btn{
+    display:inline-block;
+    margin-top:24px;
+    background:var(--naranja);
+    color:white;
+    text-decoration:none;
+    padding:14px 22px;
+    border-radius:16px;
+    font-weight:800;
+    transition: 0.2s;
+}
+
+.modal-btn:hover {
+    background: #d44720;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width:768px){
+
+    .hero-bg{
+        background-position:76% center;
+    }
+
+    .hero-content{
+        padding:
+        0
+        18px
+        calc(env(safe-area-inset-bottom,0px) + 132px)
+        18px;
+    }
+
+    .hero h1{
+        font-size:2.7rem;
+        line-height:0.93;
+        max-width:290px;
+    }
+
+    .hero p{
+        max-width:290px;
+        font-size:0.90rem;
+        line-height:1.5;
+        margin-top:16px;
+    }
+
+    .mot-signature{
+        font-size:0.66rem;
+        letter-spacing:1.5px;
+    }
+
+    .logo-top img{
+        width:44px;
+        height:44px;
+    }
+
+    .login-btn{
+        padding:9px 14px;
+        border-radius:14px;
+        font-size:0.72rem;
+    }
+
+    .bottom-app-nav{
+        padding:
+        0
+        10px
+        calc(env(safe-area-inset-bottom,0px) + 10px)
+        10px;
+    }
+
+    .bottom-nav-container{
+        border-radius:22px;
+    }
+
+    .bottom-item{
+        padding:13px 4px 12px;
+    }
+
+    .bottom-icon{
+        width:34px;
+        height:34px;
+        border-radius:11px;
+        margin-bottom:6px;
+    }
+
+    .bottom-title{
+        font-size:0.68rem;
+    }
+
+    .bottom-sub{
+        font-size:0.58rem;
+    }
+
+    .modal-content{
+        padding:28px 22px;
+    }
+
+    .modal-content h2{
+        font-size:1.5rem;
+    }
+
+    /* Corrección Cookies en celular para que no tapen el menú inferior */
+    .cookies {
+        bottom: 110px; 
+        padding: 0 14px;
+    }
+    .cookies-box {
+        padding: 20px;
+        border-radius: 22px;
+    }
+    .cookies-box h2 {
+        font-size: 1.1rem;
+    }
+    .cookies-box p {
+        font-size: 0.85rem;
+    }
+}
+
+/* CELULARES PEQUEÑOS */
+
+@media (max-width:380px){
+
+    .hero h1{
+        font-size:2.25rem;
+    }
+
+    .bottom-title{
+        font-size:0.60rem;
+    }
+
+    .bottom-sub{
+        display:none;
+    }
+
+    .bottom-item{
+        padding:12px 2px;
+    }
+
+}
+
+</style>
 </head>
+
 <body>
 
+<!-- =========================
+     COOKIES
+========================= -->
+
+<div class="cookies" id="cookiesContainer">
+    <div class="cookies-box" id="cookiesBox">
+
+        <h2>🍪 Política de Cookies y Privacidad</h2>
+
+        <p>
+            En Mot Mot Experiencias utilizamos cookies para mejorar la experiencia,
+            personalizar contenido, analizar navegación y conectar viajeros,
+            anfitriones y guías dentro de nuestra comunidad de caminantes.
+            Al continuar aceptas nuestra política de tratamiento de datos (Ley 1581),
+            sostenibilidad y términos de uso.
+        </p>
+
+        <div class="cookies-actions">
+            <button class="btn-cookie btn-accept" onclick="aceptarCookies()">
+                Aceptar y continuar
+            </button>
+            <button class="btn-cookie btn-ghost" onclick="cerrarCookiesTemporal()">
+                Cerrar
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<!-- =========================
+     HERO
+========================= -->
+
 <header class="hero">
+
     <div class="hero-bg"></div>
+
     <div class="hero-overlay"></div>
 
-    <!-- TOPBAR -->
+    <!-- TOP -->
+
     <div class="topbar">
+
         <div class="logo-top">
             <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/cropped-logo-foto-de-perfil-instagram-1.png">
         </div>
-        <a href="https://www.motmotexperiencias.com/registro.html" class="login-btn">Ingresar</a>
+
+        <a href="https://www.motmotexperiencias.com/registro.html"
+        class="login-btn">
+            Ingresar
+        </a>
+
     </div>
 
-    <!-- TEXTO -->
+    <!-- CONTENIDO -->
+
     <div class="hero-content">
-        <div class="mot-signature">Muévete • Observa • Transfórmate</div>
-        <h1>CAMINATAS<br>Y EXPERIENCIAS<br><span>REALES.</span></h1>
-        <p>Conectamos <strong>anfitriones, viajeros y guías</strong>. Descubre caminos auténticos con nuestra comunidad.</p>
+
+        <div class="mot-signature">
+            Muévete • Observa • Transfórmate
+        </div>
+
+        <h1>
+            CAMINATAS<br>
+            Y EXPERIENCIAS<br>
+            <span>REALES.</span>
+        </h1>
+
+        <p>
+            Conectamos <strong>anfitriones, viajeros y guías</strong>.
+            Descubre caminos auténticos con nuestra comunidad.
+        </p>
+
     </div>
 
     <!-- MENU -->
+
     <div class="bottom-app-nav">
+
         <div class="bottom-nav-container">
-            <!-- CAMINOS (Icono de Ruta) -->
-            <div class="bottom-item" onclick="window.location.href='https://www.motmotexperiencias.com/caminos.html'">
-                <div class="bottom-icon"><i data-lucide="route" class="w-5 h-5"></i></div>
-                <div class="bottom-title">Caminos</div>
-                <div class="bottom-sub">Explorar rutas</div>
+
+            <!-- CAMINOS -->
+
+            <div class="bottom-item"
+            onclick="window.location.href='https://www.motmotexperiencias.com/caminos.html'">
+
+                <div class="bottom-icon">
+                    <i data-lucide="route" class="w-5 h-5"></i>
+                </div>
+
+                <div class="bottom-title">
+                    Caminos
+                </div>
+
+                <div class="bottom-sub">
+                    Explorar rutas
+                </div>
+
             </div>
-            <!-- COMUNIDAD (Icono de Usuarios) -->
-            <div class="bottom-item" onclick="window.location.href='https://www.motmotexperiencias.com/registro.html'">
-                <div class="bottom-icon"><i data-lucide="users" class="w-5 h-5"></i></div>
-                <div class="bottom-title">Comunidad</div>
-                <div class="bottom-sub">Viajeros y guías</div>
+
+            <!-- COMUNIDAD -->
+
+            <div class="bottom-item"
+            onclick="abrirComunidad()">
+
+                <div class="bottom-icon">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+
+                <div class="bottom-title">
+                    Comunidad
+                </div>
+
+                <div class="bottom-sub">
+                    Caminantes
+                </div>
+
             </div>
-            <!-- PERFIL (Icono de Usuario) -->
-            <div class="bottom-item" onclick="window.location.href='https://www.motmotexperiencias.com/registro.html'">
-                <div class="bottom-icon"><i data-lucide="user" class="w-5 h-5"></i></div>
-                <div class="bottom-title">Perfil</div>
-                <div class="bottom-sub">Ingresar</div>
+
+            <!-- PERFIL -->
+
+            <div class="bottom-item"
+            onclick="window.location.href='https://www.motmotexperiencias.com/registro.html'">
+
+                <div class="bottom-icon">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                </div>
+
+                <div class="bottom-title">
+                    Perfil
+                </div>
+
+                <div class="bottom-sub">
+                    Ingresar
+                </div>
+
             </div>
+
         </div>
+
     </div>
+
 </header>
 
+<!-- =========================
+     MODAL COMUNIDAD
+========================= -->
+
+<div class="modal" id="modalComunidad">
+
+    <div class="modal-content">
+
+        <div class="close-modal"
+        onclick="cerrarComunidad()">
+            <i data-lucide="x"></i>
+        </div>
+
+        <h2>
+            Comunidad de Caminantes
+        </h2>
+
+        <p>
+            Somos una comunidad enfocada en conectar personas a través de
+            las caminatas, los senderos y las experiencias reales.
+        </p>
+
+        <p>
+            En Mot Mot puedes descubrir rutas, encontrar viajeros,
+            conectar con anfitriones locales, crear planes para caminar,
+            compartir conocimientos y conocer personas que recorren
+            tu mismo camino.
+        </p>
+
+        <p>
+            También puedes convertirte en guía, crear experiencias,
+            ofrecer actividades con enfoque en senderismo o simplemente
+            recibir caminantes y compartir tu territorio.
+        </p>
+
+        <a href="https://www.motmotexperiencias.com/registro.html"
+        class="modal-btn">
+            Entrar a la comunidad
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-grid">
+
+            <div>
+                <h3>Nosotros</h3>
+
+                <p>
+                    Mot Mot Experiencias conecta viajeros,
+                    anfitriones y guías a través del senderismo,
+                    la cultura y los caminos reales.
+                </p>
+            </div>
+
+            <div>
+                <h3>Sostenibilidad</h3>
+
+                <p>
+                    Promovemos caminatas responsables,
+                    conservación ambiental y turismo regenerativo
+                    en los territorios.
+                </p>
+            </div>
+
+            <div>
+                <h3>Legal</h3>
+
+                <a href="#">Términos y condiciones</a><br>
+                <a href="#">Tratamiento de datos</a><br>
+                <a href="#">Política de cookies</a><br>
+                <a href="#">Prevención ESCNNA</a>
+            </div>
+
+            <div>
+                <h3>Contacto</h3>
+
+                <p>
+                    caminatas@motmotexperiencias.com
+                </p>
+
+                <p>
+                    Colombia • Andes Orientales
+                </p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Mot Mot Experiencias — Todos los derechos reservados.
+        </div>
+
+    </div>
+
+</footer>
+
 <script>
-    // Inicializar iconos de Lucide
-    lucide.createIcons();
+
+lucide.createIcons();
+
+/* =========================
+   LÓGICA DE COOKIES ANIMADAS
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Si no han sido aceptadas, mostramos la tarjeta flotante tras 1 segundo
+    if(localStorage.getItem("motmot_cookies") !== "aceptadas"){
+        setTimeout(() => {
+            document.getElementById("cookiesBox").classList.add("show");
+        }, 1000);
+    } else {
+        document.getElementById("cookiesContainer").style.display = "none";
+    }
+});
+
+function aceptarCookies(){
+    localStorage.setItem("motmot_cookies","aceptadas");
+    document.getElementById("cookiesBox").classList.remove("show");
+    
+    // Ocultar del DOM tras terminar la animación de bajada (0.6s)
+    setTimeout(() => {
+        document.getElementById("cookiesContainer").style.display = "none";
+    }, 600);
+}
+
+function cerrarCookiesTemporal(){
+    document.getElementById("cookiesBox").classList.remove("show");
+    setTimeout(() => {
+        document.getElementById("cookiesContainer").style.display = "none";
+    }, 600);
+}
+
+/* =========================
+   LÓGICA MODAL ANIMADO
+========================= */
+
+function abrirComunidad(){
+    const modal = document.getElementById('modalComunidad');
+    modal.classList.add('active');
+}
+
+function cerrarComunidad(){
+    const modal = document.getElementById('modalComunidad');
+    modal.classList.remove('active');
+}
+
+// Cerrar modal tocando afuera de la caja
+window.onclick = function(e){
+    const modal = document.getElementById('modalComunidad');
+    if(e.target === modal){
+        cerrarComunidad();
+    }
+}
+
 </script>
 
 </body>
