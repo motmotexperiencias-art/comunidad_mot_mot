@@ -3,70 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapatoca - Mot Mot</title>
+    <title>Mot Mot - Etapa 1: Zapatoca</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root { --naranja: #E65127; --turquesa: #80C4C8; --negro: #0f172a; --oscuro: #1a1a1a; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--negro); color: white; margin: 0; padding-bottom: 100px; }
-        
         .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; }
-        
-        /* Switcher estilo Mot Mot */
         .switch-container { display: flex; background: rgba(0,0,0,0.3); border-radius: 50px; padding: 5px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; }
         .switch-btn { flex: 1; padding: 15px; border: none; background: transparent; color: #888; font-weight: 900; text-transform: uppercase; border-radius: 40px; cursor: pointer; transition: 0.3s; }
         .switch-btn.activo { background: var(--naranja); color: white; }
-
         .usuario-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid transparent; transition: 0.3s; }
         .usuario-card:hover { border-color: var(--turquesa); background: rgba(255,255,255,0.1); }
-        
         .experiencia-card { background: rgba(255,255,255,0.05); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
         .experiencia-card:hover { border-color: var(--naranja); transform: translateY(-5px); }
     </style>
 </head>
 <body>
 
-    <!-- HERO DE DESTINO -->
-    <div style="height: 50vh; background: linear-gradient(rgba(15,23,42,0.2), rgba(15,23,42,1)), url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0008.jpg') center/cover;">
+    <div style="height: 40vh; background: linear-gradient(rgba(15,23,42,0.2), #0f172a), url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/brown-classic-refined-photography-website-business-proposal-presentation-4.jpg') center/cover;">
         <div class="max-w-5xl mx-auto pt-20 px-6">
-            <span class="bg-[var(--naranja)] text-white px-3 py-1 rounded-full text-[10px] font-black uppercase">Destino • Etapa 01</span>
+            <span class="bg-[var(--naranja)] text-white px-3 py-1 rounded-full text-[10px] font-black uppercase">Etapa 01</span>
             <h1 class="text-6xl font-black uppercase tracking-tighter mt-4">Zapatoca</h1>
             <p class="text-[var(--turquesa)] font-bold uppercase tracking-widest mt-2">Clima de Seda</p>
         </div>
     </div>
 
-    <!-- CONTENEDOR DASHBOARD INTEGRADO -->
-    <main class="max-w-5xl mx-auto px-6 -mt-20">
+    <main class="max-w-5xl mx-auto px-6 -mt-10">
+        <div class="glass p-8 mb-6">
+            <h2 class="text-2xl font-black uppercase mb-4 text-[var(--turquesa)]">¿Quiénes somos en Zapatoca?</h2>
+            <p class="text-gray-300 leading-relaxed italic">
+                "En Mot Mot somos caminantes, buscadores de caminos auténticos. Zapatoca es nuestra Ciudad Levítica, un punto de encuentro donde la historia escrita en piedra se mezcla con la calidez de su gente. Aquí, cada sendero es una invitación a observar nuestra biodiversidad y transformarnos a través de la caminata."
+            </p>
+            <div class="mt-6 flex gap-4">
+                <a href="caminos.html" class="bg-[var(--turquesa)] text-black px-6 py-3 rounded-xl font-black text-xs uppercase hover:bg-white transition flex items-center gap-2">
+                    <i data-lucide="map-pin"></i> Explorar Caminos en Zapatoca
+                </a>
+            </div>
+        </div>
+
         <div class="glass p-6 md:p-10">
-            
             <div class="switch-container">
                 <button class="switch-btn activo" id="btn-social" onclick="switchModo('social')">👥 Comunidad</button>
                 <button class="switch-btn" id="btn-ventas" onclick="switchModo('ventas')">🏔️ Experiencias</button>
             </div>
 
-            <!-- BUSCADOR -->
             <div class="flex gap-4 mb-8">
                 <input type="text" id="input-buscar" value="Zapatoca" class="flex-1 bg-black/30 border border-white/10 rounded-xl p-4 text-white" readonly>
-                <button class="bg-[var(--turquesa)] text-black font-black px-8 rounded-xl uppercase hover:bg-white transition-colors">Refrescar</button>
+                <button onclick="cargarDatos()" class="bg-[var(--turquesa)] text-black font-black px-8 rounded-xl uppercase hover:bg-white transition-colors">Refrescar</button>
             </div>
 
-            <!-- RESULTADOS SOCIAL -->
-            <div id="resultados-social" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Se inyecta vía JS -->
-            </div>
-
-            <!-- RESULTADOS EXPERIENCIAS -->
-            <div id="resultados-ventas" class="grid grid-cols-1 md:grid-cols-3 gap-6" style="display: none;">
-                <!-- Se inyecta vía JS -->
-            </div>
+            <div id="resultados-social" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+            <div id="resultados-ventas" class="grid grid-cols-1 md:grid-cols-3 gap-6" style="display: none;"></div>
         </div>
     </main>
 
     <script type="module">
-        import { db, collection, query, getDocs, where } from './firebase-config.js';
+        import { db, collection, getDocs, query, where } from './firebase-config.js';
+        
+        lucide.createIcons();
 
-        // Lógica de carga similar a tu dashboard
         window.switchModo = (modo) => {
             document.getElementById('btn-social').classList.toggle('activo', modo === 'social');
             document.getElementById('btn-ventas').classList.toggle('activo', modo === 'ventas');
@@ -74,50 +71,45 @@
             document.getElementById('resultados-ventas').style.display = modo === 'ventas' ? 'grid' : 'none';
         };
 
-        async function cargarDatos() {
+        window.cargarDatos = async () => {
             const term = "zapatoca";
-            
+            const contSoc = document.getElementById('resultados-social');
+            const contVen = document.getElementById('resultados-ventas');
+            contSoc.innerHTML = "Cargando comunidad...";
+            contVen.innerHTML = "Cargando experiencias...";
+
             // Cargar Usuarios
             const qUsers = await getDocs(collection(db, "usuarios"));
-            const containerSoc = document.getElementById('resultados-social');
-            containerSoc.innerHTML = "";
-            
-            qUsers.forEach(doc => {
-                const u = doc.data();
-                if(u.ubicacion?.toLowerCase().includes(term)) {
-                    containerSoc.innerHTML += `
+            contSoc.innerHTML = "";
+            qUsers.forEach(d => {
+                if(d.data().ubicacion?.toLowerCase().includes(term)) {
+                    contSoc.innerHTML += `
                         <div class="usuario-card">
-                            <img src="${u.foto || 'https://ui-avatars.com/api/?name='+u.nombre}" class="w-16 h-16 rounded-full mb-3">
-                            <h4 class="font-bold text-sm">${u.nombre?.split(' ')[0]}</h4>
-                            <span class="text-[9px] uppercase bg-white/10 px-2 py-1 rounded">${u.rol}</span>
-                        </div>
-                    `;
+                            <img src="${d.data().foto || 'https://ui-avatars.com/api/?name='+d.data().nombre}" class="w-12 h-12 rounded-full mx-auto mb-2">
+                            <b class="text-xs">${d.data().nombre?.split(' ')[0]}</b>
+                            <br><span class="text-[8px] uppercase text-gray-500">${d.data().rol}</span>
+                        </div>`;
                 }
             });
-
+            
             // Cargar Experiencias
             const qExp = await getDocs(query(collection(db, "solicitudes_amelia"), where("estado", "==", "completado")));
-            const containerVen = document.getElementById('resultados-ventas');
-            containerVen.innerHTML = "";
-            
-            qExp.forEach(doc => {
-                const e = doc.data();
+            contVen.innerHTML = "";
+            qExp.forEach(d => {
+                const e = d.data();
                 if(e.ubicacion?.toLowerCase().includes(term)) {
-                    containerVen.innerHTML += `
+                    contVen.innerHTML += `
                         <div class="experiencia-card">
-                            <img src="${e.imagenPrincipal}" class="experiencia-img">
+                            <img src="${e.imagenPrincipal}" class="w-full h-32 object-cover">
                             <div class="p-4">
-                                <h4 class="font-black text-sm uppercase">${e.tituloServicio}</h4>
-                                <p class="text-[10px] text-gray-400 mt-2">${e.guiaNombre}</p>
-                                <a href="${e.linkAmelia}" class="block mt-4 bg-[var(--naranja)] text-center py-2 rounded-lg font-bold text-xs uppercase">Reservar</a>
+                                <h4 class="font-black text-xs uppercase">${e.tituloServicio}</h4>
+                                <a href="${e.linkAmelia}" class="block mt-4 bg-[var(--naranja)] text-center py-2 rounded-lg font-bold text-[10px] uppercase">Reservar</a>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 }
             });
         }
-
-        window.onload = cargarDatos;
+        cargarDatos();
     </script>
 </body>
 </html>

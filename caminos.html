@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mot Mot - Cañón del Chicamocha</title>
-    
+    <title>Mot Mot - Explorador de Territorios</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Montserrat:wght@300;400;700;900&display=swap');
         
@@ -24,196 +22,182 @@
             color: white; 
             margin: 0; 
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
         .font-trek { font-family: 'Syncopate', sans-serif; }
         
-        /* HERO Y FONDOS */
-        .hero-section {
-            background-image: linear-gradient(to bottom, rgba(2,6,23,0.3), rgba(2,6,23,0.9)), url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/diseno-sin-titulo-1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            height: 100vh;
+        .glass { 
+            background: rgba(255,255,255,0.03); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255,255,255,0.05); 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ANIMACIONES SCROLL MINIMALISTAS */
-        .reveal-text {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal-text.active {
-            opacity: 1;
-            transform: translateY(0);
+        .glass:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--orange);
+            transform: translateY(-5px);
         }
 
-        /* Hover de tarjeta de producto */
-        .product-card:hover .product-img { transform: scale(1.05); }
+        .breadcrumb-item { cursor: pointer; transition: color 0.3s; }
+        .breadcrumb-item:hover { color: var(--orange); }
 
-        /* Estilo para los puntitos del camino */
-        .trail-dots {
-            stroke-dasharray: 0 16;
-            stroke-linecap: round;
+        /* Transiciones de secciones */
+        .view-section { display: none; animation: fadeIn 0.5s ease-out forwards; }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        .locked { opacity: 0.4; filter: grayscale(1); cursor: not-allowed !important; }
     </style>
 </head>
-<body class="antialiased">
+<body class="p-6 md:p-12">
 
-    <nav class="absolute top-0 w-full z-50 p-6 md:p-12 flex justify-between items-center">
-        <div>
-            <h1 class="font-trek text-[#DE4F32] text-2xl md:text-3xl tracking-tighter">MOT MOT</h1>
-            <div class="h-0.5 w-12 bg-white/20 mt-1"></div>
+    <header class="max-w-6xl mx-auto mb-10">
+        <div class="flex justify-between items-start mb-8">
+            <div>
+                <h1 class="font-trek text-[var(--orange)] text-2xl tracking-tighter">MOT MOT</h1>
+                <p class="text-[9px] uppercase tracking-[0.4em] text-slate-500 mt-1">Comunidad de Caminantes</p>
+            </div>
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/logo-caminante.png" class="h-10 opacity-50">
         </div>
-        <div class="hidden md:flex gap-8 font-bold text-xs tracking-widest uppercase text-white">
-            <a href="#intro-ruta" class="hover:text-[#DE4F32] transition-colors">El Cañón</a>
-            <a href="#experiencias" class="hover:text-[#DE4F32] transition-colors">Descubre La Ruta</a>
-        </div>
-    </nav>
 
-    <header class="hero-section flex flex-col justify-center items-center text-center px-6 relative">
-        <div class="max-w-4xl z-10 mt-10">
-            <p class="text-[#87C5C8] font-trek text-xs md:text-sm tracking-[0.5em] mb-4 uppercase">Destino Exclusivo</p>
-            <h2 class="text-5xl sm:text-6xl md:text-7xl font-black uppercase leading-[0.9] tracking-tighter mb-6 text-white">
-                EL ABISMO VIVO
-            </h2>
-            <div class="h-[1px] w-24 bg-gradient-to-r from-transparent via-[#DE4F32] to-transparent mx-auto mb-6"></div>
-            <p class="text-slate-300 font-light text-base sm:text-lg md:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                La gran ruta del Cañón del Chicamocha. Bosque seco tropical, historia andina y geología pura.
-            </p>
-            <a href="#intro-ruta" class="inline-flex items-center gap-4 bg-transparent border border-[#DE4F32] text-[#DE4F32] hover:bg-[#DE4F32] hover:text-white px-8 py-4 rounded-full text-[10px] sm:text-xs font-trek tracking-widest transition-all">
-                INICIAR DESCENSO <i data-lucide="arrow-down" class="w-4 h-4"></i>
-            </a>
-        </div>
+        <nav id="breadcrumbs" class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-gray-500 font-black mb-4">
+            <span class="breadcrumb-item text-white" onclick="showView('v-pais')">Mundo</span> 
+            <span class="b-region hidden"> <i data-lucide="chevron-right" class="w-3 h-3 inline mx-1"></i> <span class="breadcrumb-item" onclick="showView('v-region')">Colombia</span></span>
+            <span class="b-destino hidden"> <i data-lucide="chevron-right" class="w-3 h-3 inline mx-1"></i> <span class="breadcrumb-item" onclick="showView('v-destino')">Andes Orientales</span></span>
+            <span class="b-etapas hidden"> <i data-lucide="chevron-right" class="w-3 h-3 inline mx-1"></i> <span class="text-[var(--teal)]">Destino Chicamocha</span></span>
+        </nav>
+
+        <h2 id="view-title" class="text-4xl md:text-6xl font-black uppercase tracking-tighter">Explora el <span class="text-[var(--orange)]">Territorio</span></h2>
     </header>
 
-    <section id="intro-ruta" class="py-24 md:py-48 px-6 bg-[#020617] relative flex flex-col items-center justify-center text-center overflow-hidden">
-        
-        <svg preserveAspectRatio="none" viewBox="0 0 100 1000" class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-40 md:opacity-60">
-            <defs>
-                <mask id="path-mask">
-                    <path id="mask-path" d="M 50 0 C 65 250, 35 500, 50 750 C 65 900, 35 1000, 50 1000" fill="none" stroke="white" stroke-width="15" stroke-linecap="round" />
-                </mask>
-            </defs>
-            
-            <path d="M 50 0 C 65 250, 35 500, 50 750 C 65 900, 35 1000, 50 1000" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3" class="trail-dots" />
-            
-            <path d="M 50 0 C 65 250, 35 500, 50 750 C 65 900, 35 1000, 50 1000" fill="none" stroke="#DE4F32" stroke-width="3" class="trail-dots" mask="url(#path-mask)" />
-        </svg>
+    <main class="max-w-6xl mx-auto">
 
-        <div class="max-w-3xl mx-auto space-y-32 md:space-y-48 relative z-10 py-12">
-            
-            <div class="reveal-text">
-                <p class="text-[#87C5C8] font-trek text-[9px] md:text-[10px] tracking-[0.4em] mb-4">EL LEGADO DE LOS ANDES</p>
-                <h3 class="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white leading-tight">
-                    No es solo un punto <br><span class="text-[#DE4F32]">en el mapa.</span>
-                </h3>
-            </div>
-
-            <div class="reveal-text px-4">
-                <p class="text-slate-400 font-light text-base md:text-2xl leading-relaxed max-w-lg mx-auto">
-                    Es una vasta red de senderos reales y caminos de herradura que entrelazan los pueblos más fascinantes de Santander.
-                </p>
-            </div>
-
-            <div class="reveal-text px-4">
-                <h3 class="text-2xl md:text-4xl font-black uppercase tracking-tighter text-white mb-6">
-                    Paso a paso.<br class="block md:hidden"> Pueblo a pueblo.
-                </h3>
-                <p class="text-slate-500 font-light text-sm md:text-xl leading-relaxed mb-12 max-w-md mx-auto">
-                    Desde la frescura del bosque andino hasta las profundidades áridas del cañón más imponente de Colombia.
-                </p>
-                <div class="w-px h-16 bg-gradient-to-b from-[#DE4F32] to-transparent mx-auto"></div>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="experiencias" class="pt-12 pb-24 px-4 sm:px-6 md:px-12 bg-[#020617] relative">
-        <div class="max-w-7xl mx-auto">
-            
-            <div class="text-center mb-16">
-                <p class="text-[#87C5C8] font-trek text-[9px] tracking-[0.3em] uppercase mb-4">Conquista el Territorio</p>
-                <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">Descubre La Ruta</h2>
-            </div>
-
-            <div class="product-card relative rounded-3xl overflow-hidden cursor-pointer group border border-white/10 shadow-2xl" onclick="window.location.href='travesia_majestuosa.html'">
-                
-                <div class="absolute inset-0 z-0">
-                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0008.jpg" class="product-img w-full h-full object-cover object-center transition-transform duration-1000" alt="Trekking Gran Ruta">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/50 to-transparent"></div>
-                </div>
-
-                <div class="relative z-10 p-6 md:p-12 flex flex-col justify-end h-full min-h-[480px] md:min-h-[500px]">
-                    
-                    <span class="absolute top-6 left-6 md:top-8 md:left-8 bg-[#DE4F32] text-white text-[8px] sm:text-[9px] font-trek px-4 py-2 rounded-full shadow-[0_0_15px_rgba(222,79,50,0.4)]">TREKKING / LA TRAVESÍA</span>
-
-                    <div class="mt-auto max-w-2xl pt-10">
-                        <h3 class="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter text-white mb-3 leading-[0.9]">
-                            Descubre <br>La Gran Ruta
-                        </h3>
-                        <p class="text-slate-200 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-6">
-                            Nuestra expedición insignia. Conecta toda la red de caminos desde los bosques andinos hasta las profundidades del abismo en un reto físico y mental transformador.
-                        </p>
-                        
-                        <button class="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full border border-white/30 text-white backdrop-blur-sm group-hover:bg-[#DE4F32] group-hover:border-[#DE4F32] transition-all">
-                            <i data-lucide="arrow-right" class="w-5 h-5 md:w-6 md:h-6"></i>
-                        </button>
+        <section id="v-pais" class="view-section active">
+            <p class="text-slate-400 mb-8 uppercase text-xs tracking-widest font-bold">Selecciona una Nación</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass p-10 rounded-[2.5rem] cursor-pointer relative overflow-hidden group" onclick="goToRegion()">
+                    <div class="absolute inset-0 bg-gradient-to-br from-[var(--orange)] to-transparent opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-4xl font-black uppercase italic">Colombia</h3>
+                            <p class="text-[var(--teal)] font-bold mt-2 uppercase text-xs tracking-widest">El corazón de los Andes</p>
+                        </div>
+                        <i data-lucide="globe-2" class="w-12 h-12 text-slate-700"></i>
                     </div>
                 </div>
+                <div class="glass p-10 rounded-[2.5rem] locked relative">
+                    <h3 class="text-4xl font-black uppercase italic text-slate-600">Perú</h3>
+                    <p class="text-slate-700 font-bold mt-2 uppercase text-[9px]">Próximamente certificado</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="v-region" class="view-section">
+            <p class="text-slate-400 mb-8 uppercase text-xs tracking-widest font-bold">Colombia / Selecciona Región</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass p-8 rounded-[2rem] cursor-pointer group" onclick="goToDestino()">
+                    <h3 class="text-2xl font-black uppercase">Andes Orientales</h3>
+                    <p class="text-[var(--orange)] text-[10px] font-bold mt-2">SANTANDER / BOYACÁ</p>
+                </div>
+                <div class="glass p-8 rounded-[2rem] locked">
+                    <h3 class="text-2xl font-black uppercase">Región Caribe</h3>
+                    <p class="text-slate-600 text-[10px] font-bold mt-2">SIERRA NEVADA</p>
+                </div>
+                <div class="glass p-8 rounded-[2rem] locked">
+                    <h3 class="text-2xl font-black uppercase">Eje Cafetero</h3>
+                    <p class="text-slate-600 text-[10px] font-bold mt-2">LOS NEVADOS</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="v-destino" class="view-section">
+            <p class="text-slate-400 mb-8 uppercase text-xs tracking-widest font-bold">Andes Orientales / Destinos Certificados</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass p-8 rounded-[2.5rem] cursor-pointer relative overflow-hidden group" onclick="goToEtapas()">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20210716_060329.jpg" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-110 transition-transform">
+                    <div class="relative z-10">
+                        <h3 class="text-3xl font-black uppercase leading-none">Destino<br>Chicamocha</h3>
+                        <p class="text-[var(--teal)] font-bold mt-4 uppercase text-[10px]">La red de caminos reales</p>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-[2.5rem] locked border-dashed">
+                    <h3 class="text-3xl font-black uppercase leading-none text-slate-700">Páramo de<br>Santurbán</h3>
+                    <p class="text-slate-700 font-bold mt-4 uppercase text-[10px]">En proceso de certificación</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="v-etapas" class="view-section">
+            <div class="glass p-8 rounded-[2.5rem] border-2 border-[var(--orange)] relative overflow-hidden mb-8 cursor-pointer group" onclick="window.location.href='travesia_majestuosa.html'">
+                <div class="absolute top-4 right-4 bg-[var(--orange)] text-[10px] font-black px-4 py-1 rounded-full uppercase">Full Trekking</div>
+                <h2 class="text-3xl font-black uppercase">Travesía Majestuosa</h2>
+                <p class="text-[var(--teal)] text-sm font-bold mt-2 uppercase tracking-widest">70.5 KM / 6 Destinos Conectados</p>
             </div>
 
-        </div>
-    </section>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa1.html'">
+                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 01</span>
+                    <h4 class="text-xl font-black uppercase">Zapatoca</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa2.html'">
+                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 02</span>
+                    <h4 class="text-xl font-black uppercase">La Fuente</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa3.html'">
+                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 03</span>
+                    <h4 class="text-xl font-black uppercase">Guane</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa4.html'">
+                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 04</span>
+                    <h4 class="text-xl font-black uppercase">Barichara</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa5.html'">
+                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 05</span>
+                    <h4 class="text-xl font-black uppercase">Villanueva</h4>
+                </div>
+                <div class="glass p-6 rounded-3xl" onclick="window.location.href='etapa6.html'">
+                    <span class="text-[10px] font-black text-slate-500 uppercase">Etapa 06</span>
+                    <h4 class="text-xl font-black uppercase">Jordán</h4>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Animación de aparición de textos (Fade Up)
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, { threshold: 0.3 });
-            
-            document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
-            
-            // 2. Animación Minimalista del Camino al hacer Scroll
-            const maskPath = document.getElementById('mask-path');
-            const introSection = document.getElementById('intro-ruta');
-            
-            if (maskPath && introSection) {
-                const pathLength = maskPath.getTotalLength();
-                // Configuramos el path oculto al principio
-                maskPath.style.strokeDasharray = pathLength;
-                maskPath.style.strokeDashoffset = pathLength;
-                
-                window.addEventListener('scroll', () => {
-                    const rect = introSection.getBoundingClientRect();
-                    const windowHeight = window.innerHeight;
-                    
-                    // Calculamos el progreso del scroll a través de la sección
-                    // Empieza cuando el top de la sección pasa el medio de la pantalla
-                    const startPoint = windowHeight * 0.8; 
-                    const scrollDistance = startPoint - rect.top;
-                    const totalScrollable = rect.height;
-                    
-                    let percentage = scrollDistance / totalScrollable;
-                    
-                    // Limitamos entre 0 y 1
-                    percentage = Math.max(0, Math.min(1, percentage));
-                    
-                    // Actualizamos la máscara para revelar los puntos naranjas
-                    maskPath.style.strokeDashoffset = pathLength - (percentage * pathLength);
-                });
-            }
+        lucide.createIcons();
 
-            // 3. Inicializar iconos
-            lucide.createIcons();
-        });
+        function showView(viewId) {
+            // Ocultar todas las vistas
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            // Activar la seleccionada
+            document.getElementById(viewId).classList.add('active');
+
+            // Lógica de Breadcrumbs (Migas de pan)
+            document.querySelector('.b-region').classList.toggle('hidden', viewId === 'v-pais');
+            document.querySelector('.b-destino').classList.toggle('hidden', viewId === 'v-pais' || viewId === 'v-region');
+            document.querySelector('.b-etapas').classList.toggle('hidden', viewId !== 'v-etapas');
+
+            // Cambiar Título dinámico
+            const titles = {
+                'v-pais': 'Explora el <span class="text-[var(--orange)]">Territorio</span>',
+                'v-region': 'Nuestras <span class="text-[var(--orange)]">Regiones</span>',
+                'v-destino': 'Destinos <span class="text-[var(--orange)]">Certificados</span>',
+                'v-etapas': 'La <span class="text-[var(--orange)]">Travesía</span>'
+            };
+            document.getElementById('view-title').innerHTML = titles[viewId];
+        }
+
+        // Funciones de navegación directa
+        function goToRegion() { showView('v-region'); }
+        function goToDestino() { showView('v-destino'); }
+        function goToEtapas() { showView('v-etapas'); }
+
     </script>
-
 </body>
 </html>
