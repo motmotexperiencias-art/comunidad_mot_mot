@@ -658,10 +658,6 @@ html,body{
 
 <body>
 
-<!-- =========================
-     COOKIES
-========================= -->
-
 <div class="cookies" id="cookiesContainer">
     <div class="cookies-box" id="cookiesBox">
 
@@ -687,17 +683,11 @@ html,body{
     </div>
 </div>
 
-<!-- =========================
-     HERO
-========================= -->
-
 <header class="hero">
 
     <div class="hero-bg"></div>
 
     <div class="hero-overlay"></div>
-
-    <!-- TOP -->
 
     <div class="topbar">
 
@@ -711,8 +701,6 @@ html,body{
         </a>
 
     </div>
-
-    <!-- CONTENIDO -->
 
     <div class="hero-content">
 
@@ -733,13 +721,9 @@ html,body{
 
     </div>
 
-    <!-- MENU -->
-
     <div class="bottom-app-nav">
 
         <div class="bottom-nav-container">
-
-            <!-- CAMINOS -->
 
             <div class="bottom-item"
             onclick="window.location.href='https://www.motmotexperiencias.com/caminos.html'">
@@ -758,8 +742,6 @@ html,body{
 
             </div>
 
-            <!-- COMUNIDAD -->
-
             <div class="bottom-item"
             onclick="abrirComunidad()">
 
@@ -776,8 +758,6 @@ html,body{
                 </div>
 
             </div>
-
-            <!-- PERFIL -->
 
             <div class="bottom-item"
             onclick="window.location.href='https://www.motmotexperiencias.com/registro.html'">
@@ -801,10 +781,6 @@ html,body{
     </div>
 
 </header>
-
-<!-- =========================
-     MODAL COMUNIDAD
-========================= -->
 
 <div class="modal" id="modalComunidad">
 
@@ -846,9 +822,17 @@ html,body{
 
 </div>
 
-<!-- =========================
-     FOOTER
-========================= -->
+<div class="modal" id="modalLegal">
+    <div class="modal-content">
+        <div class="close-modal" onclick="cerrarModalLegal()">
+            <i data-lucide="x"></i>
+        </div>
+        <h2 id="modalLegalTitulo">Título</h2>
+        <div id="modalLegalContenido">
+            <p>Contenido legal.</p>
+        </div>
+    </div>
+</div>
 
 <footer class="footer">
 
@@ -858,12 +842,15 @@ html,body{
 
             <div>
                 <h3>Nosotros</h3>
-
                 <p>
                     Mot Mot Experiencias conecta viajeros,
                     anfitriones y guías a través del senderismo,
                     la cultura y los caminos reales.
                 </p>
+                <br>
+                <a href="refugio_escuela.html" class="modal-btn" style="padding: 10px 18px; font-size: 0.85rem; margin-top: 5px;">
+                    Asociación Refugio Escuela
+                </a>
             </div>
 
             <div>
@@ -879,10 +866,10 @@ html,body{
             <div>
                 <h3>Legal</h3>
 
-                <a href="#">Términos y condiciones</a><br>
-                <a href="#">Tratamiento de datos</a><br>
-                <a href="#">Política de cookies</a><br>
-                <a href="#">Prevención ESCNNA</a>
+                <a href="javascript:void(0)" onclick="abrirModalLegal('terminos')">Términos y condiciones</a><br>
+                <a href="javascript:void(0)" onclick="abrirModalLegal('datos')">Tratamiento de datos</a><br>
+                <a href="javascript:void(0)" onclick="abrirModalLegal('cookies')">Política de cookies</a><br>
+                <a href="javascript:void(0)" onclick="abrirModalLegal('escnna')">Prevención ESCNNA</a>
             </div>
 
             <div>
@@ -944,7 +931,7 @@ function cerrarCookiesTemporal(){
 }
 
 /* =========================
-   LÓGICA MODAL ANIMADO
+   LÓGICA MODAL COMUNIDAD
 ========================= */
 
 function abrirComunidad(){
@@ -957,11 +944,48 @@ function cerrarComunidad(){
     modal.classList.remove('active');
 }
 
-// Cerrar modal tocando afuera de la caja
+/* =========================
+   LÓGICA MODAL LEGAL (NUEVA)
+========================= */
+
+function abrirModalLegal(tipo){
+    const modal = document.getElementById('modalLegal');
+    const titulo = document.getElementById('modalLegalTitulo');
+    const contenido = document.getElementById('modalLegalContenido');
+
+    // Cambiamos el texto dependiendo del botón que presionaste
+    if(tipo === 'terminos') {
+        titulo.innerText = 'Términos y Condiciones';
+        contenido.innerHTML = '<p>Aquí va la información detallada sobre los términos y condiciones de uso de nuestros servicios y comunidad. Al usar Mot Mot Experiencias, aceptas estas políticas que garantizan un ecosistema seguro para todos los caminantes.</p>';
+    } else if (tipo === 'datos') {
+        titulo.innerText = 'Tratamiento de Datos';
+        contenido.innerHTML = '<p>Conoce cómo protegemos, procesamos y manejamos tu información personal de acuerdo con la Ley 1581. Tu privacidad y seguridad son nuestra mayor prioridad en la plataforma.</p>';
+    } else if (tipo === 'cookies') {
+        titulo.innerText = 'Política de Cookies';
+        contenido.innerHTML = '<p>Utilizamos cookies para personalizar tu experiencia de navegación, recordar tus preferencias y conectar a nuestra comunidad. Aquí te explicamos exactamente qué datos recopilamos.</p>';
+    } else if (tipo === 'escnna') {
+        titulo.innerText = 'Prevención ESCNNA';
+        contenido.innerHTML = '<p>En Mot Mot Experiencias estamos profundamente comprometidos con la prevención de la Explotación Sexual Comercial de Niños, Niñas y Adolescentes (ESCNNA) en el contexto de los viajes, el senderismo y el turismo responsable.</p>';
+    }
+
+    modal.classList.add('active');
+}
+
+function cerrarModalLegal(){
+    const modal = document.getElementById('modalLegal');
+    modal.classList.remove('active');
+}
+
+// Cerrar cualquier modal tocando afuera de la caja (Actualizado para cubrir ambos)
 window.onclick = function(e){
-    const modal = document.getElementById('modalComunidad');
-    if(e.target === modal){
+    const modalComunidad = document.getElementById('modalComunidad');
+    const modalLegal = document.getElementById('modalLegal');
+    
+    if(e.target === modalComunidad){
         cerrarComunidad();
+    }
+    if(e.target === modalLegal) {
+        cerrarModalLegal();
     }
 }
 
