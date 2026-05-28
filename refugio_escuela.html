@@ -16,7 +16,7 @@
 
 <style>
 /* ===================================================== */
-/* VARIABLES DE COLOR (VIBRANTE + TOQUE NAT GEO) */
+/* VARIABLES DE COLOR */
 /* ===================================================== */
 :root {
     --mot-naranja: #FF5E00;
@@ -24,7 +24,6 @@
     --mot-turquesa: #00E5FF;
     --mot-verde: #00C853;
     --mot-azul: #0077FF;
-    
     --base-clara: #F8F3E6;
     --texto-oscuro: #1A2F24;
 }
@@ -83,7 +82,6 @@ body {
 .hero h1 span { color: var(--mot-dorado); }
 .hero p { margin-top: 2rem; font-size: clamp(1rem, 3vw, 1.2rem); line-height: 1.8; max-width: 800px; color: rgba(255,255,255,0.95); text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
-/* Botones */
 .btn-hero {
     padding: 18px 32px; border: none; border-radius: 30px; font-size: clamp(0.85rem, 2vw, 1rem); font-weight: 900;
     letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: 0.3s;
@@ -94,7 +92,6 @@ body {
 .btn-secondary { background: rgba(255,255,255,0.1); border: 2px solid white; color: white; backdrop-filter: blur(10px); }
 .btn-secondary:hover { background: white; color: var(--mot-naranja); }
 
-/* Tarjetas */
 .stats-container { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 4rem; justify-content: center; }
 .stat-box { padding: 1.5rem; border-radius: 20px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(15px); min-width: 250px; flex: 1; max-width: 350px; }
 .stat-box h3 { font-size: 1.8rem; font-weight: 900; color: var(--mot-dorado); text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
@@ -108,7 +105,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 .glass-card-icon { width: 60px; height: 60px; border-radius: 15px; background: white; color: var(--mot-naranja); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
 
 /* ===================================================== */
-/* EL PORTAL (ALICIA EN EL PAÍS DE LAS MARAVILLAS) */
+/* EL PORTAL */
 /* ===================================================== */
 #wonderland-portal {
     position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 99999;
@@ -235,21 +232,31 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 }
 
 /* ===================================================== */
-/* RESPONSIVE MÓVIL (MEJORADO Y OPTIMIZADO) */
+/* RESPONSIVE MÓVIL ESTRICTO (CORRECCIÓN DEFINITIVA) */
 /* ===================================================== */
 @media(max-width: 768px) {
     * { overflow-wrap: break-word; word-break: break-word; }
 
-    .magic-glass-box { padding: 2rem 1.5rem; border-radius: 20px; }
+    /* Forzar al portal a comportarse como una página normal en móviles (elimina el corte por flexbox) */
+    #wonderland-portal {
+        display: block !important; 
+        padding: 1.5rem;
+    }
     
-    /* 1er MEJORA CRUCIAL: Garantizar que haya espacio libre debajo para que todo el contenido "quepa" y baje bien */
-    .portal-content {
-        justify-content: flex-start !important; 
-        padding-top: 5rem; 
-        padding-bottom: 10rem; /* Más espacio al final para asegurar que el botón Avanzar no se esconda */
-        height: auto;
+    #wonderland-portal:not(.active) {
+        display: none !important;
     }
 
+    .portal-content {
+        display: block !important;
+        margin: 0 auto;
+        padding: 4rem 0 6rem 0 !important; /* Margen superior para la "X" y margen inferior para el botón avanzar */
+        height: auto;
+        min-height: auto;
+    }
+
+    .magic-glass-box { padding: 2rem 1.5rem; border-radius: 20px; }
+    
     .passport-container { padding: 1.5rem; border-radius: 8px; border-left-width: 8px; margin-bottom: 2rem; }
     .pass-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .pass-title-text { font-size: 1.5rem; }
@@ -379,7 +386,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 
             <div id="area-preguntas"></div>
 
-            <div id="btn-siguiente-box" style="display: none; margin-top: 1.5rem; scroll-margin-top: 100px;">
+            <div id="btn-siguiente-box" style="display: none; margin-top: 1.5rem;">
                 <button class="btn-portal" onclick="avanzarPregunta()">
                     AVANZAR <i data-lucide="chevron-right"></i>
                 </button>
@@ -669,7 +676,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         const btnBox = document.getElementById('btn-siguiente-box');
         btnBox.style.display = 'block';
         
-        // 2da MEJORA CRUCIAL: Auto-scroll hacia abajo para que el botón "Avanzar" siempre sea visible
+        // Efectuamos el scroll de manera robusta para que siempre el botón sea visible
         setTimeout(() => {
             btnBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }, 150);
@@ -727,21 +734,18 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         const sombra = caja.style.boxShadow;
         caja.style.boxShadow = 'none'; 
 
-        // 3ra MEJORA CRUCIAL: Usar un factor de escala menor para móviles y guardar en JPG. 
-        // Esto evita que los navegadores de iPhone y Android colapsen y recarguen la página por falta de memoria.
         const scaleFactor = window.innerWidth < 768 ? 1 : 2; 
 
         html2canvas(caja, { scale: scaleFactor, backgroundColor: "#F9F6F0" }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `Pasaporte_${nombreCaminante.replace(/\s+/g, '_')}.jpg`; // .jpg es mucho más ligero
-            link.href = canvas.toDataURL("image/jpeg", 0.9); // Genera la imagen en JPG
+            link.download = `Pasaporte_${nombreCaminante.replace(/\s+/g, '_')}.jpg`;
+            link.href = canvas.toDataURL("image/jpeg", 0.9);
             link.click();
             caja.style.boxShadow = sombra;
         });
     }
 
     function mostrarFormulario() {
-        // No ocultaremos los botones finales para evitar saltos bruscos en pantalla si cambian de opinión
         const form = document.getElementById('form-afiliacion');
         form.style.display = 'block';
         
@@ -753,6 +757,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
     function enviarASheets() {
         const btn = document.getElementById('btn-enviar-sheets');
         
+        // CORRECCIÓN CRÍTICA APLICADA: "Ubicación" restaurado estrictamente con su tilde.
         const payload = {
             Nombre: document.getElementById('sheet-nombre').value.trim(),
             Correo: document.getElementById('sheet-correo').value.trim(),
@@ -760,7 +765,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
             QuienEres: document.getElementById('sheet-quienEres').value.trim(),
             Puntaje: puntaje,
             Fecha: new Date().toLocaleString(),
-            Ubicacion: document.getElementById('sheet-ubicacion').value.trim() // Cambiado a "Ubicacion" sin tilde por seguridad en Google Sheets
+            Ubicación: document.getElementById('sheet-ubicacion').value.trim() 
         };
 
         if (!payload.Nombre || !payload.Correo || !payload.Telefono) {
@@ -785,13 +790,11 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         })
         .then(res => res.json())
         .then(data => {
-            // OCULTAR EL FORMULARIO Y MOSTRAR EL MENSAJE DE ÉXITO
             document.getElementById('form-afiliacion').style.display = 'none';
             document.getElementById('botones-finales').style.display = 'none';
             const msjExito = document.getElementById('mensaje-exito');
             msjExito.style.display = 'block';
             
-            // Hacer scroll suave hacia el mensaje de éxito
             setTimeout(() => {
                 msjExito.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
