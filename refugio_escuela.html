@@ -1,579 +1,804 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Asociación Refugio Escuela de Caminantes</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Pasaporte Territorial | Asociación Refugio Escuela de Caminantes</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ===================================================== */
+/* VARIABLES DE COLOR (VIBRANTE + TOQUE NAT GEO) */
+/* ===================================================== */
+:root {
+    --mot-naranja: #FF5E00;
+    --mot-dorado: #FFB800; /* El amarillo/dorado clásico documental */
+    --mot-turquesa: #00E5FF;
+    --mot-verde: #00C853;
+    --mot-azul: #0077FF;
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    /* Colores base cálidos para la web */
+    --base-clara: #F8F3E6; /* Color arena clara / tapia */
+    --texto-oscuro: #1A2F24; /* Verde muy oscuro para texto */
+}
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Syncopate:wght@700&display=swap');
-        
-        :root { 
-            --naranja: #E65127; 
-            --turquesa: #80C4C8; 
-            --oscuro: #0d1117;
-        }
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--oscuro); 
-            color: white; 
-            margin: 0; 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at top right, rgba(230, 81, 39, 0.05), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(128, 196, 200, 0.05), transparent 40%);
-        }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-        .font-trek { font-family: 'Syncopate', sans-serif; }
+/* LA WEB PRINCIPAL ES VIVA Y DE DÍA */
+body { 
+    font-family: 'Montserrat', sans-serif; 
+    background-color: var(--base-clara); 
+    color: var(--texto-oscuro); 
+    overflow-x: hidden; 
+}
 
-        /* EFECTO CRISTAL */
-        .glass { 
-            background: rgba(255,255,255,0.03); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.08); 
-            border-radius: 24px;
-        }
+/* Scrollbar naranja */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f0e9d8; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--mot-naranja), var(--mot-dorado)); border-radius: 10px; }
 
-        /* TRANSICIONES DE PANTALLA */
-        .step-container {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .step-container.active {
-            display: flex;
-            flex-direction: column;
-            opacity: 1;
-            transform: translateY(0);
-        }
+/* ===================================================== */
+/* FONDO DE LA LANDING PAGE (ATARDECER/DÍA) */
+/* ===================================================== */
+.bg-landing {
+    position: fixed; inset: 0; z-index: -10; overflow: hidden;
+    background: linear-gradient(135deg, #FF9A44 0%, #FC6076 100%);
+}
+.bg-landing::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20240620_061110.jpg');
+    background-size: cover; background-position: center;
+    opacity: 0.35; mix-blend-mode: overlay;
+    animation: bgZoom 40s ease-in-out infinite alternate;
+}
+.bg-landing::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(255,100,50,0.2), rgba(10,30,40,0.8));
+}
+@keyframes bgZoom { from { transform: scale(1); } to { transform: scale(1.15); } }
 
-        /* ESTILOS DE RADIO BUTTONS PERSONALIZADOS */
-        .quiz-option {
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            transition: all 0.3s;
-        }
-        .quiz-option:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: rgba(255,255,255,0.2);
-        }
-        .quiz-option input[type="radio"] {
-            display: none;
-        }
-        .quiz-option input[type="radio"]:checked + .custom-radio {
-            background: var(--naranja);
-            border-color: var(--naranja);
-            box-shadow: 0 0 15px rgba(230, 81, 39, 0.4);
-        }
-        .quiz-option input[type="radio"]:checked ~ .option-text {
-            color: white;
-            font-weight: 700;
-        }
-        .custom-radio {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.3);
-            flex-shrink: 0;
-            transition: all 0.3s;
-        }
-        .option-text {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
+/* ===================================================== */
+/* COMPONENTES DE LA LANDING PAGE */
+/* ===================================================== */
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 4rem 1.5rem; position: relative; color: white; }
+.hero-content { position: relative; z-index: 5; max-width: 1200px; margin: auto; width: 100%; }
 
-        /* CERTIFICADO FINAL (PASAPORTE) */
-        .passport-card {
-            background: linear-gradient(135deg, #1a202c 0%, #0d1117 100%);
-            border: 2px solid var(--turquesa);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(128, 196, 200, 0.1);
-        }
-        .passport-card::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; width: 150px; height: 150px;
-            background: radial-gradient(circle, rgba(230,81,39,0.2) 0%, transparent 70%);
-            border-radius: 50%;
-            transform: translate(30%, -30%);
-        }
-        .stamp {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 100px;
-            height: 100px;
-            border: 3px dashed var(--naranja);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--naranja);
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 900;
-            text-align: center;
-            transform: rotate(-15deg);
-            opacity: 0;
-            animation: stampIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s forwards;
-        }
+.pill-tag {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px); color: white; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 
-        @keyframes stampIn {
-            0% { opacity: 0; transform: scale(3) rotate(-30deg); }
-            100% { opacity: 0.8; transform: scale(1) rotate(-15deg); }
-        }
+.hero h1 {
+    font-size: clamp(2.5rem, 8vw, 7rem); line-height: 0.9; font-weight: 900;
+    letter-spacing: -0.02em; text-transform: uppercase; text-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+.hero h1 span { color: var(--mot-dorado); }
 
-        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
-        }
-    </style>
+.hero p { margin-top: 2rem; font-size: clamp(1rem, 3vw, 1.2rem); line-height: 1.8; max-width: 800px; color: rgba(255,255,255,0.95); text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+/* Botones */
+.btn-hero {
+    padding: 18px 32px; border: none; border-radius: 30px; font-size: clamp(0.85rem, 2vw, 1rem); font-weight: 900;
+    letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px; width: 100%; max-width: 320px;
+}
+.btn-primary { background: white; color: var(--mot-naranja); box-shadow: 0 15px 30px rgba(255,255,255,0.3); }
+.btn-primary:hover { transform: translateY(-5px); background: var(--mot-dorado); color: white; box-shadow: 0 20px 40px rgba(255,184,0,0.5); }
+.btn-secondary { background: rgba(255,255,255,0.1); border: 2px solid white; color: white; backdrop-filter: blur(10px); }
+.btn-secondary:hover { background: white; color: var(--mot-naranja); }
+
+/* Tarjetas de info */
+.stats-container { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 4rem; justify-content: center; }
+.stat-box {
+    padding: 1.5rem; border-radius: 20px; background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(15px); min-width: 250px; flex: 1; max-width: 350px;
+}
+.stat-box h3 { font-size: 1.8rem; font-weight: 900; color: var(--mot-dorado); text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+section { padding: 5rem 1.5rem; position: relative; color: white; }
+.container { max-width: 1200px; margin: auto; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+.glass-card {
+    padding: 2rem; border-radius: 30px; background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(15px); transition: 0.3s;
+}
+.glass-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.2); border-color: var(--mot-dorado); }
+.glass-card h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem; color: var(--mot-dorado); }
+.glass-card-icon { width: 60px; height: 60px; border-radius: 15px; background: white; color: var(--mot-naranja); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+
+/* ===================================================== */
+/* EL PORTAL (ALICIA EN EL PAÍS DE LAS MARAVILLAS) */
+/* ===================================================== */
+#wonderland-portal {
+    position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 99999;
+    display: none; opacity: 0; transition: opacity 0.6s ease;
+    flex-direction: column; overflow-y: auto; overflow-x: hidden;
+    background: linear-gradient(135deg, #1A2980 0%, #26D0CE 100%);
+    color: white;
+}
+#wonderland-portal.active { display: flex; opacity: 1; }
+
+.portal-texture {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.15;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50c-27.614 0-50-22.386-50-50h100c0 27.614-22.386 50-50 50z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: 50px 50px; mix-blend-mode: overlay;
+}
+
+.magic-orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: 1; pointer-events: none; transition: background 1.5s ease; }
+#orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--mot-dorado); }
+#orb-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: var(--mot-turquesa); }
+
+.portal-content { position: relative; z-index: 10; width: 100%; max-width: 900px; margin: auto; padding: 4rem 1.5rem; display: flex; flex-direction: column; justify-content: center; min-height: 100vh; }
+
+.btn-close-portal {
+    position: absolute; top: 15px; right: 15px; width: 50px; height: 50px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); border: 2px solid white; color: white;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    backdrop-filter: blur(10px); z-index: 50; transition: 0.3s;
+}
+.btn-close-portal:hover { background: white; color: var(--mot-naranja); transform: rotate(90deg); }
+
+.portal-screen { display: none; width: 100%; animation: floatUp 0.6s ease; }
+.portal-screen.active { display: block; }
+@keyframes floatUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+.magic-glass-box {
+    background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px); border-radius: 30px; padding: 3rem 2rem;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3), inset 0 0 20px rgba(255,255,255,0.2);
+}
+
+.input-magic {
+    width: 100%; padding: 20px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.2); color: white; font-size: 1.1rem; text-align: center;
+    outline: none; transition: 0.3s; font-family: 'Montserrat', sans-serif; font-weight: 600;
+}
+.input-magic::placeholder { color: rgba(255,255,255,0.8); }
+.input-magic:focus { border-color: white; background: rgba(255,255,255,0.4); transform: scale(1.02); }
+
+.btn-portal {
+    width: 100%; padding: 18px; border-radius: 20px; font-size: 1.1rem; font-weight: 900;
+    text-transform: uppercase; cursor: pointer; transition: 0.3s; border: none;
+    background: white; color: #1A2980; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-portal:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); background: var(--mot-dorado); color: white; }
+
+.q-title { font-size: clamp(1.6rem, 5vw, 2.8rem); font-weight: 900; line-height: 1.3; margin-bottom: 2rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.q-tag { font-size: 0.85rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.9); margin-bottom: 1rem; display: inline-block; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; }
+
+.option-magic {
+    background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+    padding: 1.5rem; border-radius: 20px; cursor: pointer; transition: 0.3s;
+    margin-bottom: 1rem; display: flex; flex-direction: column;
+}
+.option-magic:hover { background: rgba(255,255,255,0.3); border-color: white; }
+.option-magic.correct { background: var(--mot-verde); border-color: white; box-shadow: 0 0 20px rgba(0,200,83,0.5); }
+.option-magic.wrong { background: var(--mot-naranja); border-color: white; }
+
+.option-text { font-size: 1.1rem; font-weight: 700; line-height: 1.5; }
+.option-feedback { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.4); font-size: 1rem; font-weight: 500; }
+.option-magic.show-feedback .option-feedback { display: block; animation: floatUp 0.4s ease; }
+
+/* ===================================================== */
+/* PASAPORTE ESTILO PAPEL / NAT GEO (MOBILE FIRST) */
+/* ===================================================== */
+.passport-container {
+    background-color: #F9F6F0; /* Off-white papel */
+    /* Ruido de papel SVG sutil */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    border: 2px solid #E0D5C1; 
+    border-radius: 12px; /* Corte tipo libreta, no tan redondo */
+    padding: 3rem;
+    color: #2C3E50;
+    text-align: left; position: relative; overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 0 30px rgba(0,0,0,0.05); 
+    margin-bottom: 3rem;
+    border-left: 12px solid var(--mot-dorado); /* Borde estilo Nat Geo */
+}
+
+/* Marca de agua sutil de fondo */
+.passport-container::before {
+    content:''; position:absolute; inset:0; 
+    background-image:url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20240620_061110.jpg');
+    background-size:cover; opacity:0.06; mix-blend-mode: multiply; pointer-events:none;
+}
+
+.pass-header { display: flex; justify-content: space-between; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 1.5rem; margin-bottom: 2rem; position: relative; z-index: 2;}
+.pass-title-text { font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 900; color: #1A2F24; line-height: 1; }
+.pass-badge { background: rgba(0,200,83,0.1); border: 2px solid var(--mot-verde); color: var(--mot-verde); padding: 8px 16px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; letter-spacing: 0.1em; }
+.pass-label { font-size: 0.75rem; color: #7F8C8D; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.4rem; }
+.pass-value { font-size: 1.8rem; font-weight: 900; color: #1A2F24; text-transform: uppercase; }
+.pass-seal {
+    position: absolute; bottom: 20px; right: 20px; width: 130px; height: 130px;
+    border: 3px dashed rgba(26, 47, 36, 0.4); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; z-index: 2; transform: rotate(-15deg);
+}
+.pass-seal-inner {
+    width: 100px; height: 100px; border-radius: 50%; background: #1A2F24; /* Sello de tinta oscura */
+    color: #F9F6F0; font-weight: 900; font-size: 0.8rem; text-align: center;
+    display: flex; align-items: center; justify-content: center; text-transform: uppercase;
+}
+
+/* ===================================================== */
+/* FORMULARIO Y MENSAJE DE ÉXITO */
+/* ===================================================== */
+#form-afiliacion {
+    display: none; background: rgba(255,255,255,0.98); border-radius: 20px; padding: 2.5rem;
+    color: var(--texto-oscuro); text-align: left; margin-top: 1rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3); animation: floatUp 0.6s ease;
+}
+.form-afiliacion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; font-weight: 900; font-size: 0.85rem; margin-bottom: 0.5rem; color: var(--mot-naranja); text-transform: uppercase; }
+.form-group input, .form-group textarea {
+    width: 100%; padding: 14px 18px; border-radius: 12px; border: 2px solid #ddd;
+    font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s; background: #fdfdfd;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--mot-dorado); box-shadow: 0 0 10px rgba(255,184,0,0.2); }
+
+/* Pantalla de Éxito al enviar formulario */
+#mensaje-exito {
+    display: none; background: rgba(255,255,255,0.98); border-radius: 20px; padding: 3rem 2rem;
+    color: var(--texto-oscuro); text-align: center; margin-top: 1rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3); animation: floatUp 0.6s ease;
+}
+
+/* ===================================================== */
+/* RESPONSIVE MÓVIL ESTRICTO */
+/* ===================================================== */
+@media(max-width: 768px) {
+    .magic-glass-box { padding: 2rem 1.5rem; border-radius: 20px; }
+    
+    /* Ajustes específicos del pasaporte para celular */
+    .passport-container { padding: 1.5rem; border-radius: 8px; border-left-width: 8px; margin-bottom: 2rem; }
+    .pass-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .pass-title-text { font-size: 1.8rem; }
+    .pass-value { font-size: 1.3rem; }
+    #pasaporte-grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+    .pass-seal { width: 90px; height: 90px; bottom: 10px; right: 10px; opacity: 0.85; }
+    .pass-seal-inner { width: 70px; height: 70px; font-size: 0.6rem; }
+    
+    /* Formularios */
+    #form-afiliacion, #mensaje-exito { padding: 2rem 1.5rem; }
+    .flex-wrap { flex-direction: column; }
+    .btn-hero { max-width: 100%; }
+}
+</style>
 </head>
-<body class="p-4 md:p-8 flex justify-center items-center">
+<body>
 
-    <!-- TOP BAR GLOBAL -->
-    <div class="fixed top-6 left-6 right-6 z-50 flex justify-between items-center max-w-4xl mx-auto w-full px-4">
-        <a href="index.html" class="flex items-center gap-2 text-white/50 hover:text-white transition-colors no-underline">
-            <i data-lucide="arrow-left" class="w-5 h-5"></i>
-        </a>
-        <div class="flex flex-col items-end">
-            <span class="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--turquesa)]">Asociación</span>
-            <span class="text-xs font-trek tracking-widest text-white">REFUGIO ESCUELA</span>
+<div class="bg-landing"></div>
+
+<section class="hero" id="inicio">
+    <div class="hero-content text-center">
+        <div class="pill-tag"><i data-lucide="sun"></i> Escuela Territorial Viva</div>
+        <h1>NO FORMAMOS<br>TURISTAS.<br><span>FORMAMOS</span><br>GUARDIANES.</h1>
+        <p class="mx-auto">
+            La Asociación Refugio Escuela de Caminantes protege los caminos ancestrales del Cañón del Chicamocha mediante experiencias conscientes, cultura de montaña y memoria territorial.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10">
+            <button class="btn-hero btn-primary" onclick="abrirPortal()">
+                INICIAR PASAPORTE <i data-lucide="sparkles"></i>
+            </button>
+            <a href="#territorio" class="btn-hero btn-secondary" style="text-decoration: none;">
+                EXPLORAR REFUGIO <i data-lucide="footprints"></i>
+            </a>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box"><h3>Guardianes</h3><p>Cultura de montaña.</p></div>
+            <div class="stat-box"><h3>Chicamocha</h3><p>Naturaleza viva.</p></div>
+            <div class="stat-box"><h3>Territorio</h3><p>Protección real.</p></div>
         </div>
     </div>
+</section>
 
-    <!-- CONTENEDOR PRINCIPAL -->
-    <main class="w-full max-w-3xl mx-auto mt-12 mb-12 relative">
+<section id="territorio">
+    <div class="container">
+        <div class="pill-tag"><i data-lucide="leaf"></i> Más que senderismo</div>
+        <h2 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; text-transform: uppercase; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            CAMINAR TAMBIÉN ES<br>PROTEGER LA MEMORIA
+        </h2>
+        <p style="margin-top: 1.5rem; font-size: clamp(1rem, 3vw, 1.2rem); max-width: 800px; line-height: 1.8;">
+            Los caminos del Chicamocha no son simples rutas turísticas. Son corredores vivos donde todavía habita la memoria ancestral de las montañas santandereanas.
+        </p>
 
-        <!-- PASO 1: INTRODUCCIÓN Y ONBOARDING -->
-        <section id="step-1" class="step-container active items-center text-center">
-            
-            <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10">
-                <i data-lucide="mountain" class="w-10 h-10 text-[var(--naranja)]"></i>
+        <div class="cards-grid">
+            <div class="glass-card">
+                <div class="glass-card-icon"><i data-lucide="trees" class="w-8 h-8"></i></div>
+                <h3>Territorio Vivo</h3>
+                <p>Cada sendero conecta ecosistemas, historias y comunidades que conservan la memoria del camino.</p>
             </div>
-            
-            <h1 class="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-6">
-                El Territorio exige <br><span class="text-[var(--turquesa)]">Consciencia</span>
-            </h1>
-            
-            <div class="glass p-8 w-full text-left mb-8 space-y-6">
-                <div>
-                    <h3 class="text-[var(--naranja)] font-trek text-[10px] tracking-widest mb-2">LA PUERTA CONSCIENTE AL CAÑÓN</h3>
-                    <p class="text-slate-300 text-sm md:text-base leading-relaxed">
-                        La <strong>Asociación Refugio Escuela de Caminantes</strong> es la puerta de entrada al Cañón del Chicamocha y a las comunidades que habitan nuestro territorio. Existimos porque creemos que un camino ancestral no puede ser recorrido como un simple parque de diversiones. <strong>Este Pasaporte es tu primera herramienta de capacitación</strong>, diseñada para enseñarte cómo ingresar con respeto y proteger el tejido social y natural antes de dar el primer paso.
-                    </p>
-                </div>
-                
-                <div class="border-t border-white/10 pt-6">
-                    <h3 class="text-[var(--turquesa)] font-trek text-[10px] tracking-widest mb-2">EL PERFIL DEL CAMINANTE</h3>
-                    <p class="text-slate-300 text-sm md:text-base leading-relaxed">
-                        No buscamos turistas; <strong>buscamos guardianes</strong>. Al abrir este pasaporte, te comprometes a aprender. Buscamos a quienes cuidan, protegen y aplican la política <em>"No Deje Rastro"</em>. A quienes entienden que los campesinos son los dueños de casa, que el silencio sana la montaña, y que caminar es un acto de honor.
-                    </p>
-                </div>
+            <div class="glass-card">
+                <div class="glass-card-icon"><i data-lucide="shield" class="w-8 h-8"></i></div>
+                <h3>Guardianes del Sendero</h3>
+                <p>El pasaporte simboliza el compromiso ético con la montaña y el respeto por la herencia guane.</p>
+            </div>
+            <div class="glass-card">
+                <div class="glass-card-icon"><i data-lucide="sun" class="w-8 h-8"></i></div>
+                <h3>No Deje Rastro</h3>
+                <p>Caminar conscientemente implica disminuir el impacto ecológico, cultural y sonoro.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="text-center" style="padding-bottom: 6rem;">
+    <div class="container">
+        <div class="pill-tag"><i data-lucide="mountain"></i> Únete a la tribu</div>
+        <h2 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; text-transform: uppercase; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            LOS CAMINOS SOBREVIVEN<br>CUANDO ALGUIEN DECIDE<br><span style="color: var(--mot-dorado);">CUIDARLOS</span>
+        </h2>
+        <div class="flex justify-center mt-8">
+            <a href="https://wa.me/573132501446" class="btn-hero btn-primary" style="text-decoration: none;">
+                CONTACTAR WHATSAPP <i data-lucide="message-circle"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<div id="wonderland-portal">
+    
+    <div class="portal-texture"></div>
+    <div class="magic-orb" id="orb-1"></div>
+    <div class="magic-orb" id="orb-2"></div>
+    
+    <button class="btn-close-portal" onclick="cerrarPortal()" title="Volver a la Web">
+        <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+
+    <div class="portal-content">
+        
+        <div id="pantalla-intro" class="portal-screen active magic-glass-box text-center">
+            <div class="q-tag">El Umbral del Cañón</div>
+            <h2 class="q-title">BIENVENIDO AL<br>CAMINO</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.6;">
+                Estás a punto de ingresar al universo de la Asociación. No es un examen, es un viaje de consciencia. Escribe tu nombre para abrir la puerta.
+            </p>
+            <input type="text" id="input-nombre-jugador" class="input-magic mb-6" placeholder="Tu nombre completo...">
+            <button class="btn-portal" onclick="iniciarViajeMágico()">
+                COMENZAR EL VIAJE <i data-lucide="arrow-right"></i>
+            </button>
+        </div>
+
+        <div id="pantalla-quiz" class="portal-screen magic-glass-box">
+            <div class="flex justify-between items-end mb-2">
+                <span id="quiz-capitulo" class="font-bold text-white uppercase tracking-widest text-xs sm:text-sm">Capítulo 1 de 10</span>
+            </div>
+            <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-bottom: 1.5rem;">
+                <div id="quiz-barra" style="height: 100%; width: 0%; background: white; border-radius: 10px; transition: 0.5s;"></div>
             </div>
 
-            <div class="w-full max-w-md mx-auto">
-                <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Ingresa tu nombre para iniciar la capacitación</label>
-                <input type="text" id="userName" placeholder="Nombre de Caminante..." class="w-full bg-[#020617] border border-white/20 rounded-xl px-5 py-4 text-white font-bold outline-none focus:border-[var(--naranja)] transition-colors mb-6 text-center">
-                
-                <button onclick="startQuiz()" class="w-full bg-[var(--naranja)] hover:bg-[#c94520] text-white font-black uppercase tracking-widest py-4 rounded-xl transition-all flex items-center justify-center gap-2">
-                    Iniciar Herramienta <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            <div id="area-preguntas"></div>
+
+            <div id="btn-siguiente-box" style="display: none; margin-top: 1.5rem;">
+                <button class="btn-portal" onclick="avanzarPregunta()">
+                    AVANZAR <i data-lucide="chevron-right"></i>
                 </button>
             </div>
-        </section>
+        </div>
 
+        <div id="pantalla-resultado" class="portal-screen text-center">
+            <h2 class="q-title" id="titulo-final">EL CAÑÓN TE RECIBE</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;" id="desc-final">Has demostrado entender la ética del caminante.</p>
 
-        <!-- PASO 2: EL RETO EDUCATIVO (TEST) -->
-        <section id="step-2" class="step-container">
-            <div class="mb-8 text-center md:text-left">
-                <span class="text-[var(--naranja)] text-[10px] font-black uppercase tracking-[0.2em]">Examen de Certificación</span>
-                <h2 class="text-2xl md:text-4xl font-black uppercase tracking-tighter mt-1">Prueba de Consciencia</h2>
-                <p class="text-slate-400 text-sm mt-2">Responde estas situaciones reales del cañón. Si fallas, te enseñaremos el camino correcto.</p>
-            </div>
-
-            <div class="space-y-10" id="quiz-container">
-                
-                <!-- P1 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">1. Estás descansando en pleno cañón y terminas tu botella de agua y un snack. ¿Qué haces con los empaques?</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q1" value="0"><div class="custom-radio"></div><span class="option-text">Los dejo escondidos bajo una piedra para no dañar el paisaje visual.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q1" value="0"><div class="custom-radio"></div><span class="option-text">Los dejo a un lado del sendero para que el equipo de limpieza local los recoja.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q1" value="1"><div class="custom-radio"></div><span class="option-text">Los guardo en mi mochila; mi basura regresa conmigo a la ciudad.</span></label>
-                    </div>
-                </div>
-
-                <!-- P2 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">2. El sendero cruza por una finca y ves un broche (cerca de alambre o madera) cerrado en el camino. ¿Cómo procedes?</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q2" value="1"><div class="custom-radio"></div><span class="option-text">Lo abro para pasar e inmediatamente lo dejo cerrado exactamente como lo encontré.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q2" value="0"><div class="custom-radio"></div><span class="option-text">Paso por encima saltando la cerca para no tener que tocar el alambre.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q2" value="0"><div class="custom-radio"></div><span class="option-text">Lo dejo abierto para facilitar el paso a los caminantes que vienen detrás de mí.</span></label>
-                    </div>
-                </div>
-
-                <!-- P3 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">3. Al caminar cerca del patio de una casa campesina con residentes descansando. ¿Cuál es tu actitud?</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q3" value="0"><div class="custom-radio"></div><span class="option-text">Entro a su patio a tomar fotos de su estilo de vida sin preguntar, es turismo cultural.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q3" value="1"><div class="custom-radio"></div><span class="option-text">Saludo con respeto desde el sendero, no invado su propiedad y pido permiso si requiero ayuda.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q3" value="0"><div class="custom-radio"></div><span class="option-text">Paso rápido ignorándolos totalmente y escuchando música en mis altavoces.</span></label>
-                    </div>
-                </div>
-
-                <!-- P4 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">4. Observas un ave endémica o una flor hermosa muy cerca del sendero. ¿Qué debes hacer?</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q4" value="1"><div class="custom-radio"></div><span class="option-text">Me detengo a observar, tomo una foto sin flash y la dejo en su hábitat sin tocarla.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q4" value="0"><div class="custom-radio"></div><span class="option-text">Arranco la flor o me acerco mucho al nido del ave para tener un buen recuerdo.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q4" value="0"><div class="custom-radio"></div><span class="option-text">Le ofrezco restos de mi comida al ave para que se acerque a mi cámara.</span></label>
-                    </div>
-                </div>
-
-                <!-- P5 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">5. El camino histórico se encuentra embarrado, pero ves que otros han pisado el pasto creando un "atajo".</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q5" value="0"><div class="custom-radio"></div><span class="option-text">Tomo el atajo por el pasto para evitar ensuciar mis botas de montaña.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q5" value="0"><div class="custom-radio"></div><span class="option-text">Camino por los muros de piedra laterales para no tocar el barro.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q5" value="1"><div class="custom-radio"></div><span class="option-text">Me mantengo en la huella principal del sendero, aunque me ensucie, para evitar la erosión.</span></label>
-                    </div>
-                </div>
-
-                <!-- P6 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">6. Tienes la necesidad biológica de ir al baño lejana a un pueblo.</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q6" value="1"><div class="custom-radio"></div><span class="option-text">Me alejo al menos 60 metros del agua, hago un "hoyo de gato" y entierro los desechos. Me llevo mi papel higiénico.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q6" value="0"><div class="custom-radio"></div><span class="option-text">Lo hago justo al lado del camino, es materia orgánica y se descompone rápido.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q6" value="0"><div class="custom-radio"></div><span class="option-text">Me acerco al río para lavarme después de terminar, dejando el papel ahí.</span></label>
-                    </div>
-                </div>
-
-                <!-- P7 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">7. Vas caminando con un grupo de amigos por una zona de bosque denso.</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q7" value="0"><div class="custom-radio"></div><span class="option-text">Ponemos un altavoz Bluetooth con música para animar el recorrido.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q7" value="1"><div class="custom-radio"></div><span class="option-text">Hablamos en voz baja y dejamos prevalecer los sonidos de la naturaleza para no alterar la fauna.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q7" value="0"><div class="custom-radio"></div><span class="option-text">Gritamos constantemente para hacer eco en el cañón.</span></label>
-                    </div>
-                </div>
-
-                <!-- P8 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">8. Te encuentras muros antiguos de tapia pisada o caminos de piedra viva (Patrimonio).</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q8" value="0"><div class="custom-radio"></div><span class="option-text">Me llevo una pequeña roca suelta como recuerdo de mi viaje.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q8" value="0"><div class="custom-radio"></div><span class="option-text">Dejo mi nombre tallado en una piedra o muro para que sepan que estuve allí.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q8" value="1"><div class="custom-radio"></div><span class="option-text">Los admiro y fotografío sin alterar su estructura; el patrimonio se respeta intacto.</span></label>
-                    </div>
-                </div>
-
-                <!-- P9 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">9. Es hora de comer, llevas provisiones y hace frío.</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q9" value="1"><div class="custom-radio"></div><span class="option-text">Me abrigo. Evito hacer fogatas para prevenir incendios, si necesito calentar uso una cocineta portátil.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q9" value="0"><div class="custom-radio"></div><span class="option-text">Armo una pequeña fogata con madera del bosque directamente sobre el sendero.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q9" value="0"><div class="custom-radio"></div><span class="option-text">Corto ramas de árboles vivos cercanos para que el fuego prenda rápido.</span></label>
-                    </div>
-                </div>
-
-                <!-- P10 -->
-                <div class="quiz-question glass p-6">
-                    <p class="font-bold text-white mb-4">10. Llegas a una tienda rural y el tendero campesino te ofrece productos de su huerta.</p>
-                    <div class="space-y-3">
-                        <label class="quiz-option"><input type="radio" name="q10" value="0"><div class="custom-radio"></div><span class="option-text">Le exijo que me cobre lo mismo que en un supermercado de la ciudad.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q10" value="1"><div class="custom-radio"></div><span class="option-text">Compro con gratitud y a precio justo, entendiendo que mi consumo dinamiza la economía local.</span></label>
-                        <label class="quiz-option"><input type="radio" name="q10" value="0"><div class="custom-radio"></div><span class="option-text">Ignoro su oferta porque traje todo desde la ciudad para no gastar nada en el campo.</span></label>
-                    </div>
-                </div>
-
-                <!-- Feedback Educativo (Oculto por defecto) -->
-                <div id="educational-feedback" class="hidden glass border-[var(--naranja)] p-6 md:p-8 mt-8">
-                    <div class="flex items-center gap-3 mb-4">
-                        <i data-lucide="book-open" class="w-8 h-8 text-[var(--naranja)]"></i>
-                        <h3 class="text-xl font-black uppercase tracking-tighter text-white">Momento de Aprendizaje</h3>
-                    </div>
-                    <p class="text-slate-300 text-sm mb-6">Hemos detectado oportunidades de mejora en tus respuestas. Para ser un guardián del territorio, lee con atención por qué tus decisiones impactan el Cañón:</p>
-                    
-                    <ul id="feedback-list" class="space-y-4 text-sm text-slate-200">
-                        <!-- Aquí se inyectan las respuestas educativas -->
-                    </ul>
-
-                    <button onclick="hideFeedback()" class="mt-8 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest py-3 px-6 rounded-xl hover:bg-white/5 transition-all text-xs">
-                        Comprendido, revisaré mis respuestas
-                    </button>
-                </div>
-
-                <!-- Botón Validar -->
-                <div class="pt-6 border-t border-white/10" id="action-area">
-                    <p id="missing-msg" class="text-[var(--naranja)] text-xs font-bold text-center mb-4 hidden">
-                        Por favor, selecciona una opción en todas las situaciones antes de enviar.
-                    </p>
-                    <button onclick="checkAnswers()" class="w-full bg-[var(--turquesa)] text-[#0d1117] font-black uppercase tracking-widest py-5 rounded-xl hover:bg-white transition-all text-lg shadow-[0_0_20px_rgba(128,196,200,0.3)]">
-                        Validar mis Respuestas
-                    </button>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- PASO 3: EL CERTIFICADO Y REGISTRO -->
-        <section id="step-3" class="step-container items-center text-center">
-            <h2 class="text-3xl font-black uppercase tracking-tighter mb-2">¡Certificación <span class="text-[var(--turquesa)]">Aprobada!</span></h2>
-            <p class="text-slate-400 text-sm mb-8">Tienes la mentalidad y consciencia correcta. Eres un guardián del territorio.</p>
-
-            <!-- Carnet / Pasaporte -->
-            <div class="passport-card p-8 md:p-10 rounded-[2rem] w-full max-w-lg mx-auto text-left relative mb-12">
-                
-                <div class="flex justify-between items-start mb-10 relative z-10">
+            <div class="passport-container" id="pasaporte-render">
+                <div class="pass-header">
                     <div>
-                        <p class="text-[var(--turquesa)] text-[8px] font-black uppercase tracking-[0.3em] mb-1">Documento Oficial</p>
-                        <p class="font-trek text-white text-sm tracking-widest">PASAPORTE DE CAMINANTE</p>
+                        <div class="pass-label">Asociación Refugio Escuela</div>
+                        <div class="pass-title-text">PASAPORTE<br>TERRITORIAL</div>
                     </div>
-                    <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10">
-                        <i data-lucide="shield-check" class="w-6 h-6 text-[var(--naranja)]"></i>
-                    </div>
+                    <div><span class="pass-badge" id="badge-estado">APROBADO</span></div>
                 </div>
-
-                <div class="space-y-6 relative z-10">
+                <div id="pasaporte-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; position: relative; z-index: 5;">
                     <div>
-                        <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Guardián del Territorio:</p>
-                        <p id="cert-name" class="text-2xl md:text-3xl font-black uppercase text-white border-b border-white/20 pb-2 inline-block">
-                            <!-- Nombre inyectado por JS -->
-                        </p>
+                        <div class="pass-label">Guardián Reconocido</div>
+                        <div class="pass-value" id="pass-nombre-visor">Nombre Caminante</div>
                     </div>
-                    
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Entidad Emisora</p>
-                            <p class="text-xs font-bold text-slate-300 leading-tight">Asoc. Refugio Escuela<br>de Caminantes</p>
-                        </div>
-                        <div>
-                            <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Estado / Acceso</p>
-                            <p class="text-xs font-bold text-[var(--turquesa)] flex items-center gap-1">
-                                <i data-lucide="check-circle-2" class="w-4 h-4"></i> Autorizado
-                            </p>
+                    <div>
+                        <div class="pass-label">Compromiso</div>
+                        <div style="font-weight: 600; font-size: 0.85rem; line-height: 1.5; color: #555;">
+                            Reconocido como caminante consciente, comprometido con la protección de senderos ancestrales, naturaleza y respeto absoluto a la comunidad campesina.
                         </div>
                     </div>
                 </div>
-
-                <!-- Sello de Aprobado -->
-                <div class="stamp">
-                    Ruta<br>Libre
-                </div>
+                <div class="pass-seal"><div class="pass-seal-inner">Ruta<br>Consciente</div></div>
             </div>
 
-            <!-- FORMULARIO DE REGISTRO AL REFUGIO -->
-            <div class="w-full max-w-lg mx-auto text-left">
-                <div class="flex items-center gap-3 mb-6">
-                    <i data-lucide="mail-plus" class="w-6 h-6 text-[var(--turquesa)]"></i>
-                    <h2 class="text-2xl font-black uppercase tracking-tighter">Únete al Refugio</h2>
-                </div>
-                
-                <p class="text-slate-400 text-sm mb-6 leading-relaxed">
-                    Si llegaste hasta aquí, el territorio te necesita. Regístrate oficialmente en nuestra asociación enviándonos tus datos. Recibirás información exclusiva sobre rutas y cómo participar activamente.
-                </p>
-
-                <div class="glass p-6 md:p-8 space-y-4">
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Número de Teléfono / WhatsApp</label>
-                        <input type="tel" id="userPhone" placeholder="+57 300 000 0000" class="w-full bg-[#020617] border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[var(--turquesa)] transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">¿Qué te inspira a ser parte de esta Tribu?</label>
-                        <textarea id="userMotivation" rows="3" placeholder="Cuéntanos brevemente tu motivación para caminar con consciencia..." class="w-full bg-[#020617] border border-white/10 rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[var(--turquesa)] transition-colors resize-none"></textarea>
-                    </div>
-                    
-                    <button onclick="sendEmail()" class="w-full bg-[var(--naranja)] hover:bg-[#c94520] text-white font-black uppercase tracking-widest py-4 rounded-xl transition-all flex justify-center items-center gap-2 mt-4">
-                        <i data-lucide="send" class="w-4 h-4"></i> Enviar Solicitud Oficial
-                    </button>
-                </div>
-
-                <p class="text-center text-slate-500 text-xs mt-8 italic font-medium">
-                    "Al final, no recordaremos el tiempo que pasamos en la oficina, sino la conexión real que logramos con la montaña. Nos vemos en el camino."
-                </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4" id="botones-finales">
+                <button class="btn-hero btn-secondary w-full sm:w-auto" onclick="descargarPasaporte()">
+                    <i data-lucide="image"></i> DESCARGAR PASAPORTE
+                </button>
+                <button class="btn-hero btn-primary w-full sm:w-auto" onclick="mostrarFormulario()">
+                    <i data-lucide="user-plus"></i> UNIRSE A LA ASOCIACIÓN
+                </button>
             </div>
-        </section>
 
-    </main>
+            <div id="form-afiliacion">
+                <h3 style="font-size: 1.5rem; font-weight: 900; color: var(--mot-naranja); margin-bottom: 0.5rem; text-transform: uppercase;">Acta de Ingreso Oficial</h3>
+                <p style="margin-bottom: 1.5rem; font-weight: 500; font-size: 0.9rem; color: #666; line-height: 1.5;">
+                    Envía tus datos para unirte a la base de guardianes y participar en procesos de conservación de montaña.
+                </p>
+                <div class="form-afiliacion-grid">
+                    <div class="form-group"><label>Nombre Completo</label><input type="text" id="sheet-nombre"></div>
+                    <div class="form-group"><label>Correo Electrónico</label><input type="email" id="sheet-correo" placeholder="correo@ejemplo.com"></div>
+                    <div class="form-group"><label>WhatsApp</label><input type="text" id="sheet-telefono" placeholder="+57..."></div>
+                    <div class="form-group"><label>Ubicación</label><input type="text" id="sheet-ubicacion" placeholder="Ciudad o País"></div>
+                </div>
+                <div class="form-group">
+                    <label>¿Quién eres y qué te inspira de la montaña?</label>
+                    <textarea id="sheet-quienEres" rows="3" placeholder="Cuéntanos sobre ti..."></textarea>
+                </div>
+                <button id="btn-enviar-sheets" class="btn-portal" style="background: var(--mot-naranja); color: white;" onclick="enviarASheets()">
+                    ENVIAR DATOS A LA ASOCIACIÓN <i data-lucide="send"></i>
+                </button>
+            </div>
 
-    <script>
-        // Inicializar Iconos Vectoriales
+            <div id="mensaje-exito">
+                <i data-lucide="check-circle" style="width: 80px; height: 80px; color: var(--mot-verde); margin: 0 auto 1.5rem;"></i>
+                <h3 style="font-size: 1.8rem; font-weight: 900; color: var(--texto-oscuro); margin-bottom: 1rem; text-transform: uppercase;">¡Gracias por tu interés!</h3>
+                <p style="font-size: 1.05rem; color: #555; margin-bottom: 2rem; line-height: 1.6;">
+                    Tus datos han sido registrados exitosamente. Nos enorgullece saber que deseas pertenecer a la Asociación Refugio Escuela de Caminantes y ser un guardián del territorio. Pronto nos pondremos en contacto contigo.
+                </p>
+                <button class="btn-portal" style="background: var(--texto-oscuro); color: white;" onclick="cerrarPortal()">
+                    VOLVER AL INICIO <i data-lucide="home"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+
+    // 1. LA INFORMACIÓN COMPLETA (10 Preguntas con Colores de Mundo)
+    const basePreguntas = [
+        {
+            cap: "Capítulo I: La Huella", 
+            temaMundo: "linear-gradient(135deg, #00C9FF 0%, #92FE9D 100%)", 
+            pregunta: "Estás descansando en pleno cañón y terminas tu botella de agua y un snack. ¿Qué haces con los empaques?",
+            opciones: [
+                { texto: "Los dejo escondidos bajo una piedra para no dañar el paisaje visual.", correcta: false, feedback: "Esconder los residuos altera microecosistemas y envenena fauna local." },
+                { texto: "Los dejo a un lado del sendero para que el equipo de limpieza los recoja.", correcta: false, feedback: "No existe tal equipo en las profundidades del Cañón. Es tu estricta responsabilidad." },
+                { texto: "Los guardo en mi mochila; mi basura regresa conmigo a la ciudad.", correcta: true, feedback: "¡Correcto! Todo lo que entra en tu equipaje, sale en tu equipaje." }
+            ]
+        },
+        {
+            cap: "Capítulo II: El Límite", 
+            temaMundo: "linear-gradient(135deg, #F54EA2 0%, #FF7676 100%)",
+            pregunta: "El sendero cruza por una finca y ves un broche cerrado en el camino. ¿Cómo procedes?",
+            opciones: [
+                { texto: "Lo abro para pasar e inmediatamente lo dejo cerrado exactamente como lo encontré.", correcta: true, feedback: "¡Excelente! Los broches confinan el ganado campesino. Dejarlo abierto causa caos." },
+                { texto: "Paso por encima saltando la cerca para no tener que tocar el alambre.", correcta: false, feedback: "Saltar daña la tensión estructural de los postes y revienta el alambre." },
+                { texto: "Lo dejo abierto para facilitar el paso a los caminantes que vienen detrás de mí.", correcta: false, feedback: "Grave error de montaña. El ganado huirá y perjudicarás al campesino." }
+            ]
+        },
+        {
+            cap: "Capítulo III: El Hogar", 
+            temaMundo: "linear-gradient(135deg, #F6D365 0%, #FDA085 100%)",
+            pregunta: "Al caminar cerca del patio de una casa campesina con residentes descansando. ¿Cuál es tu actitud?",
+            opciones: [
+                { texto: "Entro a su patio a tomar fotos de su estilo de vida sin preguntar.", correcta: false, feedback: "Las fincas son hogares privados, no postales escenográficas de consumo." },
+                { texto: "Saludo con respeto desde el sendero, no invado su propiedad y pido permiso si requiero ayuda.", correcta: true, feedback: "El respeto dignifica. Tú eres un invitado recorriendo su territorio." },
+                { texto: "Paso rápido ignorándolos totalmente y escuchando música en mis altavoces.", correcta: false, feedback: "La desconexión humana y la contaminación sonora rompen la paz comunitaria." }
+            ]
+        },
+        {
+            cap: "Capítulo IV: La Vida Silvestre", 
+            temaMundo: "linear-gradient(135deg, #13547A 0%, #80D0C7 100%)", 
+            pregunta: "Observas un ave endémica o una flor hermosa muy cerca del sendero. ¿Qué debes hacer?",
+            opciones: [
+                { texto: "Arranco la flor o me acerco mucho al nido del ave para tener un buen recuerdo.", correcta: false, feedback: "Arrancar flores frena la polinización. Invadir nidos genera abandono de crías." },
+                { texto: "Le ofrezco restos de mi comida al ave para que se acerque a mi cámara.", correcta: false, feedback: "La comida procesada altera los sistemas digestivos de la fauna y genera dependencia." },
+                { texto: "Me detengo a observar, tomo una foto sin flash y la dejo en su hábitat sin tocarla.", correcta: true, feedback: "Impecable. La contemplación pasiva es la única huella aceptada." }
+            ]
+        },
+        {
+            cap: "Capítulo V: La Herida", 
+            temaMundo: "linear-gradient(135deg, #667EEA 0%, #764BA2 100%)", 
+            pregunta: "El camino histórico se encuentra embarrado por lluvias, pero ves que otros han pisado el pasto creando un 'atajo'.",
+            opciones: [
+                { texto: "Tomo el atajo por el pasto para evitar ensuciar mis botas.", correcta: false, feedback: "Al pisar fuera, destruyes la capa vegetal de retención e intensificas la erosión." },
+                { texto: "Camino por los muros de piedra laterales para no tocar el barro.", correcta: false, feedback: "Caminar sobre muros patrimoniales desestabiliza hiladas de piedra centenarias." },
+                { texto: "Me mantengo en la huella principal del sendero, aunque me ensucie.", correcta: true, feedback: "¡Exacto! El barro en las botas es la medalla de un caminante que cuida su entorno." }
+            ]
+        },
+        {
+            cap: "Capítulo VI: La Naturaleza Humana", 
+            temaMundo: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", 
+            pregunta: "Tienes la necesidad biológica de ir al baño en medio de la ruta, alejado de un centro poblado.",
+            opciones: [
+                { texto: "Lo hago justo al lado del camino, es materia orgánica y se descompone rápido.", correcta: false, feedback: "Fomenta focos vectores de moscas, contaminación visual y riesgos de patógenos." },
+                { texto: "Me alejo al menos 60 metros del agua, hago un 'hoyo de gato' y entierro los desechos.", correcta: true, feedback: "Filosofía internacional No Deje Rastro ejecutada con total rigor ético." },
+                { texto: "Me acerco al río para lavarme después de terminar, dejando el papel ahí.", correcta: false, feedback: "Acabas de inyectar coliformes directos a la fuente hídrica." }
+            ]
+        },
+        {
+            cap: "Capítulo VII: El Sonido", 
+            temaMundo: "linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)", 
+            pregunta: "Vas caminando con un grupo de amigos por una zona de bosque denso.",
+            opciones: [
+                { texto: "Ponemos un altavoz Bluetooth con música para animar el recorrido.", correcta: false, feedback: "El espectro sonoro artificial desplaza aves y rompe la acústica natural." },
+                { texto: "Hablamos en voz baja y dejamos prevalecer los sonidos de la naturaleza.", correcta: true, feedback: "El sonido nativo es un recurso protegido. El silencio sana la montaña." },
+                { texto: "Gritamos constantemente para hacer eco en el cañón.", correcta: false, feedback: "El eco no es un juguete; es una alteración innecesaria." }
+            ]
+        },
+        {
+            cap: "Capítulo VIII: La Memoria", 
+            temaMundo: "linear-gradient(135deg, #8baaaa 0%, #ae8b9c 100%)", 
+            pregunta: "Te encuentras muros antiguos de tapia pisada o tramos de caminos de piedra viva patrimoniales.",
+            opciones: [
+                { texto: "Me llevo una pequeña roca suelta como recuerdo de mi viaje.", correcta: false, feedback: "La extracción masiva desmantela el registro arqueológico nacional de forma irreversible." },
+                { texto: "Dejo mi nombre tallado en una piedra o muro para que sepan que estuve allí.", correcta: false, feedback: "Graffitis o tallas son actos de vandalismo puro contra la memoria de la nación." },
+                { texto: "Los admiro y fotografío sin alterar su estructura.", correcta: true, feedback: "Efectivamente. La memoria ancestral se contempla con veneración y no se altera." }
+            ]
+        },
+        {
+            cap: "Capítulo IX: El Fuego", 
+            temaMundo: "linear-gradient(135deg, #ff0844 0%, #ffb199 100%)", 
+            pregunta: "Es hora de comer, llevas provisiones y hace un frío extremo en la alta montaña del cañón.",
+            opciones: [
+                { texto: "Me abrigo. Evito hacer fogatas para prevenir incendios, uso cocineta portátil.", correcta: true, feedback: "Brillante. El fuego descontrolado destruye bosques xerofíticos imposibles de recuperar." },
+                { texto: "Armo una pequeña fogata con madera del bosque directamente sobre el sendero.", correcta: false, feedback: "Quemas el suelo orgánico y dejas una cicatriz que tarda décadas en regenerarse." },
+                { texto: "Corto ramas de árboles vivos cercanos para que el fuego prenda rápido.", correcta: false, feedback: "La madera viva no combustiona por su humedad y mutilas la biodiversidad." }
+            ]
+        },
+        {
+            cap: "Capítulo X: El Tejido", 
+            temaMundo: "linear-gradient(135deg, #f6d365 0%, #ffb347 100%)", 
+            pregunta: "Llegas a una tienda rural y el tendero campesino te ofrece productos frescos de su propia huerta familiar.",
+            opciones: [
+                { texto: "Le exijo que me cobre lo mismo que en un supermercado de la ciudad.", correcta: false, feedback: "Invisibilizas la titánica cadena logística y de esfuerzo físico del campo." },
+                { texto: "Compro con gratitud y a precio justo, entendiendo que mi consumo dinamiza la economía local.", correcta: true, feedback: "¡Eso es Turismo Regenerativo 4.0! Sostener de manera justa al dueño de la casa." },
+                { texto: "Ignoro su oferta porque traje todo desde la ciudad para no gastar nada en el campo.", correcta: false, feedback: "Caminar sin consumir local convierte tu paso en una práctica meramente extractiva." }
+            ]
+        }
+    ];
+
+    let indiceActual = 0;
+    let puntaje = 0;
+    let nombreCaminante = "";
+    let respondido = false;
+
+    const portal = document.getElementById('wonderland-portal');
+    const pIntro = document.getElementById('pantalla-intro');
+    const pQuiz = document.getElementById('pantalla-quiz');
+    const pRes = document.getElementById('pantalla-resultado');
+    const areaPreguntas = document.getElementById('area-preguntas');
+
+    function abrirPortal() {
+        portal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        indiceActual = 0; puntaje = 0; nombreCaminante = ""; respondido = false;
+        document.getElementById('input-nombre-jugador').value = "";
+        portal.style.background = "linear-gradient(135deg, #1A2980 0%, #26D0CE 100%)";
+        
+        pIntro.classList.add('active');
+        pQuiz.classList.remove('active');
+        pRes.classList.remove('active');
+        document.getElementById('form-afiliacion').style.display = 'none';
+        document.getElementById('mensaje-exito').style.display = 'none';
+        document.getElementById('botones-finales').style.display = 'flex';
+    }
+
+    function cerrarPortal() {
+        portal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    function iniciarViajeMágico() {
+        const input = document.getElementById('input-nombre-jugador');
+        if (input.value.trim().length < 2) {
+            input.style.borderColor = 'var(--mot-naranja)';
+            setTimeout(() => input.style.borderColor = 'rgba(255,255,255,0.5)', 800);
+            return;
+        }
+        nombreCaminante = input.value.trim();
+        
+        document.getElementById('sheet-nombre').value = nombreCaminante;
+        document.getElementById('pass-nombre-visor').innerText = nombreCaminante;
+
+        pIntro.classList.remove('active');
+        pQuiz.classList.add('active');
+        pintarPregunta(0);
+    }
+
+    function pintarPregunta(indice) {
+        respondido = false;
+        document.getElementById('btn-siguiente-box').style.display = 'none';
+        
+        const data = basePreguntas[indice];
+        portal.style.background = data.temaMundo;
+
+        const porcentaje = (indice / basePreguntas.length) * 100;
+        document.getElementById('quiz-barra').style.width = porcentaje + '%';
+        document.getElementById('quiz-capitulo').innerText = `Capítulo ${indice + 1} de 10`;
+
+        let htmlOpciones = '';
+        const letras = ['A', 'B', 'C'];
+        data.opciones.forEach((op, i) => {
+            const feedLimpio = op.feedback.replace(/'/g, "\\'");
+            htmlOpciones += `
+                <div class="option-magic" onclick="seleccionarOpcion(this, ${op.correcta}, '${feedLimpio}')">
+                    <div class="option-text"><span style="color:var(--mot-dorado); font-weight:900; margin-right:8px;">${letras[i]}.</span> ${op.texto}</div>
+                    <div class="option-feedback"><i data-lucide="info" class="inline w-5 h-5 mr-1"></i> ${op.feedback}</div>
+                </div>
+            `;
+        });
+
+        areaPreguntas.innerHTML = `
+            <div style="animation: floatUp 0.5s ease;">
+                <div class="q-tag">${data.cap}</div>
+                <h2 class="q-title">${data.pregunta}</h2>
+                <div>${htmlOpciones}</div>
+            </div>
+        `;
         lucide.createIcons();
+    }
 
-        // Variables de estado
-        let playerName = "";
+    function seleccionarOpcion(elemento, esCorrecta, feedback) {
+        if (respondido) return;
+        respondido = true;
 
-        // Textos Educativos para respuestas incorrectas
-        const educationalLessons = {
-            1: "<strong>Sobre la Basura:</strong> Esconder basura debajo de piedras o dejarla a un lado altera microecosistemas y contamina. La única regla es: Todo lo que entra en tu mochila, sale en tu mochila.",
-            2: "<strong>Cercas y Broches:</strong> Los campesinos usan los broches para evitar que su ganado escape o se mezcle. Si lo abres, asegúrate de dejarlo <em>exactamente igual</em> a como lo encontraste. Si saltas, dañas el alambre.",
-            3: "<strong>Respeto a la Comunidad:</strong> Las casas campesinas son hogares privados, no escenografías turísticas. Saludar desde el sendero y pedir permiso demuestra que entiendes que tú eres el visitante.",
-            4: "<strong>Flora y Fauna:</strong> Tocar o alimentar a la fauna silvestre altera sus dietas e instintos de supervivencia. Cortar flores impide su reproducción. La mejor foto es la que se toma a distancia y sin flash.",
-            5: "<strong>Erosión en Senderos:</strong> Tomar atajos o caminar por los bordes destruye la vegetación aledaña y ensancha el camino, generando erosión severa. Pisa siempre la huella principal.",
-            6: "<strong>Baño en la Naturaleza:</strong> Los desechos humanos cerca al agua causan contaminación biológica grave. El 'hoyo de gato' (20cm de profundidad a 60m del agua) es la técnica mundial para no dejar rastro. El papel no se entierra, se guarda.",
-            7: "<strong>Contaminación Sonora:</strong> El ruido de altavoces o gritos estresa a la fauna (aves, mamíferos) y altera sus ciclos de comunicación y caza. El sonido de la naturaleza es el verdadero privilegio.",
-            8: "<strong>Patrimonio Histórico:</strong> La piedra viva y la tapia pisada han sobrevivido siglos. Extraer rocas o tallar tu nombre destruye la memoria arquitectónica de la nación de forma irreversible.",
-            9: "<strong>Fuego:</strong> Las fogatas recreativas son la causa principal de incendios forestales catastróficos. Un guardián usa la ropa adecuada para el frío y cocinetas de gas portátiles.",
-            10: "<strong>Turismo Regenerativo:</strong> El campesino invierte tiempo y esfuerzo extremo en cultivar y transportar sus productos. Regatear o no consumir local estanca la economía. Comprar a precio justo dignifica su labor."
+        const todas = areaPreguntas.querySelectorAll('.option-magic');
+
+        if (esCorrecta) {
+            puntaje++;
+            elemento.classList.add('correct');
+        } else {
+            elemento.classList.add('wrong');
+            todas.forEach(c => {
+                if(c.getAttribute('onclick').includes("true")) {
+                    c.style.borderColor = "white";
+                    c.style.boxShadow = "0 0 15px rgba(255,255,255,0.5)";
+                }
+            });
+        }
+
+        elemento.classList.add('show-feedback');
+        document.getElementById('btn-siguiente-box').style.display = 'block';
+    }
+
+    function avanzarPregunta() {
+        areaPreguntas.firstElementChild.style.opacity = '0';
+        setTimeout(() => {
+            indiceActual++;
+            if (indiceActual >= basePreguntas.length) {
+                mostrarDestinoFinal();
+            } else {
+                pintarPregunta(indiceActual);
+            }
+        }, 300);
+    }
+
+    function mostrarDestinoFinal() {
+        portal.style.background = "linear-gradient(135deg, #FFB800 0%, #FF5E00 100%)";
+        document.getElementById('quiz-barra').style.width = '100%';
+
+        pQuiz.classList.remove('active');
+        pRes.classList.add('active');
+
+        const badge = document.getElementById('badge-estado');
+        const tit = document.getElementById('titulo-final');
+        const desc = document.getElementById('desc-final');
+
+        if (puntaje >= 7) {
+            tit.innerText = "ACCESO AUTORIZADO";
+            desc.innerText = `Puntaje: ${puntaje}/10. Eres un guardián de la montaña.`;
+            badge.innerText = "APROBADO";
+            lanzarConfeti();
+        } else {
+            tit.innerText = "EN APRENDIZAJE";
+            desc.innerText = `Puntaje: ${puntaje}/10. La montaña exige más consciencia. Inicia tu formación con nosotros.`;
+            badge.innerText = "RESTRINGIDO";
+            badge.style.color = "#FF5E00"; badge.style.borderColor = "#FF5E00"; badge.style.background = "rgba(255,94,0,0.1)";
+        }
+        
+        portal.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function lanzarConfeti() {
+        var end = Date.now() + (3 * 1000);
+        (function frame() {
+            confetti({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#ffffff', '#FFB800'] });
+            confetti({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#ffffff', '#FFB800'] });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+    }
+
+    function descargarPasaporte() {
+        const caja = document.getElementById('pasaporte-render');
+        const sombra = caja.style.boxShadow;
+        caja.style.boxShadow = 'none'; 
+
+        html2canvas(caja, { scale: 2, backgroundColor: "#F9F6F0" }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `Pasaporte_${nombreCaminante.replace(/\s+/g, '_')}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+            caja.style.boxShadow = sombra;
+        });
+    }
+
+    function mostrarFormulario() {
+        document.getElementById('botones-finales').style.display = 'none';
+        const form = document.getElementById('form-afiliacion');
+        form.style.display = 'block';
+        
+        setTimeout(() => {
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    }
+
+    function enviarASheets() {
+        const btn = document.getElementById('btn-enviar-sheets');
+        
+        const payload = {
+            Nombre: document.getElementById('sheet-nombre').value.trim(),
+            Correo: document.getElementById('sheet-correo').value.trim(),
+            Telefono: document.getElementById('sheet-telefono').value.trim(),
+            QuienEres: document.getElementById('sheet-quienEres').value.trim(),
+            Puntaje: puntaje,
+            Fecha: new Date().toLocaleString(),
+            Ubicación: document.getElementById('sheet-ubicacion').value.trim()
         };
 
-        // Iniciar el Quiz
-        function startQuiz() {
-            const input = document.getElementById('userName');
-            if(input.value.trim().length < 2) {
-                input.classList.add('border-[var(--naranja)]');
-                input.parentElement.classList.add('shake');
-                setTimeout(() => input.parentElement.classList.remove('shake'), 500);
-                return;
-            }
+        if (!payload.Nombre || !payload.Correo || !payload.Telefono) {
+            alert("Por favor llena tu Nombre, Correo y WhatsApp para el registro.");
+            return;
+        }
+
+        btn.innerHTML = 'CONECTANDO... <i data-lucide="loader" class="animate-spin inline w-5 h-5 ml-2"></i>';
+        btn.disabled = true;
+        lucide.createIcons();
+
+        // =========================================================
+        // TU URL EXACTA DE APPS SCRIPT INSERTADA AQUÍ:
+        // =========================================================
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPH-TQKKJbgcsuMCDhpHOOMrBQPaZTTN1EbF5PI7L1Tm2ev_il53uyePtwXiImjNMNyQ/exec"; 
+
+        fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            mode: "cors",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            // OCULTAR EL FORMULARIO Y MOSTRAR EL MENSAJE DE ÉXITO
+            document.getElementById('form-afiliacion').style.display = 'none';
+            const msjExito = document.getElementById('mensaje-exito');
+            msjExito.style.display = 'block';
             
-            playerName = input.value.trim();
-            
-            document.getElementById('step-1').classList.remove('active');
+            // Hacer scroll suave hacia el mensaje de éxito
             setTimeout(() => {
-                document.getElementById('step-2').classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 300);
-        }
-
-        // Validar Respuestas y Generar Capacitación
-        function checkAnswers() {
-            const missingMsg = document.getElementById('missing-msg');
-            const feedbackContainer = document.getElementById('educational-feedback');
-            const feedbackList = document.getElementById('feedback-list');
-            const actionArea = document.getElementById('action-area');
+                msjExito.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
             
-            let score = 0;
-            let answered = 0;
-            const totalQuestions = 10;
-            let failedLessons = [];
-
-            // Limpiar estados previos
-            missingMsg.classList.add('hidden');
-            feedbackList.innerHTML = '';
-
-            for(let i = 1; i <= totalQuestions; i++) {
-                const selected = document.querySelector(`input[name="q${i}"]:checked`);
-                if(selected) {
-                    answered++;
-                    if(selected.value === "1") {
-                        score++;
-                    } else {
-                        // Guardar la lección educativa de la pregunta que falló
-                        failedLessons.push(educationalLessons[i]);
-                    }
-                }
-            }
-
-            // Validar que respondió todo
-            if (answered < totalQuestions) {
-                missingMsg.classList.remove('hidden');
-                actionArea.classList.add('shake');
-                setTimeout(() => actionArea.classList.remove('shake'), 500);
-                return;
-            }
-
-            if (score === totalQuestions) {
-                // ÉXITO TOTAL: 10 de 10
-                document.getElementById('cert-name').innerText = playerName;
-                feedbackContainer.classList.add('hidden');
-                
-                document.getElementById('step-2').classList.remove('active');
-                
-                setTimeout(() => {
-                    document.getElementById('step-3').classList.add('active');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    triggerConfetti();
-                }, 300);
-
-            } else {
-                // FALLO: Mostrar Mini-Clase
-                failedLessons.forEach(lesson => {
-                    const li = document.createElement('li');
-                    li.className = "flex items-start gap-3 bg-[var(--naranja)]/10 p-4 rounded-xl border border-[var(--naranja)]/20";
-                    li.innerHTML = `<i data-lucide="info" class="w-5 h-5 text-[var(--naranja)] shrink-0 mt-0.5"></i> <span>${lesson}</span>`;
-                    feedbackList.appendChild(li);
-                });
-                
-                lucide.createIcons();
-                feedbackContainer.classList.remove('hidden');
-                
-                // Bajar suavemente hacia el feedback
-                feedbackContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        // Ocultar Feedback para volver a intentar
-        function hideFeedback() {
-            document.getElementById('educational-feedback').classList.add('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Generar Correo (Mailto)
-        function sendEmail() {
-            const phone = document.getElementById('userPhone').value.trim();
-            const motivation = document.getElementById('userMotivation').value.trim();
-            
-            if(!phone || !motivation) {
-                alert("Por favor, completa tu teléfono y tu motivación para enviarnos la solicitud.");
-                return;
-            }
-
-            const subject = encodeURIComponent(`Nuevo Guardián del Refugio: ${playerName}`);
-            const body = encodeURIComponent(
-                `¡Hola Asociación Refugio Escuela de Caminantes!\n\n` +
-                `He completado y aprobado mi Pasaporte de Caminante.\n\n` +
-                `MIS DATOS:\n` +
-                `Nombre: ${playerName}\n` +
-                `Teléfono / WhatsApp: ${phone}\n\n` +
-                `¿Por qué quiero ser parte de esta Tribu?\n` +
-                `${motivation}\n\n` +
-                `Quedo atento(a) a más información.\n` +
-                `Saludos cordiales.`
-            );
-
-            window.location.href = `mailto:refugioescuela@motmotexperiencias.com?subject=${subject}&body=${body}`;
-        }
-
-        // Efecto de celebración
-        function triggerConfetti() {
-            var duration = 4 * 1000;
-            var end = Date.now() + duration;
-
-            (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#E65127', '#80C4C8', '#ffffff'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#E65127', '#80C4C8', '#ffffff'] });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
-        }
-    </script>
+            lucide.createIcons();
+        })
+        .catch(err => {
+            btn.innerHTML = 'REINTENTAR <i data-lucide="refresh-cw" class="inline w-5 h-5 ml-2"></i>';
+            btn.disabled = false;
+            lucide.createIcons();
+            alert('Hubo un error de conexión, pero es posible que tus datos ya se hayan guardado en Google Sheets.');
+        });
+    }
+</script>
 </body>
 </html>
