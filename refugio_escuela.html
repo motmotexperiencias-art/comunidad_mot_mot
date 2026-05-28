@@ -20,20 +20,18 @@
 /* ===================================================== */
 :root {
     --mot-naranja: #FF5E00;
-    --mot-dorado: #FFB800; /* El amarillo/dorado clásico documental */
+    --mot-dorado: #FFB800;
     --mot-turquesa: #00E5FF;
     --mot-verde: #00C853;
     --mot-azul: #0077FF;
     
-    /* Colores base cálidos para la web */
-    --base-clara: #F8F3E6; /* Color arena clara / tapia */
-    --texto-oscuro: #1A2F24; /* Verde muy oscuro para texto */
+    --base-clara: #F8F3E6;
+    --texto-oscuro: #1A2F24;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
-/* LA WEB PRINCIPAL ES VIVA Y DE DÍA */
 body { 
     font-family: 'Montserrat', sans-serif; 
     background-color: var(--base-clara); 
@@ -41,13 +39,12 @@ body {
     overflow-x: hidden; 
 }
 
-/* Scrollbar naranja */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #f0e9d8; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--mot-naranja), var(--mot-dorado)); border-radius: 10px; }
 
 /* ===================================================== */
-/* FONDO DE LA LANDING PAGE (ATARDECER/DÍA) */
+/* FONDO DE LA LANDING PAGE */
 /* ===================================================== */
 .bg-landing {
     position: fixed; inset: 0; z-index: -10; overflow: hidden;
@@ -84,7 +81,6 @@ body {
     letter-spacing: -0.02em; text-transform: uppercase; text-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 .hero h1 span { color: var(--mot-dorado); }
-
 .hero p { margin-top: 2rem; font-size: clamp(1rem, 3vw, 1.2rem); line-height: 1.8; max-width: 800px; color: rgba(255,255,255,0.95); text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
 /* Botones */
@@ -98,21 +94,15 @@ body {
 .btn-secondary { background: rgba(255,255,255,0.1); border: 2px solid white; color: white; backdrop-filter: blur(10px); }
 .btn-secondary:hover { background: white; color: var(--mot-naranja); }
 
-/* Tarjetas de info */
+/* Tarjetas */
 .stats-container { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 4rem; justify-content: center; }
-.stat-box {
-    padding: 1.5rem; border-radius: 20px; background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(15px); min-width: 250px; flex: 1; max-width: 350px;
-}
+.stat-box { padding: 1.5rem; border-radius: 20px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(15px); min-width: 250px; flex: 1; max-width: 350px; }
 .stat-box h3 { font-size: 1.8rem; font-weight: 900; color: var(--mot-dorado); text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
 section { padding: 5rem 1.5rem; position: relative; color: white; }
 .container { max-width: 1200px; margin: auto; }
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
-.glass-card {
-    padding: 2rem; border-radius: 30px; background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(15px); transition: 0.3s;
-}
+.glass-card { padding: 2rem; border-radius: 30px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(15px); transition: 0.3s; }
 .glass-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.2); border-color: var(--mot-dorado); }
 .glass-card h3 { font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem; color: var(--mot-dorado); }
 .glass-card-icon { width: 60px; height: 60px; border-radius: 15px; background: white; color: var(--mot-naranja); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
@@ -134,7 +124,6 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50c-27.614 0-50-22.386-50-50h100c0 27.614-22.386 50-50 50z' fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'/%3E%3C/svg%3E");
     background-size: 50px 50px; mix-blend-mode: overlay;
 }
-
 .magic-orb { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.6; z-index: 1; pointer-events: none; transition: background 1.5s ease; }
 #orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--mot-dorado); }
 #orb-2 { bottom: -10%; right: -10%; width: 50vw; height: 50vw; background: var(--mot-turquesa); }
@@ -164,7 +153,6 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
     background: rgba(255,255,255,0.2); color: white; font-size: 1.1rem; text-align: center;
     outline: none; transition: 0.3s; font-family: 'Montserrat', sans-serif; font-weight: 600;
 }
-.input-magic::placeholder { color: rgba(255,255,255,0.8); }
 .input-magic:focus { border-color: white; background: rgba(255,255,255,0.4); transform: scale(1.02); }
 
 .btn-portal {
@@ -192,29 +180,21 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 .option-magic.show-feedback .option-feedback { display: block; animation: floatUp 0.4s ease; }
 
 /* ===================================================== */
-/* PASAPORTE ESTILO PAPEL / NAT GEO (MOBILE FIRST) */
+/* PASAPORTE ESTILO PAPEL / NAT GEO */
 /* ===================================================== */
 .passport-container {
-    background-color: #F9F6F0; /* Off-white papel */
-    /* Ruido de papel SVG sutil */
+    background-color: #F9F6F0; 
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-    border: 2px solid #E0D5C1; 
-    border-radius: 12px; /* Corte tipo libreta, no tan redondo */
-    padding: 3rem;
-    color: #2C3E50;
+    border: 2px solid #E0D5C1; border-radius: 12px; padding: 3rem; color: #2C3E50;
     text-align: left; position: relative; overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 0 30px rgba(0,0,0,0.05); 
-    margin-bottom: 3rem;
-    border-left: 12px solid var(--mot-dorado); /* Borde estilo Nat Geo */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 0 30px rgba(0,0,0,0.05); margin-bottom: 3rem;
+    border-left: 12px solid var(--mot-dorado);
 }
-
-/* Marca de agua sutil de fondo */
 .passport-container::before {
     content:''; position:absolute; inset:0; 
     background-image:url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20240620_061110.jpg');
     background-size:cover; opacity:0.06; mix-blend-mode: multiply; pointer-events:none;
 }
-
 .pass-header { display: flex; justify-content: space-between; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 1.5rem; margin-bottom: 2rem; position: relative; z-index: 2;}
 .pass-title-text { font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 900; color: #1A2F24; line-height: 1; }
 .pass-badge { background: rgba(0,200,83,0.1); border: 2px solid var(--mot-verde); color: var(--mot-verde); padding: 8px 16px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; letter-spacing: 0.1em; }
@@ -226,7 +206,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
     display: flex; align-items: center; justify-content: center; z-index: 2; transform: rotate(-15deg);
 }
 .pass-seal-inner {
-    width: 100px; height: 100px; border-radius: 50%; background: #1A2F24; /* Sello de tinta oscura */
+    width: 100px; height: 100px; border-radius: 50%; background: #1A2F24;
     color: #F9F6F0; font-weight: 900; font-size: 0.8rem; text-align: center;
     display: flex; align-items: center; justify-content: center; text-transform: uppercase;
 }
@@ -248,7 +228,6 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 }
 .form-group input:focus, .form-group textarea:focus { border-color: var(--mot-dorado); box-shadow: 0 0 10px rgba(255,184,0,0.2); }
 
-/* Pantalla de Éxito al enviar formulario */
 #mensaje-exito {
     display: none; background: rgba(255,255,255,0.98); border-radius: 20px; padding: 3rem 2rem;
     color: var(--texto-oscuro); text-align: center; margin-top: 1rem;
@@ -256,23 +235,21 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 }
 
 /* ===================================================== */
-/* RESPONSIVE MÓVIL ESTRICTO (CORREGIDO Y OPTIMIZADO) */
+/* RESPONSIVE MÓVIL (MEJORADO Y OPTIMIZADO) */
 /* ===================================================== */
 @media(max-width: 768px) {
-    /* Prevención general de desbordes por textos sin espacios */
     * { overflow-wrap: break-word; word-break: break-word; }
 
     .magic-glass-box { padding: 2rem 1.5rem; border-radius: 20px; }
     
-    /* Solución vital: Evita que flexbox corte el contenido alto en celulares */
+    /* 1er MEJORA CRUCIAL: Garantizar que haya espacio libre debajo para que todo el contenido "quepa" y baje bien */
     .portal-content {
         justify-content: flex-start !important; 
-        padding-top: 5rem; /* Espacio superior para que el botón "X" no tape contenido */
-        padding-bottom: 3rem; 
+        padding-top: 5rem; 
+        padding-bottom: 10rem; /* Más espacio al final para asegurar que el botón Avanzar no se esconda */
         height: auto;
     }
 
-    /* Ajustes específicos del pasaporte para celular */
     .passport-container { padding: 1.5rem; border-radius: 8px; border-left-width: 8px; margin-bottom: 2rem; }
     .pass-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .pass-title-text { font-size: 1.5rem; }
@@ -281,23 +258,15 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
     .pass-seal { width: 90px; height: 90px; bottom: 10px; right: 10px; opacity: 0.85; }
     .pass-seal-inner { width: 70px; height: 70px; font-size: 0.6rem; }
     
-    /* Formularios y prevención de zoom en iOS */
     #form-afiliacion, #mensaje-exito { padding: 2rem 1.5rem; }
-    input, textarea { font-size: 16px !important; } /* Previene el zoom al teclear */
+    input, textarea { font-size: 16px !important; } 
     
     .flex-wrap { flex-direction: column; }
     
-    /* Solución a los botones que se salen */
     .btn-hero, .btn-portal { 
-        max-width: 100%; 
-        width: 100%; 
-        white-space: normal; /* Permite que el texto del botón se divida en varias líneas */
-        height: auto; 
-        line-height: 1.4;
-        padding: 15px; 
+        max-width: 100%; width: 100%; white-space: normal; height: auto; line-height: 1.4; padding: 15px; 
     }
 
-    /* Ajuste responsivo de la tipografía de títulos */
     .hero h1 { font-size: clamp(2.2rem, 10vw, 4rem); }
     .q-title { font-size: clamp(1.4rem, 6vw, 2rem); }
 }
@@ -410,7 +379,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 
             <div id="area-preguntas"></div>
 
-            <div id="btn-siguiente-box" style="display: none; margin-top: 1.5rem;">
+            <div id="btn-siguiente-box" style="display: none; margin-top: 1.5rem; scroll-margin-top: 100px;">
                 <button class="btn-portal" onclick="avanzarPregunta()">
                     AVANZAR <i data-lucide="chevron-right"></i>
                 </button>
@@ -491,7 +460,6 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 <script>
     lucide.createIcons();
 
-    // 1. LA INFORMACIÓN COMPLETA (10 Preguntas con Colores de Mundo)
     const basePreguntas = [
         {
             cap: "Capítulo I: La Huella", 
@@ -697,7 +665,14 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         }
 
         elemento.classList.add('show-feedback');
-        document.getElementById('btn-siguiente-box').style.display = 'block';
+        
+        const btnBox = document.getElementById('btn-siguiente-box');
+        btnBox.style.display = 'block';
+        
+        // 2da MEJORA CRUCIAL: Auto-scroll hacia abajo para que el botón "Avanzar" siempre sea visible
+        setTimeout(() => {
+            btnBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 150);
     }
 
     function avanzarPregunta() {
@@ -752,17 +727,21 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         const sombra = caja.style.boxShadow;
         caja.style.boxShadow = 'none'; 
 
-        html2canvas(caja, { scale: 2, backgroundColor: "#F9F6F0" }).then(canvas => {
+        // 3ra MEJORA CRUCIAL: Usar un factor de escala menor para móviles y guardar en JPG. 
+        // Esto evita que los navegadores de iPhone y Android colapsen y recarguen la página por falta de memoria.
+        const scaleFactor = window.innerWidth < 768 ? 1 : 2; 
+
+        html2canvas(caja, { scale: scaleFactor, backgroundColor: "#F9F6F0" }).then(canvas => {
             const link = document.createElement('a');
-            link.download = `Pasaporte_${nombreCaminante.replace(/\s+/g, '_')}.png`;
-            link.href = canvas.toDataURL();
+            link.download = `Pasaporte_${nombreCaminante.replace(/\s+/g, '_')}.jpg`; // .jpg es mucho más ligero
+            link.href = canvas.toDataURL("image/jpeg", 0.9); // Genera la imagen en JPG
             link.click();
             caja.style.boxShadow = sombra;
         });
     }
 
     function mostrarFormulario() {
-        document.getElementById('botones-finales').style.display = 'none';
+        // No ocultaremos los botones finales para evitar saltos bruscos en pantalla si cambian de opinión
         const form = document.getElementById('form-afiliacion');
         form.style.display = 'block';
         
@@ -781,7 +760,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
             QuienEres: document.getElementById('sheet-quienEres').value.trim(),
             Puntaje: puntaje,
             Fecha: new Date().toLocaleString(),
-            Ubicación: document.getElementById('sheet-ubicacion').value.trim()
+            Ubicacion: document.getElementById('sheet-ubicacion').value.trim() // Cambiado a "Ubicacion" sin tilde por seguridad en Google Sheets
         };
 
         if (!payload.Nombre || !payload.Correo || !payload.Telefono) {
@@ -794,7 +773,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         lucide.createIcons();
 
         // =========================================================
-        // TU URL EXACTA DE APPS SCRIPT INSERTADA AQUÍ:
+        // TU URL EXACTA DE APPS SCRIPT
         // =========================================================
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPH-TQKKJbgcsuMCDhpHOOMrBQPaZTTN1EbF5PI7L1Tm2ev_il53uyePtwXiImjNMNyQ/exec"; 
 
@@ -808,6 +787,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         .then(data => {
             // OCULTAR EL FORMULARIO Y MOSTRAR EL MENSAJE DE ÉXITO
             document.getElementById('form-afiliacion').style.display = 'none';
+            document.getElementById('botones-finales').style.display = 'none';
             const msjExito = document.getElementById('mensaje-exito');
             msjExito.style.display = 'block';
             
