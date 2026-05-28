@@ -256,24 +256,50 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 }
 
 /* ===================================================== */
-/* RESPONSIVE MÓVIL ESTRICTO */
+/* RESPONSIVE MÓVIL ESTRICTO (CORREGIDO Y OPTIMIZADO) */
 /* ===================================================== */
 @media(max-width: 768px) {
+    /* Prevención general de desbordes por textos sin espacios */
+    * { overflow-wrap: break-word; word-break: break-word; }
+
     .magic-glass-box { padding: 2rem 1.5rem; border-radius: 20px; }
     
+    /* Solución vital: Evita que flexbox corte el contenido alto en celulares */
+    .portal-content {
+        justify-content: flex-start !important; 
+        padding-top: 5rem; /* Espacio superior para que el botón "X" no tape contenido */
+        padding-bottom: 3rem; 
+        height: auto;
+    }
+
     /* Ajustes específicos del pasaporte para celular */
     .passport-container { padding: 1.5rem; border-radius: 8px; border-left-width: 8px; margin-bottom: 2rem; }
     .pass-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .pass-title-text { font-size: 1.8rem; }
-    .pass-value { font-size: 1.3rem; }
+    .pass-title-text { font-size: 1.5rem; }
+    .pass-value { font-size: 1.1rem; }
     #pasaporte-grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
     .pass-seal { width: 90px; height: 90px; bottom: 10px; right: 10px; opacity: 0.85; }
     .pass-seal-inner { width: 70px; height: 70px; font-size: 0.6rem; }
     
-    /* Formularios */
+    /* Formularios y prevención de zoom en iOS */
     #form-afiliacion, #mensaje-exito { padding: 2rem 1.5rem; }
+    input, textarea { font-size: 16px !important; } /* Previene el zoom al teclear */
+    
     .flex-wrap { flex-direction: column; }
-    .btn-hero { max-width: 100%; }
+    
+    /* Solución a los botones que se salen */
+    .btn-hero, .btn-portal { 
+        max-width: 100%; 
+        width: 100%; 
+        white-space: normal; /* Permite que el texto del botón se divida en varias líneas */
+        height: auto; 
+        line-height: 1.4;
+        padding: 15px; 
+    }
+
+    /* Ajuste responsivo de la tipografía de títulos */
+    .hero h1 { font-size: clamp(2.2rem, 10vw, 4rem); }
+    .q-title { font-size: clamp(1.4rem, 6vw, 2rem); }
 }
 </style>
 </head>
