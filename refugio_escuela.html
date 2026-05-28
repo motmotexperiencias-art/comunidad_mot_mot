@@ -182,7 +182,10 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 .passport-container {
     background-color: #F9F6F0; 
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-    border: 2px solid #E0D5C1; border-radius: 12px; padding: 3rem; color: #2C3E50;
+    border: 2px solid #E0D5C1; border-radius: 12px; 
+    padding: 3rem; 
+    padding-bottom: 10rem; /* MARGEN CRÍTICO: Evita que el sello se superponga con el texto */
+    color: #2C3E50;
     text-align: left; position: relative; overflow: hidden;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 0 30px rgba(0,0,0,0.05); margin-bottom: 3rem;
     border-left: 12px solid var(--mot-dorado);
@@ -196,16 +199,30 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 .pass-title-text { font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 900; color: #1A2F24; line-height: 1; }
 .pass-badge { background: rgba(0,200,83,0.1); border: 2px solid var(--mot-verde); color: var(--mot-verde); padding: 8px 16px; border-radius: 8px; font-weight: 900; font-size: 0.85rem; letter-spacing: 0.1em; }
 .pass-label { font-size: 0.75rem; color: #7F8C8D; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.4rem; }
-.pass-value { font-size: 1.8rem; font-weight: 900; color: #1A2F24; text-transform: uppercase; }
+.pass-value { font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 900; color: #1A2F24; text-transform: uppercase; line-height: 1.2; }
+
+/* ANIMACIÓN Y DISEÑO DEL SELLO */
 .pass-seal {
-    position: absolute; bottom: 20px; right: 20px; width: 130px; height: 130px;
-    border: 3px dashed rgba(26, 47, 36, 0.4); border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; z-index: 2; transform: rotate(-15deg);
+    position: absolute; bottom: 30px; right: 30px; width: 140px; height: 140px;
+    border: 4px dashed rgba(26, 47, 36, 0.4); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; z-index: 10; 
+    opacity: 0; /* Oculto inicialmente para la animación */
 }
 .pass-seal-inner {
-    width: 100px; height: 100px; border-radius: 50%; background: #1A2F24;
-    color: #F9F6F0; font-weight: 900; font-size: 0.8rem; text-align: center;
+    width: 110px; height: 110px; border-radius: 50%; background: #1A2F24;
+    color: #F9F6F0; font-weight: 900; font-size: 0.85rem; text-align: center;
     display: flex; align-items: center; justify-content: center; text-transform: uppercase;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    line-height: 1.2;
+}
+
+@keyframes stamp-effect {
+    0% { transform: scale(5) rotate(-40deg); opacity: 0; }
+    50% { transform: scale(0.8) rotate(-5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-15deg); opacity: 1; }
+}
+.animate-stamp {
+    animation: stamp-effect 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 /* ===================================================== */
@@ -232,47 +249,43 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 }
 
 /* ===================================================== */
-/* RESPONSIVE MÓVIL ESTRICTO (CORRECCIÓN DEFINITIVA) */
+/* RESPONSIVE MÓVIL ESTRICTO */
 /* ===================================================== */
 @media(max-width: 768px) {
     * { overflow-wrap: break-word; word-break: break-word; }
 
-    /* Forzar al portal a comportarse como una página normal en móviles (elimina el corte por flexbox) */
     #wonderland-portal {
         display: block !important; 
         padding: 1.5rem;
     }
-    
     #wonderland-portal:not(.active) {
         display: none !important;
     }
 
     .portal-content {
-        display: block !important;
-        margin: 0 auto;
-        padding: 4rem 0 6rem 0 !important; /* Margen superior para la "X" y margen inferior para el botón avanzar */
-        height: auto;
-        min-height: auto;
+        display: block !important; margin: 0 auto;
+        padding: 4rem 0 6rem 0 !important; height: auto; min-height: auto;
     }
 
     .magic-glass-box { padding: 2rem 1.5rem; border-radius: 20px; }
     
-    .passport-container { padding: 1.5rem; border-radius: 8px; border-left-width: 8px; margin-bottom: 2rem; }
+    /* Adaptación del pasaporte al celular sin solapamientos */
+    .passport-container { 
+        padding: 1.5rem; 
+        padding-bottom: 8rem; /* Espacio protegido para el sello en celular */
+        border-radius: 8px; border-left-width: 8px; margin-bottom: 2rem; 
+    }
     .pass-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .pass-title-text { font-size: 1.5rem; }
-    .pass-value { font-size: 1.1rem; }
     #pasaporte-grid { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
-    .pass-seal { width: 90px; height: 90px; bottom: 10px; right: 10px; opacity: 0.85; }
-    .pass-seal-inner { width: 70px; height: 70px; font-size: 0.6rem; }
+    
+    .pass-seal { width: 110px; height: 110px; bottom: 15px; right: 15px; border-width: 3px; }
+    .pass-seal-inner { width: 85px; height: 85px; font-size: 0.65rem; }
     
     #form-afiliacion, #mensaje-exito { padding: 2rem 1.5rem; }
     input, textarea { font-size: 16px !important; } 
-    
     .flex-wrap { flex-direction: column; }
-    
-    .btn-hero, .btn-portal { 
-        max-width: 100%; width: 100%; white-space: normal; height: auto; line-height: 1.4; padding: 15px; 
-    }
+    .btn-hero, .btn-portal { max-width: 100%; width: 100%; white-space: normal; height: auto; line-height: 1.4; padding: 15px; }
 
     .hero h1 { font-size: clamp(2.2rem, 10vw, 4rem); }
     .q-title { font-size: clamp(1.4rem, 6vw, 2rem); }
@@ -288,7 +301,7 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         <div class="pill-tag"><i data-lucide="sun"></i> Escuela Territorial Viva</div>
         <h1>NO FORMAMOS<br>TURISTAS.<br><span>FORMAMOS</span><br>GUARDIANES.</h1>
         <p class="mx-auto">
-            La Asociación Refugio Escuela de Caminantes protege los caminos ancestrales del Cañón del Chicamocha mediante experiencias conscientes, cultura de montaña y memoria territorial.
+            Más que caminar, aprendemos a habitar el territorio. La Asociación Refugio Escuela de Caminantes cultiva una relación esencial con el paisaje, formando caminantes conscientes que integran el respeto, la técnica y la conexión en cada paso.
         </p>
         
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10">
@@ -301,9 +314,9 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         </div>
 
         <div class="stats-container">
-            <div class="stat-box"><h3>Guardianes</h3><p>Cultura de montaña.</p></div>
-            <div class="stat-box"><h3>Chicamocha</h3><p>Naturaleza viva.</p></div>
-            <div class="stat-box"><h3>Territorio</h3><p>Protección real.</p></div>
+            <div class="stat-box"><h3>Muévete</h3><p>Recorremos el territorio con respeto, fluyendo en armonía con su ritmo natural.</p></div>
+            <div class="stat-box"><h3>Observa</h3><p>Reconocemos la vida que palpita en cada sendero, aprendiendo a ver lo que antes era invisible.</p></div>
+            <div class="stat-box"><h3>Transfórmate</h3><p>Al evolucionar como caminantes conscientes, cambiamos el destino del territorio que nos habita.</p></div>
         </div>
     </div>
 </section>
@@ -312,10 +325,10 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
     <div class="container">
         <div class="pill-tag"><i data-lucide="leaf"></i> Más que senderismo</div>
         <h2 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; text-transform: uppercase; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-            CAMINAR TAMBIÉN ES<br>PROTEGER LA MEMORIA
+            CAMINAR DEBE<br>SER REGENERATIVO
         </h2>
         <p style="margin-top: 1.5rem; font-size: clamp(1rem, 3vw, 1.2rem); max-width: 800px; line-height: 1.8;">
-            Los caminos del Chicamocha no son simples rutas turísticas. Son corredores vivos donde todavía habita la memoria ancestral de las montañas santandereanas.
+            La naturaleza es la casa de todas las especies y nosotros somos sus caminantes. Cuando habitamos el sendero con respeto, nuestro paso deja de ser una huella y se convierte en un acto que cultiva la vida.
         </p>
 
         <div class="cards-grid">
@@ -340,9 +353,9 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
 
 <section class="text-center" style="padding-bottom: 6rem;">
     <div class="container">
-        <div class="pill-tag"><i data-lucide="mountain"></i> Únete a la tribu</div>
+        <div class="pill-tag"><i data-lucide="mountain"></i> Únete a la Asociación</div>
         <h2 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; text-transform: uppercase; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">
-            LOS CAMINOS SOBREVIVEN<br>CUANDO ALGUIEN DECIDE<br><span style="color: var(--mot-dorado);">CUIDARLOS</span>
+            LOS CAMINOS SOBREVIVEN<br>CUANDO ALGUIEN DECIDE<br><span style="color: var(--mot-dorado);">RESPETARLOS</span>
         </h2>
         <div class="flex justify-center mt-8">
             <a href="https://wa.me/573132501446" class="btn-hero btn-primary" style="text-decoration: none;">
@@ -417,7 +430,9 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
                         </div>
                     </div>
                 </div>
-                <div class="pass-seal"><div class="pass-seal-inner">Ruta<br>Consciente</div></div>
+                <div class="pass-seal" id="sello-contenedor">
+                    <div class="pass-seal-inner" id="sello-texto">RUTA<br>CONSCIENTE</div>
+                </div>
             </div>
 
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4" id="botones-finales">
@@ -595,6 +610,9 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         document.getElementById('form-afiliacion').style.display = 'none';
         document.getElementById('mensaje-exito').style.display = 'none';
         document.getElementById('botones-finales').style.display = 'flex';
+        
+        // Reiniciar sello animado
+        document.getElementById('sello-contenedor').classList.remove('animate-stamp');
     }
 
     function cerrarPortal() {
@@ -676,7 +694,6 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         const btnBox = document.getElementById('btn-siguiente-box');
         btnBox.style.display = 'block';
         
-        // Efectuamos el scroll de manera robusta para que siempre el botón sea visible
         setTimeout(() => {
             btnBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }, 150);
@@ -704,18 +721,43 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
         const badge = document.getElementById('badge-estado');
         const tit = document.getElementById('titulo-final');
         const desc = document.getElementById('desc-final');
+        
+        // ELEMENTOS DEL SELLO DINÁMICO
+        const selloContenedor = document.getElementById('sello-contenedor');
+        const selloTexto = document.getElementById('sello-texto');
 
         if (puntaje >= 7) {
             tit.innerText = "ACCESO AUTORIZADO";
             desc.innerText = `Puntaje: ${puntaje}/10. Eres un guardián de la montaña.`;
+            
             badge.innerText = "APROBADO";
+            badge.style.color = "var(--mot-verde)"; badge.style.borderColor = "var(--mot-verde)"; badge.style.background = "rgba(0,200,83,0.1)";
+            
+            // Sello Verde: Aprobado
+            selloContenedor.style.borderColor = "rgba(26, 47, 36, 0.4)";
+            selloTexto.style.background = "#1A2F24"; // Verde muy oscuro
+            selloTexto.style.color = "#F9F6F0";
+            selloTexto.innerHTML = "RUTA<br>CONSCIENTE";
+            
             lanzarConfeti();
         } else {
             tit.innerText = "EN APRENDIZAJE";
-            desc.innerText = `Puntaje: ${puntaje}/10. La montaña exige más consciencia. Inicia tu formación con nosotros.`;
-            badge.innerText = "RESTRINGIDO";
+            desc.innerText = `Puntaje: ${puntaje}/10. La montaña exige más consciencia. Inicia tu formación.`;
+            
+            badge.innerText = "DENEGADO";
             badge.style.color = "#FF5E00"; badge.style.borderColor = "#FF5E00"; badge.style.background = "rgba(255,94,0,0.1)";
+            
+            // Sello Naranja: Denegado
+            selloContenedor.style.borderColor = "rgba(255, 94, 0, 0.6)";
+            selloTexto.style.background = "#FF5E00"; // Naranja
+            selloTexto.style.color = "#FFFFFF";
+            selloTexto.innerHTML = "EN<br>FORMACIÓN";
         }
+        
+        // Retraso para disparar la animación de estampado del sello
+        setTimeout(() => {
+            selloContenedor.classList.add('animate-stamp');
+        }, 300);
         
         portal.scrollTo({top: 0, behavior: 'smooth'});
     }
@@ -757,7 +799,6 @@ section { padding: 5rem 1.5rem; position: relative; color: white; }
     function enviarASheets() {
         const btn = document.getElementById('btn-enviar-sheets');
         
-        // CORRECCIÓN CRÍTICA APLICADA: "Ubicación" restaurado estrictamente con su tilde.
         const payload = {
             Nombre: document.getElementById('sheet-nombre').value.trim(),
             Correo: document.getElementById('sheet-correo').value.trim(),
