@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antonio - Guía Turístico | Mot Mot Experiencias</title>
+    <!-- Fuentes y Códigos de Íconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Variables de Colores EXACTAS del Logo Mot Mot */
+        :root {
+            --mot-orange: #E44D26; /* Naranja/Rojo del caminante y letras */
+            --mot-teal: #87C6C3;   /* Azul/Teal claro de las letras superiores */
+            --bg-light: #FAFAFA; 
+            --text-dark: #2C303A;
+            --text-light: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* --- BOTÓN DE IDIOMA (ES / EN) --- */
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            padding: 5px 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--mot-orange);
+            color: var(--text-light);
+        }
+
+        /* --- SECCIÓN PRINCIPAL (HERO) CON EFECTO PARALLAX --- */
+        .hero {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), 
+                        url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-10-31-at-10.54.47-am-1.jpeg') center/cover fixed;
+            color: var(--text-light);
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .mot-mot-badge {
+            background-color: var(--mot-teal);
+            color: #111;
+            padding: 8px 25px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(135, 198, 195, 0.5);
+            animation: fadeInDown 1s ease;
+        }
+
+        /* ANIMACIÓN "MASS COOL" DE LA FOTO DE PERFIL */
+        .profile-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .profile-img {
+            width: 260px;
+            height: 260px;
+            object-fit: cover;
+            box-shadow: 0 0 0 5px var(--mot-orange), 0 0 0 10px var(--mot-teal), 0 15px 35px rgba(0,0,0,0.5);
+            animation: morph 8s ease-in-out infinite, float 6s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero h2 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--mot-teal);
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+        }
+
+        /* --- CONTENEDORES Y GRILLAS --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        /* --- TÍTULOS DE SECCIÓN --- */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 5px;
+            background-color: var(--mot-orange);
+            margin: 15px auto 0;
+            border-radius: 5px;
+        }
+
+        /* --- IMAGEN EN "SOBRE MÍ" --- */
+        .about-image {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            border: 3px solid var(--mot-teal);
+        }
+
+        /* --- TARJETAS DE SERVICIOS --- */
+        .card {
+            background: #FFFFFF;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #EEE;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--mot-teal);
+            transition: height 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(135, 198, 195, 0.2);
+        }
+
+        .card:hover::before {
+            height: 100%;
+            opacity: 0.05;
+        }
+
+        .card i {
+            font-size: 3.5rem;
+            color: var(--mot-orange);
+            margin-bottom: 25px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        /* --- GALERÍA DE RUTAS CON MOVIMIENTO SUAVE --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            position: relative;
+            /* Efecto de "respiración" suave */
+            animation: softFloat 6s ease-in-out infinite;
+        }
+
+        /* Desfasamos las animaciones para que no se muevan todas al mismo tiempo */
+        .gallery-item:nth-child(2n) { animation-delay: 1.5s; animation-duration: 7s; }
+        .gallery-item:nth-child(3n) { animation-delay: 3s; animation-duration: 5s; }
+
+        .gallery-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.8s ease;
+            display: block;
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.15); /* Zoom interno elegante */
+        }
+
+        @keyframes softFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* --- SECCIÓN CERTIFICACIONES (WAFA) --- */
+        .certifications {
+            background: linear-gradient(rgba(28, 48, 47, 0.85), rgba(28, 48, 47, 0.95)), 
+                        url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0009-1.jpg') center/cover fixed;
+            color: var(--text-light);
+            padding: 100px 20px;
+        }
+
+        .certifications .section-title {
+            color: var(--text-light);
+        }
+
+        .certifications .section-title::after {
+            background-color: var(--mot-teal);
+        }
+
+        .cert-list {
+            list-style: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cert-list li {
+            margin-bottom: 25px;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--mot-orange);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .cert-list li:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .cert-list li i {
+            color: var(--mot-teal);
+            margin-right: 25px;
+            font-size: 2.2rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* --- BOTONES CTA --- */
+        .cta-btn {
+            display: inline-block;
+            background-color: var(--mot-orange);
+            color: var(--text-light);
+            padding: 18px 40px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(228, 77, 38, 0.4);
+        }
+
+        .cta-btn:hover {
+            background-color: #C33B1A;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(228, 77, 38, 0.6);
+        }
+
+        .btn-teal {
+            background-color: var(--mot-teal);
+            color: #111;
+            box-shadow: 0 5px 20px rgba(135, 198, 195, 0.4);
+        }
+
+        .btn-teal:hover {
+            background-color: #6EB5B2;
+            box-shadow: 0 8px 25px rgba(135, 198, 195, 0.6);
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: #111;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVIDAD --- */
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; gap: 30px; }
+            .hero h1 { font-size: 2.5rem; }
+            .cert-list li { flex-direction: column; text-align: center; }
+            .cert-list li i { margin-right: 0; margin-bottom: 15px; }
+            .cta-btn { display: block; margin: 15px auto; width: 100%; max-width: 300px; }
+            .profile-img { width: 220px; height: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Selector de Idiomas -->
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLanguage('es')">ES</button>
+        <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+    </div>
+
+    <!-- Inicio / Portada (Primer Fondo) -->
+    <header class="hero">
+        <div class="mot-mot-badge" id="badge-text">Espacio Mot Mot</div>
+        
+        <div class="profile-wrapper">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20250319-wa0361.jpg" alt="Antonio - Guía Turístico" class="profile-img">
+        </div>
+        
+        <h1 id="hero-title">Hola, soy Antonio</h1>
+        <h2 id="hero-subtitle">Guía Turístico Profesional | Barichara y Cañón del Chicamocha</h2>
+        <p id="hero-desc" style="max-width: 650px; margin: 0 auto 30px; font-size: 1.1rem;">
+            Explora la majestuosidad de Santander con la pasión de un local y los más altos estándares de seguridad en la naturaleza.
+        </p>
+        <a href="#contacto" class="cta-btn" id="btn-book">Reserva tu aventura</a>
+    </header>
+
+    <!-- Sección Sobre Mí (Con Foto Integrada) -->
+    <section class="container">
+        <h2 class="section-title" id="about-title">Nativo de la Tierra Amarilla</h2>
+        <div class="grid-2">
+            <div>
+                <p id="about-p1">Nacer y crecer en <strong>Barichara</strong> me dio una conexión profunda con sus caminos de herradura y la inmensidad del Cañón del Chicamocha. Para mí, el turismo no es solo un recorrido, es una inmersión en nuestra cultura, historia y geografía.</p>
+                <br>
+                <p id="about-p2">A través de <strong>Mot Mot</strong>, he diseñado este espacio para ofrecerte una experiencia genuina. Te guiaré por senderos que conozco como la palma de mi mano, siempre asegurando que tu única preocupación sea disfrutar del paisaje.</p>
+                
+                <!-- NUEVA FOTO: Integrada a la información sobre ti -->
+                <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0008.jpg" alt="Rutas Barichara" class="about-image">
+            </div>
+            <div class="card" style="border: 2px dashed var(--mot-teal);">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <h3 id="routes-title">Mis Rutas Especialidad</h3>
+                <p id="routes-desc">Pueblo Patrimonial de Barichara, Caminos Reales y Senderismo en la profundidad del Cañón del Chicamocha.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería de Rutas (Nueva Sección con Movimiento) -->
+    <section style="background-color: #EFEFEF; padding-top: 1px;">
+        <div class="container">
+            <h2 class="section-title" id="gallery-title">Nuestras Rutas en Imágenes</h2>
+            <div class="gallery-grid">
+                <!-- Foto 1 -->
+                <div class="gallery-item">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/gemini_generated_image_74rrn774rrn774rr.png" alt="Ruta 1" class="gallery-img">
+                </div>
+                <!-- Foto 2 -->
+                <div class="gallery-item">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-10-31-at-11.09.04-am-1.jpeg" alt="Ruta 2" class="gallery-img">
+                </div>
+                <!-- Foto 3 (Wikiloc) -->
+                <div class="gallery-item">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/screenshot_20240902-143028_wikiloc.jpg" alt="Ruta en Wikiloc" class="gallery-img">
+                </div>
+                <!-- Foto 4 -->
+                <div class="gallery-item">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-10-31-at-11.09.08-am-1.jpeg" alt="Ruta 4" class="gallery-img">
+                </div>
+                <!-- Foto 5 -->
+                <div class="gallery-item">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-10-31-at-11.09.07-am.jpeg" alt="Ruta 5" class="gallery-img">
+                </div>
+                <!-- Foto 6 -->
+                <div class="gallery-item">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-11-04-at-3.12.53-pm.jpeg" alt="Ruta 6" class="gallery-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Experiencia Turística -->
+    <section style="background-color: var(--bg-light); border-top: 1px solid #EEE;">
+        <div class="container">
+            <h2 class="section-title" id="exp-title">Experiencia Turística</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <i class="fa-solid fa-compass-drafting"></i>
+                    <h3 id="srv1-title">Diseño de Paquetes</h3>
+                    <p id="srv1-desc">Creación de itinerarios a la medida, combinando aventura, cultura y descanso según el perfil de cada visitante.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <h3 id="srv2-title">Información Turística</h3>
+                    <p id="srv2-desc">Asesoramiento completo sobre logística, cultura local y gastronomía para planificar tu estadía perfecta.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-people-group"></i>
+                    <h3 id="srv3-title">Manejo de Grupos</h3>
+                    <p id="srv3-desc">Liderazgo efectivo garantizando dinámicas seguras y una transmisión clara del patrimonio de la región.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Certificaciones (SEGUNDO FONDO PARALLAX) -->
+    <section class="certifications">
+        <div class="container" style="padding: 0;">
+            <h2 class="section-title" id="wafa-title" style="color: white;">Seguridad y Rescate</h2>
+            <p id="wafa-desc" style="text-align: center; max-width: 750px; margin: 0 auto 50px; font-size: 1.15rem; color: #EEE;">
+                Tu integridad es lo primero. Mi formación me permite actuar de manera efectiva en entornos agrestes y de difícil acceso en Santander.
+            </p>
+            
+            <ul class="cert-list">
+                <li>
+                    <i class="fa-solid fa-kit-medical"></i> 
+                    <div>
+                        <strong id="cert1-title">Certificación WAFA</strong><br>
+                        <span id="cert1-desc">Wilderness Advanced First Aid (Primeros Auxilios Avanzados en Áreas Remotas).</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-mountain-sun"></i> 
+                    <div>
+                        <strong id="cert2-title">Rescate en la Naturaleza</strong><br>
+                        <span id="cert2-desc">Entrenamiento constante para extracción y emergencias en terrenos complejos del Chicamocha.</span>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-clipboard-check"></i> 
+                    <div>
+                        <strong id="cert3-title">Gestión Integral del Riesgo</strong><br>
+                        <span id="cert3-desc">Evaluación previa de cada ruta y estricto cumplimiento de protocolos de seguridad.</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section class="container" id="contacto" style="text-align: center;">
+        <h2 class="section-title" id="contact-title">¡Vamos a explorar!</h2>
+        <p id="contact-desc" style="margin-bottom: 40px; font-size: 1.15rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            ¿Dudas sobre una ruta o quieres armar un paquete a tu medida? Escríbeme y empecemos a planear tu próxima aventura.
+        </p>
+        
+        <a href="https://wa.me/573132501446" class="cta-btn"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+        <a href="mailto:tu-antonio@motmotexperiencias.com" class="cta-btn btn-teal" style="margin-left: 15px;"><i class="fa-regular fa-envelope"></i> Correo</a>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 Antonio | Mot Mot Experiencias. <span id="footer-text">Todos los derechos reservados.</span></p>
+    </footer>
+
+    <!-- LOGICA DE TRADUCCIÓN (JavaScript) -->
+    <script>
+        const translations = {
+            "es": {
+                "badge-text": "Espacio Mot Mot",
+                "hero-title": "Hola, soy Antonio",
+                "hero-subtitle": "Guía Turístico Profesional | Barichara y Cañón del Chicamocha",
+                "hero-desc": "Explora la majestuosidad de Santander con la pasión de un local y los más altos estándares de seguridad en la naturaleza.",
+                "btn-book": "Reserva tu aventura",
+                "about-title": "Nativo de la Tierra Amarilla",
+                "about-p1": "Nacer y crecer en <strong>Barichara</strong> me dio una conexión profunda con sus caminos de herradura y la inmensidad del Cañón del Chicamocha. Para mí, el turismo no es solo un recorrido, es una inmersión en nuestra cultura, historia y geografía.",
+                "about-p2": "A través de <strong>Mot Mot</strong>, he diseñado este espacio para ofrecerte una experiencia genuina. Te guiaré por senderos que conozco como la palma de mi mano, siempre asegurando que tu única preocupación sea disfrutar del paisaje.",
+                "routes-title": "Mis Rutas Especialidad",
+                "routes-desc": "Pueblo Patrimonial de Barichara, Caminos Reales y Senderismo en la profundidad del Cañón del Chicamocha.",
+                "gallery-title": "Nuestras Rutas en Imágenes",
+                "exp-title": "Experiencia Turística",
+                "srv1-title": "Diseño de Paquetes",
+                "srv1-desc": "Creación de itinerarios a la medida, combinando aventura, cultura y descanso según el perfil de cada visitante.",
+                "srv2-title": "Información Turística",
+                "srv2-desc": "Asesoramiento completo sobre logística, cultura local y gastronomía para planificar tu estadía perfecta.",
+                "srv3-title": "Manejo de Grupos",
+                "srv3-desc": "Liderazgo efectivo garantizando dinámicas seguras y una transmisión clara del patrimonio de la región.",
+                "wafa-title": "Seguridad y Rescate",
+                "wafa-desc": "Tu integridad es lo primero. Mi formación me permite actuar de manera efectiva en entornos agrestes y de difícil acceso en Santander.",
+                "cert1-title": "Certificación WAFA",
+                "cert1-desc": "Wilderness Advanced First Aid (Primeros Auxilios Avanzados en Áreas Remotas).",
+                "cert2-title": "Rescate en la Naturaleza",
+                "cert2-desc": "Entrenamiento constante para extracción y emergencias en terrenos complejos del Chicamocha.",
+                "cert3-title": "Gestión Integral del Riesgo",
+                "cert3-desc": "Evaluación previa de cada ruta y estricto cumplimiento de protocolos de seguridad.",
+                "contact-title": "¡Vamos a explorar!",
+                "contact-desc": "¿Dudas sobre una ruta o quieres armar un paquete a tu medida? Escríbeme y empecemos a planear tu próxima aventura.",
+                "footer-text": "Todos los derechos reservados."
+            },
+            "en": {
+                "badge-text": "Mot Mot Space",
+                "hero-title": "Hi, I'm Antonio",
+                "hero-subtitle": "Professional Tour Guide | Barichara & Chicamocha Canyon",
+                "hero-desc": "Explore the majesty of Santander with the passion of a local and the highest safety standards in the wild.",
+                "btn-book": "Book your adventure",
+                "about-title": "Native of the Yellow Earth",
+                "about-p1": "Being born and raised in <strong>Barichara</strong> gave me a deep connection with its ancient paths and the immensity of the Chicamocha Canyon. For me, tourism is not just a tour; it's an immersion into our culture, history, and geography.",
+                "about-p2": "Through <strong>Mot Mot</strong>, I have designed this space to offer you a genuine experience. I will guide you along trails I know like the back of my hand, ensuring your only concern is enjoying the scenery.",
+                "routes-title": "My Specialty Routes",
+                "routes-desc": "Heritage Town of Barichara, Royal Paths (Caminos Reales), and Hiking deep into the Chicamocha Canyon.",
+                "gallery-title": "Our Routes in Pictures",
+                "exp-title": "Tourism Experience",
+                "srv1-title": "Tour Package Design",
+                "srv1-desc": "Creation of custom itineraries, combining adventure, culture, and relaxation according to each visitor's profile.",
+                "srv2-title": "Tourist Information",
+                "srv2-desc": "Comprehensive advice on logistics, local culture, and gastronomy to plan your perfect stay.",
+                "srv3-title": "Group Management",
+                "srv3-desc": "Effective leadership ensuring safe dynamics and clear transmission of the region's heritage.",
+                "wafa-title": "Safety & Rescue",
+                "wafa-desc": "Your safety comes first. My training allows me to act effectively in rugged and hard-to-reach environments in Santander.",
+                "cert1-title": "WAFA Certification",
+                "cert1-desc": "Wilderness Advanced First Aid.",
+                "cert2-title": "Wilderness Rescue",
+                "cert2-desc": "Constant training for extraction and emergencies in complex terrains like the Chicamocha Canyon.",
+                "cert3-title": "Comprehensive Risk Management",
+                "cert3-desc": "Prior assessment of each route and strict adherence to safety protocols.",
+                "contact-title": "Let's explore!",
+                "contact-desc": "Questions about a route or want to build a custom package? Write to me and let's start planning your next adventure.",
+                "footer-text": "All rights reserved."
+            }
+        };
+
+        function setLanguage(lang) {
+            // Cambiar textos
+            for (let id in translations[lang]) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerHTML = translations[lang][id];
+                }
+            }
+
+            // Cambiar estilos de los botones
+            const btns = document.querySelectorAll('.lang-btn');
+            btns.forEach(btn => {
+                if (btn.innerText.toLowerCase() === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
