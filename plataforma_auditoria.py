@@ -8,17 +8,18 @@ from io import BytesIO
 # 1. Configuración de página
 st.set_page_config(page_title="COMMAND CENTER - ISO 21101", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. CSS Avanzado
+# 2. CSS Avanzado (Corregido para Pestañas y Métricas)
 st.markdown("""
     <style>
     .stApp { background-color: #050A15; background-image: radial-gradient(circle at 50% 0%, #0F1A2C 0%, #050A15 80%); color: #E2E8F0; }
     h1, h2, h3, h4 { color: #FFFFFF; font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 700; letter-spacing: -0.5px; }
     p, div, span { font-family: 'Segoe UI', Tahoma, sans-serif; }
     
-    /* Métricas */
-    div[data-testid="stMetric"] { background: rgba(15, 26, 44, 0.7); border: 1px solid #1E2D4A; padding: 20px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px); transition: transform 0.3s ease; }
+    /* Métricas Corregidas para evitar cortes de texto */
+    div[data-testid="stMetric"] { background: rgba(15, 26, 44, 0.7); border: 1px solid #1E2D4A; padding: 15px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px); transition: transform 0.3s ease; }
     div[data-testid="stMetric"]:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2); }
-    div[data-testid="stMetricValue"] { font-size: 2.5rem; color: #38BDF8; font-weight: 900; }
+    div[data-testid="stMetricValue"] { font-size: 1.8rem !important; color: #38BDF8; font-weight: 900; }
+    div[data-testid="stMetricLabel"] p { font-size: 1rem !important; color: #FFFFFF !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
     
     /* Bóveda y Botones */
     .login-container { display: flex; flex-direction: column; align-items: center; text-align: center; background: transparent; padding: 40px; }
@@ -26,10 +27,11 @@ st.markdown("""
     .stButton>button { background: linear-gradient(90deg, #DE4A25, #FF5A33) !important; color: white !important; font-weight: bold; border-radius: 8px; border: none; box-shadow: 0 0 15px rgba(222, 74, 37, 0.5); transition: all 0.3s ease; padding: 10px 0; }
     .stButton>button:hover { background: linear-gradient(90deg, #FF5A33, #DE4A25) !important; box-shadow: 0 0 30px rgba(222, 74, 37, 0.9); transform: scale(1.03); }
     
-    /* Pestañas */
-    .stTabs [data-baseweb="tab-list"] { background-color: rgba(10, 15, 25, 0.8); border-radius: 8px; padding: 5px; gap: 10px; }
-    .stTabs [data-baseweb="tab"] { color: #8BBFBB; font-weight: bold; border-radius: 4px; padding: 10px 20px; }
-    .stTabs [aria-selected="true"] { background-color: #DE4A25 !important; color: white !important; box-shadow: 0 0 15px rgba(222, 74, 37, 0.6); }
+    /* Pestañas Corregidas para máxima visibilidad */
+    .stTabs [data-baseweb="tab-list"] { background-color: rgba(10, 15, 25, 0.9); border-radius: 8px; padding: 5px; gap: 10px; }
+    .stTabs [data-baseweb="tab"] { background-color: #1E2D4A !important; border-radius: 4px; padding: 10px 20px; border: 1px solid #38BDF8; }
+    .stTabs [data-baseweb="tab"] p { color: #FFFFFF !important; font-weight: bold; font-size: 1rem; margin: 0; }
+    .stTabs [aria-selected="true"] { background-color: #DE4A25 !important; border: 1px solid #FF5A33 !important; box-shadow: 0 0 15px rgba(222, 74, 37, 0.6); }
     
     /* Tarjetas de Expediente */
     .tarjeta-expediente { background: rgba(15, 26, 44, 0.9); border: 1px solid #DE4A25; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(222, 74, 37, 0.3); border-left: 5px solid #DE4A25; }
