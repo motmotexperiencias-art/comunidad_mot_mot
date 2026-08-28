@@ -8,7 +8,7 @@ def generar_xlsform_sig():
     # 1. Pestaña 'survey' (Estructura ISO 21101 + Trazabilidad KML/GPX)
     survey = [
         {'type': 'select_one evaluador', 'name': 'evaluador', 'label': 'Nombre del evaluador', 'required': 'yes', 'appearance': 'minimal'},
-        {'type': 'select_one servicio', 'name': 'servicio', 'label': 'Servicio operativo a evaluar', 'required': 'yes', 'appearance': 'search'},
+        {'type': 'select_one servicio', 'name': 'servicio', 'label': 'Servicio operativo a evaluar', 'required': 'yes'},
         {'type': 'select_one tipo_punto', 'name': 'tipo_punto', 'label': 'Tipo de punto evaluado', 'required': 'yes'},
         {'type': 'geopoint', 'name': 'ubicacion_gps', 'label': 'Capturar ubicación GPS exacta (Registra Altitud/Desnivel automáticamente)', 'required': 'yes'},
         

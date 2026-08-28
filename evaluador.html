@@ -9,20 +9,21 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background-color: #050A15; /* Fondo oscuro igual al de Streamlit */
+            background-color: #050A15;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Evita doble barra de desplazamiento */
+            overflow: hidden;
         }
         
-        /* Cabecera institucional muy delgada */
         .header-motmot {
             background-color: #0A0F19;
             border-bottom: 2px solid #DE4A25;
-            padding: 10px 20px;
+            padding: 10px 15px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            height: 50px;
+            height: 60px;
+            gap: 15px;
+            box-sizing: border-box;
         }
 
         .header-motmot img {
@@ -33,28 +34,11 @@
             color: #FFFFFF;
             font-size: 1.2rem;
             margin: 0;
+            text-align: center;
         }
 
-        /* Botón superior para que los auditores envíen datos sin app */
-        .btn-auditar {
-            background: linear-gradient(90deg, #DE4A25, #FF5A33);
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        .btn-auditar:hover {
-            box-shadow: 0 0 15px rgba(222, 74, 37, 0.8);
-            transform: scale(1.05);
-        }
-
-        /* El contenedor de la ventana de Streamlit */
         .iframe-container {
-            height: calc(100vh - 74px); /* Resta la altura de la cabecera */
+            height: calc(100vh - 60px);
             width: 100%;
         }
 
@@ -63,24 +47,34 @@
             height: 100%;
             border: none;
         }
+
+        /* Reglas de adaptación para dispositivos móviles */
+        @media (max-width: 600px) {
+            .header-motmot {
+                height: 50px;
+                padding: 5px 10px;
+                gap: 10px;
+            }
+            .header-motmot img {
+                height: 30px;
+            }
+            .header-motmot h1 {
+                font-size: 0.9rem;
+            }
+            .iframe-container {
+                height: calc(100vh - 50px);
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. Cabecera institucional de Mot Mot -->
     <div class="header-motmot">
         <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/cropped-logo-foto-de-perfil-instagram-1.png" alt="Logo Mot Mot">
         <h1>PORTAL DE AUDITORÍA INTERNA</h1>
-        
-        <!-- Este es el botón que abrirá el formulario de KoBoToolbox para enviar fotos sin instalar la App -->
-        <a href="https://ee.kobotoolbox.org/x/ibbsQweo" target="_blank" class="btn-auditar">
-            🛰️ Enviar Nuevo Registro
-        </a>
     </div>
 
-    <!-- 2. La ventana mágica (iframe) que muestra el Command Center de Streamlit -->
     <div class="iframe-container">
-        <!-- Fíjate que al final del enlace le puse /?embed=true para que Streamlit oculte sus menús grises feos de arriba -->
         <iframe src="https://motmot-iso21101.streamlit.app/?embed=true"></iframe>
     </div>
 
