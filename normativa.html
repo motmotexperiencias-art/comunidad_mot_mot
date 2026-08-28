@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Auditoría Operativa - CHK-OP-001</title>
+    <style>
+        :root {
+            --primary-color: #0F2C59;
+            --secondary-color: #1870B8;
+            --bg-color: #F4F7FA;
+            --text-color: #333333;
+            --border-color: #D3E0EA;
+            --success-color: #2E7D32;
+            --danger-color: #C62828;
+            --warning-color: #EF6C00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 6px solid var(--primary-color);
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .header-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            vertical-align: middle;
+        }
+
+        .logo-space {
+            width: 20%;
+            text-align: center;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            border-left: 4px solid var(--secondary-color) !important;
+        }
+
+        .title-space {
+            width: 50%;
+            text-align: center;
+        }
+
+        .title-space h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+
+        .title-space p {
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .info-space {
+            width: 30%;
+            font-size: 0.85rem;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-item label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .meta-item input, .meta-item select {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .meta-item input:focus, .meta-item select:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .stat-lbl {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            max-width: 400px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            height: 12px;
+            overflow: hidden;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .progress-bar {
+            background: #4CAF50;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .audit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .audit-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .audit-table td {
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 10px;
+            font-size: 0.9rem;
+            vertical-align: top;
+        }
+
+        .audit-table tr:hover {
+            background-color: #F8FAFC;
+        }
+
+        .center {
+            text-align: center;
+        }
+        
+        .norma-badge {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            font-size: 0.70rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .radio-btn {
+            cursor: pointer;
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            background: #fff;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .radio-btn.cumple-active {
+            background-color: #E8F5E9;
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .radio-btn.nocumple-active {
+            background-color: #FFEBEE;
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 6px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: vertical;
+            height: 45px;
+        }
+
+        textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #12548C;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #1B5E20;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; padding: 0; border: none; }
+            .actions, .radio-group .radio-btn:not(.cumple-active):not(.nocumple-active) { display: none !important; }
+            textarea { border: none; background: transparent; }
+            .radio-btn { border: none; padding: 0; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <table class="header-table">
+        <tr>
+            <td class="logo-space">SISTEMA INTEGRADO</td>
+            <td class="title-space">
+                <h1>Lista de Verificación Final – Auditoría Operativa/Misional</h1>
+                <p>Normas de referencia: ISO 21101 y GTC ISO 19011</p>
+            </td>
+            <td class="info-space">
+                <strong>Código:</strong> CHK-OP-001<br>
+                <strong>Versión:</strong> 02 (Revisión Normativa)<br>
+                <strong>Fecha Ref:</strong> 2026
+            </td>
+        </tr>
+    </table>
+
+    <div class="meta-grid">
+        <div class="meta-item">
+            <label>Actividad</label>
+            <input type="text" id="meta-actividad" placeholder="Ej. Operación de Ruta Guiada">
+        </div>
+        <div class="meta-item">
+            <label>Lugar</label>
+            <input type="text" id="meta-lugar" placeholder="Ej. Sede Principal / Parque Operativo">
+        </div>
+        <div class="meta-item">
+            <label>Guía Líder / Responsable</label>
+            <input type="text" id="meta-guia" placeholder="Nombre del responsable">
+        </div>
+        <div class="meta-item">
+            <label>Auditor</label>
+            <input type="text" id="meta-auditor" placeholder="Nombre de quien audita">
+        </div>
+        <div class="meta-item">
+            <label>Fecha</label>
+            <input type="date" id="meta-fecha">
+        </div>
+        <div class="meta-item">
+            <label>Resultado Final Sugerido</label>
+            <select id="meta-resultado">
+                <option value="pendiente">Pendiente de evaluación</option>
+                <option value="conforme">Conforme</option>
+                <option value="observaciones">Conforme con Observaciones</option>
+                <option value="noconforme">No Conforme</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="stat-box">
+            <div class="stat-val" id="stat-total">0/30</div>
+            <div class="stat-lbl">Evaluados</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val" id="stat-cumple">0</div>
+            <div class="stat-lbl">Cumple</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val" id="stat-nocumple">0</div>
+            <div class="stat-lbl">No Cumple</div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val" id="stat-percent">0%</div>
+            <div class="stat-lbl">Cumplimiento</div>
+        </div>
+    </div>
+
+    <table class="audit-table">
+        <thead>
+            <tr>
+                <th style="width: 5%; text-align: center;">Ítem</th>
+                <th style="width: 45%;">Requisito / Pregunta de Auditoría</th>
+                <th style="width: 15%; text-align: center;">Evaluación</th>
+                <th style="width: 17%;">Observaciones</th>
+                <th style="width: 18%;">Evidencia</th>
+            </tr>
+        </thead>
+        <tbody id="checklist-body">
+            </tbody>
+    </table>
+
+    <div class="actions">
+        <button class="btn btn-primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+        <button class="btn btn-success" onclick="guardarLocal()">Guardar Progreso Local</button>
+    </div>
+</div>
+
+<script>
+    // Las preguntas ahora están mapeadas directamente a los requisitos normativos exigidos.
+    const requisitos = [
+        { q: "¿La actividad misional tiene definidos objetivo, alcance y responsables?", norma: "ISO 21101 (4.1, 4.3, 5.3)" },
+        { q: "¿Se identificaron las partes interesadas y sus requisitos para la operación?", norma: "ISO 21101 (4.2)" },
+        { q: "¿Existe evaluación de riesgos vigente para la actividad antes de ejecutarla?", norma: "ISO 21101 (6.1, 8.1)" },
+        { q: "¿Se definieron controles para los riesgos identificados?", norma: "ISO 21101 (6.1.2)" },
+        { q: "¿La ruta, lugar o escenario de la actividad fue inspeccionado antes de iniciar?", norma: "ISO 21101 (8.1, 8.2)" },
+        { q: "¿Se verificaron las condiciones climáticas y ambientales antes de la operación?", norma: "ISO 21101 (8.1)" },
+        { q: "¿Se realizó charla de seguridad o briefing a los participantes?", norma: "ISO 21101 (8.2, 8.3)" },
+        { q: "¿Los participantes recibieron información clara sobre reglas, riesgos y restricciones?", norma: "ISO 21101 (8.2.2)" },
+        { q: "¿Los participantes firmaron consentimiento informado o aceptación de riesgos, si aplica?", norma: "ISO 21101 (8.2.3)" },
+        { q: "¿Se diligenció la información básica o médica requerida del participante, si aplica?", norma: "ISO 21101 (8.2.2)" },
+        { q: "¿El personal operativo y guías cuenta con competencia, formación y experiencia requeridas?", norma: "ISO 21101 (7.2)" },
+        { q: "¿Se evidencia inducción o reinducción sobre seguridad y operación?", norma: "ISO 21101 (7.2, 7.3)" },
+        { q: "¿Se asignaron claramente las responsabilidades durante la actividad?", norma: "ISO 21101 (5.3)" },
+        { q: "¿Los equipos, implementos y elementos de seguridad están disponibles y en buen estado?", norma: "ISO 21101 (8.1, 7.1.3)" },
+        { q: "¿Se verificó el mantenimiento o inspección vigente de equipos y elementos críticos?", norma: "ISO 21101 (8.1, 7.1.3)" },
+        { q: "¿Se cuenta con botiquín, comunicación y recursos de atención ante emergencias?", norma: "ISO 21101 (8.3)" },
+        { q: "¿Existe plan de emergencias para la actividad y el personal lo conoce?", norma: "ISO 21101 (8.3)" },
+        { q: "¿Se controla la capacidad máxima de participantes por guía o actividad?", norma: "ISO 21101 (8.1)" },
+        { q: "¿La operación se ejecutó conforme al procedimiento o estándar definido?", norma: "ISO 21101 (8.1)" },
+        { q: "¿Se controlaron cambios durante la actividad, como clima, ruta, equipo o personal?", norma: "ISO 21101 (8.1.3)" },
+        { q: "¿Se registraron incidentes, accidentes o casi incidentes, si ocurrieron?", norma: "ISO 21101 (10.2)" },
+        { q: "¿Se tomaron acciones inmediatas cuando se identificó una desviación o no conformidad?", norma: "ISO 21101 (10.2)" },
+        { q: "¿Se conservaron los registros de la operación de forma completa y legible?", norma: "ISO 21101 (7.5.3)" },
+        { q: "¿Se hace seguimiento a quejas, incidentes, hallazgos y acciones correctivas?", norma: "ISO 21101 (10.2) / ISO 19011 (6.7)" },
+        { q: "¿El proceso misional tiene seguimiento mediante indicadores o evaluación de desempeño?", norma: "ISO 21101 (9.1)" },
+        { q: "¿Se revisan y actualizan los documentos y formatos utilizados en la operación?", norma: "ISO 21101 (7.5.2)" },
+        { q: "¿La información documentada obsoleta se controla y retira oportunamente?", norma: "ISO 21101 (7.5.3)" },
+        { q: "¿La dirección provee recursos suficientes para la operación segura?", norma: "ISO 21101 (7.1, 5.1)" },
+        { q: "¿Se ejecutan acciones de mejora a partir de hallazgos, incidentes o auditorías?", norma: "ISO 21101 (10.1, 10.3)" },
+        { q: "¿La operación protege la seguridad, salud y bienestar de los participantes?", norma: "ISO 21101 (4.1, 5.1)" }
+    ];
+
+    const estadoAuditoria = {};
+
+    function inicializarTabla() {
+        const tbody = document.getElementById('checklist-body');
+        requisitos.forEach((item, index) => {
+            const id = index + 1;
+            estadoAuditoria[id] = { cumple: null, observaciones: '', evidencia: '' };
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="center"><strong>${id}</strong></td>
+                <td>
+                    <span class="norma-badge">${item.norma}</span><br>
+                    ${item.q}
+                </td>
+                <td>
+                    <div class="radio-group">
+                        <div class="radio-btn" id="cumple-${id}" onclick="evaluar(${id}, true)">CUMPLE</div>
+                        <div class="radio-btn" id="nocumple-${id}" onclick="evaluar(${id}, false)">NO CUMPLE</div>
+                    </div>
+                </td>
+                <td><textarea id="obs-${id}" oninput="actualizarTexto(${id}, 'observaciones', this.value)" placeholder="Anotaciones..."></textarea></td>
+                <td><textarea id="evi-${id}" oninput="actualizarTexto(${id}, 'evidencia', this.value)" placeholder="Registros, actas..."></textarea></td>
+            `;
+            tbody.appendChild(tr);
+        });
+        document.getElementById('meta-fecha').valueAsDate = new Date();
+        actualizarMetricas();
+    }
+
+    function evaluar(id, cumple) {
+        const cumpleBtn = document.getElementById(`cumple-${id}`);
+        const noCumpleBtn = document.getElementById(`nocumple-${id}`);
+
+        if (cumple) {
+            cumpleBtn.classList.add('cumple-active');
+            noCumpleBtn.classList.remove('nocumple-active');
+            estadoAuditoria[id].cumple = true;
+        } else {
+            noCumpleBtn.classList.add('nocumple-active');
+            cumpleBtn.classList.remove('cumple-active');
+            estadoAuditoria[id].cumple = false;
+        }
+        actualizarMetricas();
+    }
+
+    function actualizarTexto(id, campo, valor) {
+        estadoAuditoria[id][campo] = valor;
+    }
+
+    function actualizarMetricas() {
+        let evaluados = 0;
+        let cumple = 0;
+        let noCumple = 0;
+
+        for (const id in estadoAuditoria) {
+            if (estadoAuditoria[id].cumple !== null) {
+                evaluados++;
+                if (estadoAuditoria[id].cumple) cumple++;
+                else noCumple++;
+            }
+        }
+
+        document.getElementById('stat-total').innerText = `${evaluados}/30`;
+        document.getElementById('stat-cumple').innerText = cumple;
+        document.getElementById('stat-nocumple').innerText = noCumple;
+
+        const porcentaje = evaluados > 0 ? Math.round((cumple / evaluados) * 100) : 0;
+        document.getElementById('stat-percent').innerText = `${porcentaje}%`;
+        document.getElementById('progress-bar').style.width = `${porcentaje}%`;
+
+        const selectResultado = document.getElementById('meta-resultado');
+        if (evaluados === 30) {
+            if (noCumple === 0) selectResultado.value = "conforme";
+            else if (noCumple > 0 && noCumple <= 3) selectResultado.value = "observaciones";
+            else selectResultado.value = "noconforme";
+        }
+    }
+
+    function guardarLocal() {
+        localStorage.setItem('auditoria_progreso', JSON.stringify(estadoAuditoria));
+        alert('Progreso guardado localmente en el navegador de manera segura.');
+    }
+
+    window.onload = () => {
+        inicializarTabla();
+        const guardado = localStorage.getItem('auditoria_progreso');
+        if (guardado) {
+            const datos = JSON.parse(guardado);
+            for (const id in datos) {
+                if (datos[id].cumple !== null) {
+                    evaluar(parseInt(id), datos[id].cumple);
+                }
+                if (datos[id].observaciones) {
+                    document.getElementById(`obs-${id}`).value = datos[id].observaciones;
+                    estadoAuditoria[id].observaciones = datos[id].observaciones;
+                }
+                if (datos[id].evidencia) {
+                    document.getElementById(`evi-${id}`).value = datos[id].evidencia;
+                    estadoAuditoria[id].evidencia = datos[id].evidencia;
+                }
+            }
+            actualizarMetricas();
+        }
+    };
+</script>
+</body>
+</html>
