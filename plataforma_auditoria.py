@@ -8,7 +8,7 @@ from io import BytesIO
 # 1. Configuración de página
 st.set_page_config(page_title="COMMAND CENTER - ISO 21101", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. CSS Avanzado (Corregido para Pestañas tipo App y Métricas)
+# 2. CSS Avanzado (Corregido para Celulares y Pestañas)
 st.markdown("""
     <style>
     .stApp { background-color: #050A15; background-image: radial-gradient(circle at 50% 0%, #0F1A2C 0%, #050A15 80%); color: #E2E8F0; }
@@ -21,18 +21,44 @@ st.markdown("""
     div[data-testid="stMetricValue"] { font-size: 1.8rem !important; color: #38BDF8; font-weight: 900; }
     div[data-testid="stMetricLabel"] p { font-size: 1rem !important; color: #FFFFFF !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
     
-    /* Bóveda y Botones estándar */
+    /* Bóveda y Botones (100% RESPONSIVOS PARA CELULAR) */
     .login-container { display: flex; flex-direction: column; align-items: center; text-align: center; background: transparent; padding: 40px; }
     .logo-container { display: flex; justify-content: center; margin-bottom: 20px; }
-    .stButton>button { background: linear-gradient(90deg, #DE4A25, #FF5A33) !important; color: white !important; font-weight: bold; border-radius: 8px; border: none; box-shadow: 0 0 15px rgba(222, 74, 37, 0.5); transition: all 0.3s ease; padding: 10px 0; }
-    .stButton>button:hover { background: linear-gradient(90deg, #FF5A33, #DE4A25) !important; box-shadow: 0 0 30px rgba(222, 74, 37, 0.9); transform: scale(1.03); }
+    
+    div[data-testid="stButton"] button, div[data-testid="stLinkButton"] a { 
+        background: linear-gradient(90deg, #DE4A25, #FF5A33) !important; 
+        color: white !important; 
+        font-weight: bold !important; 
+        border-radius: 8px !important; 
+        border: none !important; 
+        box-shadow: 0 0 15px rgba(222, 74, 37, 0.5) !important; 
+        transition: all 0.3s ease !important; 
+        padding: 15px 10px !important; 
+        white-space: normal !important; /* Permite que el texto baje de línea */
+        word-wrap: break-word !important; 
+        height: auto !important; /* Evita cortes verticales */
+        min-height: 55px !important; 
+        display: inline-flex !important; 
+        align-items: center !important; 
+        justify-content: center !important; 
+        text-align: center !important;
+        line-height: 1.3 !important;
+        width: 100% !important; /* Obliga a no salirse de la pantalla */
+        text-decoration: none !important;
+    }
+    div[data-testid="stButton"] button:hover, div[data-testid="stLinkButton"] a:hover { 
+        background: linear-gradient(90deg, #FF5A33, #DE4A25) !important; 
+        box-shadow: 0 0 30px rgba(222, 74, 37, 0.9) !important; 
+        transform: scale(1.03) !important; 
+    }
+    div[data-testid="stButton"] button p, div[data-testid="stLinkButton"] a p { margin: 0 !important; }
     
     /* Pestañas (Tabs) convertidas a botones táctiles de App */
     .stTabs [data-baseweb="tab-list"] { 
         background-color: transparent !important; 
         gap: 12px; 
         display: flex; 
-        flex-wrap: wrap; /* Adapta los botones si la pantalla es estrecha */
+        flex-wrap: wrap; 
         justify-content: center;
         padding-bottom: 20px;
     }
@@ -59,9 +85,7 @@ st.markdown("""
         box-shadow: 0 0 20px rgba(222, 74, 37, 0.7) !important; 
         transform: scale(1.02);
     }
-    .stTabs [aria-selected="true"] p { 
-        color: #FFFFFF !important; 
-    }
+    .stTabs [aria-selected="true"] p { color: #FFFFFF !important; }
     
     /* Tarjetas de Expediente */
     .tarjeta-expediente { background: rgba(15, 26, 44, 0.9); border: 1px solid #DE4A25; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(222, 74, 37, 0.3); border-left: 5px solid #DE4A25; }
@@ -200,6 +224,7 @@ with tab1:
         """)
     with col_der:
         st.markdown("<br><br>", unsafe_allow_html=True)
+        # El botón ahora se acomodará perfectamente a la pantalla del celular gracias al CSS superior
         st.link_button("📡 ABRIR FORMULARIO SATELITAL (EVALUADOR)", "https://ee.kobotoolbox.org/x/ibbsQweo", use_container_width=True)
 
 # PESTAÑA 2: DASHBOARD GLOBAL
