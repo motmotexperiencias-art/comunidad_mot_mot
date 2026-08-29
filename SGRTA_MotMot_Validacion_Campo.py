@@ -50,8 +50,10 @@ def generar_xlsform_sig():
 
     # 2. Pestaña 'choices' 
     choices = [
-        {'list_name': 'evaluador', 'name': 'liliana', 'label': 'Liliana Paola Rozo Martínez'},
-        {'list_name': 'evaluador', 'name': 'antonio', 'label': 'Antonio José Becerra Velásquez'},
+        # Integración de perfiles competentes para cumplimiento ISO 21101
+        {'list_name': 'evaluador', 'name': 'liliana', 'label': 'Liliana Paola Rozo Martínez - Gerente General / Auditora'},
+        {'list_name': 'evaluador', 'name': 'antonio', 'label': 'Antonio José Becerra Velásquez - Guía Turístico Profesional'},
+        {'list_name': 'evaluador', 'name': 'alexander', 'label': 'Alexander Jimenez - Guía Turístico Profesional'},
         
         # Servicios Operativos
         {'list_name': 'servicio', 'name': 'w_barichara', 'label': 'Servicio 1: Walking Tour Barichara'},
