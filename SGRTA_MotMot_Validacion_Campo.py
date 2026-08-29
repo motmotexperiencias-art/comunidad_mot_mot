@@ -2,16 +2,24 @@ import pandas as pd
 import xlsxwriter
 from io import BytesIO
 import urllib.request
-import urllib.error
 
 def generar_xlsform_sig():
-    # 1. Pestaña 'survey' (Estructura ISO 21101 + Trazabilidad KML/GPX)
+    # 1. Pestaña 'survey'
     survey = [
+        # --- METADATOS (Se preguntan una sola vez al inicio del día) ---
         {'type': 'select_one evaluador', 'name': 'evaluador', 'label': 'Nombre del evaluador', 'required': 'yes', 'appearance': 'minimal'},
         {'type': 'select_one servicio', 'name': 'servicio', 'label': 'Servicio operativo a evaluar', 'required': 'yes'},
-        {'type': 'select_one tipo_punto', 'name': 'tipo_punto', 'label': 'Tipo de punto evaluado', 'required': 'yes'},
-        {'type': 'geopoint', 'name': 'ubicacion_gps', 'label': 'Capturar ubicación GPS exacta (Registra Altitud/Desnivel automáticamente)', 'required': 'yes'},
+        {'type': 'note', 'name': 'nota_ayuda', 'label': '💡 Use el botón "+" para agregar todos los puntos y riesgos que encuentre en el camino sin salir del formulario.'},
         
+        # --- INICIO DEL BUCLE ---
+        {'type': 'begin_repeat', 'name': 'puntos_ruta', 'label': '📍 Agregar Punto en la Ruta'},
+        
+        {'type': 'select_one tipo_punto', 'name': 'tipo_punto', 'label': 'Tipo de punto evaluado', 'required': 'yes'},
+        {'type': 'geopoint', 'name': 'ubicacion_gps', 'label': 'Capturar ubicación GPS exacta (Registra Altitud/Desnivel)', 'required': 'yes'},
+        
+        # --- BIFURCACIONES (Instrucciones) ---
+        {'type': 'text', 'name': 'instruccion_bifurcacion', 'label': 'Instrucciones: ¿Qué camino tomar en esta bifurcación?', 'relevant': "${tipo_punto} = 'bifurcacion'", 'required': 'yes'},
+
         # Identificación y Evaluación del Riesgo (ISO 21101 - A.3)
         {'type': 'begin_group', 'name': 'grupo_riesgo', 'label': 'Evaluación de Riesgo', 'relevant': "${tipo_punto} = 'zona_riesgo'"},
         {'type': 'select_one peligro_cat', 'name': 'peligro_cat', 'label': 'Categoría del peligro', 'required': 'yes'},
@@ -20,7 +28,6 @@ def generar_xlsform_sig():
         {'type': 'select_one posibilidad', 'name': 'posibilidad', 'label': 'Posibilidad de ocurrencia', 'required': 'yes'},
         {'type': 'select_one severidad', 'name': 'severidad', 'label': 'Severidad de la consecuencia', 'required': 'yes'},
         {'type': 'text', 'name': 'control_situ', 'label': 'Medida de control propuesta in situ (Evitar/Mitigar)', 'required': 'yes'},
-        {'type': 'image', 'name': 'foto_peligro', 'label': 'Evidencia fotográfica obligatoria in situ', 'required': 'yes', 'appearance': 'new'},
         {'type': 'end_group', 'name': 'grupo_riesgo'},
         
         # Respuesta ante Emergencias (ISO 21101 - 8.2)
@@ -28,34 +35,37 @@ def generar_xlsform_sig():
         {'type': 'select_multiple acceso', 'name': 'acceso_evac', 'label': 'Viabilidad de acceso para rescate', 'required': 'yes'},
         {'type': 'text', 'name': 'acceso_otro', 'label': 'Especifique otro método de acceso', 'relevant': "selected(${acceso_evac}, 'otro')", 'required': 'yes'},
         {'type': 'select_one senal', 'name': 'cobertura_senal', 'label': 'Cobertura de telecomunicaciones celular', 'required': 'yes'},
-        {'type': 'text', 'name': 'senal_otra', 'label': 'Especifique la red celular (Ej: WOM, Avantel)', 'relevant': "selected(${cobertura_senal}, 'otro')", 'required': 'yes'},
-        {'type': 'select_one tiempo_ext', 'name': 'tiempo_evacuacion', 'label': 'Tiempo estimado de evacuación a centro médico o punto de rescate seguro', 'required': 'yes'},
+        {'type': 'text', 'name': 'senal_otra', 'label': 'Especifique la red celular', 'relevant': "selected(${cobertura_senal}, 'otro')", 'required': 'yes'},
+        {'type': 'select_one tiempo_ext', 'name': 'tiempo_evacuacion', 'label': 'Tiempo estimado de evacuación a centro médico', 'required': 'yes'},
         {'type': 'text', 'name': 'tiempo_evac_otro', 'label': 'Especifique el tiempo exacto estimado', 'relevant': "selected(${tiempo_evacuacion}, 'otro')", 'required': 'yes'},
         {'type': 'text', 'name': 'red_apoyo', 'label': 'Punto de refugio, finca o contacto local adicional (Opcional)', 'required': 'no'},
         {'type': 'text', 'name': 'tel_emergencia', 'label': 'Teléfono del refugio o contacto local (Opcional)', 'required': 'no', 'appearance': 'numbers'},
-        {'type': 'image', 'name': 'foto_evac', 'label': 'Evidencia fotográfica in situ del punto de extracción', 'required': 'yes', 'appearance': 'new'},
         {'type': 'end_group', 'name': 'grupo_emergencia'},
         
-        # Puntos de Interés / Confort del Caminante
+        # Puntos de Interés / Confort
         {'type': 'begin_group', 'name': 'grupo_interes', 'label': 'Interpretación y Confort Logístico', 'relevant': "${tipo_punto} = 'punto_interes'"},
         {'type': 'select_multiple punto_int', 'name': 'cat_interes', 'label': 'Categoría del punto', 'required': 'yes'},
         {'type': 'text', 'name': 'interes_otro', 'label': 'Especifique otro punto de interés', 'relevant': "selected(${cat_interes}, 'otro')", 'required': 'yes'},
-        {'type': 'text', 'name': 'guion_guia', 'label': 'Guion interpretativo / Información de valor a transmitir por el guía en este punto', 'required': 'no'},
-        {'type': 'text', 'name': 'obs_logistica', 'label': 'Observaciones logísticas (Ej: Estado de la sombra, calidad del agua)', 'required': 'no'},
+        {'type': 'text', 'name': 'guion_guia', 'label': 'Guion interpretativo / Información de valor a transmitir', 'required': 'no'},
+        {'type': 'text', 'name': 'obs_logistica', 'label': 'Observaciones logísticas', 'required': 'no'},
         {'type': 'end_group', 'name': 'grupo_interes'},
         
-        # Trazabilidad de Ruta (Solo visible al finalizar)
-        {'type': 'file', 'name': 'archivo_track', 'label': 'Adjuntar archivo GPX/KML del track de la ruta (Opcional para mapeo topográfico)', 'relevant': "${tipo_punto} = 'fin'", 'required': 'no'}
+        # --- FOTOGRAFÍA UNIVERSAL (Para cualquier punto) ---
+        {'type': 'image', 'name': 'foto_punto', 'label': 'Evidencia fotográfica del lugar/punto (Opcional para Inicio/Fin, Recomendada para Bifurcaciones, Obligatoria para Riesgos/Evacuación)', 'required': 'no', 'appearance': 'new'},
+
+        # --- FIN DEL BUCLE ---
+        {'type': 'end_repeat', 'name': 'puntos_ruta'},
+        
+        # Trazabilidad de Ruta
+        {'type': 'file', 'name': 'archivo_track', 'label': 'Adjuntar archivo GPX/KML del track de la ruta (Al finalizar)', 'required': 'no'}
     ]
 
-    # 2. Pestaña 'choices' 
+    # 2. Pestaña 'choices'
     choices = [
-        # Integración de perfiles competentes para cumplimiento ISO 21101
         {'list_name': 'evaluador', 'name': 'liliana', 'label': 'Liliana Paola Rozo Martínez - Gerente General / Auditora'},
         {'list_name': 'evaluador', 'name': 'antonio', 'label': 'Antonio José Becerra Velásquez - Guía Turístico Profesional'},
         {'list_name': 'evaluador', 'name': 'alexander', 'label': 'Alexander Jimenez - Guía Turístico Profesional'},
         
-        # Servicios Operativos
         {'list_name': 'servicio', 'name': 'w_barichara', 'label': 'Servicio 1: Walking Tour Barichara'},
         {'list_name': 'servicio', 'name': 'w_bucaramanga', 'label': 'Servicio 2: Walking Tour Bucaramanga'},
         {'list_name': 'servicio', 'name': 'w_zapatoca', 'label': 'Servicio 3: Walking Tour Zapatoca'},
@@ -82,7 +92,6 @@ def generar_xlsform_sig():
         {'list_name': 'servicio', 'name': 't_f1_op1', 'label': 'Servicio 12: Trekking Fase 1 (Zapatoca a Los Santos)'},
         {'list_name': 'servicio', 'name': 't_f1_op2', 'label': 'Servicio 12: Trekking Fase 1 (Los Santos a Zapatoca)'},
         
-        # Categorías de Puntos
         {'list_name': 'tipo_punto', 'name': 'inicio', 'label': 'Inicio de ruta'},
         {'list_name': 'tipo_punto', 'name': 'fin', 'label': 'Fin de ruta'},
         {'list_name': 'tipo_punto', 'name': 'bifurcacion', 'label': 'Bifurcación / Desvío direccional'},
@@ -90,15 +99,13 @@ def generar_xlsform_sig():
         {'list_name': 'tipo_punto', 'name': 'punto_evac', 'label': 'Punto de Evacuación (Norma 8.2)'},
         {'list_name': 'tipo_punto', 'name': 'punto_interes', 'label': 'Punto de Confort / Sostenibilidad'},
         
-        # Riesgos Detallados
-        {'list_name': 'peligro_cat', 'name': 'topografico', 'label': 'Topográfico (Terreno suelto, abismos, caídas)'},
-        {'list_name': 'peligro_cat', 'name': 'biologico_fauna', 'label': 'Biológico Fauna (Garrapatas, serpientes, abejas)'},
-        {'list_name': 'peligro_cat', 'name': 'biologico_flora', 'label': 'Biológico Flora (Vegetación espinosa, plantas tóxicas)'},
-        {'list_name': 'peligro_cat', 'name': 'climatico', 'label': 'Climático (Exposición solar extrema, crecientes)'},
-        {'list_name': 'peligro_cat', 'name': 'antropico', 'label': 'Antrópico (Tránsito vehicular, zonas de caza)'},
+        {'list_name': 'peligro_cat', 'name': 'topografico', 'label': 'Topográfico (Terreno suelto, abismos)'},
+        {'list_name': 'peligro_cat', 'name': 'biologico_fauna', 'label': 'Biológico Fauna (Serpientes, abejas)'},
+        {'list_name': 'peligro_cat', 'name': 'biologico_flora', 'label': 'Biológico Flora (Vegetación espinosa)'},
+        {'list_name': 'peligro_cat', 'name': 'climatico', 'label': 'Climático (Exposición solar, crecientes)'},
+        {'list_name': 'peligro_cat', 'name': 'antropico', 'label': 'Antrópico (Tránsito, zonas de caza)'},
         {'list_name': 'peligro_cat', 'name': 'otro', 'label': 'Otro (Especificar)'},
         
-        # Matriz de Riesgo ISO
         {'list_name': 'posibilidad', 'name': 'improbable', 'label': 'Improbable'},
         {'list_name': 'posibilidad', 'name': 'posible', 'label': 'Posible'},
         {'list_name': 'posibilidad', 'name': 'probable', 'label': 'Probable'},
@@ -110,50 +117,47 @@ def generar_xlsform_sig():
         {'list_name': 'severidad', 'name': 'mayor', 'label': 'Mayor (Evacuación inmediata)'},
         {'list_name': 'severidad', 'name': 'catastrofica', 'label': 'Catastrófica'},
         
-        # Accesos y Evacuación
-        {'list_name': 'acceso', 'name': 'peatonal', 'label': 'Peatonal (Extracción en camilla SKED)'},
-        {'list_name': 'acceso', 'name': 'traccion', 'label': 'Tracción animal (Mulas/Caballos)'},
+        {'list_name': 'acceso', 'name': 'peatonal', 'label': 'Peatonal (Extracción en camilla)'},
+        {'list_name': 'acceso', 'name': 'traccion', 'label': 'Tracción animal (Mulas)'},
         {'list_name': 'acceso', 'name': '4x4', 'label': 'Vehicular 4x4'},
         {'list_name': 'acceso', 'name': 'remoto', 'label': 'Acceso remoto crítico (Helitransportado)'},
         {'list_name': 'acceso', 'name': 'otro', 'label': 'Otro (Especificar)'},
         
-        {'list_name': 'senal', 'name': 'ciega', 'label': 'Sin cobertura celular (Zona ciega)'},
+        {'list_name': 'senal', 'name': 'ciega', 'label': 'Sin cobertura celular'},
         {'list_name': 'senal', 'name': 'claro', 'label': 'Señal estable (Claro)'},
         {'list_name': 'senal', 'name': 'movistar', 'label': 'Señal estable (Movistar)'},
         {'list_name': 'senal', 'name': 'tigo', 'label': 'Señal estable (Tigo)'},
-        {'list_name': 'senal', 'name': 'otro', 'label': 'Otra red (Especificar)'},
+        {'list_name': 'senal', 'name': 'otro', 'label': 'Otra red'},
         
         {'list_name': 'tiempo_ext', 'name': 't30', 'label': '< 30 minutos'},
         {'list_name': 'tiempo_ext', 'name': 't60', 'label': '1 hora'},
         {'list_name': 'tiempo_ext', 'name': 't120', 'label': '2 a 3 horas'},
         {'list_name': 'tiempo_ext', 'name': 't_medio', 'label': 'Medio día'},
         {'list_name': 'tiempo_ext', 'name': 't_dia', 'label': 'Un día o más'},
-        {'list_name': 'tiempo_ext', 'name': 'otro', 'label': 'Otro (Especificar)'},
+        {'list_name': 'tiempo_ext', 'name': 'otro', 'label': 'Otro'},
         
-        # Confort y Sostenibilidad
         {'list_name': 'punto_int', 'name': 'descanso', 'label': 'Zona de sombra natural / Descanso'},
-        {'list_name': 'punto_int', 'name': 'relajacion', 'label': 'Zona de relajación / Contemplación'},
-        {'list_name': 'punto_int', 'name': 'dormir', 'label': 'Zona para dormir / Acampar / Refugio'},
-        {'list_name': 'punto_int', 'name': 'hidratacion', 'label': 'Punto hídrico (Reabastecimiento/Filtro)'},
-        {'list_name': 'punto_int', 'name': 'banos', 'label': 'Servicios sanitarios / Baños / Letrinas'},
-        {'list_name': 'punto_int', 'name': 'alimentacion', 'label': 'Zona de alimentación / Picnic / Restaurante local'},
-        {'list_name': 'punto_int', 'name': 'mirador', 'label': 'Mirador panorámico / Punto fotográfico'},
-        {'list_name': 'punto_int', 'name': 'comunidad', 'label': 'Interacción comunitaria / Taller artesanal local'},
-        {'list_name': 'punto_int', 'name': 'avifauna', 'label': 'Observación de avifauna / Fauna (Bosque seco)'},
-        {'list_name': 'punto_int', 'name': 'patrimonio', 'label': 'Patrimonio arquitectónico / Camino ancestral'},
-        {'list_name': 'punto_int', 'name': 'otro', 'label': 'Otro (Especificar)'}
+        {'list_name': 'punto_int', 'name': 'relajacion', 'label': 'Zona de relajación'},
+        {'list_name': 'punto_int', 'name': 'dormir', 'label': 'Zona para acampar / Refugio'},
+        {'list_name': 'punto_int', 'name': 'hidratacion', 'label': 'Punto hídrico'},
+        {'list_name': 'punto_int', 'name': 'banos', 'label': 'Servicios sanitarios'},
+        {'list_name': 'punto_int', 'name': 'alimentacion', 'label': 'Zona de alimentación'},
+        {'list_name': 'punto_int', 'name': 'mirador', 'label': 'Mirador panorámico'},
+        {'list_name': 'punto_int', 'name': 'comunidad', 'label': 'Interacción comunitaria'},
+        {'list_name': 'punto_int', 'name': 'avifauna', 'label': 'Observación de avifauna'},
+        {'list_name': 'punto_int', 'name': 'patrimonio', 'label': 'Patrimonio arquitectónico'},
+        {'list_name': 'punto_int', 'name': 'otro', 'label': 'Otro'}
     ]
 
     # 3. Pestaña 'settings'
     settings = [{
         'form_title': 'Validación SIG ISO 21101 - Mot Mot Experiencias',
-        'form_id': 'sig_motmot_v5',
+        'form_id': 'sig_motmot_v7',
         'default_language': 'Español',
         'style': 'theme-grid',
         'logo': 'logo_motmot.png'
     }]
 
-    # Generación y Formato Premium
     nombre_archivo = 'SIG_MotMot_Validacion_Campo.xlsx'
     writer = pd.ExcelWriter(nombre_archivo, engine='xlsxwriter')
     
@@ -165,14 +169,11 @@ def generar_xlsform_sig():
     
     formato_header = workbook.add_format({
         'bold': True, 'text_wrap': True, 'valign': 'vcenter', 'align': 'center',
-        'fg_color': '#DE4A25', 'font_color': 'white', 'border': 1,
-        'font_name': 'Arial', 'font_size': 11
+        'fg_color': '#DE4A25', 'font_color': 'white', 'border': 1, 'font_name': 'Arial', 'font_size': 11
     })
     
     formato_celdas = workbook.add_format({
-        'valign': 'vcenter', 'text_wrap': True,
-        'border': 1, 'border_color': '#8BBFBB',
-        'font_name': 'Arial', 'font_size': 10
+        'valign': 'vcenter', 'text_wrap': True, 'border': 1, 'border_color': '#8BBFBB', 'font_name': 'Arial', 'font_size': 10
     })
     
     df_survey = pd.DataFrame(survey)
@@ -183,14 +184,9 @@ def generar_xlsform_sig():
         worksheet = writer.sheets[sheet_name]
         worksheet.set_row(0, 30)
         worksheet.set_column('A:F', 28, formato_celdas)
-        
         for col_num, value in enumerate(df_survey.columns if sheet_name == 'survey' else (df_choices.columns if sheet_name == 'choices' else df_settings.columns)):
             worksheet.write(0, col_num, value, formato_header)
             
-    for r in range(len(df_survey)): writer.sheets['survey'].set_row(r+1, 20)
-    for r in range(len(df_choices)): writer.sheets['choices'].set_row(r+1, 20)
-    for r in range(len(df_settings)): writer.sheets['settings'].set_row(r+1, 100)
-
     try:
         url_logo = "https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/cropped-logo-foto-de-perfil-instagram-1.png"
         req = urllib.request.Request(url_logo, headers={'User-Agent': 'Mozilla/5.0'})
@@ -200,7 +196,6 @@ def generar_xlsform_sig():
         pass
 
     writer.close()
-    print(f"¡Éxito total! Archivo {nombre_archivo} generado exitosamente. Listo para actualización.")
+    print(f"¡Éxito total! Archivo {nombre_archivo} generado exitosamente. Listo para subir a KoboToolbox.")
 
-# Ejecutar
 generar_xlsform_sig()
