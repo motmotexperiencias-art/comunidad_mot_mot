@@ -8,90 +8,92 @@ from io import BytesIO
 # 1. Configuración de página
 st.set_page_config(page_title="COMMAND CENTER - ISO 21101", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. CSS Avanzado (Corregido para Celulares y Pestañas)
+# 2. CSS Avanzado - DISEÑO "NATURALEZA / WIKILOC" (Clean UI)
 st.markdown("""
     <style>
-    .stApp { background-color: #050A15; background-image: radial-gradient(circle at 50% 0%, #0F1A2C 0%, #050A15 80%); color: #E2E8F0; }
-    h1, h2, h3, h4 { color: #FFFFFF; font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 700; letter-spacing: -0.5px; }
-    p, div, span { font-family: 'Segoe UI', Tahoma, sans-serif; }
+    /* Fondo principal súper limpio y claro */
+    .stApp { background-color: #F7F9FC; color: #1F2937; }
+    h1, h2, h3, h4 { color: #111827; font-family: 'Segoe UI', Roboto, sans-serif; font-weight: 800; letter-spacing: -0.5px; }
+    p, div, span { font-family: 'Segoe UI', Roboto, sans-serif; color: #374151; }
     
-    /* Métricas */
-    div[data-testid="stMetric"] { background: rgba(15, 26, 44, 0.7); border: 1px solid #1E2D4A; padding: 15px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); backdrop-filter: blur(10px); transition: transform 0.3s ease; }
-    div[data-testid="stMetric"]:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2); }
-    div[data-testid="stMetricValue"] { font-size: 1.8rem !important; color: #38BDF8; font-weight: 900; }
-    div[data-testid="stMetricLabel"] p { font-size: 1rem !important; color: #FFFFFF !important; white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
-    
-    /* Bóveda y Botones (100% RESPONSIVOS PARA CELULAR) */
-    .login-container { display: flex; flex-direction: column; align-items: center; text-align: center; background: transparent; padding: 40px; }
+    /* Bóveda y Logo */
+    .login-container { display: flex; flex-direction: column; align-items: center; text-align: center; background: #FFFFFF; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #E5E7EB; }
     .logo-container { display: flex; justify-content: center; margin-bottom: 20px; }
     
-    div[data-testid="stButton"] button, div[data-testid="stLinkButton"] a { 
-        background: linear-gradient(90deg, #DE4A25, #FF5A33) !important; 
-        color: white !important; 
-        font-weight: bold !important; 
+    /* Métricas con diseño limpio tipo App Deportiva */
+    div[data-testid="stMetric"] { background: #FFFFFF; border: 1px solid #E5E7EB; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.2s ease; }
+    div[data-testid="stMetric"]:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.05); border-color: #DE4A25; }
+    div[data-testid="stMetricValue"] { font-size: 2rem !important; color: #111827; font-weight: 900; }
+    div[data-testid="stMetricLabel"] p { font-size: 0.95rem !important; color: #6B7280 !important; font-weight: 600; white-space: normal !important; overflow: visible !important; }
+    
+    /* Pestañas (Tabs) rediseñadas: Limpias, sutiles y modernas (Estilo iOS) */
+    .stTabs [data-baseweb="tab-list"] { 
+        background-color: #E5E7EB !important; 
+        border-radius: 12px !important;
+        padding: 5px !important;
+        gap: 5px; 
+        display: flex; 
+        flex-wrap: wrap; 
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .stTabs [data-baseweb="tab"] { 
+        background: transparent !important; 
         border-radius: 8px !important; 
         border: none !important; 
-        box-shadow: 0 0 15px rgba(222, 74, 37, 0.5) !important; 
-        transition: all 0.3s ease !important; 
-        padding: 15px 10px !important; 
-        white-space: normal !important; /* Permite que el texto baje de línea */
-        word-wrap: break-word !important; 
-        height: auto !important; /* Evita cortes verticales */
+        padding: 10px 15px !important; 
+        flex: 1;
+        min-width: 140px;
+        text-align: center;
+        transition: all 0.2s ease;
+    }
+    .stTabs [data-baseweb="tab"] p { 
+        color: #6B7280 !important; 
+        font-weight: 700 !important; 
+        font-size: 1.05rem !important; 
+        margin: 0; 
+    }
+    .stTabs [aria-selected="true"] { 
+        background: #FFFFFF !important; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.08) !important; 
+    }
+    .stTabs [aria-selected="true"] p { color: #DE4A25 !important; font-weight: 900 !important;}
+    
+    /* Botones de acción principales (Naranja Marca) */
+    div[data-testid="stButton"] button, div[data-testid="stLinkButton"] a { 
+        background: #DE4A25 !important; 
+        color: white !important; 
+        font-weight: 800 !important; 
+        border-radius: 10px !important; 
+        border: none !important; 
+        box-shadow: 0 4px 6px rgba(222, 74, 37, 0.2) !important; 
+        transition: all 0.2s ease !important; 
+        padding: 15px 15px !important; 
+        white-space: normal !important;
+        height: auto !important;
         min-height: 55px !important; 
         display: inline-flex !important; 
         align-items: center !important; 
         justify-content: center !important; 
         text-align: center !important;
-        line-height: 1.3 !important;
-        width: 100% !important; /* Obliga a no salirse de la pantalla */
+        width: 100% !important; 
         text-decoration: none !important;
     }
     div[data-testid="stButton"] button:hover, div[data-testid="stLinkButton"] a:hover { 
-        background: linear-gradient(90deg, #FF5A33, #DE4A25) !important; 
-        box-shadow: 0 0 30px rgba(222, 74, 37, 0.9) !important; 
-        transform: scale(1.03) !important; 
+        background: #C43B1D !important; 
+        box-shadow: 0 6px 12px rgba(222, 74, 37, 0.3) !important; 
+        transform: translateY(-2px) !important; 
     }
-    div[data-testid="stButton"] button p, div[data-testid="stLinkButton"] a p { margin: 0 !important; }
+    div[data-testid="stButton"] button p, div[data-testid="stLinkButton"] a p { margin: 0 !important; color: white !important; font-size: 1.1rem; }
     
-    /* Pestañas (Tabs) convertidas a botones táctiles de App */
-    .stTabs [data-baseweb="tab-list"] { 
-        background-color: transparent !important; 
-        gap: 12px; 
-        display: flex; 
-        flex-wrap: wrap; 
-        justify-content: center;
-        padding-bottom: 20px;
-    }
-    .stTabs [data-baseweb="tab"] { 
-        background: linear-gradient(145deg, #1E2D4A, #0F1A2C) !important; 
-        border-radius: 10px !important; 
-        border: 1px solid #38BDF8 !important; 
-        padding: 12px 25px !important; 
-        flex: 1;
-        min-width: 150px;
-        text-align: center;
-        box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-        transition: all 0.2s ease;
-    }
-    .stTabs [data-baseweb="tab"] p { 
-        color: #8BBFBB !important; 
-        font-weight: 800 !important; 
-        font-size: 1.1rem !important; 
-        margin: 0; 
-    }
-    .stTabs [aria-selected="true"] { 
-        background: linear-gradient(145deg, #DE4A25, #FF5A33) !important; 
-        border: 1px solid #FFFFFF !important; 
-        box-shadow: 0 0 20px rgba(222, 74, 37, 0.7) !important; 
-        transform: scale(1.02);
-    }
-    .stTabs [aria-selected="true"] p { color: #FFFFFF !important; }
+    /* Tarjetas de Expediente (Blancas y limpias) */
+    .tarjeta-expediente { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border-left: 6px solid #DE4A25; }
+    .tarjeta-expediente h4 { color: #DE4A25; margin-top: 0; font-weight: 800; }
+    .tarjeta-verde { border-color: #E5E7EB; border-left: 6px solid #16A34A; }
+    .tarjeta-verde h4 { color: #16A34A; }
     
-    /* Tarjetas de Expediente */
-    .tarjeta-expediente { background: rgba(15, 26, 44, 0.9); border: 1px solid #DE4A25; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(222, 74, 37, 0.3); border-left: 5px solid #DE4A25; }
-    .tarjeta-expediente h4 { color: #38BDF8; margin-top: 0; }
-    .tarjeta-verde { border-color: #00FF00; box-shadow: 0 0 15px rgba(0, 255, 0, 0.2); border-left: 5px solid #00FF00; }
-    .stDataFrame { filter: invert(0.9) hue-rotate(180deg); }
+    /* Quitamos el filtro invertido de las tablas para que sean blancas normales */
+    .stDataFrame { filter: none !important; border-radius: 8px; overflow: hidden; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -105,15 +107,15 @@ if not st.session_state.autenticado:
         st.markdown("<br><br><br>", unsafe_allow_html=True)
         st.markdown('<div class="login-container">', unsafe_allow_html=True)
         st.markdown('<div class="logo-container"><img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/cropped-logo-foto-de-perfil-instagram-1.png" width="120"></div>', unsafe_allow_html=True)
-        st.markdown("<h2 style='color: #DE4A25;'>NÚCLEO DE AUDITORÍA ISO 21101</h2>", unsafe_allow_html=True)
-        st.markdown("🔒 **ACCESO RESTRINGIDO | CONEXIÓN SATELITAL KOBO ACTIVA**")
-        pwd = st.text_input("Ingrese llave criptográfica de nómina:", type="password")
+        st.markdown("<h2 style='color: #111827;'>PORTAL DE AUDITORÍA</h2>", unsafe_allow_html=True)
+        st.markdown("<p style='color: #6B7280;'>Sistema de Gestión de Riesgos ISO 21101</p>", unsafe_allow_html=True)
+        pwd = st.text_input("Llave de acceso:", type="password", placeholder="Ingrese su clave...")
         if st.button("DESBLOQUEAR SISTEMA", use_container_width=True):
             if pwd == "Nomina2026.":
                 st.session_state.autenticado = True
                 st.rerun()
             else:
-                st.error("⚠️ BRECHA DETECTADA. CONTRASEÑA INCORRECTA.")
+                st.error("⚠️ Clave incorrecta. Intente nuevamente.")
         st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
@@ -149,7 +151,6 @@ def cargar_datos_kobo():
                 tipo_punto = row.get('tipo_punto')
                 gps = row.get('ubicacion_gps')
                 
-                # Extracción de URL de imagen segura
                 foto_nombre = row.get('grupo_riesgo/foto_peligro') or row.get('grupo_emergencia/foto_evac')
                 adjuntos = row.get('_attachments', [])
                 foto_url = None
@@ -185,7 +186,6 @@ def obtener_imagen_kobo(url):
     return None
 
 df_kobo = cargar_datos_kobo()
-
 estado_rutas = []
 rutas_certificadas = 0
 
@@ -206,63 +206,64 @@ df_auditoria = pd.DataFrame(estado_rutas)
 porcentaje_total = (rutas_certificadas / len(catalogo_servicios)) * 100
 
 # --- 5. INTERFAZ TÁCTICA MULTIPESTAÑA ---
-st.markdown("<h1 style='color: #DE4A25; font-size: 2.5rem; text-align: center;'>SISTEMA DE GESTIÓN DE RIESGOS NTC-ISO 21101</h1>", unsafe_allow_html=True)
-st.markdown("---")
+st.markdown("<h1 style='color: #111827; font-size: 2.2rem; text-align: center;'>SISTEMA DE GESTIÓN ISO 21101</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #6B7280; font-size: 1.1rem; margin-bottom: 30px;'>Mot Mot Experiencias - Panel de Control Operativo</p>", unsafe_allow_html=True)
 
-tab1, tab2, tab3 = st.tabs(["🛰️ CENTRO DE REGISTRO", "📊 DASHBOARD GLOBAL", "📂 EXPEDIENTES DE RUTA"])
+tab1, tab2, tab3 = st.tabs(["🛰️ REGISTRO", "📊 DASHBOARD", "📂 EXPEDIENTES"])
 
 # PESTAÑA 1: INGRESO DE DATOS
 with tab1:
     col_izq, col_der = st.columns([1, 1])
     with col_izq:
-        st.markdown("<h3 style='color: #38BDF8;'>Ejecución de Auditoría en Terreno</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: #111827;'>Auditoría en Terreno</h3>", unsafe_allow_html=True)
         st.markdown("""
         **Instrucciones Operativas:**
-        1. Toda ruta requiere obligatoriamente registrar el **Inicio** y el **Fin** para validarse al 100%.
-        2. Registre las zonas de riesgo topográfico, biológico o climático adjuntando evidencia visual in situ.
-        3. Para operación sin conexión, descargue el formulario previamente mediante KoboCollect.
+        1. Toda ruta requiere registrar el **Inicio** y el **Fin** para validarse al 100%.
+        2. Registre las zonas de riesgo topográfico o biológico con evidencia visual in situ.
+        3. El formulario funciona sin conexión usando la app KoboCollect.
         """)
     with col_der:
         st.markdown("<br><br>", unsafe_allow_html=True)
-        # El botón ahora se acomodará perfectamente a la pantalla del celular gracias al CSS superior
         st.link_button("📡 ABRIR FORMULARIO SATELITAL (EVALUADOR)", "https://ee.kobotoolbox.org/x/ibbsQweo", use_container_width=True)
 
 # PESTAÑA 2: DASHBOARD GLOBAL
 with tab2:
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("CATÁLOGO TOTAL", f"{len(catalogo_servicios)} TRAYECTOS")
-    col2.metric("RUTAS VALIDADAS (🟢)", f"{len(df_auditoria[df_auditoria['Progreso'] == 100])}")
-    col3.metric("EN TRÁNSITO (🟡)", f"{len(df_auditoria[df_auditoria['Progreso'] == 50])}")
-    col4.metric("PENDIENTES (🔴)", f"{len(df_auditoria[df_auditoria['Progreso'] == 0])}")
+    col1.metric("CATÁLOGO TOTAL", f"{len(catalogo_servicios)}")
+    col2.metric("RUTAS VALIDADAS 🟢", f"{len(df_auditoria[df_auditoria['Progreso'] == 100])}")
+    col3.metric("EN TRÁNSITO 🟡", f"{len(df_auditoria[df_auditoria['Progreso'] == 50])}")
+    col4.metric("PENDIENTES 🔴", f"{len(df_auditoria[df_auditoria['Progreso'] == 0])}")
 
     st.markdown("<br>", unsafe_allow_html=True)
     colA, colB = st.columns([1.2, 2])
 
     with colA:
-        st.markdown("<h4 style='color: #38BDF8;'>PROGRESO DE CERTIFICACIÓN</h4>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color: #111827; text-align: center;'>PROGRESO DE CERTIFICACIÓN</h4>", unsafe_allow_html=True)
         fig_gauge = go.Figure(go.Indicator(
-            mode = "gauge+number", value = porcentaje_total, number = {'suffix': "%", 'font': {'color': '#38BDF8'}}, domain = {'x': [0, 1], 'y': [0, 1]},
-            gauge = {'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "white"}, 'bar': {'color': "#DE4A25"}, 'bgcolor': "rgba(0,0,0,0)", 'borderwidth': 2, 'bordercolor': "#1E2D4A",
-                     'steps': [{'range': [0, 33], 'color': "rgba(255, 51, 51, 0.2)"}, {'range': [33, 66], 'color': "rgba(255, 204, 0, 0.2)"}, {'range': [66, 100], 'color': "rgba(0, 255, 0, 0.2)"}]}
+            mode = "gauge+number", value = porcentaje_total, number = {'suffix': "%", 'font': {'color': '#111827', 'size': 40}}, domain = {'x': [0, 1], 'y': [0, 1]},
+            gauge = {'axis': {'range': [None, 100], 'tickwidth': 1, 'tickcolor': "#374151"}, 'bar': {'color': "#16A34A"}, 'bgcolor': "#F3F4F6", 'borderwidth': 0,
+                     'steps': [{'range': [0, 33], 'color': "#FEE2E2"}, {'range': [33, 66], 'color': "#FEF3C7"}, {'range': [66, 100], 'color': "#D1FAE5"}]}
         ))
-        fig_gauge.update_layout(paper_bgcolor="rgba(0,0,0,0)", font={'color': "white"}, margin=dict(t=20, b=20, l=20, r=20), height=300)
+        fig_gauge.update_layout(paper_bgcolor="rgba(0,0,0,0)", font={'color': "#111827"}, margin=dict(t=20, b=20, l=20, r=20), height=300)
         st.plotly_chart(fig_gauge, use_container_width=True)
 
     with colB:
-        st.markdown("<h4 style='color: #38BDF8;'>MATRIZ DE OPERACIONES (EN VIVO)</h4>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color: #111827;'>MATRIZ DE OPERACIONES (EN VIVO)</h4>", unsafe_allow_html=True)
+        # Colores suaves para la tabla
         st.dataframe(
             df_auditoria.style.map(
-                lambda x: 'background-color: rgba(255,51,51,0.2); color: #FF3333' if '🔴' in str(x) else ('background-color: rgba(255,204,0,0.2); color: #FFCC00' if '🟡' in str(x) else 'background-color: rgba(0,255,0,0.2); color: #00FF00'), 
+                lambda x: 'background-color: #FEE2E2; color: #991B1B' if '🔴' in str(x) else ('background-color: #FEF3C7; color: #92400E' if '🟡' in str(x) else 'background-color: #D1FAE5; color: #065F46'), 
                 subset=['Estado ISO 21101']
             ), use_container_width=True, height=320
         )
 
     if not df_kobo.empty:
-        st.markdown("<h4 style='color: #38BDF8; margin-top: 20px;'>RADAR TOPOGRÁFICO</h4>", unsafe_allow_html=True)
+        st.markdown("<h4 style='color: #111827; margin-top: 20px;'>RADAR DE RUTAS (TOPOGRÁFICO)</h4>", unsafe_allow_html=True)
+        # Cambio a mapa claro diurno (carto-positron)
         fig_map = px.scatter_map(df_kobo, lat="latitud", lon="longitud", color="tipo_punto",
-                                    color_discrete_map={'inicio':'#00FF00', 'fin':'#DE4A25', 'zona_riesgo':'#FFCC00', 'punto_evac':'#38BDF8', 'punto_interes':'#FFFFFF'},
-                                    zoom=9, map_style="carto-darkmatter", size_max=15, hover_name="servicio")
-        fig_map.update_traces(marker=dict(size=12, opacity=0.8))
+                                    color_discrete_map={'inicio':'#16A34A', 'fin':'#DE4A25', 'zona_riesgo':'#F59E0B', 'punto_evac':'#3B82F6', 'punto_interes':'#8B5CF6'},
+                                    zoom=9, map_style="carto-positron", size_max=15, hover_name="servicio")
+        fig_map.update_traces(marker=dict(size=14, opacity=0.9, line=dict(width=1, color='white')))
         fig_map.update_layout(paper_bgcolor="rgba(0,0,0,0)", margin=dict(t=0, b=0, l=0, r=0))
         st.plotly_chart(fig_map, use_container_width=True)
 
@@ -275,7 +276,6 @@ with tab3:
         nombres_rutas = {cod: catalogo_servicios.get(cod, cod) for cod in rutas_activas}
         
         ruta_seleccionada = st.selectbox("Seleccione un expediente de ruta para auditar:", options=list(nombres_rutas.keys()), format_func=lambda x: nombres_rutas[x])
-        
         datos_ruta_activa = df_kobo[df_kobo['servicio'] == ruta_seleccionada]
         
         for index, row in datos_ruta_activa.iterrows():
@@ -288,21 +288,21 @@ with tab3:
             with col_info:
                 st.markdown(f"#### Punto: {tipo.replace('_', ' ').upper()}")
                 st.write(f"**📍 Coordenadas:** {row['latitud']}, {row['longitud']}")
-                st.write(f"**👤 Auditor:** {row['evaluador'].title()}")
+                st.write(f"**👤 Auditor:** {str(row['evaluador']).title().replace('_', ' ')}")
                 
                 if tipo == 'zona_riesgo':
-                    st.write(f"**⚠️ Categoría de Peligro:** {row['peligro_cat'].title()}")
+                    st.write(f"**⚠️ Peligro:** {str(row['peligro_cat']).title()}")
                     st.write(f"**📄 Descripción:** {row['peligro_desc']}")
-                    st.write(f"**🛡️ Medida de Mitigación:** {row['control_situ']}")
+                    st.write(f"**🛡️ Mitigación:** {row['control_situ']}")
             
             with col_img:
                 if row['foto_url']:
                     imagen = obtener_imagen_kobo(row['foto_url'])
                     if imagen:
-                        st.image(imagen, use_container_width=True, caption="Evidencia in situ")
+                        st.image(imagen, use_container_width=True, caption="Evidencia fotográfica")
                     else:
-                        st.warning("No se pudo desencriptar la imagen.")
+                        st.warning("Imagen no disponible o encriptada.")
                 else:
-                    st.write("*(Sin evidencia fotográfica requerida para este punto)*")
+                    st.write("*(Sin fotografía adjunta)*")
             
             st.markdown('</div>', unsafe_allow_html=True)
