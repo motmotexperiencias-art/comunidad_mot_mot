@@ -68,7 +68,7 @@ if not st.session_state.autenticado:
         pwd = st.text_input("PIN", type="password", label_visibility="collapsed", placeholder="Ingresar PIN...")
         st.markdown("<br>", unsafe_allow_html=True)
         if st.button("VALIDAR", use_container_width=True):
-            if pwd.lower().strip() == "caminando":
+            if pwd.strip() == "2026":
                 st.session_state.autenticado = True
                 st.rerun()
             else:
@@ -144,7 +144,8 @@ def obtener_imagen_kobo(url):
     try:
         res = requests.get(url, headers={"Authorization": TOKEN_KOBO})
         if res.status_code == 200: return BytesIO(res.content)
-    except: pass
+    except: 
+        pass
     return None
 
 df_kobo = cargar_datos_kobo()
@@ -176,7 +177,8 @@ with tab1:
     st.markdown("<br><h4 style='text-align: center;'>Auditoría en Terreno</h4>", unsafe_allow_html=True)
     st.markdown("<div style='text-align: center; color: #6B7280; font-size: 0.95rem; margin-bottom: 30px;'>Inicie la validación marcando el Inicio y Fin de ruta.</div>", unsafe_allow_html=True)
     col_izq, col_centro, col_der = st.columns([1, 4, 1])
-    with col_centro: st.link_button("ABRIR VALIDACIÓN SATELITAL", "https://ee.kobotoolbox.org/x/ibbsQweo", use_container_width=True)
+    with col_centro: 
+        st.link_button("ABRIR VALIDACIÓN SATELITAL", "https://ee.kobotoolbox.org/x/ibbsQweo", use_container_width=True)
 
 with tab2:
     st.markdown("<br>", unsafe_allow_html=True)
