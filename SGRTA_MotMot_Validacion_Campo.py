@@ -2,62 +2,63 @@ import pandas as pd
 import xlsxwriter
 from io import BytesIO
 import urllib.request
+import urllib.error
+import ssl
 
 def generar_xlsform_sig():
+    # Evitar problemas de certificado SSL al descargar el logo
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+
     # 1. Pestaña 'survey'
     survey = [
-        # --- METADATOS (Se preguntan una sola vez al inicio del día) ---
-        {'type': 'select_one evaluador', 'name': 'evaluador', 'label': 'Nombre del evaluador', 'required': 'yes', 'appearance': 'minimal'},
-        {'type': 'select_one servicio', 'name': 'servicio', 'label': 'Servicio operativo a evaluar', 'required': 'yes'},
-        {'type': 'note', 'name': 'nota_ayuda', 'label': '💡 Use el botón "+" para agregar todos los puntos y riesgos que encuentre en el camino sin salir del formulario.'},
+        # --- METADATOS (El guía puede configurar la app para que recuerde estas 2 respuestas) ---
+        {'type': 'select_one evaluador', 'name': 'evaluador', 'label': '1. Nombre del evaluador', 'required': 'yes', 'appearance': 'minimal'},
+        {'type': 'select_one servicio', 'name': 'servicio', 'label': '2. Ruta a evaluar', 'required': 'yes'},
         
-        # --- INICIO DEL BUCLE ---
-        {'type': 'begin_repeat', 'name': 'puntos_ruta', 'label': '📍 Agregar Punto en la Ruta'},
-        
-        {'type': 'select_one tipo_punto', 'name': 'tipo_punto', 'label': 'Tipo de punto evaluado', 'required': 'yes'},
-        {'type': 'geopoint', 'name': 'ubicacion_gps', 'label': 'Capturar ubicación GPS exacta (Registra Altitud/Desnivel)', 'required': 'yes'},
+        # --- EL PUNTO A REPORTAR ---
+        {'type': 'select_one tipo_punto', 'name': 'tipo_punto', 'label': '3. ¿Qué vas a reportar aquí?', 'required': 'yes'},
+        {'type': 'geopoint', 'name': 'ubicacion_gps', 'label': '4. Capturar ubicación GPS exacta', 'required': 'yes'},
         
         # --- BIFURCACIONES (Instrucciones) ---
         {'type': 'text', 'name': 'instruccion_bifurcacion', 'label': 'Instrucciones: ¿Qué camino tomar en esta bifurcación?', 'relevant': "${tipo_punto} = 'bifurcacion'", 'required': 'yes'},
 
-        # Identificación y Evaluación del Riesgo (ISO 21101 - A.3)
+        # --- Identificación y Evaluación del Riesgo (ISO 21101 - A.3) ---
         {'type': 'begin_group', 'name': 'grupo_riesgo', 'label': 'Evaluación de Riesgo', 'relevant': "${tipo_punto} = 'zona_riesgo'"},
         {'type': 'select_one peligro_cat', 'name': 'peligro_cat', 'label': 'Categoría del peligro', 'required': 'yes'},
         {'type': 'text', 'name': 'peligro_otro', 'label': 'Especifique otro tipo de peligro', 'relevant': "selected(${peligro_cat}, 'otro')", 'required': 'yes'},
-        {'type': 'text', 'name': 'peligro_desc', 'label': 'Descripción específica del peligro en el entorno', 'required': 'yes'},
+        {'type': 'text', 'name': 'peligro_desc', 'label': 'Descripción específica del peligro', 'required': 'yes'},
         {'type': 'select_one posibilidad', 'name': 'posibilidad', 'label': 'Posibilidad de ocurrencia', 'required': 'yes'},
-        {'type': 'select_one severidad', 'name': 'severidad', 'label': 'Severidad de la consecuencia', 'required': 'yes'},
-        {'type': 'text', 'name': 'control_situ', 'label': 'Medida de control propuesta in situ (Evitar/Mitigar)', 'required': 'yes'},
+        {'type': 'select_one severidad', 'name': 'severidad', 'label': 'Severidad', 'required': 'yes'},
+        {'type': 'text', 'name': 'control_situ', 'label': 'Medida de control in situ (Evitar/Mitigar)', 'required': 'yes'},
         {'type': 'end_group', 'name': 'grupo_riesgo'},
         
-        # Respuesta ante Emergencias (ISO 21101 - 8.2)
-        {'type': 'begin_group', 'name': 'grupo_emergencia', 'label': 'Logística de Evacuación y Apoyo', 'relevant': "${tipo_punto} = 'punto_evac'"},
+        # --- Respuesta ante Emergencias (ISO 21101 - 8.2) ---
+        {'type': 'begin_group', 'name': 'grupo_emergencia', 'label': 'Punto de Evacuación / Rescate', 'relevant': "${tipo_punto} = 'punto_evac'"},
         {'type': 'select_multiple acceso', 'name': 'acceso_evac', 'label': 'Viabilidad de acceso para rescate', 'required': 'yes'},
-        {'type': 'text', 'name': 'acceso_otro', 'label': 'Especifique otro método de acceso', 'relevant': "selected(${acceso_evac}, 'otro')", 'required': 'yes'},
-        {'type': 'select_one senal', 'name': 'cobertura_senal', 'label': 'Cobertura de telecomunicaciones celular', 'required': 'yes'},
-        {'type': 'text', 'name': 'senal_otra', 'label': 'Especifique la red celular', 'relevant': "selected(${cobertura_senal}, 'otro')", 'required': 'yes'},
-        {'type': 'select_one tiempo_ext', 'name': 'tiempo_evacuacion', 'label': 'Tiempo estimado de evacuación a centro médico', 'required': 'yes'},
-        {'type': 'text', 'name': 'tiempo_evac_otro', 'label': 'Especifique el tiempo exacto estimado', 'relevant': "selected(${tiempo_evacuacion}, 'otro')", 'required': 'yes'},
-        {'type': 'text', 'name': 'red_apoyo', 'label': 'Punto de refugio, finca o contacto local adicional (Opcional)', 'required': 'no'},
-        {'type': 'text', 'name': 'tel_emergencia', 'label': 'Teléfono del refugio o contacto local (Opcional)', 'required': 'no', 'appearance': 'numbers'},
+        {'type': 'text', 'name': 'acceso_otro', 'label': 'Especifique otro método', 'relevant': "selected(${acceso_evac}, 'otro')", 'required': 'yes'},
+        {'type': 'select_one senal', 'name': 'cobertura_senal', 'label': 'Cobertura celular', 'required': 'yes'},
+        {'type': 'text', 'name': 'senal_otra', 'label': 'Especifique red celular', 'relevant': "selected(${cobertura_senal}, 'otro')", 'required': 'yes'},
+        {'type': 'select_one tiempo_ext', 'name': 'tiempo_evacuacion', 'label': 'Tiempo estimado de evacuación', 'required': 'yes'},
+        {'type': 'text', 'name': 'tiempo_evac_otro', 'label': 'Especifique el tiempo exacto', 'relevant': "selected(${tiempo_evacuacion}, 'otro')", 'required': 'yes'},
+        {'type': 'text', 'name': 'red_apoyo', 'label': 'Finca o contacto local (Opcional)', 'required': 'no'},
+        {'type': 'text', 'name': 'tel_emergencia', 'label': 'Teléfono del contacto (Opcional)', 'required': 'no', 'appearance': 'numbers'},
         {'type': 'end_group', 'name': 'grupo_emergencia'},
         
-        # Puntos de Interés / Confort
-        {'type': 'begin_group', 'name': 'grupo_interes', 'label': 'Interpretación y Confort Logístico', 'relevant': "${tipo_punto} = 'punto_interes'"},
+        # --- Puntos de Interés / Confort ---
+        {'type': 'begin_group', 'name': 'grupo_interes', 'label': 'Punto de Confort / Interés', 'relevant': "${tipo_punto} = 'punto_interes'"},
         {'type': 'select_multiple punto_int', 'name': 'cat_interes', 'label': 'Categoría del punto', 'required': 'yes'},
-        {'type': 'text', 'name': 'interes_otro', 'label': 'Especifique otro punto de interés', 'relevant': "selected(${cat_interes}, 'otro')", 'required': 'yes'},
-        {'type': 'text', 'name': 'guion_guia', 'label': 'Guion interpretativo / Información de valor a transmitir', 'required': 'no'},
+        {'type': 'text', 'name': 'interes_otro', 'label': 'Especifique otro', 'relevant': "selected(${cat_interes}, 'otro')", 'required': 'yes'},
+        {'type': 'text', 'name': 'guion_guia', 'label': 'Guion interpretativo (Opcional)', 'required': 'no'},
         {'type': 'text', 'name': 'obs_logistica', 'label': 'Observaciones logísticas', 'required': 'no'},
         {'type': 'end_group', 'name': 'grupo_interes'},
         
-        # --- FOTOGRAFÍA UNIVERSAL (Para cualquier punto) ---
-        {'type': 'image', 'name': 'foto_punto', 'label': 'Evidencia fotográfica del lugar/punto (Opcional para Inicio/Fin, Recomendada para Bifurcaciones, Obligatoria para Riesgos/Evacuación)', 'required': 'no', 'appearance': 'new'},
-
-        # --- FIN DEL BUCLE ---
-        {'type': 'end_repeat', 'name': 'puntos_ruta'},
+        # --- FOTOGRAFÍA UNIVERSAL (Para cualquier punto, obligatoria solo para Riesgos/Evac) ---
+        {'type': 'image', 'name': 'foto_punto', 'label': '📸 Evidencia fotográfica del lugar', 'required': 'no', 'appearance': 'new'},
         
-        # Trazabilidad de Ruta
-        {'type': 'file', 'name': 'archivo_track', 'label': 'Adjuntar archivo GPX/KML del track de la ruta (Al finalizar)', 'required': 'no'}
+        # --- TRACK DE RUTA (Solo al terminar) ---
+        {'type': 'file', 'name': 'archivo_track', 'label': '🗺️ Adjuntar archivo GPX/KML del track (Solo al llegar al final)', 'relevant': "${tipo_punto} = 'fin'", 'required': 'no'}
     ]
 
     # 2. Pestaña 'choices'
@@ -111,17 +112,17 @@ def generar_xlsform_sig():
         {'list_name': 'posibilidad', 'name': 'probable', 'label': 'Probable'},
         {'list_name': 'posibilidad', 'name': 'casi_seguro', 'label': 'Casi seguro'},
         
-        {'list_name': 'severidad', 'name': 'insignificante', 'label': 'Insignificante (Sin lesiones)'},
-        {'list_name': 'severidad', 'name': 'menor', 'label': 'Menor (Primeros auxilios básicos)'},
-        {'list_name': 'severidad', 'name': 'moderada', 'label': 'Moderada (Requiere atención médica)'},
-        {'list_name': 'severidad', 'name': 'mayor', 'label': 'Mayor (Evacuación inmediata)'},
+        {'list_name': 'severidad', 'name': 'insignificante', 'label': 'Insignificante'},
+        {'list_name': 'severidad', 'name': 'menor', 'label': 'Menor'},
+        {'list_name': 'severidad', 'name': 'moderada', 'label': 'Moderada'},
+        {'list_name': 'severidad', 'name': 'mayor', 'label': 'Mayor'},
         {'list_name': 'severidad', 'name': 'catastrofica', 'label': 'Catastrófica'},
         
-        {'list_name': 'acceso', 'name': 'peatonal', 'label': 'Peatonal (Extracción en camilla)'},
-        {'list_name': 'acceso', 'name': 'traccion', 'label': 'Tracción animal (Mulas)'},
+        {'list_name': 'acceso', 'name': 'peatonal', 'label': 'Peatonal'},
+        {'list_name': 'acceso', 'name': 'traccion', 'label': 'Tracción animal'},
         {'list_name': 'acceso', 'name': '4x4', 'label': 'Vehicular 4x4'},
-        {'list_name': 'acceso', 'name': 'remoto', 'label': 'Acceso remoto crítico (Helitransportado)'},
-        {'list_name': 'acceso', 'name': 'otro', 'label': 'Otro (Especificar)'},
+        {'list_name': 'acceso', 'name': 'remoto', 'label': 'Helitransportado'},
+        {'list_name': 'acceso', 'name': 'otro', 'label': 'Otro'},
         
         {'list_name': 'senal', 'name': 'ciega', 'label': 'Sin cobertura celular'},
         {'list_name': 'senal', 'name': 'claro', 'label': 'Señal estable (Claro)'},
@@ -136,23 +137,23 @@ def generar_xlsform_sig():
         {'list_name': 'tiempo_ext', 'name': 't_dia', 'label': 'Un día o más'},
         {'list_name': 'tiempo_ext', 'name': 'otro', 'label': 'Otro'},
         
-        {'list_name': 'punto_int', 'name': 'descanso', 'label': 'Zona de sombra natural / Descanso'},
-        {'list_name': 'punto_int', 'name': 'relajacion', 'label': 'Zona de relajación'},
-        {'list_name': 'punto_int', 'name': 'dormir', 'label': 'Zona para acampar / Refugio'},
+        {'list_name': 'punto_int', 'name': 'descanso', 'label': 'Descanso / Sombra'},
+        {'list_name': 'punto_int', 'name': 'relajacion', 'label': 'Relajación'},
+        {'list_name': 'punto_int', 'name': 'dormir', 'label': 'Acampar / Refugio'},
         {'list_name': 'punto_int', 'name': 'hidratacion', 'label': 'Punto hídrico'},
-        {'list_name': 'punto_int', 'name': 'banos', 'label': 'Servicios sanitarios'},
-        {'list_name': 'punto_int', 'name': 'alimentacion', 'label': 'Zona de alimentación'},
-        {'list_name': 'punto_int', 'name': 'mirador', 'label': 'Mirador panorámico'},
-        {'list_name': 'punto_int', 'name': 'comunidad', 'label': 'Interacción comunitaria'},
-        {'list_name': 'punto_int', 'name': 'avifauna', 'label': 'Observación de avifauna'},
-        {'list_name': 'punto_int', 'name': 'patrimonio', 'label': 'Patrimonio arquitectónico'},
+        {'list_name': 'punto_int', 'name': 'banos', 'label': 'Baños'},
+        {'list_name': 'punto_int', 'name': 'alimentacion', 'label': 'Alimentación'},
+        {'list_name': 'punto_int', 'name': 'mirador', 'label': 'Mirador'},
+        {'list_name': 'punto_int', 'name': 'comunidad', 'label': 'Comunidad / Artesanos'},
+        {'list_name': 'punto_int', 'name': 'avifauna', 'label': 'Avifauna'},
+        {'list_name': 'punto_int', 'name': 'patrimonio', 'label': 'Patrimonio'},
         {'list_name': 'punto_int', 'name': 'otro', 'label': 'Otro'}
     ]
 
     # 3. Pestaña 'settings'
     settings = [{
-        'form_title': 'Validación SIG ISO 21101 - Mot Mot Experiencias',
-        'form_id': 'sig_motmot_v7',
+        'form_title': 'Validación ISO 21101 - Mot Mot Experiencias',
+        'form_id': 'sig_motmot_v8_final',
         'default_language': 'Español',
         'style': 'theme-grid',
         'logo': 'logo_motmot.png'
@@ -190,12 +191,12 @@ def generar_xlsform_sig():
     try:
         url_logo = "https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/cropped-logo-foto-de-perfil-instagram-1.png"
         req = urllib.request.Request(url_logo, headers={'User-Agent': 'Mozilla/5.0'})
-        image_data = BytesIO(urllib.request.urlopen(req).read())
+        image_data = BytesIO(urllib.request.urlopen(req, context=ctx).read())
         writer.sheets['settings'].insert_image('E2', url_logo, {'image_data': image_data, 'x_scale': 0.15, 'y_scale': 0.15, 'object_position': 1})
     except Exception:
         pass
 
     writer.close()
-    print(f"¡Éxito total! Archivo {nombre_archivo} generado exitosamente. Listo para subir a KoboToolbox.")
+    print(f"¡Éxito total! Archivo {nombre_archivo} generado exitosamente. Súbelo a Kobo.")
 
 generar_xlsform_sig()

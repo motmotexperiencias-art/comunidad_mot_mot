@@ -68,7 +68,7 @@ if not st.session_state.autenticado:
         pwd = st.text_input("PIN", type="password", label_visibility="collapsed", placeholder="Ingresar PIN...")
         st.markdown("<br>", unsafe_allow_html=True)
         if st.button("VALIDAR", use_container_width=True):
-            if pwd == "Nomina2026.":
+            if pwd.lower().strip() == "caminando":
                 st.session_state.autenticado = True
                 st.rerun()
             else:
@@ -77,7 +77,7 @@ if not st.session_state.autenticado:
     st.markdown('</div></div>', unsafe_allow_html=True)
     st.stop()
 
-# --- 4. MOTOR DE DATOS (Adaptado para leer grupos de repetición de Kobo) ---
+# --- 4. MOTOR DE DATOS INTELIGENTE ---
 catalogo_servicios = {
     'w_barichara': 'Servicio 1: Walking Tour Barichara', 'w_bucaramanga': 'Servicio 2: Walking Tour Bucaramanga', 'w_zapatoca': 'Servicio 3: Walking Tour Zapatoca',
     'h1_zap_fue': 'Servicio 4: Hiking E1 (Zapatoca - La Fuente)', 'h1_fue_zap': 'Servicio 4: Hiking E1 (La Fuente - Zapatoca)',
@@ -105,39 +105,35 @@ def cargar_datos_kobo():
             datos = response.json().get('results', [])
             procesados = []
             
-            for envio in datos:
-                # Datos fijos para todo el envío
-                servicio = envio.get('servicio')
-                evaluador = envio.get('evaluador', 'N/A')
-                adjuntos = envio.get('_attachments', [])
+            for row in datos:
+                servicio = row.get('servicio')
+                tipo_punto = row.get('tipo_punto')
+                gps = row.get('ubicacion_gps')
+                evaluador = row.get('evaluador', 'N/A')
                 
-                # Buscar dentro del grupo de repetición "puntos_ruta"
-                puntos_ruta = envio.get('puntos_ruta', [])
-                for punto in puntos_ruta:
-                    tipo_punto = punto.get('puntos_ruta/tipo_punto')
-                    gps = punto.get('puntos_ruta/ubicacion_gps')
-                    
-                    foto_nombre = punto.get('puntos_ruta/foto_punto')
-                    foto_url = None
-                    if foto_nombre and adjuntos:
-                        for adj in adjuntos:
-                            if adj.get('filename', '').endswith(foto_nombre):
-                                foto_url = adj.get('download_url')
-                                break
+                foto_nombre = row.get('foto_punto')
+                adjuntos = row.get('_attachments', [])
+                foto_url = None
+                
+                if foto_nombre and adjuntos:
+                    for adj in adjuntos:
+                        if adj.get('filename', '').endswith(foto_nombre):
+                            foto_url = adj.get('download_url')
+                            break
 
-                    if servicio and tipo_punto and gps:
-                        partes_gps = str(gps).split()
-                        if len(partes_gps) >= 2:
-                            procesados.append({
-                                'servicio': servicio, 'tipo_punto': tipo_punto, 
-                                'latitud': float(partes_gps[0]), 'longitud': float(partes_gps[1]),
-                                'instruccion': punto.get('puntos_ruta/instruccion_bifurcacion', 'N/A'),
-                                'peligro_cat': punto.get('puntos_ruta/grupo_riesgo/peligro_cat', 'N/A'),
-                                'peligro_desc': punto.get('puntos_ruta/grupo_riesgo/peligro_desc', 'N/A'),
-                                'control_situ': punto.get('puntos_ruta/grupo_riesgo/control_situ', 'N/A'),
-                                'evaluador': evaluador,
-                                'foto_url': foto_url
-                            })
+                if servicio and tipo_punto and gps:
+                    partes_gps = str(gps).split()
+                    if len(partes_gps) >= 2:
+                        procesados.append({
+                            'servicio': servicio, 'tipo_punto': tipo_punto, 
+                            'latitud': float(partes_gps[0]), 'longitud': float(partes_gps[1]),
+                            'instruccion': row.get('instruccion_bifurcacion', 'N/A'),
+                            'peligro_cat': row.get('grupo_riesgo/peligro_cat', 'N/A'),
+                            'peligro_desc': row.get('grupo_riesgo/peligro_desc', 'N/A'),
+                            'control_situ': row.get('grupo_riesgo/control_situ', 'N/A'),
+                            'evaluador': evaluador,
+                            'foto_url': foto_url
+                        })
             return pd.DataFrame(procesados) if procesados else pd.DataFrame()
     except:
         pass
