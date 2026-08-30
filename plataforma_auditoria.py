@@ -215,7 +215,7 @@ with tab2:
         fig_map = px.scatter_map(df_kobo, lat="latitud", lon="longitud", color="tipo_punto",
                                     color_discrete_map={'inicio':'#10B981', 'fin':'#DE4A25', 'bifurcacion': '#0EA5E9', 'zona_riesgo':'#F59E0B', 'punto_evac':'#3B82F6', 'punto_interes':'#8B5CF6'},
                                     zoom=9, map_style="carto-positron", size_max=15, hover_name="servicio")
-        fig_map.update_traces(marker=dict(size=14, opacity=0.9, line=dict(width=2, color='white')))
+        fig_map.update_traces(marker=dict(size=14, opacity=0.9))
         fig_map.update_layout(paper_bgcolor="rgba(0,0,0,0)", margin=dict(t=0, b=0, l=0, r=0))
         st.plotly_chart(fig_map, use_container_width=True)
 
