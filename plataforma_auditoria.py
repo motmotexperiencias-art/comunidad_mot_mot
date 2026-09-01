@@ -261,3 +261,5 @@ with tab3:
                     st.write("*(Sin fotografía)*")
             
             st.markdown('</div>', unsafe_allow_html=True)
+
+            
