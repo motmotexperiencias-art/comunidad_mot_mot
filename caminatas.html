@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Operador turístico de senderismo y trekking en Barichara, Guane, Zapatoca, Villanueva, Jordán, Los Santos y el Cañón del Chicamocha, Colombia.">
+    <title>Mot Mot Experiencias | Senderismo Cañón del Chicamocha</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mot-dark': '#0f1110',
+                        'mot-teal': '#82C3C6',
+                        'mot-orange': '#DE5031',
+                        'mot-light': '#f4f4f4',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'walk': 'walkDown 2s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        walkDown: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '50%': { transform: 'translateY(100%)' },
+                            '100%': { transform: 'translateY(200%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f4f4f4; overflow-x: hidden; }
+        .group:hover .card-img { transform: scale(1.08); }
+        .group:hover .card-overlay { opacity: 0.3; }
+        /* Ajuste sutil para suavizar el scroll en celulares */
+        html { scroll-padding-top: 80px; }
+    </style>
+</head>
+<body class="font-sans text-mot-dark antialiased selection:bg-mot-orange selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-mot-dark/90 backdrop-blur-md border-b border-white/5 py-4">
+        <div class="max-w-[1440px] mx-auto px-4 md:px-8 flex justify-between items-center">
+            <div class="flex items-center gap-1">
+                <span class="text-2xl md:text-3xl font-black text-mot-teal tracking-tighter uppercase">MOT</span>
+                <span class="text-2xl md:text-3xl font-black text-mot-orange tracking-tighter uppercase">MOT</span>
+                <span class="text-[9px] md:text-[10px] text-gray-400 font-bold ml-2 md:ml-3 border-l border-gray-600 pl-2 md:pl-3 leading-tight">RNT<br>90175</span>
+            </div>
+            <div class="hidden md:flex gap-8 items-center text-sm font-bold text-white uppercase tracking-widest">
+                <a href="#video" class="hover:text-mot-orange transition">Inmersión</a>
+                <a href="#rutas" class="hover:text-mot-orange transition">Rutas Oficiales</a>
+                <a href="https://wa.me/573132501446" target="_blank" class="bg-mot-orange text-white px-6 py-2 hover:bg-white hover:text-mot-dark transition shadow-lg">
+                    Reservar
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Fotográfico y Limpio -->
+    <header class="relative h-[100svh] flex items-center justify-center overflow-hidden bg-mot-dark">
+        <!-- Imagen de fondo inmersiva -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0009-1.jpg" alt="Cañón del Chicamocha Colombia" class="w-full h-full object-cover object-center opacity-70">
+            <div class="absolute inset-0 bg-gradient-to-b from-mot-dark/60 via-transparent to-mot-dark"></div>
+        </div>
+        
+        <!-- Texto central minimalista -->
+        <div class="relative z-10 w-full px-4 md:px-8 text-center flex flex-col items-center mt-12">
+            <span class="inline-block px-4 py-1 border border-mot-teal text-mot-teal font-bold text-[9px] md:text-[10px] tracking-[0.3em] uppercase mb-6 bg-mot-dark/40 backdrop-blur-sm rounded-full">
+                Turismo Regenerativo · Colombia
+            </span>
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-4 leading-[1.1] text-white tracking-tighter uppercase max-w-4xl drop-shadow-2xl">
+                VAMOS A CAMINAR
+            </h1>
+            <h2 class="text-lg md:text-2xl text-gray-200 font-medium max-w-2xl leading-relaxed drop-shadow-md">
+                Por los pueblos y caminos ancestrales del <span class="text-mot-orange font-bold">Cañón del Chicamocha</span>.
+            </h2>
+        </div>
+
+        <!-- Indicador Interactivo de "Bajar Caminando" (Línea Animada) -->
+        <a href="#video" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-white opacity-80 hover:opacity-100 transition-opacity z-20 cursor-pointer">
+            <span class="text-[9px] uppercase tracking-[0.3em] mb-4 font-bold text-mot-teal">Inicia la ruta</span>
+            <div class="w-[2px] h-16 bg-white/20 relative overflow-hidden rounded-full">
+                <div class="w-full h-1/2 bg-mot-orange absolute top-0 animate-walk rounded-full"></div>
+            </div>
+        </a>
+    </header>
+
+    <!-- Sección de Video Modo Cine -->
+    <section id="video" class="bg-mot-dark w-full pt-16 pb-24 px-4 md:px-8">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-black text-white tracking-tighter uppercase">Siente el Territorio</h2>
+                <p class="text-gray-400 text-sm mt-2 font-medium">Un vistazo a la inmensidad que te espera en Santander.</p>
+            </div>
+            <div class="w-full relative shadow-2xl overflow-hidden rounded-xl border border-white/10" style="padding-top: 56.25%;">
+                <iframe loading="lazy" class="absolute top-0 left-0 w-full h-full" src="https://www.canva.com/design/DAF3hyVt47k/gBv9krxPh94hKnE7-oG8nA/watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo de Rutas Geolocalizadas -->
+    <section id="rutas" class="py-24 bg-mot-light px-4 md:px-8">
+        <div class="max-w-[1440px] mx-auto">
+            <div class="mb-12 flex flex-col items-center text-center">
+                <h2 class="text-3xl md:text-5xl font-black text-mot-dark tracking-tighter uppercase mb-4">Nuestras Rutas</h2>
+                <p class="text-gray-600 font-medium text-base max-w-2xl">Conectamos los Andes Orientales. Operación oficial con guianza local experta.</p>
+            </div>
+
+            <!-- Grid de 12 Servicios con Márgenes ajustados para móvil -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                
+                <!-- S1 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Walking%20Tour%20Barichara" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20211228_132736.jpg" alt="Walking Tour Barichara" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-teal uppercase tracking-widest block mb-1">Servicio 1 • Barichara</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Walking Tour Barichara</h3>
+                        <p class="text-gray-500 text-xs font-medium">Recorrido histórico por las calles del pueblo más lindo de Colombia.</p>
+                    </div>
+                </a>
+
+                <!-- S2: Bucaramanga (object-top) -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Walking%20Tour%20Bucaramanga" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/whatsapp-image-2026-09-02-at-2.43.45-pm.jpeg" alt="Walking Tour Bucaramanga" class="card-img w-full h-full object-cover object-top transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-teal uppercase tracking-widest block mb-1">Servicio 2 • Bucaramanga</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Walking Tour Bucaramanga</h3>
+                        <p class="text-gray-500 text-xs font-medium">Descubre la Ciudad Bonita, sus parques y su historia a pie.</p>
+                    </div>
+                </a>
+
+                <!-- S3 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Walking%20Tour%20Zapatoca" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20210716_063928.jpg" alt="Walking Tour Zapatoca" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-teal uppercase tracking-widest block mb-1">Servicio 3 • Zapatoca</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Walking Tour Zapatoca</h3>
+                        <p class="text-gray-500 text-xs font-medium">El clima de seda te acompaña en este recorrido cultural.</p>
+                    </div>
+                </a>
+
+                <!-- S4 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Hiking%20Zapatoca%20-%20La%20Fuente" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20210716_171928.jpg" alt="Zapatoca La Fuente" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-orange uppercase tracking-widest block mb-1">Servicio 4 • Hiking Etapa 1</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Zapatoca ⇄ La Fuente</h3>
+                        <p class="text-gray-500 text-xs font-medium">Desafiante camino hacia el Cañón. Disponible en ambos sentidos.</p>
+                    </div>
+                </a>
+
+                <!-- S5 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Hiking%20La%20Fuente%20-%20Guane" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img-20210705-wa0004.jpg" alt="La Fuente Guane" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-orange uppercase tracking-widest block mb-1">Servicio 5 • Hiking Etapa 2</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">La Fuente ⇄ Guane</h3>
+                        <p class="text-gray-500 text-xs font-medium">Cruzando el emblemático puente de Lengerke sobre el Río Suárez.</p>
+                    </div>
+                </a>
+
+                <!-- S6 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Hiking%20Barichara%20-%20Guane" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260110_113237.jpg" alt="Barichara Guane" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-orange uppercase tracking-widest block mb-1">Servicio 6 • Hiking Etapa 3</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Barichara ⇄ Guane</h3>
+                        <p class="text-gray-500 text-xs font-medium">Ruta Camino Real o Ancestral en el bosque seco tropical.</p>
+                    </div>
+                </a>
+
+                <!-- S7 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Hiking%20Barichara%20-%20Villanueva" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260307_093612.jpg" alt="Barichara Villanueva" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-orange uppercase tracking-widest block mb-1">Servicio 7 • Hiking Etapa 4</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Barichara ⇄ Villanueva</h3>
+                        <p class="text-gray-500 text-xs font-medium">Ascenso por el Alto del Viento conectando pueblos imponentes.</p>
+                    </div>
+                </a>
+
+                <!-- S8 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Hiking%20Villanueva%20-%20Jordán" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/diseno-sin-titulo-1.jpg" alt="Villanueva Jordán" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-orange uppercase tracking-widest block mb-1">Servicio 8 • Hiking Etapa 5</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Villanueva ⇄ Jordán</h3>
+                        <p class="text-gray-500 text-xs font-medium">Descenso profundo al histórico pueblo fantasma a través del cañón.</p>
+                    </div>
+                </a>
+
+                <!-- S9 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Hiking%20Jordán%20-%20Los%20Santos" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-10-31-at-10.54.47-am-1.jpeg" alt="Jordán Los Santos" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-orange uppercase tracking-widest block mb-1">Servicio 9 • Hiking Etapa 6</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Jordán ⇄ Los Santos</h3>
+                        <p class="text-gray-500 text-xs font-medium">El reto geológico. Ascenso por la imponente pared escarpada del Chicamocha.</p>
+                    </div>
+                </a>
+
+                <!-- S10 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20del%20Hiking%20Barichara%20-%20Cabrera" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/80511381master.jpg" alt="Barichara Cabrera" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-teal uppercase tracking-widest block mb-1">Servicio 10 • Hiking Cultural</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Barichara ⇄ Cabrera</h3>
+                        <p class="text-gray-500 text-xs font-medium">Circuitos Los Templados o La Peña para apreciar este ecosistema místico.</p>
+                    </div>
+                </a>
+
+                <!-- S11 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20de%20la%20Ruta%20de%20Lengerke" target="_blank" class="group block bg-white cursor-pointer overflow-hidden shadow-sm hover:shadow-xl transition-shadow relative">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20220116_091236.jpg" alt="Ruta Lengerke" class="card-img w-full h-full object-cover transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-dark opacity-10 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-white text-mot-dark px-2 py-1 text-[9px] font-black uppercase tracking-widest shadow-md">RNT 90175</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-teal uppercase tracking-widest block mb-1">Servicio 11 • Ruta Histórica</span>
+                        <h3 class="text-lg font-black text-mot-dark uppercase leading-tight mb-2">Ruta de Lengerke</h3>
+                        <p class="text-gray-500 text-xs font-medium">Tramo completo Zapatoca ⇄ Guane por los caminos del siglo XIX.</p>
+                    </div>
+                </a>
+
+                <!-- S12 -->
+                <a href="https://wa.me/573132501446?text=Hola,%20quiero%20información%20de%20la%20Travesía%20Majestuosa" target="_blank" class="group block bg-mot-dark cursor-pointer overflow-hidden shadow-lg hover:shadow-2xl transition-shadow relative md:col-span-1 lg:col-span-1">
+                    <div class="aspect-square md:aspect-[4/5] overflow-hidden relative bg-gray-200 border-b-4 border-mot-orange">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0009-1.jpg" alt="Travesía Majestuosa" class="card-img w-full h-full object-cover opacity-70 transition-transform duration-700 ease-out">
+                        <div class="card-overlay absolute inset-0 bg-mot-orange opacity-20 transition-opacity duration-300"></div>
+                        <div class="absolute top-3 right-3 bg-mot-orange text-white px-3 py-1 text-[9px] font-black uppercase tracking-widest shadow-md rounded-sm">Premium</div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-[9px] font-black text-mot-teal uppercase tracking-widest block mb-1">Servicio 12 • Trekking Multi-Día</span>
+                        <h3 class="text-lg font-black text-white uppercase leading-tight mb-2">Travesía Majestuosa</h3>
+                        <p class="text-gray-400 text-xs font-medium">La travesía definitiva: Zapatoca, La Fuente, Guane, Barichara, Villanueva, Jordán, Los Santos.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Valor Agregado Minimalista -->
+    <section class="py-20 bg-mot-dark text-white px-4 md:px-8">
+        <div class="max-w-6xl mx-auto text-center">
+            <span class="text-mot-teal font-black tracking-widest uppercase text-[10px] mb-3 block">La Diferencia Mot Mot</span>
+            <h2 class="text-3xl md:text-4xl font-black tracking-tighter uppercase mb-12">MÁS QUE CAMINAR</h2>
+            
+            <div class="grid sm:grid-cols-3 gap-6 text-left">
+                <div class="p-6 md:p-8 bg-white/5 border border-white/5 hover:border-mot-orange/30 transition-colors">
+                    <h4 class="text-mot-orange font-black text-lg mb-2 uppercase tracking-tight">Gastronomía Local</h4>
+                    <p class="text-gray-400 text-sm font-medium leading-relaxed">Paradas estratégicas para probar amasijos, café de origen y los auténticos sabores del cañón.</p>
+                </div>
+                <div class="p-6 md:p-8 bg-white/5 border border-white/5 hover:border-mot-orange/30 transition-colors">
+                    <h4 class="text-mot-orange font-black text-lg mb-2 uppercase tracking-tight">Interpretación Nativa</h4>
+                    <p class="text-gray-400 text-sm font-medium leading-relaxed">Conoce la historia, flora, fauna y geología (fósiles) con guías locales apasionados.</p>
+                </div>
+                <div class="p-6 md:p-8 bg-mot-teal/10 border border-mot-teal/30">
+                    <h4 class="text-mot-teal font-black text-lg mb-2 uppercase tracking-tight">Seguridad Total</h4>
+                    <p class="text-white text-sm font-medium leading-relaxed">Operamos bajo normatividad con protocolos climáticos y guianza según tu condición física.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal y Footer Responsivo -->
+    <footer class="bg-[#0a0c0b] text-gray-400 py-12 px-4 md:px-8 text-xs">
+        <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+            <!-- Empresa y Contacto -->
+            <div>
+                <div class="flex items-center gap-1 mb-3">
+                    <span class="text-xl md:text-2xl font-black text-mot-teal tracking-tighter uppercase">MOT</span>
+                    <span class="text-xl md:text-2xl font-black text-mot-orange tracking-tighter uppercase">MOT</span>
+                </div>
+                <p class="mb-1 text-white font-bold tracking-widest uppercase text-[10px]">Registro Nacional de Turismo: 90175</p>
+                <p class="mb-4 leading-relaxed font-medium">Operadores de turismo regenerativo y comunitario en los Andes Orientales y el Cañón del Chicamocha.</p>
+                <p class="font-bold">Email: <a href="mailto:caminatas@motmotexperiencias.com" class="text-mot-teal hover:text-white transition">caminatas@motmotexperiencias.com</a></p>
+                <p class="font-bold mt-1">WhatsApp: <a href="https://wa.me/573132501446" class="text-mot-orange hover:text-white transition">+57 313 250 1446</a></p>
+            </div>
+
+            <!-- ESCNNA -->
+            <div>
+                <h4 class="text-white font-black mb-3 uppercase tracking-widest text-[10px]">Prevención ESCNNA</h4>
+                <p class="leading-relaxed font-medium text-gray-500">Mot Mot Experiencias rechaza rotundamente la Explotación Sexual Comercial de Niños, Niñas y Adolescentes (ESCNNA). Cumplimos estrictamente con las disposiciones de la Ley 679 de 2001 y Ley 1336 de 2009.</p>
+            </div>
+
+            <!-- Sostenibilidad ISO -->
+            <div>
+                <h4 class="text-white font-black mb-3 uppercase tracking-widest text-[10px]">Sostenibilidad y Calidad</h4>
+                <p class="leading-relaxed font-medium mb-3 text-gray-500">Protegemos el patrimonio cultural, arqueológico y natural de la nación (Ley 397 de 1997).</p>
+                <div class="inline-block border border-mot-teal text-mot-teal px-2 py-1 font-bold text-[9px] uppercase tracking-widest rounded-sm">
+                    Certificación ISO 21101 en Proceso
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-[1440px] mx-auto text-center border-t border-white/5 pt-6 font-black text-[9px] md:text-[10px] uppercase tracking-widest text-gray-600">
+            &copy; 2026 Mot Mot Experiencias. Todos los derechos reservados. Cañón del Chicamocha, Colombia.
+        </div>
+    </footer>
+
+</body>
+</html>
