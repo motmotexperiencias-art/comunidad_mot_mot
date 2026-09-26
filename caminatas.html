@@ -3,36 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Operador turístico de senderismo y trekking en Barichara, Guane, Zapatoca, Villanueva, Jordán, Los Santos y el Cañón del Chicamocha, Colombia.">
-    <title>Mot Mot Experiencias | Senderismo Cañón del Chicamocha</title>
+    <meta name="description" content="Operación turística oficial de senderismo, trekking y turismo regenerativo en el Cañón del Chicamocha y Andes Orientales de Santander.">
+    <title>Mot Mot Experiencias | Expediciones Cañón del Chicamocha</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'mot-dark': '#0f1110',
+                        'mot-dark': '#0a0a0a',
                         'mot-teal': '#82C3C6',
                         'mot-orange': '#DE5031',
-                        'mot-light': '#f4f4f4',
+                        'mot-light': '#f4f4f5',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
                     animation: {
                         'walk': 'walkDown 2s infinite ease-in-out',
-                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         walkDown: {
                             '0%': { transform: 'translateY(-100%)' },
                             '50%': { transform: 'translateY(100%)' },
                             '100%': { transform: 'translateY(200%)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'scale(0.95)' },
-                            '100%': { opacity: '1', transform: 'scale(1)' },
                         }
                     }
                 }
@@ -40,318 +36,389 @@
         }
     </script>
     <style>
-        body { background-color: #f4f4f4; overflow-x: hidden; }
-        .group:hover .card-img { transform: scale(1.1); }
-        html { scroll-padding-top: 80px; }
+        body { background-color: #f4f4f5; overflow-x: hidden; }
+        .card-img { transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1); }
+        .group:hover .card-img { transform: scale(1.08); }
         .modal { display: none; }
         .modal.active { display: flex; }
     </style>
 </head>
 <body class="font-sans text-mot-dark antialiased selection:bg-mot-orange selection:text-white">
 
-    <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-mot-dark/95 backdrop-blur-md border-b border-white/5 py-4 shadow-lg">
-        <div class="max-w-[1440px] mx-auto px-4 md:px-8 flex justify-between items-center">
-            <div class="flex items-center gap-2">
+    <!-- Navbar Ultra Minimalista -->
+    <nav class="fixed w-full z-40 bg-gradient-to-b from-mot-dark/90 to-transparent py-4 transition-all duration-300 pointer-events-none">
+        <div class="max-w-[1440px] mx-auto px-6 flex justify-center md:justify-start items-center drop-shadow-md">
+            <div class="flex items-center gap-3 pointer-events-auto">
                 <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/cropped-logo-foto-de-perfil-instagram.png" alt="Mot Mot Logo" class="h-10 md:h-12 w-auto object-contain">
-                <span class="text-[9px] md:text-[10px] text-gray-400 font-bold ml-2 md:ml-3 border-l border-gray-600 pl-2 md:pl-3 leading-tight">RNT<br>90175</span>
-            </div>
-            <div class="hidden md:flex gap-8 items-center text-sm font-bold text-white uppercase tracking-widest">
-                <a href="#rutas" class="hover:text-mot-orange transition">Rutas Oficiales</a>
-                <button onclick="toggleModal('modal-nosotros')" class="hover:text-mot-teal transition cursor-pointer">Nosotros</button>
-                <a href="https://wa.me/573132501446" target="_blank" class="bg-mot-orange text-white px-6 py-2 hover:bg-white hover:text-mot-dark transition shadow-lg rounded-sm">
-                    Reservar
-                </a>
+                <span class="text-[9px] md:text-[10px] text-gray-300 font-bold border-l border-gray-500 pl-3 leading-tight tracking-wider uppercase">RNT<br><span class="text-white">90175</span></span>
             </div>
         </div>
     </nav>
 
-    <!-- Modal Nosotros -->
-    <div id="modal-nosotros" class="modal fixed inset-0 z-[100] bg-mot-dark/80 backdrop-blur-sm items-center justify-center p-4">
-        <div class="bg-white rounded-xl max-w-2xl w-full p-8 relative animate-fade-in max-h-[90vh] overflow-y-auto">
-            <button onclick="toggleModal('modal-nosotros')" class="absolute top-4 right-4 text-2xl font-black text-mot-dark hover:text-mot-orange">&times;</button>
-            <h2 class="text-3xl font-black text-mot-dark uppercase mb-4 border-b pb-2 border-mot-teal">Nuestra Esencia</h2>
-            <div class="space-y-4 text-gray-700 text-sm">
-                <p><strong>Nosotros:</strong> Somos una operadora turística con sede en Barichara, Santander, dedicada a ofrecer rutas vivenciales que combinan caminatas (walking, hiking, trekking), cultura y transformación interior en los Andes Orientales.</p>
-                <p><strong>Turismo Regenerativo:</strong> Más allá de la sostenibilidad, buscamos no solo conservar, también restaurar, involucrando a los visitantes en el cuidado del territorio.</p>
-                <p><strong>Misión:</strong> Facilitar experiencias que combinan caminatas tipo (walking, hiking, trekking) auténticas y culturales, que inspiren a moverse, observar y transformarse, generando bienestar para viajeros y las comunidades.</p>
-                <p><strong>Visión:</strong> Para el año 2030, ser la operadora turística líder en Barichara en el diseño y operación de caminatas de bienestar y cultura por los Andes orientales de Santander.</p>
+    <!-- Botón Flotante de WhatsApp Responsivo -->
+    <div class="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40 flex items-center gap-3 group">
+        <div class="hidden sm:flex flex-col items-end bg-mot-dark/95 text-white text-xs px-4 py-2 rounded-xl shadow-2xl border border-white/10 backdrop-blur-md transition-all duration-300 group-hover:border-mot-teal">
+            <span class="font-black text-mot-teal text-[11px] uppercase tracking-wider">¿Hablamoss?</span>
+            <span class="text-[10px] text-gray-300 font-medium">Asesoría de ruta personalizada</span>
+        </div>
+        <a href="https://wa.me/573132501446?text=Hola,%20deseo%20informaci%C3%B3n%20para%20planear%20mi%20caminata" target="_blank" class="relative block scale-95 md:scale-100 group-hover:scale-105 transition-transform duration-300" aria-label="Contactar por WhatsApp">
+            <div class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#25D366] p-1 shadow-[0_8px_25px_rgba(0,0,0,0.4)] flex items-center justify-center relative">
+                <div class="w-full h-full rounded-full overflow-hidden relative border-2 border-white bg-mot-dark">
+                    <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/diseno-sin-titulo-19.png" alt="Asesora Mot Mot" class="w-full h-full object-cover object-top scale-110">
+                </div>
+                <div class="absolute -bottom-1 -right-1 bg-[#25D366] text-white p-1.5 rounded-full border-2 border-white shadow-md flex items-center justify-center">
+                    <svg class="w-3 h-3 md:w-4 md:h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                </div>
+                <span class="absolute top-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full animate-pulse-slow z-10"></span>
             </div>
+        </a>
+    </div>
+
+    <!-- BANNER DE COOKIES CREATIVO -->
+    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-mot-dark/95 backdrop-blur-md border-t border-mot-teal/30 z-[60] flex flex-col md:flex-row items-center justify-between p-5 md:px-12 text-center md:text-left transform transition-transform duration-700 ease-in-out">
+        <div class="mb-4 md:mb-0 md:mr-8 flex-grow">
+            <h4 class="text-mot-teal font-black uppercase tracking-widest text-[10px] mb-1">Tu Huella Digital</h4>
+            <p class="text-xs md:text-sm text-gray-300 font-medium max-w-4xl">
+                Para trazar la mejor ruta y personalizar tu experiencia de expedición, utilizamos cookies. Al aceptar, nos permites guiarte mejor por nuestros senderos virtuales. ¿Listo para la aventura?
+            </p>
+        </div>
+        <div class="flex gap-3 whitespace-nowrap">
+            <button onclick="acceptCookies()" class="bg-mot-orange text-white px-6 py-3 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-mot-dark transition-all rounded-md shadow-xl">
+                ¡Comenzar a Caminar!
+            </button>
         </div>
     </div>
+
+    <!-- MODALES LEGALES E INFORMATIVOS -->
 
     <!-- Modal Términos -->
-    <div id="modal-terminos" class="modal fixed inset-0 z-[100] bg-mot-dark/80 backdrop-blur-sm items-center justify-center p-4">
-        <div class="bg-white rounded-xl max-w-2xl w-full p-8 relative animate-fade-in max-h-[90vh] overflow-y-auto">
-            <button onclick="toggleModal('modal-terminos')" class="absolute top-4 right-4 text-2xl font-black text-mot-dark hover:text-mot-orange">&times;</button>
-            <h2 class="text-3xl font-black text-mot-dark uppercase mb-4 border-b pb-2 border-mot-teal">Condiciones del Servicio</h2>
-            <div class="space-y-4 text-gray-700 text-sm">
-                <p><strong>Objeto del servicio:</strong> El presente acuerdo cubre exclusivamente el servicio de guianza turística prestado por un guía nativo profesional. El valor no incluye transporte, alimentación, entradas a parques ni seguros médicos.</p>
-                <p><strong>Responsabilidades:</strong> Presentarse puntualmente, usar ropa/calzado apropiado y acatar las indicaciones del guía.</p>
-                <p><strong>Cancelaciones:</strong> Reembolso completo con más de 48 horas de antelación. 50% de penalización entre 48 y 24 horas. Menos de 24 horas no son reembolsables.</p>
-                <p><strong>Reservas:</strong> El servicio se reserva con el 50% del valor total de la ruta.</p>
+    <div id="modal-terminos" class="modal fixed inset-0 z-[100] bg-mot-dark/85 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+            <button onclick="toggleModal('modal-terminos')" class="absolute top-5 right-5 text-2xl font-black text-gray-400 hover:text-mot-orange transition-colors">&times;</button>
+            <h2 class="text-2xl font-black text-mot-dark uppercase mb-4 border-b pb-3 border-mot-teal tracking-tight">Condiciones del Servicio</h2>
+            <div class="space-y-4 text-gray-700 text-sm font-medium leading-relaxed">
+                <p><strong>Objeto del servicio:</strong> El presente acuerdo cubre exclusivamente el servicio de guianza turística prestado por un guía nativo profesional. El valor no incluye transporte, alimentación, entradas a parques ni seguros médicos (salvo especificación).</p>
+                <p><strong>Responsabilidades del caminante:</strong> Presentarse puntualmente, usar ropa/calzado apropiado (botas de trekking, hidratación, protección solar) y acatar estrictamente las indicaciones del guía para garantizar su seguridad.</p>
+                <p><strong>Políticas de Cancelación:</strong> Reembolso completo con más de 48 horas de antelación. 50% de penalización entre 48 y 24 horas. Cancelaciones con menos de 24 horas no son reembolsables.</p>
+                <p><strong>Reservas:</strong> Todo servicio se reserva oficialmente con el anticipo del 50% del valor total de la ruta.</p>
             </div>
         </div>
     </div>
 
-    <!-- Hero Section Fotográfico y Limpio -->
-    <header class="relative h-[100svh] flex items-center justify-center overflow-hidden bg-mot-dark">
-        <div class="absolute inset-0 z-0">
-            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0009-1.jpg" alt="Cañón del Chicamocha Colombia" class="w-full h-full object-cover object-center opacity-60">
-            <div class="absolute inset-0 bg-gradient-to-b from-mot-dark/80 via-mot-dark/30 to-mot-dark"></div>
+    <!-- Modal Sostenibilidad -->
+    <div id="modal-sostenibilidad" class="modal fixed inset-0 z-[100] bg-mot-dark/85 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+            <button onclick="toggleModal('modal-sostenibilidad')" class="absolute top-5 right-5 text-2xl font-black text-gray-400 hover:text-mot-teal transition-colors">&times;</button>
+            <h2 class="text-2xl font-black text-mot-dark uppercase mb-4 border-b pb-3 border-mot-teal tracking-tight">Política de Sostenibilidad</h2>
+            <div class="space-y-4 text-gray-700 text-sm font-medium leading-relaxed">
+                <p>En <strong>Mot Mot Experiencias</strong> no solo hacemos turismo, hacemos <em>Turismo Regenerativo</em>. Nuestro compromiso con los Andes Orientales y el Cañón del Chicamocha va más allá de no dejar rastro; buscamos mejorar el ecosistema que visitamos.</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>No deje rastro (LNT):</strong> Prohibido dejar basura, extraer flora, fauna o material geológico de los caminos ancestrales.</li>
+                    <li><strong>Economía Local:</strong> Promovemos la compra justa a los campesinos y artesanos locales de Barichara, Guane, Villanueva y Jordán.</li>
+                    <li><strong>Respeto Cultural:</strong> Dignificamos los saberes de nuestros guías nativos y protegemos el patrimonio arqueológico e histórico (Caminos de Lengerke).</li>
+                </ul>
+            </div>
         </div>
-        
+    </div>
+
+    <!-- Modal ESCNNA -->
+    <div id="modal-escnna" class="modal fixed inset-0 z-[100] bg-mot-dark/85 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+            <button onclick="toggleModal('modal-escnna')" class="absolute top-5 right-5 text-2xl font-black text-gray-400 hover:text-red-500 transition-colors">&times;</button>
+            <h2 class="text-2xl font-black text-red-600 uppercase mb-4 border-b pb-3 border-red-200 tracking-tight">Prevención ESCNNA</h2>
+            <div class="space-y-4 text-gray-700 text-sm font-medium leading-relaxed">
+                <p><strong>Rechazo total a la explotación sexual de menores.</strong></p>
+                <p>En cumplimiento con la <strong>Ley 679 de 2001</strong> y la <strong>Ley 1336 de 2009</strong> del Estado Colombiano, Mot Mot Experiencias advierte al turista que la explotación, la pornografía, el turismo sexual y demás formas de abuso a menores de edad en Colombia son castigados penal y administrativamente conforme a las leyes vigentes.</p>
+                <p>Como operadores turísticos, estamos obligados a denunciar cualquier comportamiento sospechoso ante las autoridades competentes. Cuidar a nuestra infancia es responsabilidad de todos.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Datos Personales -->
+    <div id="modal-datos" class="modal fixed inset-0 z-[100] bg-mot-dark/85 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-8 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+            <button onclick="toggleModal('modal-datos')" class="absolute top-5 right-5 text-2xl font-black text-gray-400 hover:text-mot-teal transition-colors">&times;</button>
+            <h2 class="text-2xl font-black text-mot-dark uppercase mb-4 border-b pb-3 border-mot-teal tracking-tight">Tratamiento de Datos</h2>
+            <div class="space-y-4 text-gray-700 text-sm font-medium leading-relaxed">
+                <p>De acuerdo con la <strong>Ley Estatutaria 1581 de 2012</strong> (Protección de Datos Personales en Colombia), te informamos que Mot Mot Experiencias garantiza la confidencialidad, seguridad y uso adecuado de tu información.</p>
+                <p>Los datos que recopilamos (como tu nombre, teléfono de contacto o requerimientos médicos para la ruta) se utilizan exclusivamente para:</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>Gestionar tu reserva y coordinar la logística de las expediciones.</li>
+                    <li>Garantizar tu seguridad contratando los seguros correspondientes.</li>
+                    <li>Contactarte en caso de emergencias o cambios en el clima/ruta.</li>
+                </ul>
+                <p>No compartimos ni vendemos tu información a terceros bajo ninguna circunstancia. Puedes solicitar la eliminación de tus datos en cualquier momento contactándonos a nuestro email oficial.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section Inmersivo estilo NatGeo -->
+    <header class="relative h-[100svh] min-h-[600px] flex items-center justify-center overflow-hidden bg-mot-dark">
+        <div class="absolute inset-0 z-0">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0009-1.jpg" alt="Cañón del Chicamocha Colombia" class="w-full h-full object-cover object-center opacity-70 scale-105">
+            <div class="absolute inset-0 bg-gradient-to-b from-mot-dark/60 via-transparent to-mot-dark"></div>
+        </div>
+
         <div class="relative z-10 w-full px-4 md:px-8 text-center flex flex-col items-center mt-12">
-            <span class="inline-block px-4 py-1 border border-mot-teal text-mot-teal font-bold text-[10px] md:text-xs tracking-[0.3em] uppercase mb-6 bg-mot-dark/40 backdrop-blur-sm rounded-full">
-                Turismo Regenerativo · Colombia
+            <span class="inline-block px-5 py-1.5 border border-mot-teal text-mot-teal font-black text-[9px] md:text-xs tracking-[0.35em] uppercase mb-6 bg-mot-dark/40 backdrop-blur-md rounded-full shadow-lg">
+                Turismo Regenerativo · Santander, Colombia
             </span>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-4 leading-[1] text-white tracking-tighter uppercase max-w-5xl drop-shadow-2xl">
+            <h1 class="text-5xl md:text-7xl lg:text-[6rem] font-black mb-4 leading-[0.95] text-white tracking-tighter uppercase max-w-5xl drop-shadow-2xl">
                 Caminos Ancestrales <br><span class="text-mot-orange">Andes Orientales</span>
             </h1>
-            <h2 class="text-lg md:text-2xl text-gray-300 font-medium max-w-2xl leading-relaxed mt-4 drop-shadow-md">
-                Conectando el territorio a través de rutas vivenciales de walking, hiking y trekking.
+            <h2 class="text-sm md:text-xl text-gray-200 font-medium max-w-2xl leading-relaxed mt-6 drop-shadow-md">
+                Expediciones a pie para conectar con la geología, la cultura local y la inmensidad del Cañón del Chicamocha.
             </h2>
         </div>
 
+        <!-- Flecha baja DIRECTO a los productos (#rutas) -->
         <a href="#rutas" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-white opacity-80 hover:opacity-100 transition-opacity z-20 cursor-pointer">
-            <span class="text-[9px] uppercase tracking-[0.3em] mb-4 font-bold text-mot-teal">Explorar Rutas</span>
-            <div class="w-[2px] h-16 bg-white/20 relative overflow-hidden rounded-full">
+            <span class="text-[9px] uppercase tracking-[0.3em] mb-3 font-extrabold text-mot-teal">Explorar</span>
+            <div class="w-[2px] h-12 bg-white/20 relative overflow-hidden rounded-full">
                 <div class="w-full h-1/2 bg-mot-orange absolute top-0 animate-walk rounded-full"></div>
             </div>
         </a>
     </header>
 
-    <!-- Catálogo de Rutas -->
+    <!-- Catálogo de Rutas (Flujo Inmediato) -->
     <section id="rutas" class="py-24 bg-mot-light px-4 md:px-8">
         <div class="max-w-[1440px] mx-auto">
             <div class="mb-16 flex flex-col items-center text-center">
-                <h2 class="text-4xl md:text-6xl font-black text-mot-dark tracking-tighter uppercase mb-4">Portafolio de Experiencias</h2>
-                <p class="text-gray-600 font-medium text-lg max-w-3xl">Descubre nuestras 9 rutas oficiales operadas por guías locales expertos. Caminatas diseñadas para tu nivel físico.</p>
-                <div class="mt-4 flex gap-4 text-xs font-bold text-mot-dark">
-                    <span class="bg-gray-200 px-3 py-1 rounded-full">Walking: Hasta 15 pax</span>
-                    <span class="bg-gray-200 px-3 py-1 rounded-full">Hiking: Hasta 10 pax</span>
-                    <span class="bg-gray-200 px-3 py-1 rounded-full">Trekking: Hasta 6 pax</span>
+                <h2 class="text-4xl md:text-6xl font-black text-mot-dark tracking-tighter uppercase mb-4">Expediciones Oficiales</h2>
+                <p class="text-gray-600 font-medium text-base md:text-lg max-w-3xl">Rutas técnicas y culturales guiadas por locales nativos. Diseñadas a la medida de tu nivel físico y sed de aventura.</p>
+                <div class="mt-8 flex flex-wrap justify-center gap-3 text-xs font-black uppercase tracking-wider text-mot-dark">
+                    <span class="bg-white px-5 py-2.5 rounded-full border border-gray-200 shadow-sm flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500"></span> Walking: Hasta 15 pax</span>
+                    <span class="bg-white px-5 py-2.5 rounded-full border border-gray-200 shadow-sm flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> Hiking: Hasta 10 pax</span>
+                    <span class="bg-white px-5 py-2.5 rounded-full border border-gray-200 shadow-sm flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> Trekking: Hasta 6 pax</span>
                 </div>
             </div>
 
-            <!-- Grid de 9 Servicios Reales -->
+            <!-- Grid de 9 Rutas -->
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-                
-                <!-- Servicio 1 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+
+                <!-- Ruta 1 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20211228_132736.jpg" alt="Barichara" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20211228_132736.jpg" alt="Barichara" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $140.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Walking Tour
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Pueblo Detenido en el Tiempo</h3>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Bajo</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 2 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 4 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 1336 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 23-30°C | Noche 18-24°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">El Pueblo Detenido en el Tiempo</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Bajo</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 2 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 4 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 1336 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 23-30°C | Noche 18-24°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20el%20Walking%20Tour%20Barichara" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20el%20Walking%20Tour%20Barichara" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 2 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <!-- Ruta 2 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260110_113237.jpg" alt="Barichara Guane" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260110_113237.jpg" alt="Barichara Guane" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $200.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Hiking
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Guane (Flora y Fauna)</h3>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Bajo</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 2-3 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 6.82 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 885 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 21-30°C | Noche 18-24°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Guane</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">Flora, Fauna y Bosque Seco</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Bajo</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 2-3 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 6.82 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 885 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 21-30°C | Noche 18-24°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20el%20Hiking%20Barichara-Guane" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20el%20Hiking%20Barichara-Guane" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 3 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <!-- Ruta 3 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img-20210705-wa0004.jpg" alt="Camino Tobares" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img-20210705-wa0004.jpg" alt="Camino Tobares" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $230.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Hiking
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Guane (Camino Tobares)</h3>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 3 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 9.9 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 885 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 21-30°C | Noche 18-24°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Guane</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">El Camino de Tobares</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 3 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 9.9 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 885 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 21-30°C | Noche 18-24°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20el%20Camino%20Tobares" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20el%20Camino%20Tobares" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 4 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <!-- Ruta 4 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260307_093612.jpg" alt="Alto del Viento" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260307_093612.jpg" alt="Alto del Viento" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $230.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Hiking
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Villanueva (Alto del Viento)</h3>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio-Bajo</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 4 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 8.34 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 1.450 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 23-30°C | Noche 18-24°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Villanueva</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">Ruta Alto del Viento</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio-Bajo</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 4 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 8.34 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 1.450 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 23-30°C | Noche 18-24°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20Alto%20del%20Viento" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 5 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <!-- Ruta 5 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/80511381master.jpg" alt="Circuito Cabrera" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/80511381master.jpg" alt="Circuito Cabrera" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $300.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Hiking
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Circuito Barichara - Cabrera</h3>
-                        <p class="text-xs text-gray-500 mb-2 font-medium">Ruta de los Templados - La Peña</p>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 7 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 16.98 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 980 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 24-27°C | Noche 19-22°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Barichara - Cabrera</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">Los Templados y La Peña</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 7 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 16.98 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 980 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 24-27°C | Noche 19-22°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20Circuito%20Cabrera" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 6 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <!-- Ruta 6 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/diseno-sin-titulo-1.jpg" alt="Alto de Marta" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/diseno-sin-titulo-1.jpg" alt="Alto de Marta" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $350.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Hiking
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Chicamocha: Alto de Marta - Jordan</h3>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 4 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 5.8 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 420 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 31-36°C | Noche 24-28°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Alto de Marta - Jordán</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">Profundidades del Chicamocha</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 4 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 5.8 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 420 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 31-36°C | Noche 24-28°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20Marta-Jordan" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 7 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <!-- Ruta 7 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-10-31-at-10.54.47-am-1.jpeg" alt="Mirador Chicamocha" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2025-10-31-at-10.54.47-am-1.jpeg" alt="Mirador Chicamocha" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $450.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Hiking
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Alto de Marta - Jordan - Los Santos</h3>
-                        <p class="text-xs text-gray-500 mb-2 font-medium">El Mirador del Chicamocha</p>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio-Alto</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 7-8 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 18.35 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 1.327 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 31-36°C | Noche 24-28°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Marta - Jordán - Los Santos</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">El Ascenso Geológico</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio-Alto</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 7-8 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 18.35 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 1.327 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 31-36°C | Noche 24-28°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20Ascenso%20Geologico" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 8 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col">
+                <!-- Ruta 8 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-200 flex flex-col">
                     <div class="relative h-64 overflow-hidden bg-mot-dark">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20220116_091236.jpg" alt="Guane La Fuente" class="card-img w-full h-full object-cover opacity-90 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20220116_091236.jpg" alt="Guane La Fuente" class="card-img w-full h-full object-cover opacity-90">
+                        <div class="absolute top-4 right-4 bg-mot-teal text-mot-dark px-4 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $400.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
+                        <div class="absolute top-4 left-4 bg-mot-dark text-white px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md border border-white/20">
                             Hiking
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Guane - La Fuente (Bosque Seco)</h3>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-600 mb-6 mt-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 5 Horas</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-mot-dark">Ruta:</span> 15.94 km</div>
-                            <div class="flex items-center gap-2">⛰ <span class="font-bold text-mot-dark">Altitud:</span> 885 m.s.n.m</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 26-30°C | Noche 18-24°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black text-mot-dark uppercase leading-tight mb-2">Guane - La Fuente</h3>
+                        <p class="text-xs text-mot-orange mb-4 font-bold uppercase tracking-wider">Bosque Seco y Puente Lengerke</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-700 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-100 font-medium">
+                            <div>📍 <span class="font-bold text-mot-dark">Nivel:</span> Medio</div>
+                            <div>⏱ <span class="font-bold text-mot-dark">Tiempo:</span> 5 Horas</div>
+                            <div>📏 <span class="font-bold text-mot-dark">Ruta:</span> 15.94 km</div>
+                            <div>⛰ <span class="font-bold text-mot-dark">Altitud:</span> 885 msnm</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-mot-dark">Temp:</span> Día 26-30°C | Noche 18-24°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-bold py-3 hover:bg-mot-orange transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Ruta</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20Guane-LaFuente" target="_blank" class="mt-auto block text-center bg-mot-dark text-white font-black py-4 hover:bg-mot-orange transition-colors rounded-xl uppercase tracking-widest text-xs">Reservar Expedición</a>
                     </div>
                 </div>
 
-                <!-- Servicio 9 -->
-                <div class="group bg-mot-dark rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-mot-orange flex flex-col md:col-span-2 xl:col-span-1">
+                <!-- Ruta Premium (Servicio 9) -->
+                <div class="group bg-mot-dark rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 flex flex-col md:col-span-2 xl:col-span-1 border border-mot-orange/30">
                     <div class="relative h-64 overflow-hidden bg-black">
-                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0009-1.jpg" alt="Travesia" class="card-img w-full h-full object-cover opacity-60 transition-transform duration-700">
-                        <div class="absolute top-4 right-4 bg-mot-orange text-white px-3 py-1 text-sm font-black uppercase tracking-widest shadow-lg rounded-full border border-white/20">
+                        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img-20241017-wa0009-1.jpg" alt="Travesia" class="card-img w-full h-full object-cover opacity-50">
+                        <div class="absolute top-4 right-4 bg-mot-orange text-white px-5 py-1.5 text-sm font-black uppercase tracking-widest shadow-lg rounded-full">
                             $1.600.000 COP
                         </div>
-                        <div class="absolute top-4 left-4 bg-white text-mot-dark px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-sm">
-                            Trekking 3 Días
+                        <div class="absolute top-4 left-4 bg-white text-mot-dark px-3 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-md">
+                            Trekking · 3 Días
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow text-white">
-                        <h3 class="text-2xl font-black text-mot-orange uppercase leading-tight mb-2">Travesía Majestuosa</h3>
-                        <p class="text-xs text-gray-400 mb-2 font-medium">Zapatoca - La Fuente - Guane - Barichara - Villanueva - Jordan - Los Santos</p>
-                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-300 mb-6 mt-4 bg-white/5 p-4 rounded-xl border border-white/10">
-                            <div class="flex items-center gap-2">📍 <span class="font-bold text-white">Nivel:</span> Alto</div>
-                            <div class="flex items-center gap-2">⏱ <span class="font-bold text-white">Tiempo:</span> 3 Días</div>
-                            <div class="flex items-center gap-2">📏 <span class="font-bold text-white">Ruta Total:</span> ~65 km</div>
-                            <div class="flex items-center gap-2 col-span-2">☀️ <span class="font-bold text-white">Temp:</span> Día 26-30°C | Noche 18-24°C</div>
+                    <div class="p-6 md:p-8 flex flex-col flex-grow text-white">
+                        <h3 class="text-3xl font-black text-mot-orange uppercase leading-tight mb-2">Travesía Majestuosa</h3>
+                        <p class="text-xs text-gray-300 mb-6 font-medium leading-relaxed">Zapatoca - La Fuente - Guane - Barichara - Villanueva - Jordán - Los Santos.</p>
+                        <div class="grid grid-cols-2 gap-y-3 gap-x-2 text-xs text-gray-200 mb-8 bg-white/5 p-4 rounded-xl border border-white/10 font-medium">
+                            <div>📍 <span class="font-bold text-white">Nivel:</span> Alto</div>
+                            <div>⏱ <span class="font-bold text-white">Tiempo:</span> 3 Días completos</div>
+                            <div>📏 <span class="font-bold text-white">Distancia:</span> ~65 km</div>
+                            <div class="col-span-2">☀️ <span class="font-bold text-white">Temp:</span> Día 26-30°C | Noche 18-24°C</div>
                         </div>
-                        <a href="https://wa.me/573132501446" target="_blank" class="mt-auto block text-center bg-mot-orange text-white font-bold py-3 hover:bg-white hover:text-mot-dark transition-colors rounded-lg uppercase tracking-widest text-sm">Reservar Gran Travesía</a>
+                        <a href="https://wa.me/573132501446?text=Hola,%20quiero%20reservar%20la%20Travesia%20Majestuosa" target="_blank" class="mt-auto block text-center bg-mot-orange text-white font-black py-4 hover:bg-white hover:text-mot-dark transition-all duration-300 rounded-xl uppercase tracking-widest text-xs">Contactar Especialista</a>
                     </div>
                 </div>
 
@@ -359,41 +426,88 @@
         </div>
     </section>
 
-    <!-- Adicionales y Cierre -->
-    <section class="py-16 bg-white px-4 md:px-8 border-t border-gray-200">
-        <div class="max-w-4xl mx-auto text-center">
-            <h4 class="text-xl font-black text-mot-dark uppercase tracking-widest mb-4">Servicios Adicionales</h4>
-            <p class="text-sm text-gray-600 mb-6">Acompañamiento de traductor y/o guía bilingüe (Inglés, Francés, Alemán, Italiano) por día, cualquier ruta: <span class="font-bold text-mot-orange">$500.000 COP</span></p>
-            <button onclick="toggleModal('modal-terminos')" class="text-mot-teal font-bold underline hover:text-mot-dark uppercase text-xs tracking-widest cursor-pointer">Ver Términos y Condiciones</button>
+    <!-- Info Legal Minimalista de Adicionales -->
+    <section class="py-12 bg-mot-light px-6 border-b border-gray-200">
+        <div class="max-w-4xl mx-auto flex justify-center text-center">
+            <p class="text-sm text-gray-600 font-medium">Acompañamiento en Inglés, Francés, Alemán o Italiano: <span class="font-black text-mot-dark">$500.000 COP / día adicional</span></p>
         </div>
     </section>
 
-    <!-- Footer Oficial -->
-    <footer class="bg-[#0a0c0b] text-gray-400 py-12 px-4 md:px-8 text-xs">
-        <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 mb-10 border-b border-white/5 pb-10">
+    <!-- Llamado a la Acción Épico (CTA Final) -->
+    <section class="relative py-28 bg-mot-dark overflow-hidden flex items-center px-6">
+        <div class="absolute inset-0 z-0">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20220116_091236.jpg" alt="Fondo Aventura" class="w-full h-full object-cover opacity-20 grayscale">
+            <div class="absolute inset-0 bg-gradient-to-t from-mot-dark via-mot-dark/80 to-transparent"></div>
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+            <span class="text-mot-orange font-black uppercase tracking-[0.3em] text-[10px] mb-4 block">El Territorio Te Espera</span>
+            <h2 class="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-none">NO TE LIMITES A<br>MIRAR FOTOS</h2>
+            <p class="text-gray-300 text-sm md:text-lg mb-10 font-medium max-w-2xl leading-relaxed">Camina el Cañón del Chicamocha. Siente la brisa de los Andes. Transforma tu forma de viajar junto a los locales que conocen y protegen cada rincón del territorio.</p>
+            <a href="https://wa.me/573132501446?text=Hola,%20estoy%20listo%20para%20mi%20proxima%20aventura" target="_blank" class="bg-mot-teal text-mot-dark px-10 py-4 font-black uppercase tracking-widest text-xs hover:bg-white hover:text-mot-dark transition-all duration-300 rounded-lg shadow-2xl hover:-translate-y-1">
+                Planear Mi Aventura
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer Documental y Legal -->
+    <footer class="bg-mot-dark text-gray-400 py-16 px-6 md:px-12 border-t border-white/5 pb-28 md:pb-16">
+        <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 mb-10 border-b border-white/10 pb-10">
             <div>
-                <div class="flex items-center gap-1 mb-3">
-                    <span class="text-2xl font-black text-mot-teal tracking-tighter uppercase">MOT</span>
-                    <span class="text-2xl font-black text-mot-orange tracking-tighter uppercase">MOT</span>
-                </div>
-                <p class="mb-4 leading-relaxed font-medium max-w-md">Operadores de turismo regenerativo y comunitario en los Andes Orientales y el Cañón del Chicamocha.</p>
+                <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/cropped-logo-foto-de-perfil-instagram.png" alt="Mot Mot Logo" class="h-12 w-auto object-contain mb-6 opacity-80 hover:opacity-100 transition-opacity">
+                <p class="leading-relaxed font-medium max-w-sm text-sm">Operadores de turismo regenerativo y comunitario en los Andes Orientales y el inmenso Cañón del Chicamocha.</p>
             </div>
-            <div class="md:text-right space-y-2">
-                <h4 class="text-white font-black mb-3 uppercase tracking-widest text-[10px]">Contacto</h4>
-                <p class="font-medium text-gray-300">Carrera 7 #4-65, Barichara, Santander, Colombia</p>
-                <p class="font-bold">Email: <a href="mailto:motmotexperiencias@gmail.com" class="text-mot-teal hover:text-white transition">motmotexperiencias@gmail.com</a></p>
-                <p class="font-bold">WhatsApp: <a href="https://wa.me/573132501446" class="text-mot-orange hover:text-white transition">+57 313 250 1446</a></p>
-                <p class="font-medium text-gray-500 mt-2">www.motmotexperiencias.com | @motmotexperiencias</p>
+            <div class="md:text-right space-y-3 flex flex-col md:items-end justify-center">
+                <h4 class="text-white font-black uppercase tracking-widest text-[10px] mb-2">Base de Operaciones</h4>
+                <p class="font-medium text-xs text-gray-300">Carrera 7 #4-65, Barichara, Santander, Colombia</p>
+                <p class="font-medium text-xs text-gray-300"><a href="mailto:motmotexperiencias@gmail.com" class="hover:text-mot-teal transition-colors">motmotexperiencias@gmail.com</a></p>
+                <p class="font-medium text-xs text-gray-300"><a href="https://wa.me/573132501446" class="hover:text-mot-orange transition-colors">+57 313 250 1446</a></p>
             </div>
         </div>
-        <div class="max-w-[1440px] mx-auto text-center font-black text-[9px] md:text-[10px] uppercase tracking-widest text-gray-600">
-            &copy; 2026 Mot Mot Experiencias. Todos los derechos reservados. RNT 90175.
+        
+        <!-- Línea Legal con Botones Interactivos -->
+        <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex flex-wrap gap-4 md:gap-6 justify-center text-[10px] uppercase tracking-widest font-bold">
+                <button onclick="toggleModal('modal-sostenibilidad')" class="hover:text-mot-teal transition-colors">Sostenibilidad</button>
+                <button onclick="toggleModal('modal-escnna')" class="text-red-400 hover:text-red-300 transition-colors">Prevención ESCNNA</button>
+                <button onclick="toggleModal('modal-datos')" class="hover:text-mot-teal transition-colors">Datos Personales</button>
+                <button onclick="toggleModal('modal-terminos')" class="hover:text-mot-teal transition-colors">Términos</button>
+            </div>
+            <div class="text-[9px] font-bold uppercase tracking-widest text-gray-600 flex gap-4">
+                <span>&copy; 2026 Mot Mot Experiencias</span>
+                <span>RNT 90175</span>
+            </div>
         </div>
     </footer>
 
+    <!-- Script de Interacción -->
     <script>
         function toggleModal(modalID) {
-            document.getElementById(modalID).classList.toggle("active");
+            const modal = document.getElementById(modalID);
+            modal.classList.toggle("active");
+            // Evitar scroll del fondo cuando un modal está abierto
+            if (modal.classList.contains("active")) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Cerrar modales haciendo clic afuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Función creativa para aceptar cookies
+        function acceptCookies() {
+            const banner = document.getElementById('cookie-banner');
+            banner.style.transform = 'translateY(150%)'; // Desliza el banner hacia abajo
+            setTimeout(() => {
+                banner.style.display = 'none'; // Lo quita completamente después de deslizar
+            }, 700);
+            // Aquí iría el código real de guardar la cookie localmente si tienes un backend/tracker
         }
     </script>
 </body>
