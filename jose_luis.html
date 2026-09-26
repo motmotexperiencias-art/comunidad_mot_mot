@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>José Luis | Guía en Práctica Mot Mot Experiencias</title>
+    <style>
+        :root {
+            --motmot-orange: #E87731;
+            --motmot-blue: #59B5B5;
+            --text-dark: #2C3E50;
+            --bg-light: #FAFAFA;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: white;
+            padding: 1rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: var(--motmot-blue);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+        }
+        nav a span { color: var(--motmot-orange); }
+
+        /* Hero (Banner con foto grupal) */
+        .hero {
+            background-image: linear-gradient(rgba(44, 62, 80, 0.4), rgba(44, 62, 80, 0.8)), url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/whatsapp-image-2024-12-08-at-6.18.58-pm-2.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 8rem 1rem;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            font-weight: 300;
+        }
+
+        /* Contenedor principal de la historia */
+        .story-container {
+            max-width: 1000px;
+            margin: -4rem auto 2rem auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        /* Foto de perfil orgánica */
+        .story-image {
+            flex: 1;
+            min-width: 300px;
+        }
+        .story-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            object-fit: cover;
+        }
+        
+        /* Texto de la historia */
+        .story-text {
+            flex: 1.5;
+            min-width: 300px;
+        }
+        .badge {
+            display: inline-block;
+            background-color: var(--motmot-blue);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .story-text h2 {
+            color: var(--motmot-orange);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .story-text p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Galería de Fotos (Lo que vende) */
+        .gallery-section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 1rem;
+        }
+        .gallery-section h2 {
+            text-align: center;
+            color: var(--motmot-blue);
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        /* Por qué caminar conmigo (Cards minimalistas) */
+        .features {
+            background-color: white;
+            padding: 4rem 1rem;
+            margin-top: 2rem;
+        }
+        .features-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .feature-card {
+            padding: 2rem;
+            border-top: 4px solid var(--motmot-orange);
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+        .feature-card h3 { color: var(--text-dark); margin-bottom: 1rem; }
+
+        /* Botón CTA */
+        .cta-container {
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+        .btn-reservar {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background-color: var(--motmot-orange);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 119, 49, 0.4);
+        }
+        .btn-reservar:hover {
+            background-color: #d66420;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(232, 119, 49, 0.6);
+        }
+
+        footer { text-align: center; padding: 2rem; color: #888; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="/">Mot <span>Mot</span></a>
+    </nav>
+
+    <header class="hero">
+        <h1>José Luis</h1>
+        <p>Tu compañero de ruta en la montaña</p>
+    </header>
+
+    <div class="story-container">
+        <div class="story-image">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/whatsapp-image-2024-12-08-at-6.03.30-pm.jpg" alt="José Luis - Guía Mot Mot">
+        </div>
+        <div class="story-text">
+            <span class="badge">Guía en Práctica Profesional</span>
+            <h2>Conoce mi historia</h2>
+            <p>Hola, soy José Luis. He culminado mi etapa lectiva y actualmente estoy realizando mis prácticas profesionales operando directamente las rutas de <strong>Mot Mot Experiencias</strong>.</p>
+            <p>Como guía independiente en formación, mi mayor motivación es compartir la magia de nuestro territorio de una manera cercana y humana. Caminar conmigo significa apoyar el talento local joven, con el respaldo, la logística y las rutas certificadas de una agencia que cree en la comunidad.</p>
+        </div>
+    </div>
+
+    <section class="features">
+        <div class="features-wrapper">
+            <div class="feature-card">
+                <h3>Respaldo Mot Mot</h3>
+                <p>Opero bajo los estándares y rutas oficiales de la agencia, garantizando logística y seguridad en cada paso.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Conocimiento Fresco</h3>
+                <p>Con mis estudios recién culminados, aplico las mejores prácticas de interpretación ambiental y cuidado del entorno.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Pasión Local</h3>
+                <p>Más que un recorrido técnico, ofrezco una experiencia humana, donde caminamos al ritmo del grupo y disfrutamos el paisaje.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERÍA DE FOTOS (Reemplaza los links con fotos reales de tus caminatas) -->
+    <div class="gallery-section">
+        <h2>Momentos en la Ruta</h2>
+        <div class="gallery-grid">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/whatsapp-image-2024-12-08-at-6.18.58-pm-2.jpg" alt="Ruta 1" class="gallery-item">
+            <!-- Pon más enlaces a fotos reales aquí para rellenar la galería -->
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/whatsapp-image-2024-12-08-at-6.18.58-pm-2.jpg" alt="Ruta 2" class="gallery-item">
+            <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/whatsapp-image-2024-12-08-at-6.18.58-pm-2.jpg" alt="Ruta 3" class="gallery-item">
+        </div>
+    </div>
+
+    <div class="cta-container">
+        <!-- REEMPLAZA CON EL NÚMERO DE WHATSAPP -->
+        <a href="https://wa.me/573000000000?text=Hola,%20quiero%20hacer%20una%20caminata%20con%20José%20Luis" class="btn-reservar">
+            Reserva una caminata conmigo
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Mot Mot Experiencias - Agencia Operadora de Turismo</p>
+    </footer>
+
+</body>
+</html>
