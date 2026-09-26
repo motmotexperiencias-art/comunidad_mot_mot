@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio del Cañón - Escuela de Caminatas</title>
+    <!-- Fuentes tipográficas estilo galería de arte -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reseteo total: Cero bordes, cero márgenes, cero barras de navegación */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            /* Scroll magnético para que cada foto ocupe toda la pantalla exacta */
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        /* Cada sección es una fotografía a pantalla completa */
+        .foto-seccion {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Efecto Parallax inmersivo */
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Oscurecimiento sutil solo para que el texto sea legible sin dañar la foto */
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+            z-index: 1;
+        }
+
+        /* Estilo de los textos mínimos */
+        .texto-inmersivo {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+            /* Estado inicial para la animación de entrada */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+        }
+
+        /* Clase que se activa cuando haces scroll para revelar el texto */
+        .texto-inmersivo.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .texto-inmersivo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .texto-inmersivo p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            line-height: 1.6;
+            text-transform: uppercase;
+            text-shadow: 1px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Galería final tipo mosaico sin bordes */
+        .galeria-final {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100vw;
+            scroll-snap-align: start;
+        }
+
+        .galeria-final img {
+            width: 50vw; /* Dos fotos por fila */
+            height: 50vh;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(20%);
+            transition: filter 0.5s ease;
+        }
+
+        .galeria-final img:hover {
+            filter: grayscale(0%);
+        }
+
+        /* Adaptabilidad para celulares */
+        @media (max-width: 768px) {
+            .texto-inmersivo h1 { font-size: 2.5rem; }
+            .texto-inmersivo p { font-size: 0.9rem; }
+            .galeria-final img { width: 100vw; height: 33vh; }
+            .foto-seccion { background-attachment: scroll; } /* Mejor rendimiento en móviles */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. FOTO HORIZONTAL 16:9 (HERO) -->
+    <section class="foto-seccion" style="background-image: url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/1.jpeg');">
+        <div class="overlay"></div>
+        <div class="texto-inmersivo">
+            <h1>Laboratorio del Cañón</h1>
+            <p>Escuela de Caminatas • El ingreso al Chicamocha</p>
+        </div>
+    </section>
+
+    <!-- 2. FOTO VERTICAL HERMOSA -->
+    <section class="foto-seccion" style="background-image: url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/2.jpeg');">
+        <div class="overlay"></div>
+        <div class="texto-inmersivo">
+            <h1>Caminar es Respetar</h1>
+            <p>Entendiendo el impacto de cada huella en el entorno natural</p>
+        </div>
+    </section>
+
+    <!-- 3. CAMINO BARICHARA - VILLANUEVA -->
+    <section class="foto-seccion" style="background-image: url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260307_093612.jpg');">
+        <div class="overlay"></div>
+        <div class="texto-inmersivo">
+            <h1>Pausa y Silencio</h1>
+            <p>Ruta Barichara - Villanueva • Un espacio diseñado para el descanso del caminante</p>
+        </div>
+    </section>
+
+    <!-- 4. VINCULAR SABERES -->
+    <section class="foto-seccion" style="background-image: url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20240213_094707.jpg');">
+        <div class="overlay"></div>
+        <div class="texto-inmersivo">
+            <h1>Aulas Vivas</h1>
+            <p>Vincular saberes ancestrales y académicos en el corazón de la montaña</p>
+        </div>
+    </section>
+
+    <!-- 5. HACIA JORDÁN Y LOS SANTOS -->
+    <section class="foto-seccion" style="background-image: url('https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20250927_075107.jpg');">
+        <div class="overlay"></div>
+        <div class="texto-inmersivo">
+            <h1>La Ruta Ancestral</h1>
+            <p>El antiguo sendero hacia Jordán y Los Santos</p>
+        </div>
+    </section>
+
+    <!-- 6. GALERÍA FINAL SIN BORDES (Mosaico) -->
+    <section class="galeria-final">
+        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/diseno-sin-titulo-2.jpg" alt="Cañón">
+        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20240620_063403.jpg" alt="Detalle">
+        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/09/img_20260307_094349.jpg" alt="Ruta">
+        <img src="https://inmobiliariabarichara.wordpress.com/wp-content/uploads/2026/05/img_20250927_170809.jpg" alt="Jordán">
+    </section>
+
+    <!-- Script para el efecto de aparición suave (Fade-in) de los textos al hacer scroll -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { 
+                threshold: 0.4 // El texto aparece cuando el 40% de la sección es visible
+            });
+
+            const textos = document.querySelectorAll('.texto-inmersivo');
+            textos.forEach(texto => observer.observe(texto));
+        });
+    </script>
+</body>
+</html>
